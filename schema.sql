@@ -84,12 +84,23 @@ CREATE TABLE IF NOT EXISTS `news` (
     `image` VARCHAR(255) NULL,
     `featured` TINYINT(1) DEFAULT 0,
     `pinned` TINYINT(1) DEFAULT 0,
-    `status` ENUM('draft', 'published', 'archived') NOT NULL DEFAULT 'draft',
+    `status` ENUM('draft', 'published', 'scheduled', 'archived') NOT NULL DEFAULT 'draft',
     `views` INT DEFAULT 0,
+    `author_name` VARCHAR(100) DEFAULT 'BSFI Official',
     `meta_title` VARCHAR(255) NULL,
     `meta_description` VARCHAR(500) NULL,
     `published_at` DATETIME NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- News Images Table
+CREATE TABLE IF NOT EXISTS `news_images` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `news_id` INT NOT NULL,
+    `image_path` VARCHAR(255) NOT NULL,
+    `sort_order` INT DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`news_id`) REFERENCES `news`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 -- Schedules Table

@@ -1,20 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --primary-navy:   #0B1B3D;
-    --secondary-navy: #16295A;
-    --deep-navy:      #08142E;
-    --mid-blue:       #0d2151;
-    --accent-green:   #24C27A;
-    --hover-green:    #1AAE6C;
+    --primary-navy:   #081B4B;
+    --secondary-navy: #0B215A;
+    --deep-navy:      #081B4B;
+    --mid-blue:       #0A2566;
+    --accent-saffron: #FF9933;
+    --accent-green:   #138808;
+    --hover-green:    #0F6B06;
     --boccia-red:     #D72638;
     --boccia-blue:    #1E88E5;
     --gold:           #F4B942;
-    --warm-surface:   #08142E;   /* unified to deep navy */
+    --warm-surface:   #F8F5EF;
 
-    --text-dark:  #08142E;
-    --text-light: #EEF2FF;
-    --text-muted: rgba(200, 215, 255, 0.65);
+    --text-dark:  #081B4B;
+    --text-light: #FFFFFF;
+    --text-muted: rgba(8, 27, 75, 0.65);
 
     --font-heading: 'Outfit', sans-serif;
     --font-body:    'Poppins', sans-serif;
@@ -26,7 +27,7 @@
     --transition-normal: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Glass surface */
-    --glass-bg:     rgba(13, 33, 81, 0.55);
+    --glass-bg: #FFFFFF;
     --glass-border: rgba(100, 140, 255, 0.15);
     --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
@@ -78,10 +79,8 @@ body.reduce-motion * { animation-delay:0s!important;animation-duration:0s!import
 html { scroll-behavior: smooth; }
 
 body {
-    background: var(--deep-navy);
-    background-image: radial-gradient(ellipse at 20% 0%, rgba(30,60,120,0.6) 0%, transparent 60%),
-                      radial-gradient(ellipse at 80% 100%, rgba(10,30,90,0.5) 0%, transparent 60%);
-    color: var(--text-light);
+    background: var(--warm-surface);
+    color: var(--text-dark);
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
@@ -376,7 +375,7 @@ body {
     display: none;
     background: none;
     border: none;
-    color: var(--text-light);
+    color: var(--text-dark);
     font-size: 1.5rem;
     cursor: pointer;
 }
@@ -413,14 +412,14 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     z-index: 2000;
     display: none;
-    color: var(--text-light);
+    color: var(--text-dark);
 }
 .a11y-panel h4 { margin-bottom: 1rem; font-family: var(--font-heading); color: var(--accent-green); }
 .a11y-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
 .a11y-btn {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
-    color: var(--text-light);
+    color: var(--text-dark);
     padding: 0.5rem;
     font-size: 0.75rem;
     border-radius: 8px;
@@ -591,7 +590,7 @@ body {
 
 .btn-hero-secondary {
     background: rgba(255,255,255,0.07);
-    color: var(--text-light);
+    color: var(--text-dark);
     border: 1px solid rgba(255,255,255,0.2);
     backdrop-filter: blur(6px);
 }
@@ -677,7 +676,7 @@ body {
     font-family: var(--font-heading);
     font-size: clamp(1.8rem, 3vw, 2.4rem);
     font-weight: 700;
-    color: var(--text-light);
+    color: var(--text-dark);
 }
 
 /* ─── Glass Card (universal) ─── */
@@ -690,7 +689,7 @@ body {
     padding: 2.25rem;
     transition: all var(--transition-fast);
     box-shadow: var(--glass-shadow);
-    color: var(--text-light);
+    color: var(--text-dark);
 }
 
 .glass-card:hover {
@@ -700,7 +699,7 @@ body {
 }
 
 .glass-card h3,
-.glass-card h4 { color: var(--text-light); }
+.glass-card h4 { color: var(--text-dark); }
 
 /* ════════════════════════════════════════
    SHARED BG WRAPPER (map + stats bar)
@@ -1079,11 +1078,11 @@ body {
 .news-section .glass-card,
 .news-card-grid .glass-card {
     background: var(--glass-bg) !important;
-    color: var(--text-light) !important;
+    color: var(--text-dark) !important;
     border-radius: var(--radius-card) !important;
 }
 
-.news-card-grid .glass-card h3 { color: var(--text-light) !important; }
+.news-card-grid .glass-card h3 { color: var(--text-dark) !important; }
 .news-card-grid .glass-card a  { color: var(--accent-green) !important; }
 
 /* ════════════════════════════════════════
@@ -1158,7 +1157,7 @@ body {
     border: 1px solid rgba(100,140,255,0.2);
     padding: 0.85rem 1.1rem;
     border-radius: 12px;
-    color: var(--text-light);
+    color: var(--text-dark);
     font-size: 0.95rem;
     font-family: var(--font-body);
     transition: border-color var(--transition-fast);
@@ -1172,13 +1171,13 @@ body {
     background: rgba(255,255,255,0.09);
 }
 
-.select-input option { background: var(--primary-navy); color: var(--text-light); }
+.select-input option { background: var(--primary-navy); color: var(--text-dark); }
 
 /* Step back button */
 .wizard-step-block .btn[style*="border"] {
     background: transparent !important;
     border: 1px solid rgba(255,255,255,0.2) !important;
-    color: var(--text-light) !important;
+    color: var(--text-dark) !important;
 }
 
 #reg-summary {
@@ -1188,7 +1187,7 @@ body {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     line-height: 1.9;
-    color: var(--text-light);
+    color: var(--text-dark);
 }
 
 /* ════════════════════════════════════════
@@ -1230,7 +1229,7 @@ body {
     align-items: center; text-align: center;
     opacity: 0.65;
 }
-.text-logo strong { font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-light); }
+.text-logo strong { font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-dark); }
 .text-logo span   { font-size: 0.72rem; opacity: 0.8; }
 
 /* ════════════════════════════════════════
@@ -1239,7 +1238,7 @@ body {
 .main-footer {
     background: var(--deep-navy);
     border-top: 1px solid rgba(100,140,255,0.08);
-    color: var(--text-light);
+    color: var(--text-dark);
     padding: 5rem 0 3rem;
 }
 
@@ -1254,7 +1253,7 @@ body {
 
 .footer-quick-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
 .footer-quick-links a  { color: var(--text-muted); text-decoration: none; transition: color var(--transition-fast); }
-.footer-quick-links a:hover { color: var(--text-light); }
+.footer-quick-links a:hover { color: var(--text-dark); }
 
 .footer-contact-card {
     background: rgba(36,194,122,0.07);
@@ -1283,8 +1282,8 @@ body {
     border: 1px solid rgba(100,140,255,0.12);
     border-radius: 16px;
 }
-.doc-table th { background: rgba(255,255,255,0.05); color: var(--text-light); padding: 1rem; font-weight: 600; }
-.doc-table td { padding: 1rem; color: var(--text-light); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.doc-table th { background: rgba(255,255,255,0.05); color: var(--text-dark); padding: 1rem; font-weight: 600; }
+.doc-table td { padding: 1rem; color: var(--text-dark); border-bottom: 1px solid rgba(255,255,255,0.04); }
 
 /* ════════════════════════════════════════
    ALERT MESSAGES
@@ -1483,3 +1482,5 @@ body {
     padding-top: 1rem;
     border-top: 1px solid rgba(0,0,0,0.05);
 }
+
+.main-footer { background: url('footer.png') center/cover no-repeat !important; }

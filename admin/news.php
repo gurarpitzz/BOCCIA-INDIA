@@ -37,13 +37,20 @@ if (isset($_POST['delete_news']) && isset($_POST['news_id'])) {
     } else {
          $newsId = (int)$_POST['news_id'];
          
-         // Fetch image to delete file
+         // Fetch images to delete files
          $stmt = $pdo->prepare("SELECT image FROM news WHERE id=?");
          $stmt->execute([$newsId]);
          $newsItem = $stmt->fetch();
-         
          if ($newsItem && !empty($newsItem['image']) && file_exists(__DIR__ . '/../' . $newsItem['image'])) {
              unlink(__DIR__ . '/../' . $newsItem['image']);
+         }
+         
+         $stmt = $pdo->prepare("SELECT image_path FROM news_images WHERE news_id=?");
+         $stmt->execute([$newsId]);
+         while($img = $stmt->fetch()) {
+             if (file_exists(__DIR__ . '/../' . $img['image_path'])) {
+                 unlink(__DIR__ . '/../' . $img['image_path']);
+             }
          }
 
          $stmt = $pdo->prepare("DELETE FROM news WHERE id=?");
@@ -65,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
         $category = trim($_POST['category']);
         $content = trim($_POST['content']);
         $status = $_POST['status'];
+        $author_name = trim($_POST['author_name']) ?: 'BSFI Official';
         $featured = isset($_POST['featured']) ? 1 : 0;
         $pinned = isset($_POST['pinned']) ? 1 : 0;
         $meta_title = trim($_POST['meta_title']);
@@ -82,8 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
         }
 
         // Published Date logic
-        $published_at = null;
-        if ($status === 'published') {
+        $published_at = !empty($_POST['published_at']) ? $_POST['published_at'] : null;
+        if ($status === 'published' && empty($published_at)) {
             $published_at = date('Y-m-d H:i:s');
         }
 
@@ -93,44 +101,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
             // Handle Image Upload
             $imagePath = '';
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $fileName = time() . '_' . basename($_FILES['image']['name']);
-                $targetFile = $uploadDir . $fileName;
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-                    $imagePath = 'uploads/news/' . $fileName;
+                $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $fileName = time() . '_' . basename($_FILES['image']['name']);
+                    $targetFile = $uploadDir . $fileName;
+                    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
+                        $imagePath = 'uploads/news/' . $fileName;
+                    }
                 }
             }
 
             if ($id > 0) {
                 // Update
                 if ($imagePath) {
-                    $stmt = $pdo->prepare("UPDATE news SET title=?, slug=?, excerpt=?, category=?, content=?, image=?, featured=?, pinned=?, status=?, meta_title=?, meta_description=? WHERE id=?");
-                    $stmt->execute([$title, $slug, $excerpt, $category, $content, $imagePath, $featured, $pinned, $status, $meta_title, $meta_description, $id]);
+                    $stmt = $pdo->prepare("UPDATE news SET title=?, slug=?, excerpt=?, category=?, content=?, image=?, featured=?, pinned=?, status=?, meta_title=?, meta_description=?, author_name=?, published_at=? WHERE id=?");
+                    $stmt->execute([$title, $slug, $excerpt, $category, $content, $imagePath, $featured, $pinned, $status, $meta_title, $meta_description, $author_name, $published_at, $id]);
                 } else {
-                    $stmt = $pdo->prepare("UPDATE news SET title=?, slug=?, excerpt=?, category=?, content=?, featured=?, pinned=?, status=?, meta_title=?, meta_description=? WHERE id=?");
-                    $stmt->execute([$title, $slug, $excerpt, $category, $content, $featured, $pinned, $status, $meta_title, $meta_description, $id]);
+                    $stmt = $pdo->prepare("UPDATE news SET title=?, slug=?, excerpt=?, category=?, content=?, featured=?, pinned=?, status=?, meta_title=?, meta_description=?, author_name=?, published_at=? WHERE id=?");
+                    $stmt->execute([$title, $slug, $excerpt, $category, $content, $featured, $pinned, $status, $meta_title, $meta_description, $author_name, $published_at, $id]);
                 }
                 
-                // Update published_at only if it wasn't published before and now is
-                $stmt = $pdo->prepare("SELECT published_at FROM news WHERE id=?");
-                $stmt->execute([$id]);
-                $existing = $stmt->fetch();
-                if ($status === 'published' && empty($existing['published_at'])) {
-                    $stmt = $pdo->prepare("UPDATE news SET published_at=? WHERE id=?");
-                    $stmt->execute([$published_at, $id]);
-                }
-
                 logAction($pdo, "Updated News Article", "news", $id);
                 $message = "<div class='alert alert-success'>News updated successfully.</div>";
+                $newsIdForExtra = $id;
             } else {
                 // Insert
-                $stmt = $pdo->prepare("INSERT INTO news (title, slug, excerpt, category, content, image, featured, pinned, status, meta_title, meta_description, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$title, $slug, $excerpt, $category, $content, $imagePath, $featured, $pinned, $status, $meta_title, $meta_description, $published_at]);
-                $newId = $pdo->lastInsertId();
-                logAction($pdo, "Added News Article", "news", $newId);
+                $stmt = $pdo->prepare("INSERT INTO news (title, slug, excerpt, category, content, image, featured, pinned, status, meta_title, meta_description, author_name, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$title, $slug, $excerpt, $category, $content, $imagePath, $featured, $pinned, $status, $meta_title, $meta_description, $author_name, $published_at]);
+                $newsIdForExtra = $pdo->lastInsertId();
+                logAction($pdo, "Added News Article", "news", $newsIdForExtra);
                 $message = "<div class='alert alert-success'>News added successfully.</div>";
+            }
+            
+            // Handle additional_images
+            if (isset($_FILES['additional_images'])) {
+                $file_count = is_array($_FILES['additional_images']['name']) ? count($_FILES['additional_images']['name']) : 0;
+                $allowed_exts = ['jpg', 'jpeg', 'png', 'webp'];
+                $max_size = 5 * 1024 * 1024; // 5MB
+                
+                // Get current count of additional images to enforce max 4
+                $stmt = $pdo->prepare("SELECT COUNT(*) FROM news_images WHERE news_id=?");
+                $stmt->execute([$newsIdForExtra]);
+                $current_count = $stmt->fetchColumn();
+                
+                for ($i = 0; $i < $file_count && ($current_count + $i) < 4; $i++) {
+                    if ($_FILES['additional_images']['error'][$i] === UPLOAD_ERR_OK) {
+                        $ext = strtolower(pathinfo($_FILES['additional_images']['name'][$i], PATHINFO_EXTENSION));
+                        $size = $_FILES['additional_images']['size'][$i];
+                        if (in_array($ext, $allowed_exts) && $size <= $max_size) {
+                            $fileName = time() . '_' . rand(1000, 9999) . '_' . basename($_FILES['additional_images']['name'][$i]);
+                            $targetFile = $uploadDir . $fileName;
+                            if (move_uploaded_file($_FILES['additional_images']['tmp_name'][$i], $targetFile)) {
+                                $stmt = $pdo->prepare("INSERT INTO news_images (news_id, image_path, sort_order) VALUES (?, ?, ?)");
+                                $stmt->execute([$newsIdForExtra, 'uploads/news/' . $fileName, $current_count + $i]);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+}
+
+// Handle Delete Extra Image
+if (isset($_GET['delete_img']) && isset($_GET['news_id'])) {
+    $imgId = (int)$_GET['delete_img'];
+    $newsId = (int)$_GET['news_id'];
+    $stmt = $pdo->prepare("SELECT image_path FROM news_images WHERE id=? AND news_id=?");
+    $stmt->execute([$imgId, $newsId]);
+    $img = $stmt->fetch();
+    if ($img) {
+        if (file_exists(__DIR__ . '/../' . $img['image_path'])) unlink(__DIR__ . '/../' . $img['image_path']);
+        $pdo->prepare("DELETE FROM news_images WHERE id=?")->execute([$imgId]);
+    }
+    header("Location: news.php");
+    exit;
 }
 
 // Fetch news
@@ -175,6 +220,8 @@ $newsList = $stmt->fetchAll();
                                 <h3 style="font-size:1.2rem; font-family:'Outfit',sans-serif;"><?php echo htmlspecialchars($item['title']); ?></h3>
                                 <?php if($item['status'] === 'published'): ?>
                                     <span style="font-size:0.7rem; background:rgba(36, 194, 122, 0.1); border:1px solid #24C27A; color:#24C27A; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Published</span>
+                                <?php elseif($item['status'] === 'scheduled'): ?>
+                                    <span style="font-size:0.7rem; background:rgba(107, 130, 184, 0.1); border:1px solid #6b82b8; color:#6b82b8; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Scheduled</span>
                                 <?php else: ?>
                                     <span style="font-size:0.7rem; background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255,255,255,0.2); color:#FAF7F0; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Draft</span>
                                 <?php endif; ?>
@@ -186,15 +233,17 @@ $newsList = $stmt->fetchAll();
                                 <?php echo htmlspecialchars($item['excerpt']); ?>
                             </p>
                             <div style="font-size:0.8rem; opacity:0.6; display:flex; gap:1.5rem;">
+                                <span><strong>Author:</strong> <?php echo htmlspecialchars($item['author_name']); ?></span>
                                 <span><strong>Category:</strong> <?php echo htmlspecialchars($item['category']); ?></span>
                                 <span><strong>Views:</strong> <?php echo (int)$item['views']; ?></span>
-                                <span><strong>Date:</strong> <?php echo $item['published_at'] ? date('M j, Y', strtotime($item['published_at'])) : 'Unpublished'; ?></span>
+                                <span><strong>Date:</strong> <?php echo $item['published_at'] ? date('M j, Y h:i A', strtotime($item['published_at'])) : 'Unpublished'; ?></span>
                             </div>
                         </div>
 
                         <!-- Actions -->
                         <div style="display:flex; flex-direction:column; gap:0.5rem; justify-content:center;">
-                            <button onclick='openNewsModal(<?php echo json_encode(array_map('strval', $item)); ?>)' class="btn" style="border:1px solid #24C27A; color:#24C27A; padding:0.5rem; font-weight:bold; border-radius:999px; cursor:pointer; text-align:center; font-size:0.85rem;">Edit Article</button>
+                            <a href="../index.php#news-<?php echo $item['slug']; ?>" target="_blank" class="btn" style="border:1px solid #FAF7F0; color:#FAF7F0; padding:0.5rem; font-weight:bold; border-radius:999px; cursor:pointer; text-align:center; font-size:0.85rem; text-decoration:none;">Preview</a>
+                            <button onclick='openNewsModal(<?php echo htmlspecialchars(json_encode($item), ENT_QUOTES, "UTF-8"); ?>)' class="btn" style="border:1px solid #24C27A; color:#24C27A; padding:0.5rem; font-weight:bold; border-radius:999px; cursor:pointer; text-align:center; font-size:0.85rem;">Edit Article</button>
                             <form action="news.php" method="POST" onsubmit="return confirm('Delete this article forever?');" style="display:block;">
                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                 <input type="hidden" name="news_id" value="<?php echo $item['id']; ?>">
@@ -239,13 +288,22 @@ $newsList = $stmt->fetchAll();
                         <option value="Workshops">Workshops</option>
                         <option value="International">International</option>
                         <option value="Press Release">Press Release</option>
+                        <option value="Athlete Spotlight">Athlete Spotlight</option>
+                        <option value="National Events">National Events</option>
+                        <option value="Results">Results</option>
                     </select>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="news-slug" style="font-size:0.8rem; font-weight:600;">URL Slug (Leave blank to auto-generate)</label>
-                <input type="text" id="news-slug" name="slug" class="form-input" placeholder="e.g. national-boccia-championship-2026">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label for="news-author" style="font-size:0.8rem; font-weight:600;">Author Name</label>
+                    <input type="text" id="news-author" name="author_name" class="form-input" placeholder="e.g. BSFI Media Team" value="BSFI Official">
+                </div>
+                <div class="form-group">
+                    <label for="news-slug" style="font-size:0.8rem; font-weight:600;">URL Slug</label>
+                    <input type="text" id="news-slug" name="slug" class="form-input" placeholder="Auto-generated if empty">
+                </div>
             </div>
 
             <div class="form-group">
@@ -255,34 +313,38 @@ $newsList = $stmt->fetchAll();
             
             <div class="form-group">
                 <label for="news-content" style="font-size:0.8rem; font-weight:600;">Content (up to 5000 chars) <span style="color:#D72638">*</span></label>
-                <textarea id="news-content" name="content" class="form-input" rows="8" maxlength="5000" required placeholder="Write your full article here..."></textarea>
+                <textarea id="news-content" name="content" class="form-input" rows="8" maxlength="5000" required placeholder="Write your full article here. Hashtags will be auto-styled."></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="news-image" style="font-size:0.8rem; font-weight:600;">Cover Image</label>
-                <input type="file" id="news-image" name="image" class="form-input" accept="image/*">
-                <p style="font-size:0.75rem; opacity:0.6; margin-top:0.25rem;">Leave empty to keep existing image when editing.</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; border:1px dashed rgba(255,255,255,0.2); padding:1rem; border-radius:12px;">
+                <div class="form-group">
+                    <label for="news-image" style="font-size:0.8rem; font-weight:600;">Cover Image (Thumbnail)</label>
+                    <input type="file" id="news-image" name="image" class="form-input" accept="image/jpeg,image/png,image/webp">
+                    <p style="font-size:0.75rem; opacity:0.6; margin-top:0.25rem;">Max 5MB. Leave empty to keep existing.</p>
+                </div>
+                <div class="form-group">
+                    <label for="news-extra-images" style="font-size:0.8rem; font-weight:600;">Additional Images (Max 4)</label>
+                    <input type="file" id="news-extra-images" name="additional_images[]" class="form-input" multiple accept="image/jpeg,image/png,image/webp">
+                    <p style="font-size:0.75rem; opacity:0.6; margin-top:0.25rem;">Select up to 4 images to create a gallery.</p>
+                </div>
             </div>
 
             <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top:0.5rem; padding-top:1.5rem;">
-                <h4 style="font-size:1rem; margin-bottom:1rem; color:#A0AABF;">SEO & Publishing</h4>
+                <h4 style="font-size:1rem; margin-bottom:1rem; color:#A0AABF;">Publishing & Scheduling</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
-                    <div class="form-group">
-                        <label for="news-meta-title" style="font-size:0.8rem; font-weight:600;">Meta Title (SEO)</label>
-                        <input type="text" id="news-meta-title" name="meta_title" class="form-input" placeholder="Custom SEO title...">
-                    </div>
                     <div class="form-group">
                         <label for="news-status" style="font-size:0.8rem; font-weight:600;">Status</label>
                         <select id="news-status" name="status" class="form-input">
                             <option value="draft">Draft (Hidden)</option>
                             <option value="published">Published (Live)</option>
+                            <option value="scheduled">Scheduled (Future)</option>
                             <option value="archived">Archived</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="news-meta-desc" style="font-size:0.8rem; font-weight:600;">Meta Description (SEO)</label>
-                    <textarea id="news-meta-desc" name="meta_description" class="form-input" rows="2" placeholder="Custom SEO description..."></textarea>
+                    <div class="form-group">
+                        <label for="news-published-at" style="font-size:0.8rem; font-weight:600;">Publish Date/Time</label>
+                        <input type="datetime-local" id="news-published-at" name="published_at" class="form-input">
+                    </div>
                 </div>
             </div>
 
@@ -311,17 +373,23 @@ function openNewsModal(item) {
         document.getElementById('modal-title').textContent = "Write Article";
         document.getElementById('news-id').value = 0;
         form.reset();
+        document.getElementById('news-author').value = 'BSFI Official';
     } else {
         document.getElementById('modal-title').textContent = "Edit Article";
         document.getElementById('news-id').value = item.id;
         document.getElementById('news-title').value = item.title;
+        document.getElementById('news-author').value = item.author_name || 'BSFI Official';
         document.getElementById('news-slug').value = item.slug || '';
         document.getElementById('news-category').value = item.category || 'General';
         document.getElementById('news-excerpt').value = item.excerpt || '';
         document.getElementById('news-content').value = item.content;
         document.getElementById('news-status').value = item.status;
-        document.getElementById('news-meta-title').value = item.meta_title || '';
-        document.getElementById('news-meta-desc').value = item.meta_description || '';
+        if(item.published_at) {
+            // Convert to datetime-local format YYYY-MM-DDThh:mm
+            document.getElementById('news-published-at').value = item.published_at.substring(0, 16).replace(' ', 'T');
+        } else {
+            document.getElementById('news-published-at').value = '';
+        }
         document.getElementById('news-featured').checked = item.featured == 1;
         document.getElementById('news-pinned').checked = item.pinned == 1;
     }

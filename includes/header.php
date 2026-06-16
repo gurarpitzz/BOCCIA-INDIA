@@ -3,7 +3,7 @@
 require_once __DIR__ . '/auth.php';
 ?>
 <!DOCTYPE html>
-<html lang="en" style="background: #FAF7F0;">
+<html lang="en" style="background: var(--warm-surface);">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@ require_once __DIR__ . '/auth.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <style>
         /* Prevent white flash: background set from very first frame */
-        html, body { background-color: #FAF7F0 !important; }
+        html, body { background-color: var(--warm-surface) !important; }
 
         /* Landing page starts invisible, fades in after sweep exits */
         #page-wrapper {
@@ -43,15 +43,53 @@ require_once __DIR__ . '/auth.php';
 <!-- ═══════════════════════════════════════════════════
      VIDEO PRELOADER OVERLAY
 ═══════════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <div id="bsfi-preloader">
-    <video
-        id="preloader-video"
-        src="<?php echo $logo_path; ?>intro%20preloader.mp4"
-        muted
-        playsinline
-        preload="auto"
-        autoplay
-    ></video>
+    <div id="gsap-preloader-container" style="width: 100%; max-width: 450px; margin: 0 auto; position: relative; aspect-ratio: 16/9;">
+        <svg id="boccia-loader-svg" viewBox="0 0 320 180" style="width:100%; height:100%; overflow:visible;" role="status" aria-label="Loading Boccia India">
+            
+            <!-- Background Text (Fades in at the end) -->
+            <g id="text-lockup" opacity="0">
+                <text x="160" y="60" font-family="'Impact', 'Arial Black', sans-serif" font-weight="bold" font-size="36" fill="#0D47A1" text-anchor="middle" letter-spacing="4">BOCCIA</text>
+                
+                <text x="90" y="135" font-family="'Impact', 'Arial Black', sans-serif" font-weight="900" font-size="64" fill="#111111" text-anchor="middle">I</text>
+                <text x="122" y="135" font-family="'Impact', 'Arial Black', sans-serif" font-weight="900" font-size="64" fill="#111111" text-anchor="middle">N</text>
+                <text x="160" y="135" font-family="'Impact', 'Arial Black', sans-serif" font-weight="900" font-size="64" fill="#111111" text-anchor="middle">D</text>
+                <text x="198" y="135" font-family="'Impact', 'Arial Black', sans-serif" font-weight="900" font-size="64" fill="#111111" text-anchor="middle">I</text>
+                <text x="230" y="135" font-family="'Impact', 'Arial Black', sans-serif" font-weight="900" font-size="64" fill="#111111" text-anchor="middle">A</text>
+
+                <!-- Tricolour -->
+                <path d="M 50 158 Q 160 175 270 158" fill="none" stroke="#FF9933" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 50 168 Q 160 185 270 168" fill="none" stroke="#138808" stroke-width="4" stroke-linecap="round"/>
+            </g>
+
+            <!-- Ground -->
+            <line id="ground-line" x1="20" y1="140" x2="300" y2="140" stroke="#111111" stroke-width="2" stroke-linecap="round" />
+            
+            <!-- Target Balls -->
+            <circle id="blue-ball" cx="135" cy="132" r="8" fill="#0D47A1" />
+            <circle id="white-ball" cx="155" cy="132" r="8" fill="#FFFFFF" stroke="#111111" stroke-width="2" />
+            
+            <!-- Player & Wheelchair -->
+            <g id="player-group">
+                <!-- Wheelchair -->
+                <circle cx="45" cy="127" r="13" fill="none" stroke="#E10600" stroke-width="3" />
+                <circle cx="45" cy="127" r="6.5" fill="none" stroke="#111111" stroke-width="2" />
+                <circle cx="61.25" cy="136.75" r="3.25" fill="#111111" />
+                <path d="M 38.5 114 L 38.5 127 L 58 127 L 61.25 136.75" fill="none" stroke="#111111" stroke-width="2.6" stroke-linejoin="round" />
+                <path d="M 38.5 114 L 35.25 101" fill="none" stroke="#111111" stroke-width="2.6" stroke-linecap="round" />
+                <!-- Person -->
+                <circle cx="41.75" cy="84.75" r="6.5" fill="#111111" />
+                <path d="M 41.75 94.5 L 38.5 114 L 48.25 114 L 48.25 123.75" fill="none" stroke="#111111" stroke-width="3.25" stroke-linejoin="round" />
+                <!-- Arm -->
+                <path id="player-arm" d="M 41.75 94.5 L 54.75 104.25" fill="none" stroke="#111111" stroke-width="3.25" stroke-linecap="round" />
+            </g>
+
+            <!-- Red Ball -->
+            <circle id="red-ball" cx="55" cy="104" r="8" fill="#E10600" />
+
+        </svg>
+    </div>
     <!-- 4. Tricolour + Navy Sweep (Curtain Wipe) -->
     <div id="tricolour-sweep">
         <div class="stripe saffron"></div>
@@ -111,7 +149,7 @@ require_once __DIR__ . '/auth.php';
 .stripe.saffron { flex: 0 0 40vh;  background: #FF9933; }
 .stripe.white   { flex: 0 0 35vh;  background: #FFFFFF; }
 .stripe.green   { flex: 0 0 40vh;  background: #138808; }
-.stripe.navy    { flex: 0 0 150vh; background: #08142E; } /* Dominant blue sweeps in last */
+.stripe.navy    { flex: 0 0 150vh; background: var(--primary-navy); } /* Dominant blue sweeps in last */
 
 #tricolour-sweep.sweeping {
     /* Pure curtain wipe: takes 2.5s to move from bottom-left to top-right */
@@ -135,51 +173,83 @@ body.preloader-active {
     document.body.classList.add('preloader-active');
 
     var preloader = document.getElementById('bsfi-preloader');
-    var video     = document.getElementById('preloader-video');
     var sweep     = document.getElementById('tricolour-sweep');
 
-    function dismissPreloader() {
-        /* Step 0: Fade out the frozen last frame immediately */
-        video.style.opacity = '0';
+    if (typeof gsap !== 'undefined') {
+        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        
+        tl.set(["#red-ball", "#blue-ball", "#white-ball"], { x: 0, y: 0 })
+          .set("#player-arm", { rotation: 0, svgOrigin: "41.75 94.5" })
+          .set(["#player-group", "#red-ball", "#ground-line"], { opacity: 1, scale: 1 })
+          .set(["#blue-ball", "#white-ball"], { scale: 1 })
+          .set("#text-lockup", { opacity: 0 });
 
+        tl.to("#player-arm", { rotation: -40, duration: 0.3, ease: "power1.inOut" })
+          .add("throw")
+          .to("#red-ball", { x: 65, duration: 0.5, ease: "power1.inOut" }, "throw")
+          .to("#red-ball", { y: -15, duration: 0.25, ease: "power1.out" }, "throw")
+          .to("#red-ball", { y: 28, duration: 0.25, ease: "power1.in" }, "throw+=0.25")
+          .to("#player-arm", { rotation: 20, duration: 0.4, ease: "power2.out" }, "throw")
+          
+          .add("impact")
+          // Red squash and settle
+          .to("#red-ball", { scaleY: 0.7, scaleX: 1.2, duration: 0.1, yoyo: true, repeat: 1, transformOrigin: "bottom" }, "impact")
+          .to("#red-ball", { x: 75, duration: 0.3, ease: "power1.out" }, "impact")
+          
+          // Blue ball arcs to left 'I'
+          .to("#blue-ball", { x: -45, duration: 0.6, ease: "power1.inOut" }, "impact")
+          .to("#blue-ball", { y: -80, duration: 0.3, ease: "power1.out" }, "impact")
+          .to("#blue-ball", { y: -55, duration: 0.3, ease: "power1.in" }, "impact+=0.3") // drops exactly onto the 'I'
+          
+          // White ball arcs to right 'I'
+          .to("#white-ball", { x: 43, duration: 0.6, ease: "power1.inOut" }, "impact")
+          .to("#white-ball", { y: -80, duration: 0.3, ease: "power1.out" }, "impact")
+          .to("#white-ball", { y: -55, duration: 0.3, ease: "power1.in" }, "impact+=0.3") // drops exactly onto the 'I'
+          
+          .add("lockup", "-=0.1")
+          .to(["#player-group", "#red-ball", "#ground-line"], { opacity: 0, duration: 0.4 }, "lockup")
+          .to("#text-lockup", { opacity: 1, duration: 0.4 }, "lockup")
+          .to({}, { duration: 1.5 }); // Hold final logo
+    }
+
+    function dismissPreloader() {
+        if(preloader.style.display === 'none') return;
+        
         /* Step 1: Start the tricolour sweep */
         sweep.classList.add('sweeping');
 
-        /* Step 2: At 1.2s the Navy stripe fully covers the screen.
-                   Safely hide the preloader behind the curtain.
-                   Set body bg to navy so the fade-in looks seamless. */
+        /* Step 2: Hide preloader behind the curtain */
         setTimeout(function () {
             preloader.style.display = 'none';
             document.body.classList.remove('preloader-active');
-            document.body.style.background = '#08142E'; /* Match landing page first-section bg */
+            document.body.style.background = 'var(--primary-navy)';
         }, 1200);
 
-        /* Step 3: After the sweep has fully exited (~2.5s),
-                   fade the landing page IN over 1 second. */
+        /* Step 3: Fade in landing page */
         setTimeout(function () {
             document.getElementById('page-wrapper').classList.add('content-ready');
         }, 2500);
 
-        /* Step 4: Clean up the sweep element from DOM */
+        /* Step 4: Clean up */
         setTimeout(function () {
             sweep.style.display = 'none';
         }, 2800);
     }
 
-    /* Dismiss when video ends */
-    video.addEventListener('ended', dismissPreloader);
-
-    /* Safety fallback: dismiss after 12s even if video stalls */
-    var fallback = setTimeout(dismissPreloader, 12000);
-
-    video.addEventListener('ended', function () { clearTimeout(fallback); });
-
-    /* If video fails to load, skip immediately */
-    video.addEventListener('error', function () {
-        clearTimeout(fallback);
-        preloader.style.display = 'none';
-        document.body.classList.remove('preloader-active');
+    /* Wait for page load, but guarantee min 2.5s animation */
+    const startTime = Date.now();
+    window.addEventListener('load', function() {
+        const elapsed = Date.now() - startTime;
+        const minTime = 2500;
+        if (elapsed < minTime) {
+            setTimeout(dismissPreloader, minTime - elapsed);
+        } else {
+            dismissPreloader();
+        }
     });
+
+    /* Safety fallback */
+    setTimeout(dismissPreloader, 10000);
 })();
 </script>
 
