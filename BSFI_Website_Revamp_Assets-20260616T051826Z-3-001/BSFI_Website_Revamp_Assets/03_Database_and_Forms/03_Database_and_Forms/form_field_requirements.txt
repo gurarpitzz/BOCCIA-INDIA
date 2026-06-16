@@ -1,0 +1,41 @@
+Player Registration Form Requirements
+
+Please confirm in a text document if the following existing fields need updates, additions, or removals for the digital intake form:
+
+• Categorization Fields  :- 
+
+Age Category (Under 14 . Under 17, Under 19 , Above 19 )
+State (Mention all state & UT names)
+ Impairment Type (Cerebral Palsy, Muscular Dystrophy, Multiple Sclerosis, Spinal Muscular, Atrophy, Amyotrophic Lateral Sclerosis, Arthrogryposis, Severe spinal cord injuries resulting in significant impairment of limb function, Other neurological or muscular conditions that cause substantial limitations in movement and control), 
+Boccia Category (BC1, BC2, BC3,BC4), 
+Status (New , Review, Confirm)
+
+• Personal Information 
+Name, 
+Gender (Male , Female), 
+DOB, 
+Parents’ Names (Father name , Mother Name)
+
+• Contact & Logistics
+ 
+Wheelchair (Yesor no)
+Aadhaar Number, 
+Phone, 
+Email, 
+Address
+Pin Code
+
+• Media Uploads 
+
+Digital Passport size Photo
+Passport fornt & Back scanned PDF 
+
+Kit Size :-
+
+T-Shirt 
+Track Suit 
+Shoe 
+
+
+
+Cerebral Palsy, Muscular Dystrophy, Multiple Sclerosis, Spinal Muscular, Atrophy, Amyotrophic Lateral Sclerosis, Arthrogryposis, Severe spinal cord injuries resulting in significant impairment of limb function, Other neurological or muscular conditions that cause substantial limitations in movement and control

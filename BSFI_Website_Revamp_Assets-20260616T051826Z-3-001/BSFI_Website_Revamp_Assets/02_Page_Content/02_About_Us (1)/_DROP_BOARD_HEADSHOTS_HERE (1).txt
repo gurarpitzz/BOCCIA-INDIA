@@ -1,0 +1,11 @@
+Governing Body Members			
+S. No	Name					designation 			Photo
+1	Jaspreet Singh				President 	
+2	Gursharan Singh				Vice President 	
+3	Ashok Bedi				Vice President	
+4	Shaminder Singh Dhillon			Secretary General 	
+5	Jagroop Singh				Treasurer	
+6	Manpreet				Joint Secretary	
+7	Vipul Goyal				Joint Secretary	
+8	Satyea Janardhana Sridhar Rayala	EC Member	
+9	B.V. Srinivas				EC Member	

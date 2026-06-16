@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /includes/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /import/
+Disallow: /uploads/
+
+Sitemap: http://localhost/sitemap.xml

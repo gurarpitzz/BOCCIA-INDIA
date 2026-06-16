@@ -1,0 +1,154 @@
+{
+    "Andhra Pradesh": {
+        "approved": 2,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 1,
+        "bc4": 1
+    },
+    "Assam": {
+        "approved": 7,
+        "pending": 0,
+        "bc1": 2,
+        "bc2": 3,
+        "bc3": 2,
+        "bc4": 0
+    },
+    "Bihar": {
+        "approved": 1,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 1,
+        "bc4": 0
+    },
+    "Chandigarh": {
+        "approved": 1,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 1,
+        "bc4": 0
+    },
+    "Delhi": {
+        "approved": 4,
+        "pending": 0,
+        "bc1": 1,
+        "bc2": 0,
+        "bc3": 2,
+        "bc4": 1
+    },
+    "Goa": {
+        "approved": 1,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 0,
+        "bc4": 1
+    },
+    "Gujarat": {
+        "approved": 24,
+        "pending": 0,
+        "bc1": 7,
+        "bc2": 8,
+        "bc3": 1,
+        "bc4": 8
+    },
+    "Haryana": {
+        "approved": 3,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 1,
+        "bc3": 1,
+        "bc4": 1
+    },
+    "Himachal Pradesh": {
+        "approved": 2,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 1,
+        "bc4": 1
+    },
+    "Jharkhand": {
+        "approved": 1,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 1,
+        "bc3": 0,
+        "bc4": 0
+    },
+    "Karnataka": {
+        "approved": 10,
+        "pending": 0,
+        "bc1": 1,
+        "bc2": 2,
+        "bc3": 1,
+        "bc4": 6
+    },
+    "Madhya Pradesh": {
+        "approved": 2,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 2,
+        "bc4": 0
+    },
+    "Maharashtra": {
+        "approved": 5,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 2,
+        "bc3": 2,
+        "bc4": 1
+    },
+    "Odisha": {
+        "approved": 8,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 2,
+        "bc3": 0,
+        "bc4": 6
+    },
+    "Punjab": {
+        "approved": 3,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 2,
+        "bc3": 1,
+        "bc4": 0
+    },
+    "Rajasthan": {
+        "approved": 6,
+        "pending": 0,
+        "bc1": 1,
+        "bc2": 2,
+        "bc3": 2,
+        "bc4": 1
+    },
+    "Tamil Nadu": {
+        "approved": 14,
+        "pending": 0,
+        "bc1": 2,
+        "bc2": 4,
+        "bc3": 6,
+        "bc4": 2
+    },
+    "Telangana": {
+        "approved": 3,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 1,
+        "bc3": 0,
+        "bc4": 2
+    },
+    "Uttar Pradesh": {
+        "approved": 2,
+        "pending": 0,
+        "bc1": 0,
+        "bc2": 0,
+        "bc3": 1,
+        "bc4": 1
+    }
+}

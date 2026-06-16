@@ -1,0 +1,1 @@
+REGN_NO is unique ID Number this is same all time for player
