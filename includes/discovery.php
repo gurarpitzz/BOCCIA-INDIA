@@ -28,7 +28,8 @@ class ContentDiscoveryEngine {
             'myas' => $baseAssetsDir . '/02_Page_Content/03_MYAS_Disclosures (1)',
             'sport' => $baseAssetsDir . '/02_Page_Content/04_Our_Sport (1)',
             'competitions' => $baseAssetsDir . '/02_Page_Content/05_Competitions (1)',
-            'news' => $baseAssetsDir . '/02_Page_Content/06_News_Media (1)'
+            'news' => $baseAssetsDir . '/02_Page_Content/06_News_Media (1)',
+            'gallery' => __DIR__ . '/../gallery'
         ];
 
         $this->initUploadDirs();
@@ -47,6 +48,10 @@ class ContentDiscoveryEngine {
         $logs[] = "Starting content synchronization at " . date('Y-m-d H:i:s');
 
         try {
+            // Clear any previously discovered temporary gallery images to clean the database
+            $this->pdo->exec("DELETE FROM gallery_images WHERE category = 'Discovered'");
+            $logs[] = "Cleared old discovered gallery images from database.";
+
             // Seed parent navigation items if they don't exist
             $this->seedNavigationParents();
 
@@ -163,12 +168,17 @@ class ContentDiscoveryEngine {
         $filesize = filesize($filePath);
         $mimeType = mime_content_type($filePath);
 
-        // Determine target upload subfolder based on file type
+        // Determine target upload subfolder based on file type and section
         $subfolder = 'documents';
-        if (strpos($mimeType, 'image/') !== false) {
+        if ($section === 'news') {
+            $subfolder = 'news';
+        } elseif ($section === 'competitions') {
+            $subfolder = 'events';
+        } elseif ($section === 'gallery') {
             $subfolder = 'galleries';
-        } elseif (strpos($mimeType, 'video/') !== false) {
-            $subfolder = 'galleries';
+        } else {
+            // General pages and board headshots - store under documents if image/video
+            $subfolder = 'documents';
         }
 
         $destPath = $this->uploadDirs[$subfolder] . '/' . $filename;
@@ -197,13 +207,13 @@ class ContentDiscoveryEngine {
             $logs[] = "Registered media asset: $filename";
         }
 
-        // If it's a gallery subfolder and an image, register in gallery_images table
-        if ($subfolder === 'galleries' && strpos($mimeType, 'image/') !== false) {
+        // If it is from the gallery section and an image, register in gallery_images table
+        if ($section === 'gallery' && strpos($mimeType, 'image/') !== false) {
             $galTitle = str_replace(['_', '-'], ' ', pathinfo($filename, PATHINFO_FILENAME));
             $chkGal = $this->pdo->prepare("SELECT id FROM gallery_images WHERE image_path = ?");
             $chkGal->execute([$relativeDestPath]);
             if (!$chkGal->fetch()) {
-                $insGal = $this->pdo->prepare("INSERT INTO gallery_images (title, category, event_name, image_path, active) VALUES (?, 'Discovered', 'BSFI Dynamic Sync', ?, 1)");
+                $insGal = $this->pdo->prepare("INSERT INTO gallery_images (title, category, event_name, image_path, active) VALUES (?, 'Collage', 'Federation Gallery', ?, 1)");
                 $insGal->execute([$galTitle, $relativeDestPath]);
                 $logs[] = "Registered gallery image: $galTitle";
             }
