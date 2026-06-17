@@ -262,24 +262,15 @@ body.preloader-active { overflow: hidden !important; }
             document.body.classList.remove('preloader-active');
         }, 1000);
 
-        // ─ Phase 3 (1.2s): Fade navy out, reveal page or redirect ─
+        // ─ Phase 3 (1.2s): Fade navy out and reveal page content ─
         //   (This leaves exactly 0.2s of solid navy before the transition)
         setTimeout(function () {
-            var path = window.location.pathname;
-            var onHome = /\/index\.php$/.test(path) || path === '/' || path === '';
-
-            if (!onHome) {
-                // Redirect to homepage — navy stays visible during navigation
-                window.location.href = '<?php echo isset($logo_path) ? htmlspecialchars($logo_path) : ""; ?>index.php';
-            } else {
-                // Already on home — fade navy out and reveal page
-                document.getElementById('page-wrapper').classList.add('content-ready');
-                navyHold.style.opacity = '0';
-                setTimeout(function () {
-                    navyHold.style.display = 'none';
-                    navyHold.style.pointerEvents = 'none';
-                }, 550);
-            }
+            document.getElementById('page-wrapper').classList.add('content-ready');
+            navyHold.style.opacity = '0';
+            setTimeout(function () {
+                navyHold.style.display = 'none';
+                navyHold.style.pointerEvents = 'none';
+            }, 550);
         }, 1200);
 
         // ─ Phase 4 (1.7s): Sweep has left the screen. Hide it to clean up DOM.
