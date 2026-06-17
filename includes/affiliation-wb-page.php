@@ -1,0 +1,37 @@
+<?php
+// includes/affiliation-wb-page.php - Custom Template for Affiliation with World Boccia
+$page_title = "Affiliation World Boccia | Boccia India";
+$meta_desc = "Official affiliation details of the Boccia Sports Federation of India (BSFI) with World Boccia.";
+$canonical_url = "page.php?section=about&slug=affiliation-world-boccia";
+
+include __DIR__ . '/header.php';
+require_once __DIR__ . '/document_renderer.php';
+?>
+
+<div class="board-page-wrapper">
+    <!-- Hero Section -->
+    <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.92) 0%, rgba(7, 25, 84, 0.82) 35%, rgba(7, 25, 84, 0.55) 55%, rgba(7, 25, 84, 0.15) 75%, transparent 100%), url('board/board%20bg.png');">
+        <div class="container board-hero-container">
+            <div class="board-hero-content scroll-reveal">
+                <span class="board-hero-eyebrow">-- Affiliation --</span>
+                <h1 class="board-hero-title">WORLD BOCCIA</h1>
+                <p class="board-hero-text">
+                    Official recognition and affiliation documentation of BSFI with World Boccia.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Document Section -->
+    <section class="board-section">
+        <div class="container">
+            <div class="scroll-reveal">
+                <?php echo DocumentRenderer::render('uploads/documents/Affiliation_with_World_Boccia.pdf'); ?>
+            </div>
+        </div>
+    </section>
+</div>
+
+<?php
+include __DIR__ . '/footer.php';
+?>

@@ -23,6 +23,16 @@ if ($section === 'about' && $slug === 'board') {
     exit();
 }
 
+if ($section === 'about' && $slug === 'affiliation-pci') {
+    include __DIR__ . '/includes/affiliation-pci-page.php';
+    exit();
+}
+
+if ($section === 'about' && $slug === 'affiliation-world-boccia') {
+    include __DIR__ . '/includes/affiliation-wb-page.php';
+    exit();
+}
+
 try {
     // 1. Fetch Page details from database
     $stmt = $pdo->prepare("SELECT * FROM site_pages WHERE section = ? AND slug = ? AND status = 'published' AND deleted_at IS NULL");
