@@ -60,44 +60,167 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff Login - Boccia India</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: url('login bg.png?v=2') center center / cover no-repeat fixed;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12%;
+            margin: 0;
+        }
+        
+        .login-card-container {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 440px;
+            padding: 3.5rem 3rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-subtitle {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 2rem;
+        }
+
+        .form-control-custom {
+            height: 52px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e0;
+            font-size: 0.95rem;
+            padding: 0 1rem;
+            width: 100%;
+            margin-bottom: 1.25rem;
+            color: #2d3748;
+            background-color: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-control-custom:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+        }
+
+        .btn-login-blue {
+            background-color: #1a73e8;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            height: 52px;
+            border-radius: 8px;
+            border: none;
+            width: 100%;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem;
+        }
+        .btn-login-blue:hover {
+            background-color: #155cb8;
+        }
+
+        .divider-or {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 1.75rem 0;
+        }
+        .divider-or::before,
+        .divider-or::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .divider-or:not(:empty)::before {
+            margin-right: .75em;
+        }
+        .divider-or:not(:empty)::after {
+            margin-left: .75em;
+        }
+
+        .btn-login-otp {
+            background-color: #1e2530;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            height: 52px;
+            border-radius: 8px;
+            border: none;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .btn-login-otp:hover {
+            background-color: #2c3645;
+        }
+
+        .return-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .return-link:hover {
+            color: #155cb8;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                justify-content: center;
+                padding-right: 0;
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body style="background:#08142E; color:#FAF7F0; display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; font-family:'Poppins', sans-serif; margin:0;">
+<body>
 
-    <div style="margin-bottom:2rem; text-align:center;">
-        <img src="boccia-india-logo.webp" alt="BSFI Logo" style="height:80px; margin-bottom:1rem;">
-        <h2 style="font-family:'Outfit', sans-serif; font-size:1.8rem; font-weight:700;">Boccia Sports Federation of India</h2>
-        <p style="opacity:0.7; font-size:0.9rem;">Official Staff & Administration Portal</p>
-    </div>
-
-    <div class="glass-card" style="background:rgba(22, 41, 90, 0.5); padding:3rem; border-radius:28px; width:90%; max-width:420px; border:1px solid rgba(255,255,255,0.1); box-shadow:0 20px 40px rgba(0,0,0,0.5);">
-        <h3 style="font-family:'Outfit', sans-serif; font-size:1.5rem; margin-bottom:1.5rem; text-align:center;">Sign In</h3>
+    <div class="login-card-container">
+        <h3 class="login-title">Sign In</h3>
+        <p class="login-subtitle">With Your Credentials</p>
         
         <?php if (!empty($error)): ?>
-            <div style="background:rgba(215, 38, 56, 0.15); border:1px solid #D72638; color:#fff; padding:0.85rem; border-radius:8px; margin-bottom:1.5rem; font-size:0.9rem; text-align:center;">
+            <div class="alert alert-danger p-2 mb-3" style="font-size:0.85rem; border-radius:8px;">
                 <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
 
-        <form action="login.php" method="POST" style="display:flex; flex-direction:column; gap:1.25rem;">
+        <form action="login.php" method="POST">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             
-            <div class="form-group">
-                <label for="login-username" style="font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; opacity:0.8;">Username</label>
-                <input type="text" id="login-username" name="username" class="form-input" required placeholder="Enter username" style="background:rgba(0,0,0,0.2);">
-            </div>
+            <input type="text" id="login-username" name="username" class="form-control-custom" required placeholder="Email">
+            <input type="password" id="login-password" name="password" class="form-control-custom" required placeholder="Password">
             
-            <div class="form-group">
-                <label for="login-password" style="font-size:0.8rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; opacity:0.8;">Password</label>
-                <input type="password" id="login-password" name="password" class="form-input" required placeholder="Enter password" style="background:rgba(0,0,0,0.2);">
-            </div>
-            
-            <button type="submit" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; font-size:1rem; padding:0.9rem; border-radius:999px; cursor:pointer; margin-top:0.75rem; border:none; text-transform:uppercase; letter-spacing:0.05em;">Access Account</button>
+            <button type="submit" class="btn-login-blue">Login</button>
         </form>
-    </div>
 
-    <div style="margin-top:2rem;">
-        <a href="index.php" style="color:#24C27A; text-decoration:none; font-size:0.9rem; font-weight:500;">← Back to Public Website</a>
+        <div class="divider-or">OR</div>
+
+        <button type="button" onclick="alert('OTP Login feature is coming soon!')" class="btn-login-otp">Login with OTP</button>
+
+        <div>
+            <a href="index.php" class="return-link">Return to Home Page</a>
+        </div>
     </div>
 
 </body>
