@@ -337,7 +337,6 @@ class ContentDiscoveryEngine {
                 'children' => [
                     ['title' => 'About Boccia', 'slug' => 'about-boccia', 'section' => 'about'],
                     ['title' => 'Board', 'slug' => 'board', 'section' => 'about'],
-                    ['title' => 'Audit Reports', 'slug' => 'audit-reports', 'section' => 'about'],
                     ['title' => 'Affiliation With PCI', 'slug' => 'affiliation-pci', 'section' => 'about'],
                     ['title' => 'Affiliation World Boccia', 'slug' => 'affiliation-world-boccia', 'section' => 'about'],
                     [
