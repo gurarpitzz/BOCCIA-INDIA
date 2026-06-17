@@ -218,7 +218,7 @@ body {
     padding: 0;
     gap: 0.5rem;
     flex-wrap: nowrap;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Individual nav link */
