@@ -67,11 +67,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background: url('login bg.png?v=2') center center / cover no-repeat fixed;
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
+            margin: 0;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding-right: 12%;
-            margin: 0;
+            justify-content: center;
+        }
+
+        .login-container-wrapper {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .login-left-container {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .branding-logos-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 2.25rem 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .login-brand-logo {
+            height: 75px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-sep {
+            width: 1.5px;
+            height: 50px;
+            background: rgba(8, 27, 75, 0.15);
         }
         
         .login-card-container {
@@ -83,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(0, 0, 0, 0.08);
             text-align: center;
+            flex-shrink: 0;
         }
 
         .login-title {
@@ -132,43 +173,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #155cb8;
         }
 
-        .divider-or {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: #a0aec0;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin: 1.75rem 0;
-        }
-        .divider-or::before,
-        .divider-or::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .divider-or:not(:empty)::before {
-            margin-right: .75em;
-        }
-        .divider-or:not(:empty)::after {
-            margin-left: .75em;
-        }
-
-        .btn-login-otp {
-            background-color: #1e2530;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 0.95rem;
-            height: 52px;
-            border-radius: 8px;
-            border: none;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-        .btn-login-otp:hover {
-            background-color: #2c3645;
-        }
-
         .return-link {
             display: inline-block;
             margin-top: 2rem;
@@ -184,44 +188,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            body {
+        @media (max-width: 991px) {
+            .login-container-wrapper {
+                flex-direction: column;
                 justify-content: center;
-                padding-right: 0;
+                gap: 2rem;
                 padding: 1.5rem;
+            }
+            .login-left-container {
+                justify-content: center;
+                width: 100%;
+            }
+            .branding-logos-card {
+                padding: 1.25rem 1.5rem;
+                gap: 1.25rem;
+                width: 100%;
+                justify-content: center;
+            }
+            .login-brand-logo {
+                height: 50px;
+            }
+            .brand-sep {
+                height: 35px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="login-card-container">
-        <h3 class="login-title">Sign In</h3>
-        <p class="login-subtitle">With Your Credentials</p>
-        
-        <?php if (!empty($error)): ?>
-            <div class="alert alert-danger p-2 mb-3" style="font-size:0.85rem; border-radius:8px;">
-                <?php echo htmlspecialchars($error); ?>
+    <div class="login-container-wrapper">
+        <div class="login-left-container">
+            <div class="branding-logos-card">
+                <img src="Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS" class="login-brand-logo myas-brand">
+                <div class="brand-sep"></div>
+                <img src="boccia-india-logo.webp" alt="Boccia India" class="login-brand-logo bsfi-brand">
+                <div class="brand-sep"></div>
+                <img src="Full Logo World Boccia.webp" alt="World Boccia" class="login-brand-logo world-brand">
             </div>
-        <?php endif; ?>
+        </div>
 
-        <form action="login.php" method="POST">
-            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+        <div class="login-card-container">
+            <h3 class="login-title">Sign In</h3>
+            <p class="login-subtitle">With Your Credentials</p>
             
-            <input type="text" id="login-username" name="username" class="form-control-custom" required placeholder="Email">
-            <input type="password" id="login-password" name="password" class="form-control-custom" required placeholder="Password">
-            
-            <button type="submit" class="btn-login-blue">Login</button>
-        </form>
+            <?php if (!empty($error)): ?>
+                <div class="alert alert-danger p-2 mb-3" style="font-size:0.85rem; border-radius:8px;">
+                    <?php echo htmlspecialchars($error); ?>
+                </div>
+            <?php endif; ?>
 
-        <div class="divider-or">OR</div>
+            <form action="login.php" method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                
+                <input type="text" id="login-username" name="username" class="form-control-custom" required placeholder="Email">
+                <input type="password" id="login-password" name="password" class="form-control-custom" required placeholder="Password">
+                
+                <button type="submit" class="btn-login-blue">Login</button>
+            </form>
 
-        <button type="button" onclick="alert('OTP Login feature is coming soon!')" class="btn-login-otp">Login with OTP</button>
-
-        <div>
-            <a href="index.php" class="return-link">Return to Home Page</a>
+            <div>
+                <a href="index.php" class="return-link">Return to Home Page</a>
+            </div>
         </div>
     </div>
-
 </body>
 </html>
