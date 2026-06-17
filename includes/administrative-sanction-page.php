@@ -31,7 +31,7 @@ require_once __DIR__ . '/document_renderer.php';
                 <div class="col-12">
                     <div class="section-title-wrapper text-center mb-4">
                         <span class="sub-label">Event Clearances</span>
-                        <h3 class="board-subtitle text-white">Downloadable Documents</h3>
+                        <h3 class="board-subtitle" style="color: #081B4B !important;">Downloadable Documents</h3>
                     </div>
                 </div>
                 
@@ -95,7 +95,7 @@ require_once __DIR__ . '/document_renderer.php';
                 <div class="col-12">
                     <div class="section-title-wrapper text-center mb-4">
                         <span class="sub-label">Official Overview</span>
-                        <h3 class="board-subtitle text-white">Administrative Sanction Overview</h3>
+                        <h3 class="board-subtitle" style="color: #081B4B !important;">Administrative Sanction Overview</h3>
                     </div>
                     <?php echo DocumentRenderer::render('uploads/documents/Administrative-sanction-Boccia.pdf'); ?>
                 </div>
