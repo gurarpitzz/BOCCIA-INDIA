@@ -269,64 +269,79 @@ try {
         <?php if (count($publicSchedules) > 0): ?>
         <div class="schedule-table-wrapper" style="overflow-x: auto; padding-bottom: 2rem;">
             <div class="schedule-table" style="min-width: 800px;">
-                <!-- Header -->
-                <div class="schedule-header" style="background: var(--deep-navy); color: #fff; border-radius: 999px; display: grid; grid-template-columns: 80px 2fr 1.5fr 2.5fr; padding: 1.25rem 2rem; font-weight: 700; font-family: var(--font-heading); margin-bottom: 1.5rem;">
-                    <div>S.No.</div>
-                    <div>Discipline / Event</div>
-                    <div>Date</div>
-                    <div>Venue</div>
-                </div>
-
                 <!-- Rows -->
-                <div class="schedule-body" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="schedule-body" style="display: flex; flex-direction: column; gap: 1.25rem;">
                     <?php 
                     $rowIdx = 1;
                     foreach ($publicSchedules as $sched): 
-                        // Alternating colors
-                        $bgColor = ($rowIdx % 2 !== 0) ? '#EDE9FF' : '#DCE8F8';
+                        // Alternating border colors
+                        $borderColor = ($rowIdx % 2 !== 0) ? '#081B4B' : '#FF9933';
                     ?>
-                    <div class="schedule-row" style="background: <?php echo $bgColor; ?>; border-radius: 999px; display: grid; grid-template-columns: 80px 2fr 1.5fr 2.5fr; padding: 1.25rem 2rem; align-items: center; transition: all 0.25s ease; color: var(--deep-navy);">
-                        <div style="font-weight: 600; font-size: 0.95rem;"><?php echo $rowIdx; ?>.</div>
+                    <div class="schedule-row-new" style="background: #ffffff; border: 2px solid <?php echo $borderColor; ?>; border-radius: 18px; display: grid; grid-template-columns: 100px 2.5fr 2fr 3fr; padding: 1.5rem 2.25rem; align-items: center; gap: 1rem; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.03);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.03)';">
+                        
+                        <!-- Number and Separator -->
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <span style="font-size: 2.2rem; font-weight: 800; color: #081B4B; font-family: var(--font-heading); min-width: 45px; letter-spacing: -0.02em;"><?php echo str_pad($rowIdx, 2, '0', STR_PAD_LEFT); ?></span>
+                            <span style="width: 1.5px; height: 44px; background: rgba(8, 27, 75, 0.15); display: inline-block;"></span>
+                        </div>
+
+                        <!-- Discipline & Type -->
                         <div>
-                            <div style="font-weight: 600; font-size: 1rem;"><?php echo htmlspecialchars($sched['discipline']); ?></div>
+                            <div style="font-weight: 700; font-size: 1.15rem; color: #081B4B; font-family: var(--font-heading);"><?php echo htmlspecialchars($sched['discipline']); ?></div>
                             <?php if ($sched['event_type']): ?>
-                            <div style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.2rem;"><?php echo htmlspecialchars($sched['event_type']); ?></div>
+                            <div style="font-size: 0.85rem; color: #6b82b8; font-weight: 500; margin-top: 0.2rem;"><?php echo htmlspecialchars($sched['event_type']); ?></div>
                             <?php endif; ?>
                         </div>
-                        <div style="font-size: 0.95rem;"><?php echo htmlspecialchars($sched['date_text']); ?></div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
-                            <span><?php echo htmlspecialchars($sched['venue']); ?></span>
+
+                        <!-- Date -->
+                        <div style="font-size: 1.05rem; font-weight: 700; color: #FF9933;"><?php echo htmlspecialchars($sched['date_text']); ?></div>
+
+                        <!-- Venue & Action -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;">
+                            <span style="font-size: 1.05rem; font-weight: 500; color: #3b4a6b;"><?php echo htmlspecialchars($sched['venue']); ?></span>
                             <?php if ($sched['registration_link']): ?>
-                            <a href="<?php echo htmlspecialchars($sched['registration_link']); ?>" target="_blank" style="background: var(--deep-navy); color: #fff; padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: bold; text-decoration: none; transition: background 0.2s;">Register</a>
+                            <a href="<?php echo htmlspecialchars($sched['registration_link']); ?>" target="_blank" style="background: #081B4B; color: #fff; padding: 0.5rem 1.25rem; border-radius: 999px; font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: background 0.2s; flex-shrink: 0;" onmouseover="this.style.background='#FF9933'" onmouseout="this.style.background='#081B4B'">Register</a>
                             <?php endif; ?>
                         </div>
+
                     </div>
                     <?php $rowIdx++; endforeach; ?>
                 </div>
             </div>
         </div>
         
-        <!-- Mobile Cards version (Hidden on desktop, shown on mobile via CSS) -->
+        <!-- Mobile Cards version -->
         <div class="schedule-mobile-cards">
-            <?php foreach ($publicSchedules as $sched): ?>
-            <div class="schedule-card">
-                <div class="schedule-card-header">
-                    <h4 class="discipline"><?php echo htmlspecialchars($sched['discipline']); ?></h4>
-                    <?php if ($sched['event_type']): ?>
-                        <span class="event-type"><?php echo htmlspecialchars($sched['event_type']); ?></span>
-                    <?php endif; ?>
+            <?php 
+            $rowIdx = 1;
+            foreach ($publicSchedules as $sched): 
+                $borderColor = ($rowIdx % 2 !== 0) ? '#081B4B' : '#FF9933';
+            ?>
+            <div class="schedule-card" style="border: 2px solid <?php echo $borderColor; ?>; border-radius: 16px; background: #ffffff; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                <div class="schedule-card-header" style="border-bottom: 1px solid rgba(8, 27, 75, 0.08); padding-bottom: 0.75rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <h4 class="discipline" style="font-family: var(--font-heading); color: #081B4B; font-weight: 700; margin-bottom: 0.25rem;"><?php echo htmlspecialchars($sched['discipline']); ?></h4>
+                        <?php if ($sched['event_type']): ?>
+                            <span class="event-type" style="font-size: 0.75rem; color: #6b82b8; font-weight: 600; text-transform: uppercase;"><?php echo htmlspecialchars($sched['event_type']); ?></span>
+                        <?php endif; ?>
+                    </div>
+                    <span style="font-size: 1.5rem; font-weight: 800; color: rgba(8, 27, 75, 0.15); font-family: var(--font-heading);"><?php echo str_pad($rowIdx, 2, '0', STR_PAD_LEFT); ?></span>
                 </div>
-                <div class="schedule-card-body">
-                    <p class="date"><strong>🗓️</strong> <?php echo htmlspecialchars($sched['date_text']); ?></p>
-                    <p class="venue"><strong>📍</strong> <?php echo htmlspecialchars($sched['venue']); ?></p>
+                <div class="schedule-card-body" style="margin-bottom: 1rem;">
+                    <p class="date" style="font-size: 0.95rem; color: #FF9933; font-weight: 700; margin-bottom: 0.5rem; display: flex; gap: 0.5rem; align-items: center;">
+                        <span style="color: #FF9933;">🗓️</span> <?php echo htmlspecialchars($sched['date_text']); ?>
+                    </p>
+                    <p class="venue" style="font-size: 0.95rem; color: #3b4a6b; font-weight: 500; margin-bottom: 0; display: flex; gap: 0.5rem; align-items: center;">
+                        <span>📍</span> <?php echo htmlspecialchars($sched['venue']); ?>
+                    </p>
                 </div>
                 <?php if ($sched['registration_link']): ?>
                 <div class="schedule-card-footer">
-                    <a href="<?php echo htmlspecialchars($sched['registration_link']); ?>" target="_blank" class="btn btn-hero-primary" style="width: 100%; text-align: center; padding: 0.75rem;">Register Now</a>
+                    <a href="<?php echo htmlspecialchars($sched['registration_link']); ?>" target="_blank" class="btn btn-hero-primary" style="width: 100%; text-align: center; padding: 0.75rem; background: #081B4B; border-radius: 999px; color: #ffffff; text-decoration: none; font-weight: bold; display: block;">Register Now</a>
                 </div>
                 <?php endif; ?>
             </div>
-            <?php endforeach; ?>
+            <?php $rowIdx++; endforeach; ?>
         </div>
         <?php endif; ?>
     </div>
