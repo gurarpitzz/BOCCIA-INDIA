@@ -167,38 +167,42 @@ try {
 <!-- India Participation Map Section -->
 <section id="map" class="map-section">
     <div class="container">
-        <div class="map-two-col">
+        <div class="row align-items-center g-5">
 
             <!-- LEFT: Map confined card -->
-            <div class="map-bordered-card">
-                <!-- Green accent bar at top -->
-                <div class="map-card-accent-bar"></div>
+            <div class="col-lg-6">
+                <div class="map-bordered-card">
+                    <!-- Green accent bar at top -->
+                    <div class="map-card-accent-bar"></div>
 
-                <!-- SVG Map (no extra headings inside the card) -->
-                <?php include __DIR__ . '/includes/india-map.php'; ?>
+                    <!-- SVG Map (no extra headings inside the card) -->
+                    <?php include __DIR__ . '/includes/india-map.php'; ?>
+                </div>
             </div>
 
             <!-- RIGHT: Content panel -->
-            <div class="map-content-panel">
-                <span class="map-eyebrow">National Footprint</span>
-                <h2 class="map-main-title">State Participation<br>&amp; Associations</h2>
-                <p class="map-desc">Click on any state on the interactive map to view athlete registration counts, classification splits, and state association details.</p>
+            <div class="col-lg-6">
+                <div class="map-content-panel">
+                    <span class="map-eyebrow">National Footprint</span>
+                    <h2 class="map-main-title">State Participation<br>&amp; Associations</h2>
+                    <p class="map-desc">Click on any state on the interactive map to view athlete registration counts, classification splits, and state association details.</p>
 
-                <!-- Dynamic detail card (populated by app.js on click) -->
-                <div id="map-details-card" class="map-detail-box">
-                    <h4 class="map-detail-heading">Select a State</h4>
-                    <p class="map-detail-body">Click on any of the active states on the map to load association statistics, athlete representation, and active registries.</p>
-                    <span class="map-detail-badge">● National Registry System</span>
-                </div>
+                    <!-- Dynamic detail card (populated by app.js on click) -->
+                    <div id="map-details-card" class="map-detail-box">
+                        <h4 class="map-detail-heading">Select a State</h4>
+                        <p class="map-detail-body">Click on any of the active states on the map to load association statistics, athlete representation, and active registries.</p>
+                        <span class="map-detail-badge">● National Registry System</span>
+                    </div>
 
-                <!-- Athlete Density Legend — moved here from map card -->
-                <div class="map-legend-box map-legend-right">
-                    <h5>Athlete Density Legend</h5>
-                    <div class="legend-row"><span class="legend-badge" style="background:#e05a10;"></span> 0 Athletes</div>
-                    <div class="legend-row"><span class="legend-badge" style="background:#6b82b8;"></span> 1–5 Athletes</div>
-                    <div class="legend-row"><span class="legend-badge" style="background:#3b5a9a;"></span> 6–15 Athletes</div>
-                    <div class="legend-row"><span class="legend-badge" style="background:#16295a;"></span> 16–30 Athletes</div>
-                    <div class="legend-row"><span class="legend-badge" style="background:#0b1b3d;"></span> 30+ Athletes</div>
+                    <!-- Athlete Density Legend — moved here from map card -->
+                    <div class="map-legend-box map-legend-right">
+                        <h5>Athlete Density Legend</h5>
+                        <div class="legend-row"><span class="legend-badge" style="background:#e05a10;"></span> 0 Athletes</div>
+                        <div class="legend-row"><span class="legend-badge" style="background:#6b82b8;"></span> 1–5 Athletes</div>
+                        <div class="legend-row"><span class="legend-badge" style="background:#3b5a9a;"></span> 6–15 Athletes</div>
+                        <div class="legend-row"><span class="legend-badge" style="background:#16295a;"></span> 16–30 Athletes</div>
+                        <div class="legend-row"><span class="legend-badge" style="background:#0b1b3d;"></span> 30+ Athletes</div>
+                    </div>
                 </div>
             </div>
 
@@ -250,7 +254,7 @@ try {
 </div><!-- /.map-stats-bg-wrapper -->
 
 <!-- National Schedules Section -->
-<section id="schedules" class="schedules-section" style="padding: 6rem 0; background: var(--warm-surface);">
+<section id="schedules" class="schedules-section" style="padding: 6rem 0; background: url('bg schedule.png') center/cover no-repeat;">
 
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
@@ -329,14 +333,10 @@ try {
 </section>
 
 <!-- Photo Gallery Section -->
-<section id="gallery" style="padding: 6rem 0; background: linear-gradient(to bottom, #1a2f5e, var(--deep-navy)); color: var(--warm-surface);">
+<section id="gallery" style="padding: 6rem 0; background: #081B4B; color: #F8F5EF;">
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
-            <h2 class="section-title" style="color: var(--warm-surface); font-size: 2.8rem; text-shadow:0 2px 10px rgba(0,0,0,0.3);">Gallery View</h2>
-            <div class="gallery-toggles" style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem;">
-                <button id="btn-collage" class="btn active-pill" onclick="toggleGalleryView('collage')" style="background:var(--accent-saffron); color:var(--primary-navy); font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; border:none;">▣ Collage</button>
-                <button id="btn-slideshow" class="btn inactive-pill" onclick="toggleGalleryView('slideshow')" style="background:transparent; border:2px solid rgba(255,255,255,0.2); color:var(--warm-surface); font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; transition:all 0.3s;">▶ Slideshow</button>
-            </div>
+            <h2 class="section-title" style="color: #F8F5EF; font-size: 2.8rem; text-shadow:0 2px 10px rgba(0,0,0,0.3);">Photo Gallery</h2>
         </div>
 
         <?php if(count($galleryImages) > 0): ?>
@@ -374,38 +374,6 @@ try {
                     </a>
                 <?php endforeach; ?>
             </div>
-
-            <!-- Slideshow Carousel -->
-            <div id="gallery-slideshow" style="display:none; max-width:900px; margin:0 auto;">
-                <div id="carouselGallery" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" data-bs-touch="true" data-bs-keyboard="true">
-                    <div class="carousel-inner" style="border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
-                        <?php 
-                        $slideshowImages = array_filter($galleryImages, function($i) { return isset($i['featured']) && $i['featured'] == 1; });
-                        if(empty($slideshowImages)) $slideshowImages = $galleryImages; // Fallback to all if none featured
-                        $first = true;
-                        foreach($slideshowImages as $img): 
-                        ?>
-                            <div class="carousel-item <?php echo $first ? 'active' : ''; ?>">
-                                <img src="<?php echo htmlspecialchars($img['image_path']); ?>" class="d-block w-100" alt="<?php echo htmlspecialchars($img['title']); ?>" style="aspect-ratio:16/9; object-fit:cover;">
-                                <div class="carousel-caption d-none d-md-block" style="background:rgba(0,0,0,0.6); border-radius:12px; padding:1rem; bottom:20px;">
-                                    <h5 style="margin:0; font-family:var(--font-heading); font-weight:700;"><?php echo htmlspecialchars($img['title']); ?></h5>
-                                    <?php if(isset($img['event_name']) && $img['event_name']): ?>
-                                        <p style="margin:0; font-size:0.9rem; opacity:0.8;"><?php echo htmlspecialchars($img['event_name']); ?></p>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php $first = false; endforeach; ?>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselGallery" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color:rgba(0,0,0,0.5); padding:20px; border-radius:50%;"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselGallery" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true" style="background-color:rgba(0,0,0,0.5); padding:20px; border-radius:50%;"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
         <?php else: ?>
             <div style="text-align:center; padding:4rem; background:rgba(0,0,0,0.2); border-radius:24px;">
                 <p style="font-size:1.2rem; opacity:0.6;">Photo gallery is currently being updated.</p>
@@ -423,11 +391,11 @@ try {
                 <span style="color: var(--accent-saffron); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">BOCCIA INDIA 2026</span>
                 <span style="height: 1px; width: 40px; background: var(--accent-saffron);"></span>
             </div>
-            <h2 class="section-title" style="color: var(--deep-navy); font-size: 2.8rem;">Official Federation Updates</h2>
+            <h2 class="section-title" style="color: #081B4B; font-size: 2.8rem;">Official Federation Updates</h2>
         </div>
 
         <?php if (count($allNews) > 0): ?>
-        <div class="news-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; align-items: start;">
+        <div class="row g-4 align-items-stretch">
             <?php 
             foreach ($allNews as $news): 
                 $extraImgs = isset($newsImages[$news['id']]) ? $newsImages[$news['id']] : [];
@@ -445,106 +413,108 @@ try {
                 $displayContent = htmlspecialchars($displayContent);
                 $displayContent = preg_replace('/#(\w+)/', '<span class="hashtag" style="color:#1E88E5; font-weight:600;">#$1</span>', $displayContent);
             ?>
-            <div class="glass-card news-card" id="news-<?php echo htmlspecialchars($news['slug']); ?>" style="background: #ffffff; border: 2px solid rgba(22, 41, 90, 0.1); border-radius: 32px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-                
-                <!-- Post Header -->
-                <div style="padding: 1.5rem 1.5rem 1rem; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                        <div style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: transparent;">
-                            <svg viewBox="0 0 100 100" width="100%" height="100%">
-                                <g stroke="#111" stroke-width="1.5" stroke-linejoin="round">
-                                    <circle cx="28" cy="70" r="24" fill="#ffffff" />
-                                    <path d="M 28 58 L 38 65 L 34 78 L 22 78 L 18 65 Z" fill="none" />
-                                    <path d="M 28 58 L 28 46" fill="none" /><path d="M 38 65 L 50 60" fill="none" /><path d="M 34 78 L 42 90" fill="none" /><path d="M 22 78 L 14 90" fill="none" /><path d="M 18 65 L 6 60" fill="none" />
-                                    
-                                    <circle cx="72" cy="70" r="24" fill="#A82020" />
-                                    <path d="M 72 58 L 82 65 L 78 78 L 66 78 L 62 65 Z" fill="none" />
-                                    <path d="M 72 58 L 72 46" fill="none" /><path d="M 82 65 L 94 60" fill="none" /><path d="M 78 78 L 86 90" fill="none" /><path d="M 66 78 L 58 90" fill="none" /><path d="M 62 65 L 50 60" fill="none" />
-
-                                    <circle cx="50" cy="32" r="24" fill="#0E4C92" />
-                                    <path d="M 50 20 L 60 27 L 56 40 L 44 40 L 40 27 Z" fill="none" />
-                                    <path d="M 50 20 L 50 8" fill="none" /><path d="M 60 27 L 72 22" fill="none" /><path d="M 56 40 L 64 52" fill="none" /><path d="M 44 40 L 36 52" fill="none" /><path d="M 40 27 L 28 22" fill="none" />
-                                </g>
-                            </svg>
+            <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
+                <div class="glass-card news-card w-100" id="news-<?php echo htmlspecialchars($news['slug']); ?>" style="background: #ffffff; border: 2px solid rgba(22, 41, 90, 0.1); border-radius: 32px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 0;">
+                    
+                    <!-- Post Header -->
+                    <div style="padding: 1.5rem 1.5rem 1rem; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: transparent;">
+                                <svg viewBox="0 0 100 100" width="100%" height="100%">
+                                    <g stroke="#111" stroke-width="1.5" stroke-linejoin="round">
+                                        <circle cx="28" cy="70" r="24" fill="#ffffff" />
+                                        <path d="M 28 58 L 38 65 L 34 78 L 22 78 L 18 65 Z" fill="none" />
+                                        <path d="M 28 58 L 28 46" fill="none" /><path d="M 38 65 L 50 60" fill="none" /><path d="M 34 78 L 42 90" fill="none" /><path d="M 22 78 L 14 90" fill="none" /><path d="M 18 65 L 6 60" fill="none" />
+                                        
+                                        <circle cx="72" cy="70" r="24" fill="#A82020" />
+                                        <path d="M 72 58 L 82 65 L 78 78 L 66 78 L 62 65 Z" fill="none" />
+                                        <path d="M 72 58 L 72 46" fill="none" /><path d="M 82 65 L 94 60" fill="none" /><path d="M 78 78 L 86 90" fill="none" /><path d="M 66 78 L 58 90" fill="none" /><path d="M 62 65 L 50 60" fill="none" />
+ 
+                                        <circle cx="50" cy="32" r="24" fill="#0E4C92" />
+                                        <path d="M 50 20 L 60 27 L 56 40 L 44 40 L 40 27 Z" fill="none" />
+                                        <path d="M 50 20 L 50 8" fill="none" /><path d="M 60 27 L 72 22" fill="none" /><path d="M 56 40 L 64 52" fill="none" /><path d="M 44 40 L 36 52" fill="none" /><path d="M 40 27 L 28 22" fill="none" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: var(--deep-navy); font-size: 0.95rem;"><?php echo htmlspecialchars($news['author_name'] ?? 'BSFI Official'); ?></div>
+                                <div style="font-size: 0.75rem; color: #6b82b8;"><?php echo date('M j, Y • h:i A', strtotime($news['published_at'])); ?></div>
+                            </div>
                         </div>
-                        <div>
-                            <div style="font-weight: 700; color: var(--deep-navy); font-size: 0.95rem;"><?php echo htmlspecialchars($news['author_name'] ?? 'BSFI Official'); ?></div>
-                            <div style="font-size: 0.75rem; color: #6b82b8;"><?php echo date('M j, Y • h:i A', strtotime($news['published_at'])); ?></div>
+                        <!-- Badges -->
+                        <div style="display: flex; gap: 0.5rem; flex-direction: column; align-items: flex-end;">
+                            <?php if($news['pinned']): ?>
+                                <span style="background: rgba(36,194,122,0.1); color: var(--accent-saffron); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: bold;">📌 Pinned</span>
+                            <?php endif; ?>
+                            <?php if($news['featured']): ?>
+                                <span style="background: rgba(244,185,66,0.1); color: #F4B942; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: bold;">⭐ Featured</span>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <!-- Badges -->
-                    <div style="display: flex; gap: 0.5rem; flex-direction: column; align-items: flex-end;">
-                        <?php if($news['pinned']): ?>
-                            <span style="background: rgba(36,194,122,0.1); color: var(--accent-saffron); padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: bold;">📌 Pinned</span>
-                        <?php endif; ?>
-                        <?php if($news['featured']): ?>
-                            <span style="background: rgba(244,185,66,0.1); color: #F4B942; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: bold;">⭐ Featured</span>
+ 
+                    <!-- Post Body -->
+                    <div style="padding: 0 1.5rem 1rem; flex-grow: 1;">
+                        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--deep-navy); margin-bottom: 0.5rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($news['title']); ?></h3>
+                        <p style="font-size: 0.95rem; color: #3b5a9a; line-height: 1.5; margin-bottom: 0;">
+                            <?php echo $displayContent; ?>
+                        </p>
+                        <?php if($isLong): ?>
+                            <button onclick="alert('Read More feature to be implemented inline/modal')" style="background:none; border:none; color: var(--accent-saffron); font-weight: 700; padding: 0; margin-top: 0.5rem; cursor: pointer; font-size: 0.9rem;">Read More &raquo;</button>
                         <?php endif; ?>
                     </div>
-                </div>
-
-                <!-- Post Body -->
-                <div style="padding: 0 1.5rem 1rem;">
-                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--deep-navy); margin-bottom: 0.5rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($news['title']); ?></h3>
-                    <p style="font-size: 0.95rem; color: #3b5a9a; line-height: 1.5; margin-bottom: 0;">
-                        <?php echo $displayContent; ?>
-                    </p>
-                    <?php if($isLong): ?>
-                        <button onclick="alert('Read More feature to be implemented inline/modal')" style="background:none; border:none; color: var(--accent-saffron); font-weight: 700; padding: 0; margin-top: 0.5rem; cursor: pointer; font-size: 0.9rem;">Read More &raquo;</button>
+ 
+                    <!-- Media Grid -->
+                    <?php if ($imgCount > 0): ?>
+                    <div class="news-media-container" style="padding: 0 1.5rem 1.5rem;">
+                        <div style="border-radius: 20px; overflow: hidden; display: grid; gap: 4px; background: #fff; <?php 
+                            if ($imgCount == 1) echo 'grid-template-columns: 1fr;';
+                            if ($imgCount == 2) echo 'grid-template-columns: 1fr 1fr; grid-auto-rows: 250px;';
+                            if ($imgCount == 3) echo 'grid-template-columns: 1fr 1fr; grid-auto-rows: 150px;';
+                            if ($imgCount >= 4) echo 'grid-template-columns: 1fr 1.5fr; grid-template-rows: repeat(3, 100px);';
+                        ?>">
+                            
+                            <?php for($i = 0; $i < min($imgCount, 4); $i++): ?>
+                                <?php 
+                                $imgStyle = 'width: 100%; height: 100%; object-fit: cover;';
+                                $wrapperStyle = 'position: relative; width: 100%; height: 100%;';
+                                
+                                if ($imgCount == 1) {
+                                    $wrapperStyle .= 'aspect-ratio: 4/3;';
+                                } elseif ($imgCount == 3 && $i == 0) {
+                                    $wrapperStyle .= 'grid-row: span 2;';
+                                } elseif ($imgCount >= 4) {
+                                    // Bento Box layout requested
+                                    if ($i == 0) $wrapperStyle .= 'grid-area: 1 / 1 / 2 / 2;';
+                                    if ($i == 1) $wrapperStyle .= 'grid-area: 1 / 2 / 3 / 3;';
+                                    if ($i == 2) $wrapperStyle .= 'grid-area: 2 / 1 / 4 / 2;';
+                                    if ($i == 3) $wrapperStyle .= 'grid-area: 3 / 2 / 4 / 3;';
+                                }
+                                ?>
+                                
+                                <a href="<?php echo htmlspecialchars($allMedia[$i]); ?>" class="glightbox" data-gallery="news-<?php echo $news['id']; ?>" style="<?php echo $wrapperStyle; ?>">
+                                    <img src="<?php echo htmlspecialchars($allMedia[$i]); ?>" alt="News Media" style="<?php echo $imgStyle; ?>" loading="lazy">
+                                    <?php if ($imgCount > 4 && $i == 3): ?>
+                                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; font-weight: bold;">
+                                            +<?php echo ($imgCount - 4); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </a>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
                     <?php endif; ?>
-                </div>
-
-                <!-- Media Grid -->
-                <?php if ($imgCount > 0): ?>
-                <div class="news-media-container" style="padding: 0 1.5rem 1.5rem;">
-                    <div style="border-radius: 20px; overflow: hidden; display: grid; gap: 4px; background: #fff; <?php 
-                        if ($imgCount == 1) echo 'grid-template-columns: 1fr;';
-                        if ($imgCount == 2) echo 'grid-template-columns: 1fr 1fr; grid-auto-rows: 250px;';
-                        if ($imgCount == 3) echo 'grid-template-columns: 1fr 1fr; grid-auto-rows: 150px;';
-                        if ($imgCount >= 4) echo 'grid-template-columns: 1fr 1.5fr; grid-template-rows: repeat(3, 100px);';
-                    ?>">
-                        
-                        <?php for($i = 0; $i < min($imgCount, 4); $i++): ?>
-                            <?php 
-                            $imgStyle = 'width: 100%; height: 100%; object-fit: cover;';
-                            $wrapperStyle = 'position: relative; width: 100%; height: 100%;';
-                            
-                            if ($imgCount == 1) {
-                                $wrapperStyle .= 'aspect-ratio: 4/3;';
-                            } elseif ($imgCount == 3 && $i == 0) {
-                                $wrapperStyle .= 'grid-row: span 2;';
-                            } elseif ($imgCount >= 4) {
-                                // Bento Box layout requested
-                                if ($i == 0) $wrapperStyle .= 'grid-area: 1 / 1 / 2 / 2;';
-                                if ($i == 1) $wrapperStyle .= 'grid-area: 1 / 2 / 3 / 3;';
-                                if ($i == 2) $wrapperStyle .= 'grid-area: 2 / 1 / 4 / 2;';
-                                if ($i == 3) $wrapperStyle .= 'grid-area: 3 / 2 / 4 / 3;';
-                            }
-                            ?>
-                            
-                            <a href="<?php echo htmlspecialchars($allMedia[$i]); ?>" class="glightbox" data-gallery="news-<?php echo $news['id']; ?>" style="<?php echo $wrapperStyle; ?>">
-                                <img src="<?php echo htmlspecialchars($allMedia[$i]); ?>" alt="News Media" style="<?php echo $imgStyle; ?>" loading="lazy">
-                                <?php if ($imgCount > 4 && $i == 3): ?>
-                                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2rem; font-weight: bold;">
-                                        +<?php echo ($imgCount - 4); ?>
-                                    </div>
-                                <?php endif; ?>
-                            </a>
-                        <?php endfor; ?>
+ 
+                    <!-- Footer / Reactions -->
+                    <div style="padding: 1rem 1.5rem; border-top: 1px solid rgba(22, 41, 90, 0.05); display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 0.85rem; color: #6b82b8; font-weight: 600;">
+                            👁 <?php echo (int)$news['views']; ?> Views
+                        </div>
+                        <div style="font-size: 0.85rem; color: var(--accent-saffron); font-weight: 700; background: rgba(36,194,122,0.1); padding: 0.25rem 0.75rem; border-radius: 999px;">
+                            <?php echo htmlspecialchars($news['category']); ?>
+                        </div>
                     </div>
+ 
                 </div>
-                <?php endif; ?>
-
-                <!-- Footer / Reactions -->
-                <div style="padding: 1rem 1.5rem; border-top: 1px solid rgba(22, 41, 90, 0.05); display: flex; justify-content: space-between; align-items: center;">
-                    <div style="font-size: 0.85rem; color: #6b82b8; font-weight: 600;">
-                        👁 <?php echo (int)$news['views']; ?> Views
-                    </div>
-                    <div style="font-size: 0.85rem; color: var(--accent-saffron); font-weight: 700; background: rgba(36,194,122,0.1); padding: 0.25rem 0.75rem; border-radius: 999px;">
-                        <?php echo htmlspecialchars($news['category']); ?>
-                    </div>
-                </div>
-
             </div>
             <?php endforeach; ?>
         </div>

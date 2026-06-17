@@ -19,7 +19,7 @@ require_once __DIR__ . '/auth.php';
     <!-- Bootstrap 5.3 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="<?php echo $css_path; ?>?v=1.3">
+    <link rel="stylesheet" href="<?php echo $css_path; ?>?v=<?php echo time(); ?>">
     <!-- GLightbox -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <style>
@@ -90,14 +90,13 @@ require_once __DIR__ . '/auth.php';
 
         </svg>
     </div>
-    <!-- 4. Tricolour + Navy Sweep (Curtain Wipe) -->
-    <div id="tricolour-sweep">
-        <div class="stripe saffron"></div>
-        <div class="stripe white"></div>
-        <div class="stripe green"></div>
-        <div class="stripe navy"></div>
-    </div>
 </div>
+
+<!-- ══ TRICOLOUR SWEEP — outside preloader, full-screen gradient panel ══ -->
+<div id="tricolour-sweep"></div>
+
+<!-- Navy hold overlay -->
+<div id="navy-hold"></div>
 
 <style>
 /* ── Preloader Overlay ── */
@@ -129,41 +128,69 @@ require_once __DIR__ . '/auth.php';
     transition: opacity 0.25s ease; /* Smooth fade-out when video ends */
 }
 
-/* ── Tricolour Sweep Transition ── */
+/* ═──────────────────────────────────────
+   TRICOLOUR SWEEP
+   ─ A perfect square (300vmax) with a 45deg gradient.
+   ─ 100% mark is top-right (leading edge = Saffron).
+   ─ We translate it from bottom-left to center.
+──────────────────────────────────────── */
 #tricolour-sweep {
     position: fixed;
-    top: 50%; left: 50%;
-    width: 300vw; height: 265vh;
-    margin-top: -132.5vh; margin-left: -150vw;
-    z-index: 100000;
+    inset: 0;
+    z-index: 100001;
+    overflow: hidden;
     pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    transform: rotate(45deg) translateY(300vh);
-    opacity: 1;
 }
 
-#tricolour-sweep .stripe {
-    width: 100%;
+#tricolour-sweep::before {
+    content: '';
+    position: absolute;
+    width:  300vmax;
+    height: 300vmax;
+    top:  50%;
+    left: 50%;
+    margin-top: -150vmax;
+    margin-left: -150vmax;
+    
+    /* 45deg points top-right. 0% is bottom-left, 100% is top-right */
+    background: linear-gradient(
+        45deg,
+        #081B4B 0%,   /* Navy tail */
+        #081B4B 85%,  
+        #138808 85%,  /* Green */
+        #138808 92%,  
+        #FFFFFF 92%,  /* White */
+        #FFFFFF 95%,  
+        #FF9933 95%,  /* Saffron leading tip */
+        #FF9933 100%  
+    );
+    
+    /* Start with top-right corner off-screen bottom-left */
+    transform: translate(-200vmax, 200vmax);
 }
-.stripe.saffron { flex: 0 0 40vh;  background: #FF9933; }
-.stripe.white   { flex: 0 0 35vh;  background: #FFFFFF; }
-.stripe.green   { flex: 0 0 40vh;  background: #138808; }
-.stripe.navy    { flex: 0 0 150vh; background: var(--primary-navy); } /* Dominant blue sweeps in last */
 
-#tricolour-sweep.sweeping {
-    /* Pure curtain wipe: takes 2.5s to move from bottom-left to top-right */
-    animation: sweep-diag 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+#tricolour-sweep.sweeping::before {
+    animation: tc-slide 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes sweep-diag {
-    0%   { transform: rotate(45deg) translateY(300vh); } /* Starts off-screen bottom-left */
-    100% { transform: rotate(45deg) translateY(-300vh); } /* Ends off-screen top-right */
+@keyframes tc-slide {
+    /* End at center: Navy (0-85%) fully covers the screen */
+    to { transform: translate(0, 0); }
 }
 
 /* Lock scroll while preloader is active */
-body.preloader-active {
-    overflow: hidden !important;
+body.preloader-active { overflow: hidden !important; }
+
+/* Navy full-screen hold (shown after sweep, before page reveal) */
+#navy-hold {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;   /* below sweep (100001) but above preloader (99999) */
+    background: #081B4B;
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+    transition: opacity 0.5s ease;
 }
 </style>
 
@@ -212,28 +239,53 @@ body.preloader-active {
           .to({}, { duration: 1.5 }); // Hold final logo
     }
 
+    var navyHold = document.getElementById('navy-hold');
+    var dismissed = false;
+
     function dismissPreloader() {
-        if(preloader.style.display === 'none') return;
-        
-        /* Step 1: Start the tricolour sweep */
+        if (dismissed) return;
+        dismissed = true;
+
+        // Stop GSAP loop
+        if (typeof gsap !== 'undefined') gsap.globalTimeline.pause();
+
+        // ─ Phase 1: Start the diagonal tricolour sweep (1.5s) ─
         sweep.classList.add('sweeping');
 
-        /* Step 2: Hide preloader behind the curtain */
+        // ─ Phase 2 (1.0s): Navy part of gradient fills screen.
+        //   Snap the navy-hold behind the sweep so there's no flicker,
+        //   then hide the preloader (which was behind everything anyway).
         setTimeout(function () {
+            navyHold.style.opacity = '1';
+            navyHold.style.pointerEvents = 'all';
             preloader.style.display = 'none';
             document.body.classList.remove('preloader-active');
-            document.body.style.background = 'var(--primary-navy)';
+        }, 1000);
+
+        // ─ Phase 3 (1.2s): Fade navy out, reveal page or redirect ─
+        //   (This leaves exactly 0.2s of solid navy before the transition)
+        setTimeout(function () {
+            var path = window.location.pathname;
+            var onHome = /\/index\.php$/.test(path) || path === '/' || path === '';
+
+            if (!onHome) {
+                // Redirect to homepage — navy stays visible during navigation
+                window.location.href = '<?php echo isset($logo_path) ? htmlspecialchars($logo_path) : ""; ?>index.php';
+            } else {
+                // Already on home — fade navy out and reveal page
+                document.getElementById('page-wrapper').classList.add('content-ready');
+                navyHold.style.opacity = '0';
+                setTimeout(function () {
+                    navyHold.style.display = 'none';
+                    navyHold.style.pointerEvents = 'none';
+                }, 550);
+            }
         }, 1200);
 
-        /* Step 3: Fade in landing page */
-        setTimeout(function () {
-            document.getElementById('page-wrapper').classList.add('content-ready');
-        }, 2500);
-
-        /* Step 4: Clean up */
+        // ─ Phase 4 (1.7s): Sweep has left the screen. Hide it to clean up DOM.
         setTimeout(function () {
             sweep.style.display = 'none';
-        }, 2800);
+        }, 1700);
     }
 
     /* Wait for page load, but guarantee min 2.5s animation */
