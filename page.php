@@ -33,6 +33,11 @@ if ($section === 'about' && $slug === 'affiliation-world-boccia') {
     exit();
 }
 
+if ($section === 'myas' && $slug === 'administrative-sanction') {
+    include __DIR__ . '/includes/administrative-sanction-page.php';
+    exit();
+}
+
 try {
     // 1. Fetch Page details from database
     $stmt = $pdo->prepare("SELECT * FROM site_pages WHERE section = ? AND slug = ? AND status = 'published' AND deleted_at IS NULL");
