@@ -257,13 +257,13 @@ body {
     top: calc(100% + 10px);
     left: 50%;
     transform: translateX(-50%) translateY(-4px);
-    background: #0d2252;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #ffffff;
+    border: 1px solid rgba(8, 27, 75, 0.08);
     border-radius: 12px;
-    min-width: 190px;
+    min-width: 220px;
     list-style: none;
-    padding: 0.45rem 0;
-    box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+    padding: 0.6rem 0;
+    box-shadow: 0 10px 30px rgba(8, 27, 75, 0.15);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
@@ -279,17 +279,40 @@ body {
 
 .npl-sub-item {
     display: block;
-    padding: 0.5rem 1.1rem;
-    color: rgba(220,228,255,0.88);
+    padding: 0.6rem 1.5rem;
+    color: #081B4B !important;
     text-decoration: none;
-    font-size: 0.84rem;
-    font-weight: 400;
-    transition: background 0.15s;
+    font-size: 0.88rem;
+    font-weight: 500;
+    position: relative;
+    transition: padding-left 0.22s cubic-bezier(0.4, 0, 0.2, 1), color 0.22s ease;
     white-space: nowrap;
 }
+
+.npl-sub-item::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 14px;
+    height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='30' r='22' fill='%230D47A1' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='30' cy='66' r='22' fill='%23FFFFFF' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='70' cy='66' r='22' fill='%23D72638' stroke='%23111' stroke-width='2'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease;
+}
+
 .npl-sub-item:hover {
-    background: rgba(255,255,255,0.09);
-    color: #fff;
+    padding-left: 2.25rem;
+    color: #FF9933 !important;
+    background: transparent;
+}
+
+.npl-sub-item:hover::before {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
 }
 
 /* ── MULTI-LEVEL DROPDOWN ── */
@@ -301,13 +324,13 @@ body {
     top: 0;
     left: 100%;
     margin-top: -6px;
-    background: #0d2252;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #ffffff;
+    border: 1px solid rgba(8, 27, 75, 0.08);
     border-radius: 12px;
-    min-width: 200px;
+    min-width: 220px;
     list-style: none;
-    padding: 0.45rem 0;
-    box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+    padding: 0.6rem 0;
+    box-shadow: 0 10px 30px rgba(8, 27, 75, 0.15);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
