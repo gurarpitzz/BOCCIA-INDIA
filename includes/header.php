@@ -352,28 +352,80 @@ body.preloader-active { overflow: hidden !important; }
                 <!-- Pill Nav Links -->
                 <nav class="nav-pill" role="navigation" aria-label="Main navigation">
                     <ul class="nav-pill-list">
-                        <li><a href="<?php echo $logo_path; ?>index.php#home"       class="npl">Home</a></li>
-                        <li><a href="<?php echo $logo_path; ?>index.php#about"      class="npl">About</a></li>
-                        <li class="npl-dropdown">
-                            <a href="#" class="npl npl-has-drop">Our Sport <span class="drop-caret">▾</span></a>
-                            <ul class="npl-submenu">
-                                <li><a href="<?php echo $logo_path; ?>index.php#discover" class="npl-sub-item">Discover Boccia</a></li>
-                                <li><a href="<?php echo $logo_path; ?>index.php#map"      class="npl-sub-item">State Participation</a></li>
-                                <li><a href="<?php echo $logo_path; ?>index.php#classify" class="npl-sub-item">Classification</a></li>
-                            </ul>
-                        </li>
-                        <li class="npl-dropdown">
-                            <a href="#" class="npl npl-has-drop">Get Involved <span class="drop-caret">▾</span></a>
-                            <ul class="npl-submenu">
-                                <li><a href="<?php echo $logo_path; ?>index.php#register" class="npl-sub-item">Register Athlete</a></li>
-                                <li><a href="<?php echo $logo_path; ?>index.php#coaches"  class="npl-sub-item">For Coaches</a></li>
-                                <li><a href="<?php echo $logo_path; ?>index.php#clubs"    class="npl-sub-item">State Clubs</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="<?php echo $logo_path; ?>index.php#competitions" class="npl">Competitions</a></li>
-                        <li><a href="<?php echo $logo_path; ?>index.php#news"         class="npl">News &amp; Media</a></li>
-                        <li><a href="<?php echo $logo_path; ?>index.php#selection"    class="npl">Selection Guidelines</a></li>
-                        <li><a href="<?php echo $logo_path; ?>index.php#contact"      class="npl">Contact Us</a></li>
+                        <?php
+                        $navItems = [];
+                        try {
+                            $parentStmt = $pdo->query("SELECT * FROM navigation_items WHERE parent_id IS NULL AND is_visible = 1 ORDER BY sort_order ASC");
+                            $parents = $parentStmt->fetchAll();
+                            foreach ($parents as $parent) {
+                                $childStmt = $pdo->prepare("SELECT * FROM navigation_items WHERE parent_id = ? AND is_visible = 1 ORDER BY sort_order ASC");
+                                $childStmt->execute([$parent['id']]);
+                                $parent['children'] = $childStmt->fetchAll();
+                                $navItems[] = $parent;
+                            }
+                        } catch (\Exception $e) {
+                            // Fail silently
+                        }
+
+                        if (!empty($navItems)):
+                            // Home is always first
+                            echo '<li><a href="' . $logo_path . 'index.php#home" class="npl">Home</a></li>';
+                            foreach ($navItems as $item):
+                                if (strtolower($item['title']) === 'home') continue;
+                                if (!empty($item['children'])):
+                        ?>
+                                    <li class="npl-dropdown">
+                                        <a href="#" class="npl npl-has-drop"><?php echo htmlspecialchars($item['title']); ?> <span class="drop-caret">▾</span></a>
+                                        <ul class="npl-submenu">
+                                            <?php foreach ($item['children'] as $child): 
+                                                if ($child['section'] === 'get-involved' && in_array($child['slug'], ['membership', 'players-database', 'officials-database'])) {
+                                                    $link = $logo_path . "get-involved/" . $child['slug'] . ".php";
+                                                } elseif ($child['section'] === 'news-media' && in_array($child['slug'], ['news', 'gallery', 'videos', 'tenders'])) {
+                                                    $link = $logo_path . "news-media/" . $child['slug'] . ".php";
+                                                } elseif ($child['section'] === 'competitions') {
+                                                    $link = $logo_path . "competitions/national-events.php";
+                                                } else {
+                                                    $link = !empty($child['slug']) ? $logo_path . "page.php?section=" . urlencode($child['section']) . "&slug=" . urlencode($child['slug']) : "#";
+                                                }
+                                            ?>
+                                                <li><a href="<?php echo $link; ?>" class="npl-sub-item"><?php echo htmlspecialchars($child['title']); ?></a></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </li>
+                        <?php
+                                else:
+                                    $link = !empty($item['slug']) ? $logo_path . "page.php?section=" . urlencode($item['section']) . "&slug=" . urlencode($item['slug']) : $logo_path . "index.php#" . $item['section'];
+                        ?>
+                                    <li><a href="<?php echo $link; ?>" class="npl"><?php echo htmlspecialchars($item['title']); ?></a></li>
+                        <?php
+                                endif;
+                            endforeach;
+                        else:
+                            // Fallback
+                        ?>
+                            <li><a href="<?php echo $logo_path; ?>index.php#home"       class="npl">Home</a></li>
+                            <li><a href="<?php echo $logo_path; ?>index.php#about"      class="npl">About</a></li>
+                            <li class="npl-dropdown">
+                                <a href="#" class="npl npl-has-drop">Our Sport <span class="drop-caret">▾</span></a>
+                                <ul class="npl-submenu">
+                                    <li><a href="<?php echo $logo_path; ?>index.php#discover" class="npl-sub-item">Discover Boccia</a></li>
+                                    <li><a href="<?php echo $logo_path; ?>index.php#map"      class="npl-sub-item">State Participation</a></li>
+                                    <li><a href="<?php echo $logo_path; ?>index.php#classify" class="npl-sub-item">Classification</a></li>
+                                </ul>
+                            </li>
+                            <li class="npl-dropdown">
+                                <a href="#" class="npl npl-has-drop">Get Involved <span class="drop-caret">▾</span></a>
+                                <ul class="npl-submenu">
+                                    <li><a href="<?php echo $logo_path; ?>index.php#register" class="npl-sub-item">Register Athlete</a></li>
+                                    <li><a href="<?php echo $logo_path; ?>index.php#coaches"  class="npl-sub-item">For Coaches</a></li>
+                                    <li><a href="<?php echo $logo_path; ?>index.php#clubs"    class="npl-sub-item">State Clubs</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="<?php echo $logo_path; ?>index.php#competitions" class="npl">Competitions</a></li>
+                            <li><a href="<?php echo $logo_path; ?>index.php#news"         class="npl">News &amp; Media</a></li>
+                            <li><a href="<?php echo $logo_path; ?>index.php#selection"    class="npl">Selection Guidelines</a></li>
+                            <li><a href="<?php echo $logo_path; ?>index.php#contact"      class="npl">Contact Us</a></li>
+                        <?php endif; ?>
                         <?php if (isLoggedIn()): ?>
                         <li><a href="<?php echo $logo_path; ?>admin/dashboard.php"    class="npl">Dashboard</a></li>
                         <?php endif; ?>

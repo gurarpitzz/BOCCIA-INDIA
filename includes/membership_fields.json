@@ -1,0 +1,142 @@
+[
+  {
+    "name": "full_name",
+    "label": "Full Name",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "gender",
+    "label": "Gender",
+    "type": "select",
+    "options": ["Male", "Female", "Other"],
+    "required": true
+  },
+  {
+    "name": "dob",
+    "label": "Date of Birth",
+    "type": "date",
+    "required": true
+  },
+  {
+    "name": "father_name",
+    "label": "Father's Name",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "mother_name",
+    "label": "Mother's Name",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "age_category",
+    "label": "Age Category",
+    "type": "select",
+    "options": ["Under 14", "Under 17", "Under 19", "Above 19"],
+    "required": true
+  },
+  {
+    "name": "state",
+    "label": "State / Union Territory",
+    "type": "select",
+    "options": [
+      "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat",
+      "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra",
+      "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
+      "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands",
+      "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh",
+      "Lakshadweep", "Puducherry"
+    ],
+    "required": true
+  },
+  {
+    "name": "impairment_type",
+    "label": "Impairment Type",
+    "type": "select",
+    "options": [
+      "Cerebral Palsy", "Muscular Dystrophy", "Multiple Sclerosis", "Spinal Muscular Atrophy", 
+      "Amyotrophic Lateral Sclerosis", "Arthrogryposis", "Severe spinal cord injuries resulting in significant impairment of limb function", 
+      "Other neurological or muscular conditions that cause substantial limitations in movement and control"
+    ],
+    "required": true
+  },
+  {
+    "name": "classification",
+    "label": "Boccia Category",
+    "type": "select",
+    "options": ["BC1", "BC2", "BC3", "BC4", "BC5"],
+    "required": true
+  },
+  {
+    "name": "wheelchair_status",
+    "label": "Do you use a Wheelchair?",
+    "type": "select",
+    "options": ["Yes", "No"],
+    "required": true
+  },
+  {
+    "name": "aadhaar",
+    "label": "Aadhaar Number",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "phone",
+    "label": "Phone Number",
+    "type": "tel",
+    "required": true
+  },
+  {
+    "name": "email",
+    "label": "Email Address",
+    "type": "email",
+    "required": true
+  },
+  {
+    "name": "address",
+    "label": "Permanent Address",
+    "type": "textarea",
+    "required": true
+  },
+  {
+    "name": "pincode",
+    "label": "Pin Code",
+    "type": "text",
+    "required": true
+  },
+  {
+    "name": "kit_tshirt",
+    "label": "Kit Size - T-Shirt",
+    "type": "select",
+    "options": ["XS", "S", "M", "L", "XL", "XXL"],
+    "required": true
+  },
+  {
+    "name": "kit_tracksuit",
+    "label": "Kit Size - Track Suit",
+    "type": "select",
+    "options": ["XS", "S", "M", "L", "XL", "XXL"],
+    "required": true
+  },
+  {
+    "name": "kit_shoe",
+    "label": "Kit Size - Shoe (UK Size)",
+    "type": "select",
+    "options": ["5", "6", "7", "8", "9", "10", "11", "12"],
+    "required": true
+  },
+  {
+    "name": "photo_path",
+    "label": "Digital Passport Size Photo (PNG/JPG)",
+    "type": "file",
+    "required": true
+  },
+  {
+    "name": "receipt_path",
+    "label": "Passport Front & Back scanned PDF",
+    "type": "file",
+    "required": true
+  }
+]
