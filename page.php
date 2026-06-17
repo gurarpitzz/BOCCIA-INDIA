@@ -38,6 +38,16 @@ if ($section === 'myas' && $slug === 'administrative-sanction') {
     exit();
 }
 
+if ($section === 'myas' && $slug === 'elections') {
+    include __DIR__ . '/includes/elections-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'minutes-of-meetings') {
+    include __DIR__ . '/includes/minutes-page.php';
+    exit();
+}
+
 try {
     // 1. Fetch Page details from database
     $stmt = $pdo->prepare("SELECT * FROM site_pages WHERE section = ? AND slug = ? AND status = 'published' AND deleted_at IS NULL");
