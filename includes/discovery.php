@@ -151,9 +151,6 @@ class ContentDiscoveryEngine {
             $insertStmt->execute([$section, $slug, $title, $content]);
             $pageId = $this->pdo->lastInsertId();
             $logs[] = "Created new page: '$title' (slug: $slug) in section '$section'";
-
-            // Create dynamic navigation link
-            $this->addNavigationLink($title, $slug, $section);
         }
 
         // Keep page version snapshot
@@ -327,98 +324,103 @@ class ContentDiscoveryEngine {
     }
 
     private function seedNavigationParents() {
-        $sections = [
-            'About' => 'about',
-            'Our Sport' => 'our-sport',
-            'Get Involved' => 'get-involved',
-            'Competitions' => 'competitions',
-            'News & Media' => 'news-media',
-            'Selection Guidelines' => 'selection-guidelines'
+        // Clear all existing navigation items first to ensure a clean, fixed slate
+        $this->pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
+        $this->pdo->exec("TRUNCATE TABLE navigation_items;");
+        $this->pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+
+        $navTree = [
+            [
+                'title' => 'About',
+                'section' => 'about',
+                'slug' => null,
+                'children' => [
+                    ['title' => 'About Boccia', 'slug' => 'about-boccia', 'section' => 'about'],
+                    ['title' => 'Board', 'slug' => 'board', 'section' => 'about'],
+                    ['title' => 'Audit Reports', 'slug' => 'audit-reports', 'section' => 'about'],
+                    ['title' => 'Affiliation With PCI', 'slug' => 'affiliation-pci', 'section' => 'about'],
+                    ['title' => 'Affiliation World Boccia', 'slug' => 'affiliation-world-boccia', 'section' => 'about'],
+                    [
+                        'title' => 'MYAS Disclosures',
+                        'slug' => 'myas-disclosures',
+                        'section' => 'about',
+                        'children' => [
+                            ['title' => 'Administrative Sanction', 'slug' => 'administrative-sanction', 'section' => 'myas'],
+                            ['title' => 'Mandatory Disclosures', 'slug' => 'mandatory-disclosures', 'section' => 'myas'],
+                            ['title' => 'Regulation Of Prevention Fraud By The Athletes', 'slug' => 'athlete-prevention', 'section' => 'myas'],
+                            ['title' => 'Elections', 'slug' => 'elections', 'section' => 'myas'],
+                            ['title' => 'Minutes Of Meetings', 'slug' => 'minutes-of-meetings', 'section' => 'myas']
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'title' => 'Our Sport',
+                'section' => 'our-sport',
+                'slug' => null,
+                'children' => [
+                    ['title' => 'Rules', 'slug' => 'rules', 'section' => 'sport'],
+                    ['title' => 'Anti-Doping', 'slug' => 'anti-doping', 'section' => 'sport'],
+                    ['title' => 'Classification', 'slug' => 'classification', 'section' => 'sport'],
+                    ['title' => 'Equipment', 'slug' => 'equipment', 'section' => 'sport']
+                ]
+            ],
+            [
+                'title' => 'Get Involved',
+                'section' => 'get-involved',
+                'slug' => null,
+                'children' => [
+                    ['title' => 'Membership', 'slug' => 'membership', 'section' => 'get-involved'],
+                    ['title' => 'Players Database 2024', 'slug' => 'players-database', 'section' => 'get-involved'],
+                    ['title' => 'Officials Database 2024', 'slug' => 'officials-database', 'section' => 'get-involved']
+                ]
+            ],
+            [
+                'title' => 'Competitions',
+                'section' => 'competitions',
+                'slug' => null,
+                'children' => [
+                    ['title' => 'National Events', 'slug' => 'national-events', 'section' => 'competitions']
+                ]
+            ],
+            [
+                'title' => 'News & Media',
+                'section' => 'news-media',
+                'slug' => null,
+                'children' => [
+                    ['title' => 'News', 'slug' => 'news', 'section' => 'news-media'],
+                    ['title' => 'Gallery', 'slug' => 'gallery', 'section' => 'news-media'],
+                    ['title' => 'Videos', 'slug' => 'videos', 'section' => 'news-media'],
+                    ['title' => 'BSFI Tender', 'slug' => 'tenders', 'section' => 'news-media']
+                ]
+            ],
+            [
+                'title' => 'Selection Guidelines',
+                'section' => 'selection-guidelines',
+                'slug' => null,
+                'children' => [
+                    ['title' => 'Selection Policy', 'slug' => 'selection-policy', 'section' => 'selection-guidelines'],
+                    ['title' => 'Boccia Asian Para Games 2026', 'slug' => 'apg-2026', 'section' => 'selection-guidelines'],
+                    ['title' => 'Selection Trials APG 2026', 'slug' => 'apg-trials-2026', 'section' => 'selection-guidelines']
+                ]
+            ]
         ];
 
-        $order = 1;
-        foreach ($sections as $title => $sec) {
-            $stmt = $this->pdo->prepare("SELECT id FROM navigation_items WHERE title = ? AND parent_id IS NULL");
-            $stmt->execute([$title]);
-            $parent = $stmt->fetch();
-            
-            if (!$parent) {
-                $ins = $this->pdo->prepare("INSERT INTO navigation_items (title, section, sort_order) VALUES (?, ?, ?)");
-                $ins->execute([$title, $sec, $order++]);
-                $parentId = $this->pdo->lastInsertId();
-            } else {
-                $parentId = $parent['id'];
-            }
-
-            // Seed specific child links for Get Involved section
-            if ($sec === 'get-involved') {
-                $children = [
-                    'Membership' => 'membership',
-                    'Players Database 2024' => 'players-database',
-                    'Officials Database 2024' => 'officials-database'
-                ];
-                $cOrder = 1;
-                foreach ($children as $cTitle => $cSlug) {
-                    $cStmt = $this->pdo->prepare("SELECT id FROM navigation_items WHERE parent_id = ? AND slug = ?");
-                    $cStmt->execute([$parentId, $cSlug]);
-                    if (!$cStmt->fetch()) {
-                        $cIns = $this->pdo->prepare("INSERT INTO navigation_items (parent_id, title, slug, section, sort_order) VALUES (?, ?, ?, ?, ?)");
-                        $cIns->execute([$parentId, $cTitle, $cSlug, 'get-involved', $cOrder++]);
-                    }
-                }
-            }
-
-            // Seed specific child links for News & Media section
-            if ($sec === 'news-media') {
-                $children = [
-                    'News' => 'news',
-                    'Gallery' => 'gallery',
-                    'Videos' => 'videos',
-                    'BSFI Tender' => 'tenders'
-                ];
-                $cOrder = 1;
-                foreach ($children as $cTitle => $cSlug) {
-                    $cStmt = $this->pdo->prepare("SELECT id FROM navigation_items WHERE parent_id = ? AND slug = ?");
-                    $cStmt->execute([$parentId, $cSlug]);
-                    if (!$cStmt->fetch()) {
-                        $cIns = $this->pdo->prepare("INSERT INTO navigation_items (parent_id, title, slug, section, sort_order) VALUES (?, ?, ?, ?, ?)");
-                        $cIns->execute([$parentId, $cTitle, $cSlug, 'news-media', $cOrder++]);
-                    }
-                }
-            }
-        }
+        $this->insertNavNodes(null, $navTree);
     }
 
-    private function addNavigationLink($title, $slug, $section) {
-        // Find parent nav item matching section
-        $parentSectionMap = [
-            'about' => 'About',
-            'myas' => 'About', // MYAS is sub of About
-            'sport' => 'Our Sport',
-            'competitions' => 'Competitions',
-            'news' => 'News & Media'
-        ];
-
-        $parentTitle = $parentSectionMap[$section] ?? 'About';
-        $stmt = $this->pdo->prepare("SELECT id FROM navigation_items WHERE title = ? AND parent_id IS NULL");
-        $stmt->execute([$parentTitle]);
-        $parent = $stmt->fetch();
-
-        if ($parent) {
-            $parentId = $parent['id'];
+    private function insertNavNodes($parentId, $nodes) {
+        $order = 1;
+        foreach ($nodes as $node) {
+            $slug = $node['slug'] ?? null;
+            $section = $node['section'] ?? null;
             
-            // Check if already in navigation
-            $chk = $this->pdo->prepare("SELECT id FROM navigation_items WHERE parent_id = ? AND slug = ?");
-            $chk->execute([$parentId, $slug]);
-            
-            if (!$chk->fetch()) {
-                // Get next sort order
-                $sortStmt = $this->pdo->prepare("SELECT COALESCE(MAX(sort_order), 0) + 1 FROM navigation_items WHERE parent_id = ?");
-                $sortStmt->execute([$parentId]);
-                $nextSort = $sortStmt->fetchColumn();
+            $stmt = $this->pdo->prepare("INSERT INTO navigation_items (parent_id, title, slug, section, sort_order) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$parentId, $node['title'], $slug, $section, $order++]);
+            $nodeId = $this->pdo->lastInsertId();
 
-                $ins = $this->pdo->prepare("INSERT INTO navigation_items (parent_id, title, slug, section, sort_order) VALUES (?, ?, ?, ?, ?)");
-                $ins->execute([$parentId, $title, $slug, $section, $nextSort]);
+            if (!empty($node['children'])) {
+                $this->insertNavNodes($nodeId, $node['children']);
             }
         }
     }

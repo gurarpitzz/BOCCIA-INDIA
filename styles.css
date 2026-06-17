@@ -292,6 +292,40 @@ body {
     color: #fff;
 }
 
+/* ── MULTI-LEVEL DROPDOWN ── */
+.npl-submenu li {
+    position: relative;
+}
+.npl-sub-submenu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    background: #0d2252;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    min-width: 200px;
+    list-style: none;
+    padding: 0.45rem 0;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+    transform: translateX(6px);
+    z-index: 2100;
+}
+.npl-sub-dropdown:hover .npl-sub-submenu,
+.npl-sub-dropdown.open  .npl-sub-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+.npl-has-sub-drop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* ── LOGIN PILL ── */
 .nav-login-wrap { flex-shrink: 0; }
 
