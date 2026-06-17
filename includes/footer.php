@@ -137,9 +137,9 @@ $script_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_
             <!-- Left Info Block -->
             <div class="footer-info">
                 <div class="footer-logos-row">
-                    <img src="logos/Full Logo World Boccia.webp" alt="World Boccia" class="footer-top-logo" onerror="this.src='../logos/Full Logo World Boccia.webp'">
                     <img src="logos/Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS" class="footer-top-logo" onerror="this.src='../logos/Ministry_of_Youth_Affairs_and_Sports.svg'">
                     <img src="boccia-india-logo.webp" alt="Boccia India" class="footer-top-logo" onerror="this.src='../boccia-india-logo.webp'">
+                    <img src="logos/Full Logo World Boccia.webp" alt="World Boccia" class="footer-top-logo" onerror="this.src='../logos/Full Logo World Boccia.webp'">
                 </div>
                 <h3 class="footer-title">Boccia Sports Federation of India</h3>
                 <p class="footer-desc">Promoting Para Boccia across India and empowering athletes with disabilities through competitive excellence, inclusion, and international representation.</p>
