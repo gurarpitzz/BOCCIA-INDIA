@@ -13,6 +13,16 @@ if (empty($section) || empty($slug)) {
     exit();
 }
 
+if ($section === 'about' && $slug === 'about-boccia') {
+    include __DIR__ . '/includes/about-boccia-page.php';
+    exit();
+}
+
+if ($section === 'about' && $slug === 'board') {
+    include __DIR__ . '/includes/board-page.php';
+    exit();
+}
+
 try {
     // 1. Fetch Page details from database
     $stmt = $pdo->prepare("SELECT * FROM site_pages WHERE section = ? AND slug = ? AND status = 'published' AND deleted_at IS NULL");

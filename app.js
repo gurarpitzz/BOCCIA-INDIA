@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.25rem;">
                                 <a href="${data.details_url}" class="btn" style="font-size:0.82rem;padding:0.55rem 1.1rem;border-radius:999px;background:#24C27A;color:#0B1B3D;font-weight:700;text-decoration:none;">View Directory</a>
                                 ${data.export_url ? `<a href="${data.export_url}" class="btn" style="font-size:0.82rem;padding:0.55rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,0.2);color:#FAF7F0;font-weight:700;text-decoration:none;">Export CSV</a>` : ''}
-                            </div>` : `<span class="map-detail-badge">● National Registry System</span>`;
+                            </div>` : `<span class="map-detail-badge">â—� National Registry System</span>`;
 
                         mapDetailsCard.innerHTML = `
                             <h4 class="map-detail-heading">${data.state}</h4>
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ----------------------------------------
-   COUNT-UP ANIMATION � Stats Bar
+   COUNT-UP ANIMATION — Stats Bar
 ---------------------------------------- */
 (function () {
     function animateCountUp(el, delay) {
@@ -348,3 +348,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.observe(statsSection);
 })();
+
+/* ----------------------------------------
+   ABOUT BOCCIA REDESIGN INTERACTIVITY
+   ---------------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Scroll Reveal System using IntersectionObserver
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // 2. Overview Content Tabs Switcher
+    const tabButtons = document.querySelectorAll('.overview-tab-btn');
+    const tabPanes = document.querySelectorAll('.overview-tab-pane');
+    
+    if (tabButtons.length > 0) {
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetTab = btn.getAttribute('data-tab');
+                
+                // Toggle active classes on buttons
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Toggle active classes on panes
+                tabPanes.forEach(pane => {
+                    if (pane.id === `tab-${targetTab}`) {
+                        pane.classList.add('active');
+                    } else {
+                        pane.classList.remove('active');
+                    }
+                });
+            });
+        });
+    }
+
+    // 3. Performance Lazy YouTube iframe loader on click
+    const lazyYTs = document.querySelectorAll('.youtube-lazy-load');
+    lazyYTs.forEach(wrapper => {
+        wrapper.addEventListener('click', () => {
+            const ytId = wrapper.getAttribute('data-youtube-id');
+            if (ytId) {
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('src', `https://www.youtube.com/embed/${ytId}?autoplay=1`);
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+                iframe.setAttribute('allowfullscreen', 'true');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.position = 'absolute';
+                iframe.style.inset = '0';
+                
+                wrapper.innerHTML = '';
+                wrapper.appendChild(iframe);
+            }
+        });
+    });
+
+    // 4. On-scroll Stats Count-up Observer for Boccia in India section
+    const statsBar = document.getElementById('india-stats-bar');
+    if (statsBar) {
+        const statNums = statsBar.querySelectorAll('.stat-num');
+        let animated = false;
+        
+        const statsObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    animated = true;
+                    observer.unobserve(statsBar);
+                    
+                    statNums.forEach(el => {
+                        const target = parseInt(el.getAttribute('data-val'), 10);
+                        const duration = 1500;
+                        const startTime = performance.now();
+                        
+                        function count(now) {
+                            const elapsed = now - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const current = Math.floor(progress * target);
+                            el.textContent = current;
+                            if (progress < 1) {
+                                requestAnimationFrame(count);
+                            } else {
+                                el.textContent = target;
+                            }
+                        }
+                        requestAnimationFrame(count);
+                    });
+                }
+            });
+        }, { threshold: 0.25 });
+        
+        statsObserver.observe(statsBar);
+    }
+});

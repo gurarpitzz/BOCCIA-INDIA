@@ -2,6 +2,11 @@
 // footer.php - Layout Footer with Quick Links and scripts
 $script_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/import/') !== false ? '../app.js' : 'app.js';
 ?>
+    <?php
+    // Only show Recognitions & Affiliations and Strategic Partners on the Home Page
+    $is_home_page = (basename($_SERVER['SCRIPT_NAME']) === 'index.php');
+    if ($is_home_page):
+    ?>
     <!-- ══ RECOGNITIONS & AFFILIATIONS ══ -->
     <section class="affiliations-section" id="affiliations" style="background: #081B4B !important;">
         <div class="container">
@@ -130,6 +135,7 @@ $script_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_
 
         </div>
     </section>
+    <?php endif; ?>
 
     <!-- Footer -->
     <footer class="main-footer" id="contact-bottom">
