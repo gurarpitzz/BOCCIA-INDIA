@@ -27,15 +27,32 @@ include __DIR__ . '/header.php';
             
             <!-- Intro Content Block -->
             <div class="row mb-5">
-                <div class="col-lg-8 mx-auto text-center">
-                    <span class="sub-label" style="letter-spacing: 0.1em; text-transform: uppercase; color: #FF9933; font-weight: 700;">Game Objectives</span>
-                    <h2 class="board-subtitle my-3" style="color: #081B4B !important; font-size: 2.2rem; font-weight: 700;">How to Play Boccia</h2>
-                    <p class="lead text-secondary" style="line-height: 1.8; font-size: 1.15rem;">
-                        Boccia is a target sport that is suitable for a wide range of participants. It can be played by individuals, pairs, or teams of three, and all events are unaffected by age or gender.
-                    </p>
-                    <p class="text-secondary mt-3" style="line-height: 1.8; font-size: 1.05rem;">
-                        The aim is to throw leather balls, coloured either red or blue (which side gets which is determined by a coin toss), as close as you can to a white target ball, or jack. The balls can be thrown, kicked, or athletes can use an assistive device such as a ramp.
-                    </p>
+                <div class="col-lg-10 mx-auto">
+                    <div class="card border-0 shadow-sm rounded-4 p-5 bg-white" style="border-top: 5px solid #081B4B !important;">
+                        <div class="text-center mb-4">
+                            <span class="sub-label" style="letter-spacing: 0.15em; text-transform: uppercase; color: #FF9933; font-weight: 700; font-size: 0.9rem;">Game Objectives</span>
+                            <h2 class="board-subtitle my-2" style="color: #081B4B !important; font-size: 2.4rem; font-weight: 800; font-family: var(--font-heading);">How to Play Boccia</h2>
+                        </div>
+                        
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-6">
+                                <div class="p-4 rounded-4" style="background: #F8FAFC; border-left: 4px solid #FF9933; height: 100%;">
+                                    <h4 class="fw-bold mb-3" style="color: #081B4B; font-size: 1.25rem;">Inclusive Target Sport</h4>
+                                    <p class="text-dark mb-0" style="line-height: 1.8; font-size: 1.05rem; color: #1E293B !important;">
+                                        Boccia is a precision target sport designed specifically for athletes with physical impairments. It is highly inclusive, played by individuals, pairs, or teams of three, and all events are entirely unaffected by age or gender.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-4 rounded-4" style="background: #F8FAFC; border-left: 4px solid #081B4B; height: 100%;">
+                                    <h4 class="fw-bold mb-3" style="color: #081B4B; font-size: 1.25rem;">Core Gameplay &amp; Objective</h4>
+                                    <p class="text-dark mb-0" style="line-height: 1.8; font-size: 1.05rem; color: #1E293B !important;">
+                                        The objective is to throw leather balls, colored either red or blue (determined by a coin toss), as close as possible to the white target ball, known as the jack. Balls can be thrown, kicked, or launched using assistive ramps.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
