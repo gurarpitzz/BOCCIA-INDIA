@@ -37,8 +37,8 @@ body {
 
 /* --- Hero Section --- */
 .our-sport-hero {
-    background: transparent;
-    color: var(--boccia-navy);
+    background: linear-gradient(90deg, #051336 0%, rgba(5, 19, 54, 0.92) 40%, rgba(16, 185, 129, 0.18) 75%, transparent 100%);
+    color: #ffffff;
     padding: 80px 0 60px 0;
     position: relative;
     overflow: hidden;
@@ -49,7 +49,7 @@ body {
     font-weight: 700;
     font-size: 1.8rem;
     font-style: italic;
-    color: var(--boccia-saffron);
+    color: #10B981; /* Vibrant Green */
     text-transform: none;
     letter-spacing: 0.02em;
 }
@@ -58,7 +58,7 @@ body {
     font-family: var(--font-heading-main);
     font-size: 4rem;
     font-weight: 800;
-    color: var(--boccia-navy);
+    color: #ffffff; /* White title */
     margin-top: 10px;
     margin-bottom: 20px;
 }
@@ -66,12 +66,13 @@ body {
 .hero-title span {
     font-weight: 400;
     font-style: italic;
+    color: #10B981 !important; /* Green Accent */
 }
 
 .hero-desc {
     font-size: 1.25rem;
     line-height: 1.8;
-    color: #0f172a; /* Crisp dark slate for high contrast */
+    color: rgba(255, 255, 255, 0.9); /* High-contrast white/light gray */
     font-weight: 500;
     max-width: 500px;
     margin-bottom: 40px;
@@ -81,7 +82,7 @@ body {
     position: relative;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
 }
 
 .hero-img-wrapper img {
@@ -100,13 +101,13 @@ body {
 }
 
 .quick-nav-card {
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(8, 27, 75, 0.12);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 20px 10px;
     text-align: center;
-    color: var(--boccia-navy);
+    color: #ffffff;
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -117,7 +118,7 @@ body {
 
 .quick-nav-card i {
     font-size: 1.8rem;
-    color: var(--boccia-saffron);
+    color: #10B981; /* Green Icons */
     margin-bottom: 12px;
     transition: transform 0.3s ease;
 }
@@ -132,11 +133,11 @@ body {
 }
 
 .quick-nav-card:hover {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: var(--boccia-saffron);
-    color: var(--boccia-navy);
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #10B981;
+    color: #ffffff;
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(8, 27, 75, 0.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .quick-nav-card:hover i {
