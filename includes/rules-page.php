@@ -1226,67 +1226,70 @@ body {
         </div>
     </section>
 
-    <!-- ═══════════ SECTION 5: OFFICIAL DOCUMENTS & INTERACTIVE COURT DIAGRAM ═══════════ -->
-    <section id="documents" class="rules-section">
+    <!-- ═══════════ SECTION 5: OFFICIAL DOCUMENTS ═══════════ -->
+    <section id="documents" class="rules-section border-bottom">
         <div class="container">
-            <div class="split-grid">
-                <!-- Left: Official Documents -->
-                <div>
-                    <h3 class="section-divider-title text-start mb-4" style="justify-content: flex-start;">5. Official Documents</h3>
-                    <div class="doc-row-layout">
-                        <!-- Anti Doping -->
-                        <div class="doc-download-card">
-                            <i class="bi bi-shield-fill-check main-icon" style="color: #EF4444;"></i>
-                            <h4>Anti-Doping (WADA)</h4>
-                            <p class="doc-subtext">WADA Anti-Doping Code and International Standards.</p>
-                            <div class="doc-meta">
-                                <span>PDF • 1.2 MB</span>
-                                <span>Updated: 01 May 2026</span>
-                            </div>
-                            <div class="doc-actions">
-                                <a href="https://www.worldboccia.com/documents/#AntiDopingDoc" target="_blank" class="btn-doc-view">View Online</a>
-                                <a href="https://www.worldboccia.com/documents/#AntiDopingDoc" download class="btn-doc-dl">Download</a>
-                            </div>
-                        </div>
-
-                        <!-- Classification -->
-                        <div class="doc-download-card">
-                            <i class="bi bi-person-badge-fill main-icon" style="color: #3B82F6;"></i>
-                            <h4>Athlete Classification</h4>
-                            <p class="doc-subtext">Medical and functional classification rules and procedures.</p>
-                            <div class="doc-meta">
-                                <span>PDF • 2.4 MB</span>
-                                <span>Updated: 15 Apr 2026</span>
-                            </div>
-                            <div class="doc-actions">
-                                <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-doc-view">View Online</a>
-                                <a href="https://www.worldboccia.com/documents/#ClassificationDoc" download class="btn-doc-dl">Download</a>
-                            </div>
-                        </div>
-
-                        <!-- Equipment -->
-                        <div class="doc-download-card">
-                            <i class="bi bi-rulers main-icon" style="color: #10B981;"></i>
-                            <h4>Equipment Guidelines</h4>
-                            <p class="doc-subtext">Official equipment standards and testing procedures.</p>
-                            <div class="doc-meta">
-                                <span>PDF • 1.8 MB</span>
-                                <span>Updated: 10 Apr 2026</span>
-                            </div>
-                            <div class="doc-actions">
-                                <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-doc-view">View Online</a>
-                                <a href="uploads/documents/World-Boccia-Rules-2025-2028-v1.2.1-2.pdf" download class="btn-doc-dl">Download</a>
-                            </div>
-                        </div>
+            <h3 class="section-divider-title">5. Official Documents</h3>
+            <div class="doc-row-layout">
+                <!-- Anti Doping -->
+                <div class="doc-download-card">
+                    <i class="bi bi-shield-fill-check main-icon" style="color: #EF4444;"></i>
+                    <h4>Anti-Doping (WADA)</h4>
+                    <p class="doc-subtext">WADA Anti-Doping Code and International Standards.</p>
+                    <div class="doc-meta">
+                        <span>PDF • 1.2 MB</span>
+                        <span>Updated: 01 May 2026</span>
                     </div>
-                    <div class="mt-4">
-                        <a href="https://www.worldboccia.com/documents/" target="_blank" class="btn btn-outline-primary w-100 py-3 rounded-pill fw-bold" style="border: 2px solid var(--boccia-navy); color: var(--boccia-navy);">View All Documents</a>
+                    <div class="doc-actions">
+                        <a href="https://www.worldboccia.com/documents/#AntiDopingDoc" target="_blank" class="btn-doc-view">View Online</a>
+                        <a href="https://www.worldboccia.com/documents/#AntiDopingDoc" download class="btn-doc-dl">Download</a>
                     </div>
                 </div>
 
-                <!-- Right: Interactive Court Diagram -->
-                <div>
-                    <h3 class="section-divider-title text-start mb-4" style="justify-content: flex-start;">6. Interactive Court Diagram</h3>
+                <!-- Classification -->
+                <div class="doc-download-card">
+                    <i class="bi bi-person-badge-fill main-icon" style="color: #3B82F6;"></i>
+                    <h4>Athlete Classification</h4>
+                    <p class="doc-subtext">Medical and functional classification rules and procedures.</p>
+                    <div class="doc-meta">
+                        <span>PDF • 2.4 MB</span>
+                        <span>Updated: 15 Apr 2026</span>
+                    </div>
+                    <div class="doc-actions">
+                        <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-doc-view">View Online</a>
+                        <a href="https://www.worldboccia.com/documents/#ClassificationDoc" download class="btn-doc-dl">Download</a>
+                    </div>
+                </div>
+
+                <!-- Equipment -->
+                <div class="doc-download-card">
+                    <i class="bi bi-rulers main-icon" style="color: #10B981;"></i>
+                    <h4>Equipment Guidelines</h4>
+                    <p class="doc-subtext">Official equipment standards and testing procedures.</p>
+                    <div class="doc-meta">
+                        <span>PDF • 1.8 MB</span>
+                        <span>Updated: 10 Apr 2026</span>
+                    </div>
+                    <div class="doc-actions">
+                        <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-doc-view">View Online</a>
+                        <a href="uploads/documents/World-Boccia-Rules-2025-2028-v1.2.1-2.pdf" download class="btn-doc-dl">Download</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 text-center">
+                <a href="https://www.worldboccia.com/documents/" target="_blank" class="btn btn-outline-primary px-5 py-3 rounded-pill fw-bold" style="border: 2px solid var(--boccia-navy); color: var(--boccia-navy); max-width: 320px; display: inline-block;">View All Documents</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ SECTION 6: INTERACTIVE COURT DIAGRAM ═══════════ -->
+    <section id="court-diagram" class="rules-section">
+        <div class="container">
+            <h3 class="section-divider-title">6. Interactive Court Diagram</h3>
+            
+            <div class="row align-items-center g-5">
+                <!-- Left: SVG Diagram -->
+                <div class="col-lg-6">
                     <div class="interactive-court-container">
                         <div class="court-svg-holder">
                             <!-- Court Overhead Top-Down View SVG with Hotspots -->
@@ -1335,7 +1338,12 @@ body {
                             </svg>
                             <div class="tooltip-custom" id="courtTooltip">Tooltip</div>
                         </div>
+                    </div>
+                </div>
 
+                <!-- Right: Descriptions list -->
+                <div class="col-lg-6">
+                    <div class="interactive-court-container">
                         <ul class="court-info-list" id="courtInfoList">
                             <li class="court-info-item active" data-index="0">
                                 <div class="court-marker-dot">1</div>
