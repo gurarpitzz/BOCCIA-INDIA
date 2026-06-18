@@ -262,6 +262,18 @@ body {
     }
 }
 
+/* Staggered entrance animation for step cards */
+@keyframes fadeInUpStaggered {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .step-card {
     background: var(--boccia-card-bg);
     border-radius: 16px;
@@ -270,12 +282,22 @@ body {
     border: 1px solid rgba(8, 27, 75, 0.05);
     box-shadow: 0 8px 24px rgba(8, 27, 75, 0.02);
     position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s;
+    opacity: 0;
+    animation: fadeInUpStaggered 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
 }
 
+/* Delay for each card */
+.step-card:nth-child(1) { animation-delay: 0.1s; }
+.step-card:nth-child(2) { animation-delay: 0.25s; }
+.step-card:nth-child(3) { animation-delay: 0.4s; }
+.step-card:nth-child(4) { animation-delay: 0.55s; }
+.step-card:nth-child(5) { animation-delay: 0.7s; }
+
 .step-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(8, 27, 75, 0.06);
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(8, 27, 75, 0.08), 0 0 15px rgba(255, 153, 51, 0.15);
+    border-color: rgba(255, 153, 51, 0.3);
 }
 
 .step-badge {
@@ -295,6 +317,20 @@ body {
     justify-content: center;
     border: 2px solid #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.step-card:hover .step-badge {
+    background: var(--boccia-saffron);
+    transform: translateX(-50%) scale(1.15);
+    box-shadow: 0 0 0 5px rgba(255, 153, 51, 0.2);
+}
+
+@keyframes iconWobble {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg) scale(1.15); }
+    75% { transform: rotate(8deg) scale(1.15); }
+    100% { transform: rotate(0deg); }
 }
 
 .step-icon {
@@ -303,6 +339,11 @@ body {
     margin-top: 10px;
     margin-bottom: 20px;
     display: inline-block;
+    transition: transform 0.3s;
+}
+
+.step-card:hover .step-icon {
+    animation: iconWobble 0.5s ease-in-out;
 }
 
 .step-card:nth-child(even) .step-icon {
