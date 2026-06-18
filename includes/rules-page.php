@@ -1149,11 +1149,13 @@ body {
                 </div>
             </div>
             
-            <div class="text-center mt-4">
-                <p class="text-muted small mb-3"><i class="bi bi-info-circle"></i> Classification is based on functional ability and reviewed periodically to ensure fair competition.</p>
-                <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="text-primary fw-bold text-decoration-none d-inline-flex align-items-center gap-1">
-                    View Classification Guidelines <i class="bi bi-arrow-right"></i>
-                </a>
+            <div class="text-center mt-5">
+                <div style="background: rgba(255, 255, 255, 0.85); display: inline-block; padding: 20px 40px; border-radius: 50px; border: 1px solid rgba(8, 27, 75, 0.08); box-shadow: 0 10px 25px rgba(8, 27, 75, 0.03); backdrop-filter: blur(5px);">
+                    <p class="mb-2" style="font-size: 1rem; color: #1E293B; font-weight: 600; line-height: 1.5;"><i class="bi bi-info-circle" style="color: var(--boccia-navy); margin-right: 5px;"></i> Classification is based on functional ability and reviewed periodically to ensure fair competition.</p>
+                    <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="fw-bold text-decoration-none d-inline-flex align-items-center gap-1" style="color: var(--boccia-navy); font-size: 1.05rem;">
+                        View Classification Guidelines <i class="bi bi-arrow-right-short" style="font-size: 1.2rem;"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
