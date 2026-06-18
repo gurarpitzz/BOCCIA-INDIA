@@ -28,14 +28,16 @@ include __DIR__ . '/header.php';
 }
 
 body {
-    background-color: var(--boccia-light);
+    background: url('board/board bg.png') no-repeat center top;
+    background-size: 100% 100%;
+    background-attachment: scroll;
     color: var(--boccia-text-dark);
     font-family: var(--font-body-custom);
 }
 
 /* --- Hero Section --- */
 .our-sport-hero {
-    background: linear-gradient(135deg, #051336 0%, #0d235c 50%, #153582 100%);
+    background: transparent;
     color: #ffffff;
     padding: 80px 0 60px 0;
     position: relative;
@@ -858,9 +860,8 @@ body {
                 </div>
                 
                 <div class="col-lg-6">
-                    <div class="hero-img-wrapper">
-                        <!-- Using background hero image as default if board bg exists, otherwise standard logo/fallback -->
-                        <img src="board/board bg.png" onerror="this.src='gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg'" alt="Para Boccia Athlete throwing ball">
+                    <div class="hero-img-wrapper" style="box-shadow: 0 15px 35px rgba(0,0,0,0.2); border-radius: 20px; overflow: hidden; border: 4px solid rgba(255,255,255,0.15);">
+                        <img src="gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg" alt="Para Boccia Athlete throwing ball" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
             </div>
