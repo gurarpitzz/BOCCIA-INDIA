@@ -475,11 +475,6 @@ body {
     color: #ffffff;
 }
 
-/* --- Section 4: Equipment Standards --- */
-#equipment {
-    background: url('about boccia/overview bg.png') no-repeat center center;
-    background-size: cover;
-}
 
 .equipment-grid {
     display: grid;
