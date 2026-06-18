@@ -29,8 +29,8 @@ include __DIR__ . '/header.php';
 
 body {
     background: url('board/board bg.png') no-repeat center top;
-    background-size: 100% 100%;
-    background-attachment: scroll;
+    background-size: 100% auto;
+    background-color: #FAF8F5;
     color: var(--boccia-text-dark);
     font-family: var(--font-body-custom);
 }
