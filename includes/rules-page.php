@@ -578,6 +578,11 @@ body {
     }
 }
 
+#documents {
+    background: url('about boccia/NATIONAL IMPRINT bg.png') no-repeat center center;
+    background-size: cover;
+}
+
 /* Documents Column */
 .doc-row-layout {
     display: grid;
