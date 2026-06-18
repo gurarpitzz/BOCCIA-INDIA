@@ -476,6 +476,11 @@ body {
 }
 
 /* --- Section 4: Equipment Standards --- */
+#equipment {
+    background: url('about boccia/overview bg.png') no-repeat center center;
+    background-size: cover;
+}
+
 .equipment-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -494,28 +499,32 @@ body {
 }
 
 .equip-card {
-    background: var(--boccia-card-bg);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(8, 27, 75, 0.05);
+    border: 1px solid rgba(8, 27, 75, 0.08);
     box-shadow: 0 8px 24px rgba(8, 27, 75, 0.02);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .equip-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(8, 27, 75, 0.08);
 }
 
-.equip-img {
-    height: 160px;
-    overflow: hidden;
-    background: #EAEFF8;
+.equip-icon-header {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    border-bottom: 1px solid rgba(8, 27, 75, 0.05);
+    transition: transform 0.3s ease;
 }
 
-.equip-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.equip-card:hover .equip-icon-header {
+    transform: scale(1.05);
 }
 
 .equip-body {
@@ -1161,15 +1170,15 @@ body {
     </section>
 
     <!-- ═══════════ SECTION 4: EQUIPMENT STANDARDS ═══════════ -->
-    <section id="equipment" class="rules-section bg-white border-top border-bottom">
+    <section id="equipment" class="rules-section border-top border-bottom">
         <div class="container">
             <h3 class="section-divider-title">4. Equipment Standards</h3>
             
             <div class="equipment-grid">
                 <!-- Competition Balls -->
                 <div class="equip-card">
-                    <div class="equip-img">
-                        <img src="gallery/sports_equipment.png" onerror="this.src='gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg'" alt="Competition Balls">
+                    <div class="equip-icon-header" style="background: #EFF6FF; color: #3B82F6;">
+                        <i class="bi bi-circle-fill" style="text-shadow: 15px 15px 0px #EF4444;"></i>
                     </div>
                     <div class="equip-body">
                         <h4>Competition Balls</h4>
@@ -1180,9 +1189,8 @@ body {
 
                 <!-- Ramps -->
                 <div class="equip-card">
-                    <div class="equip-img">
-                        <!-- Placeholder ramp/balls image -->
-                        <img src="gallery/sports_equipment.png" onerror="this.src='gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg'" alt="Boccia Ramps">
+                    <div class="equip-icon-header" style="background: #FFF7ED; color: #F97316;">
+                        <i class="bi bi-chevron-double-down"></i>
                     </div>
                     <div class="equip-body">
                         <h4>Ramps</h4>
@@ -1193,8 +1201,8 @@ body {
 
                 <!-- Court Specifications -->
                 <div class="equip-card">
-                    <div class="equip-img">
-                        <img src="gallery/sports_equipment.png" onerror="this.src='gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg'" alt="Boccia Court">
+                    <div class="equip-icon-header" style="background: #F0FDF4; color: #22C55E;">
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
                     </div>
                     <div class="equip-body">
                         <h4>Court Specs</h4>
@@ -1205,8 +1213,8 @@ body {
 
                 <!-- Measuring Tools -->
                 <div class="equip-card">
-                    <div class="equip-img">
-                        <img src="gallery/sports_equipment.png" onerror="this.src='gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg'" alt="Measuring Tools">
+                    <div class="equip-icon-header" style="background: #FAF5FF; color: #A855F7;">
+                        <i class="bi bi-rulers"></i>
                     </div>
                     <div class="equip-body">
                         <h4>Measuring Tools</h4>
