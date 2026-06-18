@@ -55,7 +55,8 @@ include __DIR__ . '/header.php';
                             </p>
                             <div class="mt-3">
                                 <a href="http://www.bisfed.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary fw-bold rounded-pill me-2" style="border-color: #081B4B; color: #081B4B;">Visit BISFed.com</a>
-                                <a href="uploads/documents/BISFed_Ball.pdf" download class="btn btn-sm btn-primary-navy fw-bold rounded-pill" style="background: #081B4B; color: #ffffff;">Download Ball Licensing PDF</a>
+                                <a href="uploads/documents/BISFed_Ball.pdf" download class="btn btn-sm btn-primary-navy fw-bold rounded-pill me-2" style="background: #081B4B; color: #ffffff;">Download Ball Licensing PDF</a>
+                                <a href="uploads/documents/World-Boccia-Rules-2025-2028-v1.2.1-2.pdf" download class="btn btn-sm btn-primary-navy fw-bold rounded-pill" style="background: #FF9933; border-color: #FF9933; color: #ffffff;">Download World Boccia Rules (PDF)</a>
                             </div>
                         </div>
                     </div>
@@ -71,10 +72,13 @@ include __DIR__ . '/header.php';
 
                 <!-- WADA card -->
                 <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 rounded-4" style="background: #ffffff; transition: transform 0.2s;">
+                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden" style="background: #ffffff; transition: transform 0.2s;">
+                        <div style="height: 180px; overflow: hidden; position: relative;">
+                            <img src="gallery/anti_doping.png" alt="WADA Anti-Doping" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div class="card-body p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="badge bg-danger text-white mb-3 text-uppercase fw-bold" style="font-size: 0.75rem; background: #E74C3C !important;">Anti-Doping</span>
+                                <span class="badge bg-danger text-white mb-2 text-uppercase fw-bold" style="font-size: 0.75rem; background: #E74C3C !important;">Anti-Doping</span>
                                 <h4 class="card-title fw-bold text-dark mb-3" style="font-size: 1.25rem;">WADA Regulations</h4>
                                 <p class="card-text text-secondary mb-4" style="font-size: 0.9rem; line-height: 1.6;">All documents are mandatory for World Anti-Doping Agency (WADA) compliance and regulations.</p>
                             </div>
@@ -87,10 +91,13 @@ include __DIR__ . '/header.php';
 
                 <!-- Classification card -->
                 <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 rounded-4" style="background: #ffffff; transition: transform 0.2s;">
+                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden" style="background: #ffffff; transition: transform 0.2s;">
+                        <div style="height: 180px; overflow: hidden; position: relative;">
+                            <img src="gallery/classification.png" alt="Athlete Classification" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div class="card-body p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="badge bg-info text-white mb-3 text-uppercase fw-bold" style="font-size: 0.75rem; background: #3498DB !important;">Classification</span>
+                                <span class="badge bg-info text-white mb-2 text-uppercase fw-bold" style="font-size: 0.75rem; background: #3498DB !important;">Classification</span>
                                 <h4 class="card-title fw-bold text-dark mb-3" style="font-size: 1.25rem;">Athlete Classification</h4>
                                 <p class="card-text text-secondary mb-4" style="font-size: 0.9rem; line-height: 1.6;">All documents are mandatory for Para Boccia athlete medical and functional classifications.</p>
                             </div>
@@ -103,10 +110,13 @@ include __DIR__ . '/header.php';
 
                 <!-- Equipment Guideline card -->
                 <div class="col-md-6 col-lg-4 mx-auto">
-                    <div class="card h-100 shadow-sm border-0 rounded-4" style="background: #ffffff; transition: transform 0.2s;">
+                    <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden" style="background: #ffffff; transition: transform 0.2s;">
+                        <div style="height: 180px; overflow: hidden; position: relative;">
+                            <img src="gallery/sports_equipment.png" alt="Equipment Guidelines" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div class="card-body p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="badge bg-success text-white mb-3 text-uppercase fw-bold" style="font-size: 0.75rem; background: #2ECC71 !important;">Equipment</span>
+                                <span class="badge bg-success text-white mb-2 text-uppercase fw-bold" style="font-size: 0.75rem; background: #2ECC71 !important;">Equipment</span>
                                 <h4 class="card-title fw-bold text-dark mb-3" style="font-size: 1.25rem;">Equipment Guidelines</h4>
                                 <p class="card-text text-secondary mb-4" style="font-size: 0.9rem; line-height: 1.6;">Official measurements, testing, and standard configurations allowed for competition ramps and balls.</p>
                             </div>
