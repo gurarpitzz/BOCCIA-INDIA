@@ -38,6 +38,21 @@ if ($section === 'myas' && $slug === 'administrative-sanction') {
     exit();
 }
 
+if ($section === 'myas' && $slug === 'financial-sanctions') {
+    include __DIR__ . '/includes/financial-sanctions-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'mandatory-disclosures') {
+    include __DIR__ . '/includes/mandatory-disclosures-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'athlete-prevention') {
+    include __DIR__ . '/includes/athlete-prevention-page.php';
+    exit();
+}
+
 if ($section === 'myas' && $slug === 'elections') {
     include __DIR__ . '/includes/elections-page.php';
     exit();

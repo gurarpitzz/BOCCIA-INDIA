@@ -345,6 +345,7 @@ class ContentDiscoveryEngine {
                         'section' => 'about',
                         'children' => [
                             ['title' => 'Administrative Sanction', 'slug' => 'administrative-sanction', 'section' => 'myas'],
+                            ['title' => 'Financial Sanctions', 'slug' => 'financial-sanctions', 'section' => 'myas'],
                             ['title' => 'Mandatory Disclosures', 'slug' => 'mandatory-disclosures', 'section' => 'myas'],
                             ['title' => 'Regulation Of Prevention Fraud By The Athletes', 'slug' => 'athlete-prevention', 'section' => 'myas'],
                             ['title' => 'Elections', 'slug' => 'elections', 'section' => 'myas'],
