@@ -68,9 +68,10 @@ body {
 }
 
 .hero-desc {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: var(--boccia-text-muted);
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: #0f172a; /* Crisp dark slate for high contrast */
+    font-weight: 500;
     max-width: 500px;
     margin-bottom: 40px;
 }
