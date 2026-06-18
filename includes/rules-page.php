@@ -689,6 +689,11 @@ body {
     color: #ffffff;
 }
 
+#court-diagram {
+    background: url('bg.png') no-repeat center center;
+    background-size: cover;
+}
+
 /* Court Interactive */
 .interactive-court-container {
     background: var(--boccia-card-bg);
