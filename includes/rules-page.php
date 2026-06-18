@@ -10,7 +10,7 @@ include __DIR__ . '/header.php';
 <!-- Add Google Fonts and Bootstrap Icons -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 <style>
@@ -45,12 +45,13 @@ body {
 }
 
 .hero-eyebrow {
-    font-family: var(--font-heading-sub);
+    font-family: 'Dancing Script', cursive;
     font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.15em;
+    font-size: 1.8rem;
+    font-style: italic;
     color: var(--boccia-saffron);
-    text-transform: uppercase;
+    text-transform: none;
+    letter-spacing: 0.02em;
 }
 
 .hero-title {
@@ -837,7 +838,7 @@ body {
         <div class="container">
             <div class="row align-items-center g-5">
                 <div class="col-lg-6">
-                    <span class="hero-eyebrow">Boccia India</span>
+                    <span class="hero-eyebrow"><i>--Boccia India--</i></span>
                     <h1 class="hero-title">Our <span>Sport</span></h1>
                     <p class="hero-desc">Discover the rules, classifications, equipment standards, and competitive structure of Para Boccia.</p>
                     
