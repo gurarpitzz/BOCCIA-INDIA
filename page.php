@@ -53,6 +53,11 @@ if ($section === 'myas' && $slug === 'athlete-prevention') {
     exit();
 }
 
+if ($section === 'sport' && $slug === 'rules') {
+    include __DIR__ . '/includes/rules-page.php';
+    exit();
+}
+
 if ($section === 'myas' && $slug === 'elections') {
     include __DIR__ . '/includes/elections-page.php';
     exit();
