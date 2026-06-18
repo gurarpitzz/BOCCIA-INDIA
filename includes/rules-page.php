@@ -38,7 +38,7 @@ body {
 /* --- Hero Section --- */
 .our-sport-hero {
     background: transparent;
-    color: #ffffff;
+    color: var(--boccia-navy);
     padding: 80px 0 60px 0;
     position: relative;
     overflow: hidden;
@@ -57,7 +57,7 @@ body {
     font-family: var(--font-heading-main);
     font-size: 4rem;
     font-weight: 800;
-    color: #ffffff;
+    color: var(--boccia-navy);
     margin-top: 10px;
     margin-bottom: 20px;
 }
@@ -70,7 +70,7 @@ body {
 .hero-desc {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--boccia-text-muted);
     max-width: 500px;
     margin-bottom: 40px;
 }
@@ -79,7 +79,7 @@ body {
     position: relative;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .hero-img-wrapper img {
@@ -98,13 +98,13 @@ body {
 }
 
 .quick-nav-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(8, 27, 75, 0.12);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 20px 10px;
     text-align: center;
-    color: #ffffff;
+    color: var(--boccia-navy);
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -130,10 +130,11 @@ body {
 }
 
 .quick-nav-card:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.9);
     border-color: var(--boccia-saffron);
-    color: #ffffff;
+    color: var(--boccia-navy);
     transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(8, 27, 75, 0.05);
 }
 
 .quick-nav-card:hover i {
