@@ -475,6 +475,10 @@ body {
     color: #ffffff;
 }
 
+/* --- Section 4: Equipment Standards --- */
+#equipment {
+    background-color: #FFFFFF;
+}
 
 .equipment-grid {
     display: grid;
