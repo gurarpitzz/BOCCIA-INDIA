@@ -431,7 +431,7 @@ include __DIR__ . '/../includes/header.php';
 }
 </style>
 
-<div class="outer-registration-bg">
+<div class="registration-container-section">
     <div class="container registration-grid-container">
         <div class="row">
             <!-- Form aligned to the Left (col-lg-7) -->
