@@ -33,7 +33,7 @@ body.admin-body::before {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: url('../../bg%20schedule.png') no-repeat center center;
+    background: url('../../../bg%20schedule.png') no-repeat center center;
     background-size: cover;
     filter: blur(6px);
     transform: scale(1.06); /* compensate for blur edge bleed */
