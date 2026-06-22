@@ -390,7 +390,7 @@ body.preloader-active { overflow: hidden !important; }
                                 } else {
                                     if ($item['section'] === 'get-involved' && in_array($item['slug'], ['membership', 'players-database', 'officials-database'])) {
                                          $link = $logo_path . "get-involved/" . $item['slug'] . ".php";
-                                    } elseif ($item['section'] === 'news-media' && in_array($item['slug'], ['news', 'gallery', 'videos', 'tenders'])) {
+                                    } elseif ($item['section'] === 'news-media' && in_array($item['slug'], ['news', 'gallery', 'videos'])) {
                                          if ($item['slug'] === 'news') {
                                              $link = $logo_path . "index.php#official-federation-updates";
                                          } elseif ($item['slug'] === 'gallery') {

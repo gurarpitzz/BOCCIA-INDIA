@@ -12,6 +12,53 @@ if (empty($section) || empty($slug)) {
     header("Location: index.php");
     exit();
 }
+try {
+    $docPageStmt = $pdo->prepare("SELECT * FROM document_pages WHERE slug = ? AND is_published = 1");
+    $docPageStmt->execute([$slug]);
+    $docPage = $docPageStmt->fetch();
+    
+    if ($docPage) {
+        $page_title = $docPage['title'] . " | " . $docPage['subtitle'] . " - Boccia India";
+        $meta_desc = $docPage['description'] ?? "Official document registry of Boccia Sports Federation of India.";
+        $canonical_url = "page.php?section=" . urlencode($section) . "&slug=" . urlencode($slug);
+        
+        include __DIR__ . '/includes/header.php';
+        require_once __DIR__ . '/includes/document_renderer.php';
+        
+        $heroBg = !empty($docPage['hero_image']) ? $docPage['hero_image'] : 'board/board%20bg.png';
+        ?>
+        <div class="board-page-wrapper">
+            <!-- Hero Section -->
+            <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.92) 0%, rgba(7, 25, 84, 0.82) 35%, rgba(7, 25, 84, 0.55) 55%, rgba(7, 25, 84, 0.15) 75%, transparent 100%), url('<?php echo htmlspecialchars($heroBg); ?>');">
+                <div class="container board-hero-container">
+                    <div class="board-hero-content scroll-reveal">
+                        <span class="board-hero-eyebrow">-- <?php echo htmlspecialchars($docPage['subtitle']); ?> --</span>
+                        <h1 class="board-hero-title"><?php echo htmlspecialchars($docPage['title']); ?></h1>
+                        <?php if (!empty($docPage['description'])): ?>
+                            <p class="board-hero-text">
+                                <?php echo htmlspecialchars($docPage['description']); ?>
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Document Section -->
+            <section class="board-section">
+                <div class="container">
+                    <div class="scroll-reveal">
+                        <?php echo DocumentRenderer::render($docPage['pdf_file']); ?>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <?php
+        include __DIR__ . '/includes/footer.php';
+        exit();
+    }
+} catch (PDOException $e) {
+    // Fail silently
+}
 
 if ($section === 'about' && $slug === 'about-boccia') {
     include __DIR__ . '/includes/about-boccia-page.php';
@@ -20,16 +67,6 @@ if ($section === 'about' && $slug === 'about-boccia') {
 
 if ($section === 'about' && $slug === 'board') {
     include __DIR__ . '/includes/board-page.php';
-    exit();
-}
-
-if ($section === 'about' && $slug === 'affiliation-pci') {
-    include __DIR__ . '/includes/affiliation-pci-page.php';
-    exit();
-}
-
-if ($section === 'about' && $slug === 'affiliation-world-boccia') {
-    include __DIR__ . '/includes/affiliation-wb-page.php';
     exit();
 }
 
