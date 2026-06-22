@@ -19,7 +19,7 @@
 
 /* Base resets & styles override */
 body.admin-body {
-    background: url('../../../about%20boccia/why%20boccia%20matter%20BG.png') no-repeat center center fixed !important;
+    background: url('../../../about%20boccia/overview%20bg.png') no-repeat center center fixed !important;
     background-size: cover !important;
     color: var(--text-primary) !important;
     font-family: 'Outfit', 'Inter', sans-serif !important;
