@@ -39,10 +39,9 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     <!-- Sidebar Navigation -->
     <aside class="admin-sidebar">
         <div class="admin-sidebar-brand">
-            <?php 
-            $logo_path = '../';
-            include __DIR__ . '/logo-bar.php'; 
-            ?>
+            <a href="dashboard.php" style="display:flex; align-items:center; justify-content:center; padding: 1.5rem 1rem;">
+                <img src="../boccia-india-logo.webp" alt="Boccia Sports Federation of India" style="height: 80px; width: auto; object-fit: contain;">
+            </a>
         </div>
         <nav class="admin-sidebar-nav">
             <ul>
