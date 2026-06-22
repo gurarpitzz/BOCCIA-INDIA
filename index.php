@@ -134,7 +134,7 @@ try {
         <h1 class="hero-quote-text"><span class="hero-quote-accent">"</span>I didn't know there was a sport for me until I found Boccia<span class="hero-quote-accent">"</span></h1>
         <p class="hero-subtitle">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
         <div class="hero-btns">
-            <a href="#register" class="btn btn-hero-primary">Player Registration &rarr;</a>
+            <a href="get-involved/membership.php" class="btn btn-hero-primary">Player Registration &rarr;</a>
             <a href="page.php?section=about&slug=about-boccia" class="btn btn-hero-secondary">Explore Boccia</a>
         </div>
     </div>
