@@ -54,6 +54,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
             opacity: 1;
             visibility: visible;
         }
+    </style>
     <script>
         try {
             const settings = JSON.parse(localStorage.getItem('bsfiAccessibility'));

@@ -31,6 +31,7 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                 }
             }
         });
+    </script>
     <script>
         try {
             const settings = JSON.parse(localStorage.getItem('bsfiAccessibility'));
