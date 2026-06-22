@@ -665,6 +665,7 @@ try {
 
 <!-- Latest News Section -->
 <section id="news" class="news-section" style="padding: 6rem 0; background: var(--warm-surface) url('news%20bg.png') top center / cover fixed no-repeat;">
+    <div id="official-federation-updates" style="scroll-margin-top: 120px;"></div>
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
             <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
