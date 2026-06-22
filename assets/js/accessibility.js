@@ -67,102 +67,109 @@
             outline-offset: 2px !important;
         }
 
+
         /* Accessibility Button */
         .a11y-toggle-btn {
             position: fixed !important;
             bottom: 25px !important;
             left: 25px !important;
-            width: 60px !important;
-            height: 60px !important;
+            width: 56px !important;
+            height: 56px !important;
             border-radius: 50% !important;
-            background: url('${logoUrl}') no-repeat center center !important;
-            background-size: contain !important;
-            background-color: transparent !important;
-            border: none !important;
+            background: linear-gradient(135deg, #0d3846, #10b981) !important;
+            border: 2px solid #ffffff !important;
             cursor: pointer !important;
-            z-index: 999998 !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+            z-index: 10000000 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.35) !important;
             transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
         }
         .a11y-toggle-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+            transform: scale(1.08) !important;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.45) !important;
         }
 
         /* Accessibility Control Panel */
         .a11y-panel {
-            position: fixed;
-            bottom: 95px;
-            left: 25px;
-            background: #08122E;
-            border: 2px solid rgba(19, 136, 8, 0.4);
-            border-radius: 16px;
-            padding: 1.25rem;
-            width: 320px;
-            max-width: calc(100vw - 50px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            z-index: 999998;
+            position: fixed !important;
+            bottom: 95px !important;
+            left: 25px !important;
+            background: rgba(8, 26, 43, 0.96) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 2px solid rgba(16, 185, 129, 0.4) !important;
+            border-radius: 20px !important;
+            padding: 1.25rem !important;
+            width: 320px !important;
+            max-width: calc(100vw - 50px) !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
+            z-index: 10000000 !important;
             display: none;
-            color: #ffffff;
-            font-family: 'Outfit', 'Inter', sans-serif;
-            text-align: left;
+            color: #ffffff !important;
+            font-family: 'Outfit', 'Inter', sans-serif !important;
+            text-align: left !important;
         }
         .a11y-panel h4 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #F4B942;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0.5rem;
+            margin: 0 0 0.5rem 0 !important;
+            font-size: 1.15rem !important;
+            font-weight: 700 !important;
+            color: #10B981 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+            padding-bottom: 0.5rem !important;
         }
         .a11y-section-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #F4B942;
-            margin: 0.75rem 0 0.4rem 0;
+            font-size: 0.8rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            color: #F4B942 !important;
+            margin: 0.75rem 0 0.4rem 0 !important;
         }
         .a11y-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 0.5rem !important;
         }
         .a11y-full-width {
-            grid-column: span 2;
+            grid-column: span 2 !important;
         }
         .a11y-btn {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
             color: #ffffff !important;
-            padding: 0.6rem 0.5rem;
-            font-size: 0.8rem;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            font-weight: 600;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s, border-color 0.2s;
+            padding: 0.6rem 0.5rem !important;
+            font-size: 0.8rem !important;
+            border-radius: 8px !important;
+            cursor: pointer !important;
+            text-align: center !important;
+            font-weight: 600 !important;
+            min-height: 44px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: background 0.2s, border-color 0.2s, color 0.2s !important;
         }
         .a11y-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(16, 185, 129, 0.15) !important;
+            border-color: rgba(16, 185, 129, 0.5) !important;
         }
         .a11y-btn.active {
-            background: #138808 !important;
-            color: #ffffff !important;
-            border-color: #138808 !important;
+            background: #10B981 !important;
+            color: #0b1b3d !important;
+            border-color: #10B981 !important;
+            font-weight: 700 !important;
         }
         .a11y-btn.reset {
-            background: #c62828 !important;
-            border-color: #c62828 !important;
+            background: #ef4444 !important;
+            border-color: #ef4444 !important;
             color: #ffffff !important;
         }
         .a11y-btn.reset:hover {
-            background: #b71c1c !important;
+            background: #dc2626 !important;
         }
+
 
         /* High Contrast CSS Rules */
         html.high-contrast, html.high-contrast body, html.high-contrast div, html.high-contrast section, html.high-contrast main, html.high-contrast aside, html.high-contrast header, html.high-contrast footer {
@@ -312,6 +319,15 @@
         toggleBtn.setAttribute('aria-label', 'Accessibility Control Panel Options');
         toggleBtn.setAttribute('aria-haspopup', 'dialog');
         toggleBtn.setAttribute('aria-expanded', settings.panelOpen ? 'true' : 'false');
+        toggleBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="30" height="30" style="display:block; margin:auto; pointer-events:none;">
+              <circle cx="50" cy="22" r="8" fill="white" />
+              <path d="M50 32 v28" stroke="white" stroke-width="8" stroke-linecap="round" />
+              <path d="M25 42 h50" stroke="white" stroke-width="8" stroke-linecap="round" />
+              <path d="M50 60 L35 82" stroke="white" stroke-width="8" stroke-linecap="round" />
+              <path d="M50 60 L65 82" stroke="white" stroke-width="8" stroke-linecap="round" />
+            </svg>
+        `;
 
         const panel = document.createElement('div');
         panel.id = 'a11y-panel';
