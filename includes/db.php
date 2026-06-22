@@ -17,6 +17,5 @@ $options = [
 try {
      $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-     // Don't leak DB secrets in production, log it or print a simple message
-     die("Database connection failed. Please make sure MySQL is running in XAMPP.");
+     die("PDO Error: " . $e->getMessage());
 }
