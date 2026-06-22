@@ -4,7 +4,7 @@
 $host = 'localhost';
 $db   = 'tstpllmy_boccia_india';
 $user = 'tstpllmy_boccia_user';
-$pass = '0Passwo0@';
+$pass = 'Boccia@2026!India#DB';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
