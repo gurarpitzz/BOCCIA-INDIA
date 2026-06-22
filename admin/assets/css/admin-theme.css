@@ -19,12 +19,24 @@
 
 /* Base resets & styles override */
 body.admin-body {
-    background: url('../../../about%20boccia/overview%20bg.png') no-repeat center center fixed !important;
-    background-size: cover !important;
+    background: none !important;
     color: var(--text-primary) !important;
     font-family: 'Outfit', 'Inter', sans-serif !important;
     margin: 0;
     padding: 0;
+    position: relative;
+}
+
+/* Blurred background layer — image stays behind all content */
+body.admin-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('../../../about%20boccia/overview%20bg.png') no-repeat center center;
+    background-size: cover;
+    filter: blur(6px);
+    transform: scale(1.06); /* compensate for blur edge bleed */
 }
 
 .admin-wrapper {
