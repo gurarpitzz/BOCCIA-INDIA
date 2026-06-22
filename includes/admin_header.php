@@ -39,8 +39,8 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     <!-- Sidebar Navigation -->
     <aside class="admin-sidebar">
         <div class="admin-sidebar-brand">
-            <a href="dashboard.php" style="display:flex; align-items:center; justify-content:center; padding: 1.5rem 1rem;">
-                <img src="../boccia-india-logo.webp" alt="Boccia Sports Federation of India" style="height: 80px; width: auto; object-fit: contain;">
+            <a href="dashboard.php" style="display:flex; align-items:center; padding: 0.7rem 1.5rem;">
+                <img src="../boccia-india-logo.webp" alt="Boccia Sports Federation of India" style="height: 36px; width: auto; object-fit: contain;">
             </a>
         </div>
         <nav class="admin-sidebar-nav">
