@@ -39,35 +39,38 @@ try {
 } catch (PDOException $e) {}
 
 // Fetch Gallery Data
-$galleryData = [
-    'images' => [],
-    'hero' => [],
-    'albums' => []
-];
+$galleryCategories = [];
+$galleryAlbums = [];
+$galleryImages = [];
 try {
-    $cacheFile = __DIR__ . '/cache/gallery_homepage.json';
-    if (file_exists($cacheFile)) {
-        $cacheData = json_decode(file_get_contents($cacheFile), true);
-        $galleryData['images'] = $cacheData['images'] ?? [];
-        $galleryData['hero']   = $cacheData['hero'] ?? [];
-        $galleryData['albums'] = $cacheData['albums'] ?? [];
-    } else {
-        $galleryData['images'] = $pdo->query("
-            SELECT gi.*, ga.title AS album_title, ga.slug AS album_slug
-            FROM gallery_images gi
-            LEFT JOIN gallery_albums ga ON gi.album_id = ga.id
-            WHERE gi.status = 'published' AND gi.is_deleted = 0
-            ORDER BY gi.sort_order ASC, gi.created_at DESC
-            LIMIT 200
-        ")->fetchAll();
-        $galleryData['hero'] = $pdo->query("
-            SELECT * FROM gallery_images
-            WHERE status='published' AND is_deleted=0 AND show_in_hero=1
-            ORDER BY sort_order ASC LIMIT 5
-        ")->fetchAll();
-        $galleryData['albums'] = $pdo->query("SELECT * FROM gallery_albums ORDER BY id ASC")->fetchAll();
-    }
-} catch (PDOException $e) {}
+    // 1. Fetch active categories
+    $galleryCategories = $pdo->query("SELECT * FROM gallery_categories WHERE is_active = 1 ORDER BY display_order ASC")->fetchAll(PDO::FETCH_ASSOC);
+    
+    // 2. Fetch published albums with image counts and cover image paths
+    $galleryAlbums = $pdo->query("
+        SELECT ga.*, gc.slug AS category_slug, gc.name AS category_name,
+               (SELECT COUNT(*) FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0) AS image_count,
+               gi.image_path AS cover_image_path,
+               gi.thumbnail_path AS cover_thumb_path
+        FROM gallery_albums ga
+        LEFT JOIN gallery_categories gc ON ga.category_id = gc.id
+        LEFT JOIN gallery_images gi ON ga.cover_image_id = gi.id
+        WHERE ga.is_published = 1 AND gc.is_active = 1
+        ORDER BY ga.event_date DESC, ga.id DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+    // 3. Fetch all published images
+    $galleryImages = $pdo->query("
+        SELECT gi.*, ga.slug AS album_slug, ga.title AS album_title
+        FROM gallery_images gi
+        LEFT JOIN gallery_albums ga ON gi.album_id = ga.id
+        WHERE gi.status = 'published' AND gi.is_deleted = 0
+        ORDER BY gi.sort_order ASC, gi.id DESC
+        LIMIT 500
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Fail silently or log
+}
 
 // Fetch athlete counts by state dynamically
 $stateCounts = [];
@@ -394,8 +397,34 @@ try {
     font-size: clamp(0.95rem, 1.5vw, 1.15rem);
     color: rgba(8, 27, 75, 0.75);
     max-width: 700px;
-    margin: 0 auto 2.5rem;
+    margin: 0 auto 1.5rem;
     line-height: 1.6;
+}
+.gal-stats-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(8, 27, 75, 0.05);
+    border: 1px solid rgba(8, 27, 75, 0.1);
+    padding: 0.5rem 1.75rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: #081B4B;
+    margin-bottom: 3rem;
+}
+.gal-stats-pill strong {
+    color: #FF9933;
+}
+
+/* ── Section Dividers & Subtitles ── */
+.gal-section-divider {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #081B4B;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(8, 27, 75, 0.08);
+    padding-bottom: 0.75rem;
 }
 
 /* ── Category Filters ── */
@@ -426,91 +455,127 @@ try {
     box-shadow: 0 4px 12px rgba(8, 27, 75, 0.15);
 }
 
-/* ── Featured Collection Horizontal Banner ── */
-.gal-featured-banner {
-    position: relative;
-    border-radius: 24px;
-    overflow: hidden;
-    height: 380px;
+/* ── Album Grid ── */
+.gal-albums-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
     margin-bottom: 4rem;
-    box-shadow: 0 12px 30px rgba(8, 27, 75, 0.1);
-    background: #081B4B;
 }
-.gal-featured-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center 30%;
-    transition: transform 0.8s ease;
-}
-.gal-featured-banner:hover .gal-featured-bg {
-    transform: scale(1.03);
-}
-.gal-featured-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, rgba(8, 27, 75, 0.95) 0%, rgba(8, 27, 75, 0.5) 60%, rgba(8, 27, 75, 0.2) 100%);
+.gal-album-card {
+    background: #ffffff;
+    border: 1px solid rgba(8, 27, 75, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 3rem 4.5rem;
-    color: #ffffff;
-    z-index: 2;
+    box-shadow: 0 4px 15px rgba(8, 27, 75, 0.03);
 }
-.gal-featured-tag {
-    color: #FF9933;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    margin-bottom: 0.75rem;
+.gal-album-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(8, 27, 75, 0.1);
+    border-color: #FF9933;
 }
-.gal-featured-title {
-    font-family: var(--font-heading);
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    max-width: 600px;
-    line-height: 1.25;
+.gal-album-img-wrap {
+    width: 100%;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    position: relative;
+    background: #081B4B;
 }
-.gal-featured-count {
-    font-size: 0.95rem;
-    opacity: 0.85;
-    margin-bottom: 1.5rem;
+.gal-album-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
 }
-.gal-featured-btn {
-    background: #FF9933;
-    color: #081B4B;
-    border: none;
+.gal-album-card:hover .gal-album-img {
+    transform: scale(1.04);
+}
+.gal-album-count-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(8, 27, 75, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #F8F5EF;
+    padding: 0.35rem 0.85rem;
     border-radius: 999px;
-    padding: 0.75rem 2rem;
+    font-size: 0.8rem;
     font-weight: 700;
+}
+.gal-album-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.gal-album-title {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 750;
+    color: #081B4B;
+    margin-bottom: 0.5rem;
+}
+.gal-album-meta {
+    font-size: 0.85rem;
+    color: rgba(8, 27, 75, 0.6);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+}
+.gal-album-desc {
     font-size: 0.9rem;
+    color: rgba(8, 27, 75, 0.7);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── Album Detail View ── */
+.gal-detail-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid rgba(8, 27, 75, 0.08);
+    padding-bottom: 1rem;
+}
+.gal-back-btn {
+    background: #ffffff;
+    border: 1px solid rgba(8, 27, 75, 0.15);
+    color: #081B4B;
+    border-radius: 999px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.88rem;
+    font-weight: 700;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     transition: all 0.25s ease;
 }
-.gal-featured-btn:hover {
-    background: #ffffff;
-    color: #081B4B;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 153, 51, 0.4);
+.gal-back-btn:hover {
+    background: #081B4B;
+    color: #ffffff;
+    border-color: #081B4B;
+}
+.gal-album-detail-header {
+    margin-bottom: 2.5rem;
+}
+.gal-detail-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: rgba(8, 27, 75, 0.6);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
 }
 
 /* ── Masonry Grid ── */
-.gal-section-title {
-    font-family: var(--font-heading);
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #081B4B;
-    margin: 0 0 2rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.gal-section-title span {
-    color: #FF9933;
-}
 .gal-photos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -522,15 +587,15 @@ try {
     border-radius: 18px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 6px 18px rgba(8, 27, 75, 0.08);
+    box-shadow: 0 6px 18px rgba(8, 27, 75, 0.06);
     cursor: pointer;
     background: #ffffff;
-    border: 1px solid rgba(8, 27, 75, 0.06);
+    border: 1px solid rgba(8, 27, 75, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .gal-photo-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(8, 27, 75, 0.15);
+    box-shadow: 0 12px 24px rgba(8, 27, 75, 0.12);
 }
 .gal-photo-item img {
     width: 100%;
@@ -566,12 +631,11 @@ try {
 }
 
 @media (max-width: 768px) {
-    .gal-featured-overlay {
-        padding: 2rem;
+    .gal-albums-grid {
+        grid-template-columns: 1fr;
     }
     .gal-photos-grid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 1rem;
     }
 }
 </style>
@@ -589,97 +653,116 @@ try {
         <p class="gal-subtitle">Explore national championships, international participation, training camps and athlete journeys.</p>
     </div>
 
-    <?php
-    $allGalImages = $galleryData['images'];
-    $galAlbums    = $galleryData['albums'];
-    
-    // Fetch only active albums (albums containing at least 1 image) to prevent empty categories
-    $activeAlbums = [];
-    try {
-        $activeAlbums = $pdo->query("
-            SELECT ga.*, COUNT(gi.id) AS image_count,
-                   COALESCE(ga.cover_image, (SELECT image_path FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS final_cover
-            FROM gallery_albums ga
-            INNER JOIN gallery_images gi ON ga.id = gi.album_id AND gi.status = 'published' AND gi.is_deleted = 0
-            GROUP BY ga.id
-            HAVING image_count > 0
-            ORDER BY ga.id ASC
-        ")->fetchAll();
-    } catch (PDOException $e) {
-        $activeAlbums = [];
-    }
-
-    // Set up Featured Collection Banner details (default to National Championships if available)
-    $featuredAlbum = null;
-    foreach ($activeAlbums as $alb) {
-        if ($alb['slug'] === 'national-championships') {
-            $featuredAlbum = $alb;
-            break;
-        }
-    }
-    if (!$featuredAlbum && !empty($activeAlbums)) {
-        $featuredAlbum = $activeAlbums[0];
-    }
-    ?>
-
-    <!-- Category Filters (Hiding categories with zero photos) -->
-    <div class="gal-filters-wrap">
-        <button class="gal-filter-btn active" data-filter="all">All</button>
-        <?php foreach ($activeAlbums as $alb): 
-            $shortTitle = $alb['title'];
-            if ($alb['slug'] === 'national-championships') $shortTitle = 'National';
-            elseif ($alb['slug'] === 'international-events') $shortTitle = 'International';
-            elseif ($alb['slug'] === 'training-camps') $shortTitle = 'Camps';
-            elseif ($alb['slug'] === 'athlete-development') $shortTitle = 'Development';
-            elseif ($alb['slug'] === 'general') $shortTitle = 'General';
-        ?>
-        <button class="gal-filter-btn" data-filter="<?php echo htmlspecialchars($alb['slug']); ?>"><?php echo htmlspecialchars($shortTitle); ?></button>
-        <?php endforeach; ?>
-    </div>
-
-    <!-- Featured Collection (Horizontal Banner) -->
-    <?php if ($featuredAlbum): 
-        $featCover = !empty($featuredAlbum['final_cover']) ? htmlspecialchars($featuredAlbum['final_cover']) : 'assets/images/bsfi-placeholder.webp';
-    ?>
-    <div class="gal-featured-banner" id="galFeaturedBanner">
-        <div class="gal-featured-bg" style="background-image: url('<?php echo $featCover; ?>');"></div>
-        <div class="gal-featured-overlay">
-            <span class="gal-featured-tag">★ Featured Collection</span>
-            <h3 class="gal-featured-title"><?php echo htmlspecialchars($featuredAlbum['title']); ?></h3>
-            <span class="gal-featured-count"><?php echo (int)$featuredAlbum['image_count']; ?> Photos</span>
-            <button class="gal-featured-btn" onclick="activateAlbumFilter('<?php echo htmlspecialchars($featuredAlbum['slug']); ?>')">View Collection →</button>
+    <!-- Stats Bar -->
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="gal-stats-pill">
+            <span><strong><?php echo count($galleryImages); ?></strong> Photos</span>
+            <span style="opacity: 0.3;">•</span>
+            <span><strong><?php echo count($galleryAlbums); ?></strong> Albums</span>
+            <span style="opacity: 0.3;">•</span>
+            <span><strong><?php echo count($galleryCategories); ?></strong> Categories</span>
         </div>
     </div>
-    <?php endif; ?>
 
-    <!-- Masonry Photo Gallery Title -->
-    <div class="gal-section-header-row">
-        <h3 class="gal-section-title" id="galSectionTitle">All Photos</h3>
+    <!-- VIEW 1: BROWSE ALBUMS (Visible by default) -->
+    <div id="galMainBrowseView">
+        
+        <!-- FEATURED ALBUMS (IF ANY) -->
+        <?php
+        $featuredAlbums = array_filter($galleryAlbums, function($a) { return (int)$a['is_featured'] === 1; });
+        if (!empty($featuredAlbums)):
+        ?>
+        <h3 class="gal-section-divider">★ Featured Events</h3>
+        <div class="gal-albums-grid" style="margin-bottom: 4rem;">
+            <?php foreach ($featuredAlbums as $alb): 
+                $coverSrc = !empty($alb['cover_image_override']) ? htmlspecialchars($alb['cover_image_override']) : (!empty($alb['cover_thumb_path']) ? htmlspecialchars($alb['cover_thumb_path']) : (!empty($alb['cover_image_path']) ? htmlspecialchars($alb['cover_image_path']) : 'assets/images/bsfi-placeholder.webp'));
+            ?>
+            <div class="gal-album-card" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
+                <div class="gal-album-img-wrap">
+                    <img src="<?php echo $coverSrc; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy">
+                    <span class="gal-album-count-badge"><?php echo (int)$alb['image_count']; ?> Photos</span>
+                </div>
+                <div class="gal-album-info">
+                    <h3 class="gal-album-title"><?php echo htmlspecialchars($alb['title']); ?></h3>
+                    <p class="gal-album-meta">
+                        <?php if (!empty($alb['event_location'])): ?>
+                            <span>📍 <?php echo htmlspecialchars($alb['event_location']); ?></span>
+                        <?php endif; ?>
+                        <?php if (!empty($alb['event_date'])): ?>
+                            <span>• 🗓️ <?php echo date('M Y', strtotime($alb['event_date'])); ?></span>
+                        <?php endif; ?>
+                    </p>
+                    <p class="gal-album-desc"><?php echo htmlspecialchars($alb['description'] ?: 'Official tournament and athlete media.'); ?></p>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+
+        <!-- CATEGORIES FILTERS -->
+        <div class="gal-filters-wrap">
+            <button class="gal-filter-btn active" data-filter="all">All Categories</button>
+            <?php foreach ($galleryCategories as $cat): ?>
+            <button class="gal-filter-btn" data-filter="<?php echo htmlspecialchars($cat['slug']); ?>"><?php echo htmlspecialchars($cat['name']); ?></button>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- ALBUM CARDS GRID -->
+        <h3 class="gal-section-divider">All Collections</h3>
+        <div class="gal-albums-grid" id="galAlbumsGrid">
+            <?php foreach ($galleryAlbums as $alb): 
+                $coverSrc = !empty($alb['cover_image_override']) ? htmlspecialchars($alb['cover_image_override']) : (!empty($alb['cover_thumb_path']) ? htmlspecialchars($alb['cover_thumb_path']) : (!empty($alb['cover_image_path']) ? htmlspecialchars($alb['cover_image_path']) : 'assets/images/bsfi-placeholder.webp'));
+            ?>
+            <div class="gal-album-card gal-album-card-item" data-category-slug="<?php echo htmlspecialchars($alb['category_slug']); ?>">
+                <div class="gal-album-img-wrap" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
+                    <img src="<?php echo $coverSrc; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy">
+                    <span class="gal-album-count-badge"><?php echo (int)$alb['image_count']; ?> Photos</span>
+                </div>
+                <div class="gal-album-info">
+                    <h3 class="gal-album-title" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')"><?php echo htmlspecialchars($alb['title']); ?></h3>
+                    <p class="gal-album-meta">
+                        <?php if (!empty($alb['event_location'])): ?>
+                            <span>📍 <?php echo htmlspecialchars($alb['event_location']); ?></span>
+                        <?php endif; ?>
+                        <?php if (!empty($alb['event_date'])): ?>
+                            <span>• 🗓️ <?php echo date('M Y', strtotime($alb['event_date'])); ?></span>
+                        <?php endif; ?>
+                    </p>
+                    <p class="gal-album-desc"><?php echo htmlspecialchars($alb['description'] ?: 'Official media resources.'); ?></p>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
     </div>
 
-    <!-- Masonry Gallery -->
-    <div class="gal-photos-grid" id="mainPhotosGrid">
-        <?php 
-        foreach ($allGalImages as $img): 
-            $imgUrl = htmlspecialchars($img['image_path']);
-            $thumbUrl = htmlspecialchars($img['thumbnail_path'] ?: $img['image_path']);
-            $caption = htmlspecialchars($img['caption'] ?? 'BSFI Gallery Photo');
-            $credit = htmlspecialchars($img['credit'] ?? '');
-            $albSlug = htmlspecialchars($img['album_slug'] ?? 'general');
-        ?>
-        <a href="<?php echo $imgUrl; ?>" class="glightbox gal-photo-item" data-album-slug="<?php echo $albSlug; ?>" data-title="<?php echo $caption; ?>" data-description="<?php echo $credit; ?>">
-            <img src="<?php echo $thumbUrl; ?>" alt="<?php echo $caption; ?>" loading="lazy">
-            <div class="gal-photo-overlay">
-                <p class="gal-photo-caption"><?php echo $caption; ?></p>
+    <!-- VIEW 2: ALBUM DETAIL VIEW (Masonry + Lightbox - Hidden by default) -->
+    <div id="galViewDetail" style="display: none;">
+        <div class="gal-detail-header-row">
+            <button class="gal-back-btn" onclick="closeAlbum()">← Back to Albums</button>
+        </div>
+
+        <div class="gal-album-detail-header">
+            <h2 id="detailTitle" class="gal-title" style="margin: 0 0 0.5rem; text-align: left;">Album Title</h2>
+            <div class="gal-detail-meta" id="detailMeta">
+                <!-- Populated via JS -->
             </div>
-        </a>
-        <?php endforeach; ?>
+            <p id="detailDesc" style="margin-top: 1rem; opacity: 0.8; max-width: 800px; line-height: 1.6;">Album Description</p>
+        </div>
+
+        <!-- Masonry Grid for selected album photos -->
+        <div class="gal-photos-grid" id="albumDetailGrid">
+            <!-- Populated via JS -->
+        </div>
     </div>
 
 </div>
 
 <script>
 (function() {
+    // Inject album & photo variables
+    const albumsList = <?php echo json_encode($galleryAlbums); ?>;
+    const photosList = <?php echo json_encode($galleryImages); ?>;
     let activeLightbox = null;
 
     // Initialize GLightbox for only the visible gallery images
@@ -692,41 +775,76 @@ try {
         });
     }
 
-    // Function to filter photos in the masonry grid
-    window.filterMasonry = function(filterSlug) {
-        const photos = document.querySelectorAll('.gal-photo-item');
-        const sectionTitle = document.getElementById('galSectionTitle');
-        const banner = document.getElementById('galFeaturedBanner');
+    // Function to Open an Album
+    window.openAlbum = function(slug) {
+        const album = albumsList.find(a => a.slug === slug);
+        if (!album) return;
 
-        // Toggle photos visibility
-        photos.forEach(photo => {
-            const photoSlug = photo.getAttribute('data-album-slug');
-            if (filterSlug === 'all' || photoSlug === filterSlug) {
-                photo.classList.remove('gal-hidden');
-            } else {
-                photo.classList.add('gal-hidden');
-            }
-        });
+        // Set header information
+        document.getElementById('detailTitle').textContent = album.title;
+        
+        let metaHtml = `<strong>${album.image_count}</strong> Photos`;
+        if (album.event_location) metaHtml += ` <span style="opacity: 0.4;">•</span> 📍 ${album.event_location}`;
+        if (album.event_date) {
+            const dateObj = new Date(album.event_date);
+            const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+            metaHtml += ` <span style="opacity: 0.4;">•</span> 🗓️ ${dateStr}`;
+        }
+        document.getElementById('detailMeta').innerHTML = metaHtml;
+        document.getElementById('detailDesc').textContent = album.description || 'Official media archive event.';
 
-        // Hide Featured Banner if we're filtering specifically
-        if (banner) {
-            if (filterSlug === 'all') {
-                banner.style.display = 'block';
-                sectionTitle.textContent = 'All Photos';
-            } else {
-                banner.style.display = 'none';
-                // Find matching filter title
-                const activeBtn = document.querySelector(`.gal-filter-btn[data-filter="${filterSlug}"]`);
-                const titleText = activeBtn ? activeBtn.textContent : 'Collection';
-                sectionTitle.textContent = `${titleText} Photos`;
-            }
+        // Filter photos for this album
+        const albumPhotos = photosList.filter(p => p.album_slug === slug);
+        let gridHtml = '';
+
+        if (albumPhotos.length > 0) {
+            albumPhotos.forEach(img => {
+                const imgPath = img.image_path;
+                const thumbPath = img.thumbnail_path || img.image_path;
+                const caption = img.caption || 'BSFI Gallery Photo';
+                const credit = img.credit ? `📷 ${img.credit}` : '';
+
+                gridHtml += `
+                <a href="${imgPath}" class="glightbox gal-photo-item" data-gallery="album-detail-gallery" data-title="${caption}" data-description="${credit}">
+                    <img src="${thumbPath}" alt="${caption}" loading="lazy">
+                    <div class="gal-photo-overlay">
+                        <p class="gal-photo-caption">${caption}</p>
+                    </div>
+                </a>
+                `;
+            });
+        } else {
+            gridHtml = `<div style="grid-column: 1 / -1; text-align: center; padding: 4rem; opacity: 0.5;">No photos available in this album.</div>`;
         }
 
-        // Re-initialize Lightbox with visible elements only
+        document.getElementById('albumDetailGrid').innerHTML = gridHtml;
+
+        // Transition views
+        document.getElementById('galMainBrowseView').style.display = 'none';
+        document.getElementById('galViewDetail').style.display = 'block';
+
+        // Scroll to gallery top anchor smoothly
+        document.getElementById('photo-gallery').scrollIntoView({ behavior: 'smooth' });
+
+        // Update URL hash
+        window.location.hash = 'album-' + slug;
+
+        // Re-initialize lightbox
         initLightbox();
     };
 
-    // Category Filter Button clicks
+    // Function to Close Album and Go Back
+    window.closeAlbum = function() {
+        document.getElementById('galViewDetail').style.display = 'none';
+        document.getElementById('galMainBrowseView').style.display = 'block';
+        
+        // Remove hash without scrolling
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+
+        initLightbox();
+    };
+
+    // Category Filter Buttons logic
     const filterButtons = document.querySelectorAll('.gal-filter-btn');
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -734,21 +852,39 @@ try {
             btn.classList.add('active');
 
             const filter = btn.getAttribute('data-filter');
-            filterMasonry(filter);
+            const cards = document.querySelectorAll('.gal-album-card-item');
+            
+            cards.forEach(card => {
+                const slug = card.getAttribute('data-category-slug');
+                if (filter === 'all' || slug === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         });
     });
 
-    // View Collection Banner Click Helper
-    window.activateAlbumFilter = function(slug) {
-        const matchingBtn = document.querySelector(`.gal-filter-btn[data-filter="${slug}"]`);
-        if (matchingBtn) {
-            matchingBtn.click();
-            document.getElementById('photo-gallery').scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
+    // Handle deep linking or direct load hash
     document.addEventListener('DOMContentLoaded', () => {
         initLightbox();
+
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#album-')) {
+            const slug = hash.replace('#album-', '');
+            openAlbum(slug);
+        }
+    });
+
+    // Listen to hash changes (e.g. back button)
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#album-')) {
+            const slug = hash.replace('#album-', '');
+            openAlbum(slug);
+        } else if (!hash && document.getElementById('galViewDetail').style.display !== 'none') {
+            closeAlbum();
+        }
     });
 
 })();
