@@ -654,7 +654,7 @@ try {
 
     <!-- Masonry Photo Gallery Title -->
     <div class="gal-section-header-row">
-        <h3 class="gal-section-title" id="galSectionTitle"><span>📸</span> All Photos</h3>
+        <h3 class="gal-section-title" id="galSectionTitle">All Photos</h3>
     </div>
 
     <!-- Masonry Gallery -->
@@ -712,13 +712,13 @@ try {
         if (banner) {
             if (filterSlug === 'all') {
                 banner.style.display = 'block';
-                sectionTitle.innerHTML = '<span>📸</span> All Photos';
+                sectionTitle.textContent = 'All Photos';
             } else {
                 banner.style.display = 'none';
                 // Find matching filter title
                 const activeBtn = document.querySelector(`.gal-filter-btn[data-filter="${filterSlug}"]`);
                 const titleText = activeBtn ? activeBtn.textContent : 'Collection';
-                sectionTitle.innerHTML = `<span>📸</span> ${titleText} Photos`;
+                sectionTitle.textContent = `${titleText} Photos`;
             }
         }
 
