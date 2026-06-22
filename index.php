@@ -146,9 +146,6 @@ try {
         <?php endforeach; ?>
     </div>
 
-    <!-- Prev / Next arrows -->
-    <button class="slide-arrow slide-prev" id="slidePrev" aria-label="Previous slide">&#8249;</button>
-    <button class="slide-arrow slide-next" id="slideNext" aria-label="Next slide">&#8250;</button>
 </section>
 
 <script>
@@ -168,15 +165,12 @@ try {
     }
 
     function next() { goTo(current + 1); }
-    function prev() { goTo(current - 1); }
 
     function startTimer() {
         clearInterval(timer);
         timer = setInterval(next, 5000);
     }
 
-    document.getElementById('slideNext').addEventListener('click', () => { next(); startTimer(); });
-    document.getElementById('slidePrev').addEventListener('click', () => { prev(); startTimer(); });
     dots.forEach(dot => dot.addEventListener('click', () => { goTo(+dot.dataset.index); startTimer(); }));
 
     startTimer();
