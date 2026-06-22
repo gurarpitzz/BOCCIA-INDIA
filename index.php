@@ -368,298 +368,520 @@ try {
 <!-- Photo Gallery Section -->
 <section id="photo-gallery" style="padding: 6rem 0; background: #081B4B; color: #F8F5EF;">
 <style>
-/* ── Gallery section chrome ── */
-.gal-eyebrow  { color: #FF9933; font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:.85rem; }
-.gal-title    { font-family:var(--font-heading); font-size:2.8rem; font-weight:800; color:#F8F5EF; margin:0; }
-
-/* Hero Slider */
-.gal-hero-wrap  { position:relative; border-radius:24px; overflow:hidden; height:600px; margin-bottom:2.5rem; background:#0a1d3b; }
-.gal-hero-slide { position:absolute; inset:0; background-size:contain; background-position:center; background-repeat:no-repeat; background-color:#081B4B;
-                  opacity:0; transition:opacity .8s ease; }
-.gal-hero-slide.active { opacity:1; }
-.gal-hero-slide .gal-hero-caption { position:absolute; bottom:0; left:0; right:0;
-    background:linear-gradient(to top, rgba(8,27,75,.85) 0%, transparent 100%);
-    padding:2rem 2rem 1.5rem; }
-.gal-hero-caption p { margin:0; font-size:1rem; font-weight:600; color:#F8F5EF; }
-.gal-hero-caption small { color:rgba(255,255,255,.65); font-size:.78rem; }
-.gal-hero-dots  { position:absolute; bottom:12px; right:18px; display:flex; gap:6px; }
-.gal-hero-dot   { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.4); border:none; cursor:pointer; transition:background .3s; padding:0; }
-.gal-hero-dot.active { background:#FF9933; }
-
-/* Controls toolbar */
-.gal-toolbar    { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.75rem; }
-.gal-tabs       { display:flex; flex-wrap:wrap; gap:.5rem; }
-.gal-tab-btn    { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:#F8F5EF;
-                  border-radius:999px; padding:.4rem 1.1rem; font-size:.82rem; font-weight:600; cursor:pointer;
-                  transition:background .2s, color .2s; white-space:nowrap; }
-.gal-tab-btn.active, .gal-tab-btn:hover { background:#FF9933; color:#081B4B; border-color:#FF9933; }
-.gal-view-btns  { display:flex; gap:.5rem; }
-.gal-view-btn   { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:#F8F5EF;
-                  border-radius:999px; padding:.4rem 1.1rem; font-size:.82rem; font-weight:600; cursor:pointer;
-                  transition:background .2s, color .2s; }
-.gal-view-btn.active { background:#FF9933; color:#081B4B; border-color:#FF9933; }
-
-/* Bento collage */
-.gallery-bento  { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-                  grid-auto-rows:180px; grid-auto-flow:dense; gap:14px; }
-.gal-bento-item { display:block; overflow:hidden; border-radius:14px;
-                  box-shadow:0 4px 14px rgba(0,0,0,.3); position:relative; cursor:pointer; }
-.gal-bento-item img { width:100%; height:100%; object-fit:cover;
-                      transition:transform .45s ease; display:block; }
-.gal-bento-item:hover img { transform:scale(1.07); }
-.gal-bento-item .gal-overlay { position:absolute; inset:0; background:rgba(8,27,75,.55);
-    opacity:0; transition:opacity .3s; display:flex; align-items:center; justify-content:center;
-    font-size:1.6rem; color:#fff; }
-.gal-bento-item:hover .gal-overlay { opacity:1; }
-/* Bento pattern */
-.gal-bento-item:nth-child(7n+1) { grid-column:span 2; grid-row:span 2; }
-.gal-bento-item:nth-child(7n+4) { grid-column:span 2; grid-row:span 1; }
-.gal-bento-item:nth-child(7n+6) { grid-column:span 1; grid-row:span 2; }
-@media(max-width:640px) {
-    .gal-bento-item { grid-column:span 1 !important; grid-row:span 1 !important; }
-    .gallery-bento  { grid-auto-rows:160px; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); }
-    .gal-hero-wrap  { height:380px; }
+/* ── Wide Gallery Container ── */
+.gallery-wide-container {
+    max-width: 1600px;
+    width: 92%;
+    margin: 0 auto;
 }
 
-/* Slideshow view */
-.gal-slideshow-wrap { position:relative; border-radius:18px; overflow:hidden; aspect-ratio:16/9; background:#0a1d3b; }
-.gal-ss-slide       { display:none; width:100%; height:100%; }
-.gal-ss-slide.active { display:block; }
-.gal-ss-slide img   { width:100%; height:100%; object-fit:contain; }
-.gal-ss-arrow       { position:absolute; top:50%; transform:translateY(-50%);
-    background:rgba(8,27,75,.65); border:none; color:#fff; font-size:2rem; width:48px; height:48px;
-    border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    transition:background .2s; z-index:5; }
-.gal-ss-arrow:hover { background:#FF9933; color:#081B4B; }
-.gal-ss-prev { left:12px; } .gal-ss-next { right:12px; }
+/* ── Gallery Header and Stats ── */
+.gal-eyebrow {
+    color: #FF9933;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: .85rem;
+}
+.gal-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: #F8F5EF;
+    margin: 0.5rem 0 1rem;
+}
+.gal-subtitle {
+    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+    color: rgba(248, 245, 239, 0.8);
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+}
+.gal-stats-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1.75rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: rgba(248, 245, 239, 0.9);
+    margin-bottom: 2rem;
+}
+.gal-stats-pill strong {
+    color: #FF9933;
+}
 
-/* Load-more */
-.gal-load-more { display:block; margin:2.5rem auto 0;
-    background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.15);
-    color:#F8F5EF; border-radius:999px; padding:.7rem 2.5rem;
-    font-size:.95rem; font-weight:700; cursor:pointer; transition:all .2s; }
-.gal-load-more:hover { background:#FF9933; color:#081B4B; border-color:#FF9933; }
-.gal-hidden { display:none !important; }
+/* ── Category Filters ── */
+.gal-filters-wrap {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+.gal-filter-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #F8F5EF;
+    border-radius: 999px;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.gal-filter-btn:hover, .gal-filter-btn.active {
+    background: #FF9933;
+    color: #081B4B;
+    border-color: #FF9933;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 153, 51, 0.2);
+}
+
+/* ── Album Grid ── */
+.gal-albums-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+.gal-album-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
+}
+.gal-album-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 153, 51, 0.35);
+}
+.gal-album-img-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+    background: #061539;
+}
+.gal-album-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+.gal-album-card:hover .gal-album-img {
+    transform: scale(1.06);
+}
+.gal-album-count-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(8, 27, 75, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #F8F5EF;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.gal-album-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.gal-album-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 750;
+    color: #F8F5EF;
+    margin-bottom: 0.5rem;
+}
+.gal-album-desc {
+    font-size: 0.9rem;
+    color: rgba(248, 245, 239, 0.65);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── Section Title (Recent Uploads / Album detail) ── */
+.gal-section-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 1rem;
+}
+.gal-section-title {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #F8F5EF;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+}
+.gal-section-title span {
+    color: #FF9933;
+}
+.gal-back-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #F8F5EF;
+    border-radius: 999px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.25s ease;
+}
+.gal-back-btn:hover {
+    background: #FF9933;
+    color: #081B4B;
+    border-color: #FF9933;
+}
+
+/* ── Masonry Grid (Aspect-ratio forced for neat tiles) ── */
+.gal-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+.gal-photo-item {
+    display: block;
+    aspect-ratio: 4/3;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+.gal-photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.gal-photo-item:hover img {
+    transform: scale(1.05);
+}
+.gal-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8, 27, 75, 0.8) 0%, transparent 80%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.25rem;
+}
+.gal-photo-item:hover .gal-photo-overlay {
+    opacity: 1;
+}
+.gal-photo-caption {
+    color: #F8F5EF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ── Album Detail View ── */
+.gal-album-detail-header {
+    margin-bottom: 2.5rem;
+}
+.gal-detail-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: rgba(248, 245, 239, 0.6);
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+.gal-detail-meta strong {
+    color: #FF9933;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .gal-albums-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    .gal-photos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+    }
+}
 </style>
 
-<div class="container">
+<div class="gallery-wide-container">
 
     <!-- Section Header -->
-    <div style="text-align:center; margin-bottom:2.5rem;">
+    <div style="text-align:center; margin-bottom:1.5rem;">
         <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:.75rem;">
             <span style="height:1px;width:40px;background:#FF9933;"></span>
             <span class="gal-eyebrow">BSFI — Moments in Focus</span>
             <span style="height:1px;width:40px;background:#FF9933;"></span>
         </div>
         <h2 class="gal-title">Photo Gallery</h2>
+        <p class="gal-subtitle">Explore national championships, international participation, training camps and athlete journeys.</p>
     </div>
 
     <?php
-    $heroSlides   = $galleryData['hero'];
     $allGalImages = $galleryData['images'];
     $galAlbums    = $galleryData['albums'];
+    
+    // Dynamic Stats & Albums Query
+    $totalPhotosCount = 0;
+    $albumsWithStats = [];
+    try {
+        $totalPhotosCount = (int)$pdo->query("SELECT COUNT(*) FROM gallery_images WHERE status='published' AND is_deleted=0")->fetchColumn();
+        $albumsStmt = $pdo->query("
+            SELECT ga.*, COUNT(gi.id) AS image_count,
+                   COALESCE(ga.cover_image, (SELECT image_path FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS final_cover
+            FROM gallery_albums ga
+            LEFT JOIN gallery_images gi ON ga.id = gi.album_id AND gi.status = 'published' AND gi.is_deleted = 0
+            GROUP BY ga.id
+            ORDER BY ga.id ASC
+        ");
+        $albumsWithStats = $albumsStmt->fetchAll();
+    } catch (PDOException $e) {
+        $albumsWithStats = [];
+    }
     ?>
 
-    <?php if (!empty($heroSlides)): ?>
-    <!-- ── Featured Hero Slider (show_in_hero=1) ── -->
-    <div class="gal-hero-wrap" id="galHeroWrap">
-        <?php foreach ($heroSlides as $hi => $hs): ?>
-        <div class="gal-hero-slide <?php echo $hi === 0 ? 'active' : ''; ?>"
-             style="background-image:url('<?php echo htmlspecialchars($hs['image_path']); ?>');"
-             data-index="<?php echo $hi; ?>">
-            <?php if (!empty($hs['caption'])): ?>
-            <div class="gal-hero-caption">
-                <p><?php echo htmlspecialchars($hs['caption']); ?></p>
-                <?php if (!empty($hs['credit'])): ?>
-                <small>📷 <?php echo htmlspecialchars($hs['credit']); ?></small>
-                <?php endif; ?>
+    <!-- Stats Bar -->
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+        <div class="gal-stats-pill">
+            <span><strong><?php echo number_format($totalPhotosCount); ?></strong> Photos</span>
+            <span style="opacity: 0.3;">•</span>
+            <span><strong><?php echo count($albumsWithStats); ?></strong> Events</span>
+            <span style="opacity: 0.3;">•</span>
+            <span><strong><?php echo isset($siteStats['states_active']) ? $siteStats['states_active'] : 15; ?></strong> States</span>
+        </div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="gal-filters-wrap">
+        <button class="gal-filter-btn active" data-filter="all">All</button>
+        <?php foreach ($albumsWithStats as $alb): 
+            $shortTitle = $alb['title'];
+            if ($alb['slug'] === 'national-championships') $shortTitle = 'National';
+            elseif ($alb['slug'] === 'international-events') $shortTitle = 'International';
+            elseif ($alb['slug'] === 'training-camps') $shortTitle = 'Camps';
+            elseif ($alb['slug'] === 'athlete-development') $shortTitle = 'Development';
+            elseif ($alb['slug'] === 'general') $shortTitle = 'General';
+        ?>
+        <button class="gal-filter-btn" data-filter="<?php echo htmlspecialchars($alb['slug']); ?>"><?php echo htmlspecialchars($shortTitle); ?></button>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- VIEW 1: ALBUMS & RECENT UPLOADS -->
+    <div id="galViewAlbums">
+        <!-- Event Album Cards Grid -->
+        <div class="gal-albums-grid" id="galAlbumsGrid">
+            <?php foreach ($albumsWithStats as $alb): 
+                $cover = !empty($alb['final_cover']) ? htmlspecialchars($alb['final_cover']) : 'assets/images/bsfi-placeholder.webp';
+            ?>
+            <div class="gal-album-card" data-album-slug="<?php echo htmlspecialchars($alb['slug']); ?>" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
+                <div class="gal-album-img-wrap">
+                    <img src="<?php echo $cover; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy">
+                    <span class="gal-album-count-badge"><?php echo (int)$alb['image_count']; ?> Photos</span>
+                </div>
+                <div class="gal-album-info">
+                    <h3 class="gal-album-title"><?php echo htmlspecialchars($alb['title']); ?></h3>
+                    <p class="gal-album-desc"><?php echo htmlspecialchars($alb['description'] ?: 'Official gallery photos.'); ?></p>
+                </div>
             </div>
-            <?php endif; ?>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
-        <div class="gal-hero-dots" id="galHeroDots">
-            <?php foreach ($heroSlides as $hi => $hs): ?>
-            <button class="gal-hero-dot <?php echo $hi === 0 ? 'active' : ''; ?>" data-idx="<?php echo $hi; ?>" aria-label="Hero slide <?php echo $hi+1; ?>"></button>
+
+        <!-- Recent Uploads Section -->
+        <div class="gal-section-header-row" id="recentUploadsHeader">
+            <h3 class="gal-section-title"><span>📸</span> Recent Uploads</h3>
+        </div>
+        
+        <div class="gal-photos-grid" id="recentUploadsGrid">
+            <?php 
+            $recentPhotos = array_slice($allGalImages, 0, 12);
+            foreach ($recentPhotos as $img): 
+                $imgUrl = htmlspecialchars($img['image_path']);
+                $thumbUrl = htmlspecialchars($img['thumbnail_path'] ?: $img['image_path']);
+                $caption = htmlspecialchars($img['caption'] ?? 'BSFI Gallery Photo');
+                $credit = htmlspecialchars($img['credit'] ?? '');
+            ?>
+            <a href="<?php echo $imgUrl; ?>" class="glightbox gal-photo-item" data-gallery="recent-gallery" data-title="<?php echo $caption; ?>" data-description="<?php echo $credit; ?>">
+                <img src="<?php echo $thumbUrl; ?>" alt="<?php echo $caption; ?>" loading="lazy">
+                <div class="gal-photo-overlay">
+                    <p class="gal-photo-caption"><?php echo $caption; ?></p>
+                </div>
+            </a>
             <?php endforeach; ?>
         </div>
     </div>
-    <?php endif; ?>
 
-    <!-- ── Toolbar: Album Tabs + View Toggle ── -->
-    <div class="gal-toolbar">
-        <div class="gal-tabs" id="galTabs">
-            <button class="gal-tab-btn active" data-album="all">All</button>
-            <?php foreach ($galAlbums as $alb): ?>
-            <button class="gal-tab-btn" data-album="<?php echo htmlspecialchars($alb['slug']); ?>"><?php echo htmlspecialchars($alb['title']); ?></button>
-            <?php endforeach; ?>
+    <!-- VIEW 2: ALBUM DETAIL VIEW (Hidden by default) -->
+    <div id="galViewDetail" style="display: none;">
+        <div class="gal-section-header-row">
+            <button class="gal-back-btn" onclick="closeAlbum()">← Back to Albums</button>
         </div>
-        <div class="gal-view-btns">
-            <button class="gal-view-btn active" id="btnCollage" onclick="setGalView('collage')">Collage</button>
-            <button class="gal-view-btn" id="btnSlideshow" onclick="setGalView('slideshow')">Slideshow</button>
+
+        <div class="gal-album-detail-header">
+            <h2 id="detailTitle" class="gal-title" style="margin: 0 0 0.5rem; text-align: left;">Album Title</h2>
+            <div class="gal-detail-meta">
+                <span id="detailCount">0 Photos</span>
+                <span>•</span>
+                <span id="detailDesc">Album Description</span>
+            </div>
+        </div>
+
+        <!-- Masonry Grid for selected album photos -->
+        <div class="gal-photos-grid" id="albumDetailGrid">
+            <!-- Populated via JS -->
         </div>
     </div>
 
-    <?php if (!empty($allGalImages)): ?>
-
-    <!-- ── Collage View ── -->
-    <div id="galCollage" class="gallery-bento">
-        <?php foreach ($allGalImages as $img): ?>
-        <a href="<?php echo htmlspecialchars($img['image_path']); ?>"
-           class="glightbox gal-bento-item"
-           data-gallery="bsfi-gallery"
-           data-album="<?php echo htmlspecialchars($img['album_slug'] ?? 'general'); ?>"
-           data-title="<?php echo htmlspecialchars($img['caption'] ?? ''); ?>"
-           data-description="<?php echo htmlspecialchars($img['credit'] ?? ''); ?>">
-            <img src="<?php echo htmlspecialchars($img['thumbnail_path'] ?: $img['image_path']); ?>"
-                 alt="<?php echo htmlspecialchars($img['alt_text'] ?? $img['caption'] ?? 'BSFI Gallery Photo'); ?>"
-                 loading="lazy">
-            <div class="gal-overlay">🔍</div>
-        </a>
-        <?php endforeach; ?>
-    </div>
-
-    <!-- ── Slideshow View ── -->
-    <div id="galSlideshow" class="gal-slideshow-wrap gal-hidden">
-        <?php foreach ($allGalImages as $si => $img): ?>
-        <div class="gal-ss-slide <?php echo $si === 0 ? 'active' : ''; ?>" data-album="<?php echo htmlspecialchars($img['album_slug'] ?? 'general'); ?>">
-            <img src="<?php echo htmlspecialchars($img['medium_path'] ?: $img['image_path']); ?>"
-                 alt="<?php echo htmlspecialchars($img['alt_text'] ?? $img['caption'] ?? 'BSFI Gallery Photo'); ?>"
-                 loading="lazy">
-        </div>
-        <?php endforeach; ?>
-        <button class="gal-ss-arrow gal-ss-prev" onclick="galSsMove(-1)" aria-label="Previous">&#8249;</button>
-        <button class="gal-ss-arrow gal-ss-next" onclick="galSsMove(1)" aria-label="Next">&#8250;</button>
-    </div>
-
-    <button class="gal-load-more" id="galLoadMore" onclick="galLoadMore()">Load More Photos</button>
-
-    <?php else: ?>
-    <div style="text-align:center;padding:4rem;background:rgba(0,0,0,.2);border-radius:24px;">
-        <p style="font-size:1.2rem;opacity:.65;">Photo gallery is currently being updated.<br><small>Upload photos via the Admin panel to see them here.</small></p>
-    </div>
-    <?php endif; ?>
-
-</div><!-- /.container -->
-</section>
+</div>
 
 <script>
 (function() {
-    /* ── Hero slider ── */
-    var heroSlides = document.querySelectorAll('.gal-hero-slide');
-    var heroDots   = document.querySelectorAll('.gal-hero-dot');
-    var heroCur    = 0, heroTimer;
-    function heroGo(n) {
-        if (!heroSlides.length) return;
-        heroSlides[heroCur].classList.remove('active');
-        if (heroDots[heroCur]) heroDots[heroCur].classList.remove('active');
-        heroCur = (n + heroSlides.length) % heroSlides.length;
-        heroSlides[heroCur].classList.add('active');
-        if (heroDots[heroCur]) heroDots[heroCur].classList.add('active');
+    // Inject album & photo variables
+    const albumsList = <?php echo json_encode($albumsWithStats); ?>;
+    const photosList = <?php echo json_encode($allGalImages); ?>;
+    let activeLightbox = null;
+
+    // Initialize Global Lightbox for Recent Grid
+    function initLightbox() {
+        if (activeLightbox) activeLightbox.destroy();
+        activeLightbox = GLightbox({
+            selector: '.glightbox',
+            touchNavigation: true,
+            loop: true
+        });
     }
-    heroDots.forEach(function(d){
-        d.addEventListener('click', function(){ heroGo(+d.dataset.idx); clearInterval(heroTimer); heroTimer = setInterval(function(){heroGo(heroCur+1);}, 5000); });
-    });
-    if (heroSlides.length > 1) { heroTimer = setInterval(function(){heroGo(heroCur+1);}, 5000); }
 
-    /* ── Album filter tabs ── */
-    var GAL_BATCH = 24;
-    var allBentoItems = Array.from(document.querySelectorAll('.gal-bento-item'));
-    var allSSSlides   = Array.from(document.querySelectorAll('.gal-ss-slide'));
-    var activeAlbum   = localStorage.getItem('bsfi_gal_album') || 'all';
-    var activeView    = localStorage.getItem('bsfi_gal_view')  || 'collage';
-    var visibleCount  = GAL_BATCH;
+    // Function to Open an Album
+    window.openAlbum = function(slug) {
+        const album = albumsList.find(a => a.slug === slug);
+        if (!album) return;
 
-    function filterItems(album) {
-        activeAlbum  = album;
-        visibleCount = GAL_BATCH;
-        localStorage.setItem('bsfi_gal_album', album);
+        // Set header information
+        document.getElementById('detailTitle').textContent = album.title;
+        document.getElementById('detailCount').innerHTML = `<strong>${album.image_count}</strong> Photos`;
+        document.getElementById('detailDesc').textContent = album.description || 'Official media archive event.';
 
-        // Update Tabs UI
-        document.querySelectorAll('.gal-tab-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.album === album);
-        });
+        // Filter photos for this album
+        const albumPhotos = photosList.filter(p => p.album_slug === slug);
+        let gridHtml = '';
 
-        // Sync Collage View items
-        var matchedCollage = 0;
-        allBentoItems.forEach(item => {
-            var itemAlb = item.dataset.album || 'general';
-            if (album === 'all' || itemAlb === album) {
-                if (matchedCollage < visibleCount) {
-                    item.classList.remove('gal-hidden');
-                } else {
-                    item.classList.add('gal-hidden');
-                }
-                matchedCollage++;
-            } else {
-                item.classList.add('gal-hidden');
-            }
-        });
+        if (albumPhotos.length > 0) {
+            albumPhotos.forEach(img => {
+                const imgPath = img.image_path;
+                const thumbPath = img.thumbnail_path || img.image_path;
+                const caption = img.caption || 'BSFI Gallery Photo';
+                const credit = img.credit ? `📷 ${img.credit}` : '';
 
-        // Sync Slideshow View items
-        var ssActiveSet = false;
-        allSSSlides.forEach(slide => {
-            var slideAlb = slide.dataset.album || 'general';
-            slide.classList.remove('active');
-            if (album === 'all' || slideAlb === album) {
-                slide.setAttribute('data-filtered', '1');
-                if (!ssActiveSet) {
-                    slide.classList.add('active');
-                    ssActiveSet = true;
-                }
-            } else {
-                slide.removeAttribute('data-filtered');
-            }
-        });
-
-        // Load More button visibility
-        var totalMatched = allBentoItems.filter(item => album === 'all' || (item.dataset.album || 'general') === album).length;
-        var btnLoad = document.getElementById('galLoadMore');
-        if (btnLoad) {
-            btnLoad.classList.toggle('gal-hidden', visibleCount >= totalMatched || activeView === 'slideshow');
+                gridHtml += `
+                <a href="${imgPath}" class="glightbox gal-photo-item" data-gallery="album-detail-gallery" data-title="${caption}" data-description="${credit}">
+                    <img src="${thumbPath}" alt="${caption}" loading="lazy">
+                    <div class="gal-photo-overlay">
+                        <p class="gal-photo-caption">${caption}</p>
+                    </div>
+                </a>
+                `;
+            });
+        } else {
+            gridHtml = `<div style="grid-column: 1 / -1; text-align: center; padding: 4rem; opacity: 0.5;">No photos available in this album.</div>`;
         }
-    }
 
-    // Bind Tabs click
-    document.querySelectorAll('.gal-tab-btn').forEach(btn => {
-        btn.addEventListener('click', function() { filterItems(btn.dataset.album); });
+        document.getElementById('albumDetailGrid').innerHTML = gridHtml;
+
+        // Transition views
+        document.getElementById('galViewAlbums').style.display = 'none';
+        document.getElementById('galViewDetail').style.display = 'block';
+
+        // Scroll to gallery top anchor smoothly
+        document.getElementById('photo-gallery').scrollIntoView({ behavior: 'smooth' });
+
+        // Update URL hash
+        window.location.hash = 'album-' + slug;
+
+        // Re-initialize lightbox
+        initLightbox();
+    };
+
+    // Function to Close Album and Go Back
+    window.closeAlbum = function() {
+        document.getElementById('galViewDetail').style.display = 'none';
+        document.getElementById('galViewAlbums').style.display = 'block';
+        
+        // Remove hash without scrolling
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+
+        initLightbox();
+    };
+
+    // Category Filter Buttons logic
+    const filterButtons = document.querySelectorAll('.gal-filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // If we are currently viewing an album detail, close it
+            if (document.getElementById('galViewDetail').style.display !== 'none') {
+                closeAlbum();
+            }
+
+            const filter = btn.getAttribute('data-filter');
+            const cards = document.querySelectorAll('.gal-album-card');
+            
+            cards.forEach(card => {
+                const slug = card.getAttribute('data-album-slug');
+                if (filter === 'all' || slug === filter) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     });
 
-    /* ── View Switcher ── */
-    window.setGalView = function(view) {
-        activeView = view;
-        localStorage.setItem('bsfi_gal_view', view);
+    // Handle deep linking or direct load hash
+    document.addEventListener('DOMContentLoaded', () => {
+        initLightbox();
 
-        document.getElementById('btnCollage').classList.toggle('active', view === 'collage');
-        document.getElementById('btnSlideshow').classList.toggle('active', view === 'slideshow');
-
-        document.getElementById('galCollage').classList.toggle('gal-hidden', view !== 'collage');
-        document.getElementById('galSlideshow').classList.toggle('gal-hidden', view !== 'slideshow');
-
-        filterItems(activeAlbum);
-    };
-
-    /* ── Load More ── */
-    window.galLoadMore = function() {
-        visibleCount += GAL_BATCH;
-        filterItems(activeAlbum);
-    };
-
-    /* ── Slideshow Navigator ── */
-    window.galSsMove = function(dir) {
-        var filteredSlides = allSSSlides.filter(s => s.hasAttribute('data-filtered'));
-        if (!filteredSlides.length) return;
-        var curIdx = filteredSlides.findIndex(s => s.classList.contains('active'));
-        if (curIdx === -1) curIdx = 0;
-
-        filteredSlides[curIdx].classList.remove('active');
-        var nextIdx = (curIdx + dir + filteredSlides.length) % filteredSlides.length;
-        filteredSlides[nextIdx].classList.add('active');
-    };
-
-    // Initial load state triggers
-    document.addEventListener('DOMContentLoaded', function() {
-        setGalView(activeView);
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#album-')) {
+            const slug = hash.replace('#album-', '');
+            openAlbum(slug);
+        }
     });
+
+    // Listen to hash changes (e.g. back button)
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#album-')) {
+            const slug = hash.replace('#album-', '');
+            openAlbum(slug);
+        } else if (!hash && document.getElementById('galViewDetail').style.display !== 'none') {
+            closeAlbum();
+        }
+    });
+
 })();
 </script>
 
