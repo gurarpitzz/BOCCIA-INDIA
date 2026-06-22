@@ -1,7 +1,7 @@
 -- Database initialization for Boccia Sports Federation of India (BSFI)
 
-CREATE DATABASE IF NOT EXISTS `boccia_india` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `boccia_india`;
+-- CREATE DATABASE IF NOT EXISTS `boccia_india` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- USE `boccia_india`;
 
 -- Users Table
 CREATE TABLE IF NOT EXISTS `users` (
