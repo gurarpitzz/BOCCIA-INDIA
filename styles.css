@@ -493,7 +493,7 @@ body {
 .hero-slideshow-wrapper {
     position: relative;
     width: 100%;
-    height: calc(100vh - 140px); /* Fill screen below the top logo bar */
+    height: 80vh; /* Occupy 80vh edge-to-edge */
     min-height: 500px;
     overflow: hidden;
     background: var(--deep-navy);
@@ -504,8 +504,9 @@ body {
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: center 30%;
+    background-position: center 20%;
     background-repeat: no-repeat;
+    background-color: var(--deep-navy);
     opacity: 0;
     transition: opacity 1s ease-in-out;
     z-index: 0;

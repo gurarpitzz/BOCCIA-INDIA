@@ -7,9 +7,9 @@
         <p class="cta-text">Join the Boccia Sports Federation of India community as an athlete, certified coach, classifier, or volunteer advocate.</p>
         
         <div class="cta-buttons">
-            <a href="index.php#register" class="btn cta-btn btn-primary-saffron">Become a Player</a>
-            <a href="get-involved/membership.php" class="btn cta-btn btn-outline-white">Become an Official</a>
-            <a href="https://worldboccia.io/events" target="_blank" rel="noopener" class="btn cta-btn btn-outline-white">Explore Competitions</a>
+            <a href="get-involved/register-player.php" class="btn cta-btn btn-primary-saffron">Become a Player</a>
+            <a href="get-involved/register-official.php" class="btn cta-btn btn-outline-white">Become an Official</a>
+            <a href="competitions/national-events.php" class="btn cta-btn btn-outline-white">Explore Competitions</a>
         </div>
     </div>
 </section>

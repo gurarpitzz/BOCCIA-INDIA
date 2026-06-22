@@ -380,7 +380,7 @@ class ContentDiscoveryEngine {
                 'section' => 'competitions',
                 'slug' => null,
                 'children' => [
-                    ['title' => 'National Events', 'slug' => 'national-events', 'section' => 'competitions']
+                    ['title' => 'International Events', 'slug' => 'international-events', 'section' => 'competitions']
                 ]
             ],
             [
@@ -390,7 +390,6 @@ class ContentDiscoveryEngine {
                 'children' => [
                     ['title' => 'News', 'slug' => 'news', 'section' => 'news-media'],
                     ['title' => 'Gallery', 'slug' => 'gallery', 'section' => 'news-media'],
-                    ['title' => 'Videos', 'slug' => 'videos', 'section' => 'news-media'],
                     ['title' => 'BSFI Tender', 'slug' => 'tenders', 'section' => 'news-media']
                 ]
             ],

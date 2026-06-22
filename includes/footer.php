@@ -1,6 +1,14 @@
 <?php
 // footer.php - Layout Footer with Quick Links and scripts
-$script_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/import/') !== false ? '../app.js' : 'app.js';
+if (!isset($relative_prefix)) {
+    $script_name = $_SERVER['SCRIPT_NAME'];
+    $clean_path = ltrim($script_name, '/');
+    $parts = explode('/', $clean_path);
+    $depth = count($parts) - 1;
+    if ($depth < 0) $depth = 0;
+    $relative_prefix = str_repeat('../', $depth);
+}
+$script_path = $relative_prefix . 'app.js';
 ?>
     <?php
     // Only show Recognitions & Affiliations and Strategic Partners on the Home Page
@@ -143,9 +151,9 @@ $script_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_
             <!-- Left Info Block -->
             <div class="footer-info">
                 <div class="footer-logos-row">
-                    <img src="logos/Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS" class="footer-top-logo" onerror="this.src='../logos/Ministry_of_Youth_Affairs_and_Sports.svg'">
-                    <img src="boccia-india-logo.webp" alt="Boccia India" class="footer-top-logo" onerror="this.src='../boccia-india-logo.webp'">
-                    <img src="logos/Full Logo World Boccia.webp" alt="World Boccia" class="footer-top-logo" onerror="this.src='../logos/Full Logo World Boccia.webp'">
+                    <img src="<?php echo $relative_prefix; ?>logos/Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS" class="footer-top-logo">
+                    <img src="<?php echo $relative_prefix; ?>boccia-india-logo.webp" alt="Boccia India" class="footer-top-logo">
+                    <img src="<?php echo $relative_prefix; ?>logos/Full Logo World Boccia.webp" alt="World Boccia" class="footer-top-logo">
                 </div>
                 <h3 class="footer-title">Boccia Sports Federation of India</h3>
                 <p class="footer-desc">Promoting Para Boccia across India and empowering athletes with disabilities through competitive excellence, inclusion, and international representation.</p>
@@ -176,7 +184,7 @@ $script_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_
                     <li><a href="#discover"><span class="link-arrow">↗</span> Our Sport</a></li>
                     <li><a href="#competitions"><span class="link-arrow">↗</span> Competitions</a></li>
                     <li><a href="#news"><span class="link-arrow">↗</span> News & Media</a></li>
-                    <li><a href="#gallery"><span class="link-arrow">↗</span> Gallery</a></li>
+                    <li><a href="#photo-gallery"><span class="link-arrow">↗</span> Gallery</a></li>
                     <li><a href="#contact-bottom"><span class="link-arrow">↗</span> Contact Us</a></li>
                 </ul>
             </div>

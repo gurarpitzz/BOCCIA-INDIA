@@ -1,176 +1,365 @@
 <?php
-// get-involved/membership.php - Dynamic player membership intake form
-
+// get-involved/membership.php - Premium membership entry portal with interactive card links
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 
-$message = '';
-$error = '';
-
-// Load dynamic fields configuration
-$fieldsJson = file_get_contents(__DIR__ . '/../includes/membership_fields.json');
-$fields = json_decode($fieldsJson, true);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Basic csrf check could be added here
-    $data = [];
-    $files = [];
-    $isValid = true;
-
-    // Sanitize and validate inputs
-    foreach ($fields as $field) {
-        $name = $field['name'];
-        if ($field['type'] === 'file') {
-            if (empty($_FILES[$name]['name']) && $field['required']) {
-                $error = "File upload for '{$field['label']}' is required.";
-                $isValid = false;
-                break;
-            } elseif (!empty($_FILES[$name]['name'])) {
-                // Perform file type and security validation
-                $filename = $_FILES[$name]['name'];
-                $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                $allowed = ['pdf', 'png', 'jpg', 'jpeg'];
-                
-                if (!in_array($ext, $allowed)) {
-                    $error = "Invalid file type for '{$field['label']}'. Only PDF, PNG, JPG, and JPEG are allowed.";
-                    $isValid = false;
-                    break;
-                }
-
-                // Security mime type validation
-                $tempFile = $_FILES[$name]['tmp_name'];
-                $mime = mime_content_type($tempFile);
-                $allowedMimes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
-                if (!in_array($mime, $allowedMimes)) {
-                    $error = "Invalid file content for '{$field['label']}'. Please upload genuine documents.";
-                    $isValid = false;
-                    break;
-                }
-                
-                $files[$name] = $_FILES[$name];
-            }
-        } else {
-            $val = trim($_POST[$name] ?? '');
-            if ($field['required'] && empty($val)) {
-                $error = "Field '{$field['label']}' is required.";
-                $isValid = false;
-                break;
-            }
-            $data[$name] = htmlspecialchars($val, ENT_QUOTES, 'UTF-8');
-        }
-    }
-
-    if ($isValid) {
-        try {
-            // Process file uploads
-            $uploadedPaths = [];
-            foreach ($files as $name => $fileInfo) {
-                $ext = strtolower(pathinfo($fileInfo['name'], PATHINFO_EXTENSION));
-                // Generate secure filename
-                $secureName = uniqid('member_', true) . '.' . $ext;
-                $destPath = __DIR__ . '/../uploads/memberships/' . $secureName;
-                
-                if (move_uploaded_file($fileInfo['tmp_name'], $destPath)) {
-                    $uploadedPaths[$name] = 'uploads/memberships/' . $secureName;
-                }
-            }
-
-            // Generate unique registration number
-            $regnNo = 'BI-' . strtoupper(substr($data['state'], 0, 3)) . '-' . rand(10000, 99999);
-
-            // Save details to database
-            $ins = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, mobile, email, state, district, classification, representing_for, wheelchair_status, photo_path, receipt_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
-            
-            $ins->execute([
-                $regnNo,
-                $data['full_name'],
-                strtoupper($data['gender']),
-                $data['dob'],
-                $data['phone'],
-                $data['email'],
-                $data['state'],
-                $data['pincode'], // Storing pincode in district/other placeholder if needed
-                $data['classification'],
-                $data['state'],
-                $data['wheelchair_status'],
-                $uploadedPaths['photo_path'] ?? null,
-                $uploadedPaths['receipt_path'] ?? null
-            ]);
-
-            $message = "Your membership application has been submitted successfully! Your tracking registration number is: <strong>$regnNo</strong>. It is currently under review.";
-            
-            // Log activity
-            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES ('Submit Membership', ?)");
-            $log->execute(["New membership registration submitted: $regnNo"]);
-        } catch (\PDOException $e) {
-            $error = "Database error saving application: " . $e->getMessage();
-        }
-    }
-}
-
-$page_title = "Online Player Membership Registration - Boccia India";
-$logo_path = "../";
+$page_title = "Online Player & Official Membership Portal - Boccia India";
 include __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="container my-5 py-4">
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            
-            <div class="mb-5 border-bottom pb-3">
-                <h1 class="display-5 text-dark fw-bold" style="color: #081B4B !important;">Online Membership Registration</h1>
-                <p class="text-muted">Register as an athlete with the Boccia Sports Federation of India (BSFI).</p>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+:root {
+    --boccia-navy: #081B4B;
+    --boccia-green: #10B981;
+    --boccia-saffron: #FF9933;
+    --boccia-maroon: #8C201C;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Hero Section precisely styled like Board/Affiliation */
+.membership-hero {
+    min-height: calc(100vh - 140px);
+    height: calc(100vh - 140px);
+    background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.85) 35%, rgba(7, 25, 84, 0.6) 55%, rgba(7, 25, 84, 0.2) 75%, transparent 100%), url('../board/board%20bg.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 5rem;
+}
+
+.membership-hero-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+}
+
+.membership-hero-content {
+    max-width: 800px;
+    text-align: left;
+    color: #ffffff;
+}
+
+.membership-hero-eyebrow {
+    color: #22C55E !important;
+    font-family: 'Caveat', cursive, sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 400 !important;
+    font-style: italic !important;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.membership-hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.membership-hero-text {
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Content Section with specified background */
+.membership-portal-content {
+    padding: 100px 0;
+    background: url('../about boccia/why boccia matter BG.png') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.portal-glass-card {
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 24px;
+    padding: 60px;
+    box-shadow: 0 20px 45px rgba(8, 27, 75, 0.12);
+    border: 1px solid rgba(8, 27, 75, 0.06);
+    backdrop-filter: blur(10px);
+}
+
+.portal-notice-header {
+    border-bottom: 2px solid rgba(8, 27, 75, 0.08);
+    padding-bottom: 30px;
+    margin-bottom: 40px;
+}
+
+.portal-announcement-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(140, 32, 28, 0.08);
+    color: var(--boccia-maroon);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 8px 18px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.portal-announcement-tag i {
+    font-size: 1rem;
+}
+
+.portal-main-heading {
+    font-family: var(--font-heading);
+    color: var(--boccia-navy);
+    font-weight: 800;
+    font-size: 2rem;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.portal-main-heading span {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    color: var(--boccia-maroon);
+}
+
+.portal-info-body {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #475569;
+}
+
+.portal-info-body p {
+    margin-bottom: 20px;
+}
+
+.portal-highlight-info {
+    background: rgba(8, 27, 75, 0.03);
+    border-left: 4px solid var(--boccia-navy);
+    padding: 20px 25px;
+    border-radius: 0 16px 16px 0;
+    margin: 30px 0 45px 0;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.portal-highlight-info i {
+    color: var(--boccia-navy);
+    font-size: 1.4rem;
+    margin-top: 2px;
+}
+
+.portal-highlight-info p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Choices Grid */
+.portal-choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .portal-choices-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .portal-glass-card {
+        padding: 35px 20px;
+    }
+}
+
+.choice-link-card {
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+    color: #ffffff !important;
+}
+
+.choice-link-card:hover {
+    transform: translateY(-5px);
+}
+
+.choice-icon-wrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+.choice-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.choice-desc {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.choice-action-indicator {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: auto;
+    background: rgba(255, 255, 255, 0.12);
+    padding: 8px 18px;
+    border-radius: 50px;
+    align-self: flex-start;
+    transition: all 0.3s ease;
+}
+
+.choice-action-indicator i {
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.choice-link-card:hover .choice-action-indicator i {
+    transform: translateX(5px);
+}
+
+.choice-link-card:hover .choice-action-indicator {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Choice 1: Player Card (Solid Maroon Gradient) */
+.choice-player-card {
+    background: linear-gradient(135deg, #B52C28 0%, #8C1C18 100%);
+    box-shadow: 0 10px 25px rgba(140, 32, 28, 0.2);
+}
+
+.choice-player-card:hover {
+    box-shadow: 0 20px 40px rgba(140, 32, 28, 0.4);
+}
+
+/* Choice 2: Official Card (Solid Navy Gradient) */
+.choice-official-card {
+    background: linear-gradient(135deg, #1E3A8A 0%, #081B4B 100%);
+    box-shadow: 0 10px 25px rgba(8, 27, 75, 0.2);
+}
+
+.choice-official-card:hover {
+    box-shadow: 0 20px 40px rgba(8, 27, 75, 0.4);
+}
+</style>
+
+<div class="membership-portal-wrapper">
+    <!-- Hero Header Banner -->
+    <section class="membership-hero">
+        <div class="container membership-hero-container">
+            <div class="membership-hero-content scroll-reveal">
+                <span class="membership-hero-eyebrow">-- Get Involved --</span>
+                <h1 class="membership-hero-title">MEMBERSHIP PORTAL</h1>
+                <p class="membership-hero-text">
+                    Join the Boccia Sports Federation of India (BSFI). Register online to receive your official Athlete ID, track compliance, and participate in tournaments.
+                </p>
             </div>
-
-            <?php if (!empty($message)): ?>
-                <div class="alert alert-success border-0 p-4 mb-4 rounded-3">
-                    <?php echo $message; ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!empty($error)): ?>
-                <div class="alert alert-danger border-0 p-3 mb-4 rounded-3">
-                    <?php echo htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (empty($message)): ?>
-                <form action="membership.php" method="POST" enctype="multipart/form-data" class="bg-light p-4 rounded-4 shadow-sm border">
-                    <div class="row">
-                        <?php foreach ($fields as $field): 
-                            $name = $field['name'];
-                            $label = $field['label'];
-                            $required = $field['required'] ? 'required' : '';
-                        ?>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold text-dark"><?php echo htmlspecialchars($label); ?> <?php echo $field['required'] ? '<span class="text-danger">*</span>' : ''; ?></label>
-                                
-                                <?php if ($field['type'] === 'select'): ?>
-                                    <select name="<?php echo $name; ?>" class="form-select" <?php echo $required; ?>>
-                                        <option value="">Select option</option>
-                                        <?php foreach ($field['options'] as $opt): ?>
-                                            <option value="<?php echo htmlspecialchars($opt); ?>"><?php echo htmlspecialchars($opt); ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                <?php elseif ($field['type'] === 'textarea'): ?>
-                                    <textarea name="<?php echo $name; ?>" class="form-control" rows="3" <?php echo $required; ?>></textarea>
-                                <?php elseif ($field['type'] === 'file'): ?>
-                                    <input type="file" name="<?php echo $name; ?>" class="form-control" <?php echo $required; ?>>
-                                <?php else: ?>
-                                    <input type="<?php echo $field['type']; ?>" name="<?php echo $name; ?>" class="form-control" <?php echo $required; ?>>
-                                <?php endif; ?>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <div class="text-end mt-4">
-                        <button type="submit" class="btn btn-primary btn-lg px-5">Submit Registration</button>
-                    </div>
-                </form>
-            <?php endif; ?>
-
         </div>
-    </div>
+    </section>
+
+    <!-- Main Content Choices -->
+    <section class="membership-portal-content">
+        <div class="container" style="max-width: 950px;">
+            <div class="portal-glass-card scroll-reveal">
+                
+                <div class="portal-notice-header">
+                    <div class="portal-announcement-tag">
+                        <i class="bi bi-megaphone-fill"></i> Official BSFI Announcement
+                    </div>
+                    <h2 class="portal-main-heading">
+                        Boccia <span>INDIA memberships are now available.</span>
+                    </h2>
+                </div>
+
+                <div class="portal-info-body">
+                    <p>Becoming a member of Boccia INDIA supports the growth of the sport in this country, it enables you to compete at any Boccia India-supported event as well protect our members.</p>
+                    
+                    <div class="portal-highlight-info">
+                        <i class="bi bi-exclamation-octagon-fill"></i>
+                        <p>If you are an athlete, coach, sport assistant, official, or volunteer you need to become a member of the sport. You will be ineligible to participate in any Boccia India-sanctioned events if you do not have an active membership status.</p>
+                    </div>
+                </div>
+
+                <!-- Registration Choices Grid -->
+                <div class="portal-choices-grid">
+                    
+                    <!-- Choice 1: Player -->
+                    <a href="register-player.php" class="choice-link-card choice-player-card">
+                        <div class="choice-icon-wrap">
+                            <i class="bi bi-person-bounding-box"></i>
+                        </div>
+                        <h3 class="choice-title">Player Registration</h3>
+                        <p class="choice-desc">Register as a competing athlete. Required for official classifications, ranking tracking, and tournament entries.</p>
+                        <span class="choice-action-indicator">
+                            Register Now <i class="bi bi-arrow-right"></i>
+                        </span>
+                    </a>
+
+                    <!-- Choice 2: Coach/Official -->
+                    <a href="register-official.php" class="choice-link-card choice-official-card">
+                        <div class="choice-icon-wrap">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <h3 class="choice-title">Coach &amp; Official Registration</h3>
+                        <p class="choice-desc">Register as a Coach, Sport Assistant, Referee, Classifier, Technical Official, or Event Volunteer.</p>
+                        <span class="choice-action-indicator">
+                            Register Now <i class="bi bi-arrow-right"></i>
+                        </span>
+                    </a>
+
+                </div>
+
+                <div class="mt-5 text-center pt-4 border-top" style="border-top-color: rgba(8, 27, 75, 0.08) !important;">
+                    <p class="text-muted mb-3" style="font-family: var(--font-body); font-size: 1rem;">Already registered? Check your membership status online instantly.</p>
+                    <a href="verify-membership.php" class="btn btn-outline-primary rounded-pill px-4 py-2" style="font-family: var(--font-heading); font-weight: 700; border-color: var(--boccia-navy); color: var(--boccia-navy); transition: all 0.3s ease;">
+                        <i class="bi bi-shield-fill-check me-1"></i> Verify Membership Status
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
 </div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

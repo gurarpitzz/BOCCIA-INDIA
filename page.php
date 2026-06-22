@@ -58,6 +58,21 @@ if ($section === 'sport' && $slug === 'rules') {
     exit();
 }
 
+if ($section === 'sport' && $slug === 'anti-doping') {
+    include __DIR__ . '/includes/anti-doping-page.php';
+    exit();
+}
+
+if ($section === 'sport' && $slug === 'classification') {
+    include __DIR__ . '/includes/classification-page.php';
+    exit();
+}
+
+if ($section === 'sport' && $slug === 'equipment') {
+    include __DIR__ . '/includes/equipment-page.php';
+    exit();
+}
+
 if ($section === 'myas' && $slug === 'elections') {
     include __DIR__ . '/includes/elections-page.php';
     exit();

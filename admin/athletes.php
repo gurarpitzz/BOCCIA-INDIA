@@ -15,6 +15,8 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $state = isset($_GET['state']) ? trim($_GET['state']) : '';
 $class = isset($_GET['class']) ? trim($_GET['class']) : '';
 $status = isset($_GET['status']) ? trim($_GET['status']) : '';
+$photoStatus = isset($_GET['photo_status']) ? trim($_GET['photo_status']) : '';
+$contactStatus = isset($_GET['contact_status']) ? trim($_GET['contact_status']) : '';
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
 $limit = 10;
@@ -54,6 +56,15 @@ if ($status !== '') {
     $params[] = $status;
 }
 
+if ($photoStatus !== '') {
+    $query .= " AND photo_status = ?";
+    $params[] = $photoStatus;
+}
+
+if ($contactStatus === 'missing') {
+    $query .= " AND (email IS NULL OR email = '' OR mobile IS NULL OR mobile = '')";
+}
+
 // Get count
 $countQuery = str_replace("SELECT *", "SELECT COUNT(*) as total", $query);
 $countStmt = $pdo->prepare($countQuery);
@@ -83,7 +94,7 @@ $athletesList = $stmt->fetchAll();
 
         <!-- Filter Form -->
         <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2rem; border-radius:28px; margin-bottom:3rem;">
-            <form action="athletes.php" method="GET" style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr; gap:1rem; align-items:flex-end;">
+            <form action="athletes.php" method="GET" style="display:grid; grid-template-columns:2fr 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr; gap:0.75rem; align-items:flex-end;">
                 <div class="input-group">
                     <label for="search" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Search Query</label>
                     <input type="text" name="search" id="search" class="search-input" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search by name or registration number...">
@@ -116,8 +127,23 @@ $athletesList = $stmt->fetchAll();
                         <option value="archived" <?php if ($status === 'archived') echo 'selected'; ?>>Archived</option>
                     </select>
                 </div>
+                <div class="input-group">
+                    <label for="photo_status" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Photo Status</label>
+                    <select name="photo_status" id="photo_status" class="select-input">
+                        <option value="">All Photos</option>
+                        <option value="missing" <?php if ($photoStatus === 'missing') echo 'selected'; ?>>Missing Photo</option>
+                        <option value="verified" <?php if ($photoStatus === 'verified') echo 'selected'; ?>>Verified Photo</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="contact_status" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Contact Info</label>
+                    <select name="contact_status" id="contact_status" class="select-input">
+                        <option value="">All Contacts</option>
+                        <option value="missing" <?php if ($contactStatus === 'missing') echo 'selected'; ?>>Missing Info</option>
+                    </select>
+                </div>
                 <div>
-                    <button type="submit" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; padding:0.85rem; border-radius:999px; width:100%; cursor:pointer;">Apply Filters</button>
+                    <button type="submit" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; padding:0.85rem; border-radius:999px; width:100%; cursor:pointer;">Apply</button>
                 </div>
             </form>
         </div>

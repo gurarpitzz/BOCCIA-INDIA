@@ -1,10 +1,20 @@
 <?php
-// import_csv.php - Secure, Non-Destructive Database Seeder for Athletes
+// import_csv.php - Secure, Non-Destructive Database Seeder for Athletes with History and Sequences
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/includes/db.php';
+
+function cleanUtf8($string) {
+    if (is_array($string)) {
+        return array_map('cleanUtf8', $string);
+    }
+    // Remove control characters (except tab/linefeed)
+    $string = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $string);
+    // Convert encoding to UTF-8
+    return mb_convert_encoding($string, 'UTF-8', 'UTF-8, ISO-8859-1');
+}
 
 function parseCsvDate($dobStr) {
     $dobStr = trim($dobStr);
@@ -117,6 +127,14 @@ $dob_idx = array_search('DOB', $headers);
 $state_idx = array_search('REPRESENTING_FOR', $headers);
 $disc1_idx = array_search('DISCIPLINE1_NAME', $headers);
 
+// Extra indexing for history
+$championship_name_idx = array_search('CHAMPIONSHIP_NAME', $headers);
+$year_idx = array_search('YEAR', $headers);
+$disc2_idx = array_search('DISCIPLINE2_NAME', $headers);
+$disc1_result_idx = array_search('DISCIPLINE1_EVENT1_RESULT', $headers);
+$disc2_result_idx = array_search('DISCIPLINE2_EVENT1_RESULT', $headers);
+$cert_name_idx = array_search('CERT_NAME', $headers);
+
 if ($reg_idx === false || $cname_idx === false || $gender_idx === false || $dob_idx === false || $state_idx === false || $disc1_idx === false) {
     die("Error: Missing required column headers in database.csv\n");
 }
@@ -134,19 +152,6 @@ $stateAssocCache = [];
 $stateStmt = $pdo->prepare("SELECT id FROM states WHERE name = ?");
 $assocStmt = $pdo->prepare("SELECT id FROM state_associations WHERE state_id = ? LIMIT 1");
 
-$insertStmt = $pdo->prepare("INSERT INTO athletes 
-    (regn_no, full_name, gender, dob, state, classification, representing_for, state_association_id, status) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved') 
-    ON DUPLICATE KEY UPDATE 
-    full_name=VALUES(full_name), 
-    gender=VALUES(gender), 
-    dob=VALUES(dob), 
-    state=VALUES(state), 
-    classification=VALUES(classification), 
-    representing_for=VALUES(representing_for), 
-    state_association_id=VALUES(state_association_id), 
-    status=VALUES(status)");
-
 $rowNo = 1; // Row 1 is headers
 while (($row = fgetcsv($handle)) !== false) {
     $rowNo++;
@@ -160,6 +165,11 @@ while (($row = fgetcsv($handle)) !== false) {
         $regn_no = trim($row[$reg_idx]);
         if (empty($regn_no)) {
             throw new Exception("Registration number (REGN_NO) is empty.");
+        }
+        
+        // Pad numerical regn_no to match standard 4-digit code e.g. "0003"
+        if (is_numeric($regn_no)) {
+            $regn_no = str_pad((int)$regn_no, 4, '0', STR_PAD_LEFT);
         }
         
         $full_name = trim($row[$cname_idx]);
@@ -211,26 +221,52 @@ while (($row = fgetcsv($handle)) !== false) {
             throw new Exception("Invalid classification code: '$classification_raw'.");
         }
         
-        // Execute dynamic seeder
-        $insertStmt->execute([
-            $regn_no,
-            $full_name,
-            $gender,
-            $dob,
-            $cleanState,
-            $classification,
-            $cleanState,
-            $assocId
-        ]);
+        // Check if athlete already exists
+        $checkStmt = $pdo->prepare("SELECT id FROM athletes WHERE regn_no = ?");
+        $checkStmt->execute([$regn_no]);
+        $athRow = $checkStmt->fetch();
         
-        $effect = $insertStmt->rowCount();
-        if ($effect === 1) {
-            $inserted++;
-        } elseif ($effect === 2) {
+        if ($athRow) {
+            $athlete_id = $athRow['id'];
+            // Update details
+            $updateStmt = $pdo->prepare("UPDATE athletes SET full_name = ?, gender = ?, dob = ?, state = ?, classification = ?, representing_for = ?, state_association_id = ?, status = 'approved', digilocker_imported = 1, photo_status = 'missing' WHERE id = ?");
+            $updateStmt->execute([$full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId, $athlete_id]);
             $updated++;
         } else {
-            $skipped++;
+            // Insert new athlete
+            $insertStmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, state, classification, representing_for, state_association_id, status, digilocker_imported, photo_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved', 1, 'missing')");
+            $insertStmt->execute([$regn_no, $full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId]);
+            $athlete_id = $pdo->lastInsertId();
+            $inserted++;
         }
+        
+        // Clear previous history and import logs for this athlete to avoid duplicates
+        $pdo->prepare("DELETE FROM athlete_history WHERE athlete_id = ?")->execute([$athlete_id]);
+        $pdo->prepare("DELETE FROM athlete_registry_import WHERE athlete_id = ?")->execute([$athlete_id]);
+        
+        // Populate Athlete History
+        $eventName = trim($row[$championship_name_idx] ?? 'National Boccia Championship');
+        $eventYear = (int)($row[$year_idx] ?? date('Y'));
+        
+        // Event 1
+        $rank1 = trim($row[$disc1_result_idx] ?? '');
+        $remarks = trim($row[$cert_name_idx] ?? '');
+        $historyStmt = $pdo->prepare("INSERT INTO athlete_history (athlete_id, event_name, event_year, classification, event_level, state_represented, rank, remarks) VALUES (?, ?, ?, ?, 'National', ?, ?, ?)");
+        $historyStmt->execute([$athlete_id, $eventName, $eventYear, $classification, $cleanState, $rank1, $remarks]);
+        
+        // Event 2 (if exists)
+        $disc2 = cleanClassification($row[$disc2_idx] ?? '');
+        if ($disc2) {
+            $rank2 = trim($row[$disc2_result_idx] ?? '');
+            $historyStmt->execute([$athlete_id, $eventName, $eventYear, $disc2, $cleanState, $rank2, $remarks]);
+        }
+        
+        // Populate athlete_registry_import (raw JSON row)
+        $assocRow = array_combine($headers, $row);
+        $cleanedAssocRow = cleanUtf8($assocRow);
+        $jsonRow = json_encode($cleanedAssocRow, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PARTIAL_OUTPUT_ON_ERROR);
+        $importStmt = $pdo->prepare("INSERT INTO athlete_registry_import (athlete_id, source_file, import_batch, original_csv_row) VALUES (?, 'database.csv', 'Initial DigiLocker Import', ?)");
+        $importStmt->execute([$athlete_id, $jsonRow]);
         
     } catch (Exception $e) {
         $errors[] = "Row $rowNo - " . $e->getMessage();
@@ -239,17 +275,22 @@ while (($row = fgetcsv($handle)) !== false) {
 
 fclose($handle);
 
+// Regenerate Sequences Table
+try {
+    $maxQuery = $pdo->query("SELECT MAX(CAST(regn_no AS UNSIGNED)) as max_no FROM athletes WHERE regn_no REGEXP '^[0-9]+$'");
+    $maxVal = (int)$maxQuery->fetchColumn();
+    if ($maxVal > 0) {
+        $pdo->prepare("UPDATE registration_sequences SET athlete_last_no = ? WHERE id = 1")->execute([$maxVal]);
+        echo "Registration sequence initialized to: $maxVal\n";
+    }
+} catch (Exception $e) {
+    echo "Warning: Registration sequence initialization failed - " . $e->getMessage() . "\n";
+}
+
 // Regenerate Map Caching
 try {
     if (!is_dir(__DIR__ . '/cache')) {
         mkdir(__DIR__ . '/cache', 0755, true);
-    }
-    
-    // Aggregation query
-    $countStmt = $pdo->query("SELECT state, COUNT(*) as count FROM athletes WHERE status = 'approved' GROUP BY state");
-    $stateCounts = [];
-    while ($r = $countStmt->fetch()) {
-        $stateCounts[$r['state']] = (int)$r['count'];
     }
     
     // Detailed stats query

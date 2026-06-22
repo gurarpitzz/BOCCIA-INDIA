@@ -38,11 +38,35 @@ try {
     }
 } catch (PDOException $e) {}
 
-// Fetch Gallery Images
-$galleryImages = [];
+// Fetch Gallery Data
+$galleryData = [
+    'images' => [],
+    'hero' => [],
+    'albums' => []
+];
 try {
-    $galStmt = $pdo->query("SELECT * FROM gallery_images WHERE active = 1 ORDER BY sort_order ASC, created_at DESC");
-    $galleryImages = $galStmt->fetchAll();
+    $cacheFile = __DIR__ . '/cache/gallery_homepage.json';
+    if (file_exists($cacheFile)) {
+        $cacheData = json_decode(file_get_contents($cacheFile), true);
+        $galleryData['images'] = $cacheData['images'] ?? [];
+        $galleryData['hero']   = $cacheData['hero'] ?? [];
+        $galleryData['albums'] = $cacheData['albums'] ?? [];
+    } else {
+        $galleryData['images'] = $pdo->query("
+            SELECT gi.*, ga.title AS album_title, ga.slug AS album_slug
+            FROM gallery_images gi
+            LEFT JOIN gallery_albums ga ON gi.album_id = ga.id
+            WHERE gi.status = 'published' AND gi.is_deleted = 0
+            ORDER BY gi.sort_order ASC, gi.created_at DESC
+            LIMIT 200
+        ")->fetchAll();
+        $galleryData['hero'] = $pdo->query("
+            SELECT * FROM gallery_images
+            WHERE status='published' AND is_deleted=0 AND show_in_hero=1
+            ORDER BY sort_order ASC LIMIT 5
+        ")->fetchAll();
+        $galleryData['albums'] = $pdo->query("SELECT * FROM gallery_albums ORDER BY id ASC")->fetchAll();
+    }
 } catch (PDOException $e) {}
 
 // Fetch athlete counts by state dynamically
@@ -348,54 +372,302 @@ try {
 </section>
 
 <!-- Photo Gallery Section -->
-<section id="gallery" style="padding: 6rem 0; background: #081B4B; color: #F8F5EF;">
-    <div class="container">
-        <div class="section-header" style="text-align: center; margin-bottom: 3rem;">
-            <h2 class="section-title" style="color: #F8F5EF; font-size: 2.8rem; text-shadow:0 2px 10px rgba(0,0,0,0.3);">Photo Gallery</h2>
-        </div>
+<section id="photo-gallery" style="padding: 6rem 0; background: #081B4B; color: #F8F5EF;">
+<style>
+/* ── Gallery section chrome ── */
+.gal-eyebrow  { color: #FF9933; font-weight:700; letter-spacing:.12em; text-transform:uppercase; font-size:.85rem; }
+.gal-title    { font-family:var(--font-heading); font-size:2.8rem; font-weight:800; color:#F8F5EF; margin:0; }
 
-        <?php if(count($galleryImages) > 0): ?>
-            <!-- Collage Masonry -->
-            <style>
-                .gallery-bento {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    grid-auto-rows: 200px;
-                    grid-auto-flow: dense;
-                    gap: 20px;
-                }
-                .gallery-bento-item {
-                    display: block; overflow: hidden; border-radius: 16px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); position: relative;
-                }
-                .gallery-bento-item img {
-                    width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block;
-                }
-                /* Bento spans */
-                .gallery-bento-item:nth-child(6n+1) { grid-column: span 2; grid-row: span 2; }
-                .gallery-bento-item:nth-child(6n+2) { grid-column: span 1; grid-row: span 1; }
-                .gallery-bento-item:nth-child(6n+3) { grid-column: span 1; grid-row: span 2; }
-                .gallery-bento-item:nth-child(6n+4) { grid-column: span 2; grid-row: span 1; }
-                .gallery-bento-item:nth-child(6n+5) { grid-column: span 1; grid-row: span 1; }
-                .gallery-bento-item:nth-child(6n+6) { grid-column: span 1; grid-row: span 1; }
-                @media (max-width: 768px) {
-                    .gallery-bento-item { grid-column: span 1 !important; grid-row: span 1 !important; }
-                    .gallery-bento { grid-auto-rows: 200px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-                }
-            </style>
-            <div id="gallery-collage" class="gallery-bento">
-                <?php foreach($galleryImages as $img): ?>
-                    <a href="<?php echo htmlspecialchars($img['image_path']); ?>" class="glightbox gallery-bento-item" data-gallery="collage" data-title="<?php echo htmlspecialchars($img['title']); ?>" data-description="<?php echo htmlspecialchars($img['event_name'] ?? ''); ?>">
-                        <img src="<?php echo htmlspecialchars($img['image_path']); ?>" alt="<?php echo htmlspecialchars($img['title']); ?>" loading="lazy" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div style="text-align:center; padding:4rem; background:rgba(0,0,0,0.2); border-radius:24px;">
-                <p style="font-size:1.2rem; opacity:0.6;">Photo gallery is currently being updated.</p>
-            </div>
-        <?php endif; ?>
+/* Hero Slider */
+.gal-hero-wrap  { position:relative; border-radius:24px; overflow:hidden; height:600px; margin-bottom:2.5rem; background:#0a1d3b; }
+.gal-hero-slide { position:absolute; inset:0; background-size:contain; background-position:center; background-repeat:no-repeat; background-color:#081B4B;
+                  opacity:0; transition:opacity .8s ease; }
+.gal-hero-slide.active { opacity:1; }
+.gal-hero-slide .gal-hero-caption { position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(to top, rgba(8,27,75,.85) 0%, transparent 100%);
+    padding:2rem 2rem 1.5rem; }
+.gal-hero-caption p { margin:0; font-size:1rem; font-weight:600; color:#F8F5EF; }
+.gal-hero-caption small { color:rgba(255,255,255,.65); font-size:.78rem; }
+.gal-hero-dots  { position:absolute; bottom:12px; right:18px; display:flex; gap:6px; }
+.gal-hero-dot   { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.4); border:none; cursor:pointer; transition:background .3s; padding:0; }
+.gal-hero-dot.active { background:#FF9933; }
+
+/* Controls toolbar */
+.gal-toolbar    { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.75rem; }
+.gal-tabs       { display:flex; flex-wrap:wrap; gap:.5rem; }
+.gal-tab-btn    { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:#F8F5EF;
+                  border-radius:999px; padding:.4rem 1.1rem; font-size:.82rem; font-weight:600; cursor:pointer;
+                  transition:background .2s, color .2s; white-space:nowrap; }
+.gal-tab-btn.active, .gal-tab-btn:hover { background:#FF9933; color:#081B4B; border-color:#FF9933; }
+.gal-view-btns  { display:flex; gap:.5rem; }
+.gal-view-btn   { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:#F8F5EF;
+                  border-radius:999px; padding:.4rem 1.1rem; font-size:.82rem; font-weight:600; cursor:pointer;
+                  transition:background .2s, color .2s; }
+.gal-view-btn.active { background:#FF9933; color:#081B4B; border-color:#FF9933; }
+
+/* Bento collage */
+.gallery-bento  { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+                  grid-auto-rows:180px; grid-auto-flow:dense; gap:14px; }
+.gal-bento-item { display:block; overflow:hidden; border-radius:14px;
+                  box-shadow:0 4px 14px rgba(0,0,0,.3); position:relative; cursor:pointer; }
+.gal-bento-item img { width:100%; height:100%; object-fit:cover;
+                      transition:transform .45s ease; display:block; }
+.gal-bento-item:hover img { transform:scale(1.07); }
+.gal-bento-item .gal-overlay { position:absolute; inset:0; background:rgba(8,27,75,.55);
+    opacity:0; transition:opacity .3s; display:flex; align-items:center; justify-content:center;
+    font-size:1.6rem; color:#fff; }
+.gal-bento-item:hover .gal-overlay { opacity:1; }
+/* Bento pattern */
+.gal-bento-item:nth-child(7n+1) { grid-column:span 2; grid-row:span 2; }
+.gal-bento-item:nth-child(7n+4) { grid-column:span 2; grid-row:span 1; }
+.gal-bento-item:nth-child(7n+6) { grid-column:span 1; grid-row:span 2; }
+@media(max-width:640px) {
+    .gal-bento-item { grid-column:span 1 !important; grid-row:span 1 !important; }
+    .gallery-bento  { grid-auto-rows:160px; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); }
+    .gal-hero-wrap  { height:380px; }
+}
+
+/* Slideshow view */
+.gal-slideshow-wrap { position:relative; border-radius:18px; overflow:hidden; aspect-ratio:16/9; background:#0a1d3b; }
+.gal-ss-slide       { display:none; width:100%; height:100%; }
+.gal-ss-slide.active { display:block; }
+.gal-ss-slide img   { width:100%; height:100%; object-fit:contain; }
+.gal-ss-arrow       { position:absolute; top:50%; transform:translateY(-50%);
+    background:rgba(8,27,75,.65); border:none; color:#fff; font-size:2rem; width:48px; height:48px;
+    border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .2s; z-index:5; }
+.gal-ss-arrow:hover { background:#FF9933; color:#081B4B; }
+.gal-ss-prev { left:12px; } .gal-ss-next { right:12px; }
+
+/* Load-more */
+.gal-load-more { display:block; margin:2.5rem auto 0;
+    background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.15);
+    color:#F8F5EF; border-radius:999px; padding:.7rem 2.5rem;
+    font-size:.95rem; font-weight:700; cursor:pointer; transition:all .2s; }
+.gal-load-more:hover { background:#FF9933; color:#081B4B; border-color:#FF9933; }
+.gal-hidden { display:none !important; }
+</style>
+
+<div class="container">
+
+    <!-- Section Header -->
+    <div style="text-align:center; margin-bottom:2.5rem;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:.75rem;">
+            <span style="height:1px;width:40px;background:#FF9933;"></span>
+            <span class="gal-eyebrow">BSFI — Moments in Focus</span>
+            <span style="height:1px;width:40px;background:#FF9933;"></span>
+        </div>
+        <h2 class="gal-title">Photo Gallery</h2>
     </div>
+
+    <?php
+    $heroSlides   = $galleryData['hero'];
+    $allGalImages = $galleryData['images'];
+    $galAlbums    = $galleryData['albums'];
+    ?>
+
+    <?php if (!empty($heroSlides)): ?>
+    <!-- ── Featured Hero Slider (show_in_hero=1) ── -->
+    <div class="gal-hero-wrap" id="galHeroWrap">
+        <?php foreach ($heroSlides as $hi => $hs): ?>
+        <div class="gal-hero-slide <?php echo $hi === 0 ? 'active' : ''; ?>"
+             style="background-image:url('<?php echo htmlspecialchars($hs['image_path']); ?>');"
+             data-index="<?php echo $hi; ?>">
+            <?php if (!empty($hs['caption'])): ?>
+            <div class="gal-hero-caption">
+                <p><?php echo htmlspecialchars($hs['caption']); ?></p>
+                <?php if (!empty($hs['credit'])): ?>
+                <small>📷 <?php echo htmlspecialchars($hs['credit']); ?></small>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php endforeach; ?>
+        <div class="gal-hero-dots" id="galHeroDots">
+            <?php foreach ($heroSlides as $hi => $hs): ?>
+            <button class="gal-hero-dot <?php echo $hi === 0 ? 'active' : ''; ?>" data-idx="<?php echo $hi; ?>" aria-label="Hero slide <?php echo $hi+1; ?>"></button>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- ── Toolbar: Album Tabs + View Toggle ── -->
+    <div class="gal-toolbar">
+        <div class="gal-tabs" id="galTabs">
+            <button class="gal-tab-btn active" data-album="all">All</button>
+            <?php foreach ($galAlbums as $alb): ?>
+            <button class="gal-tab-btn" data-album="<?php echo htmlspecialchars($alb['slug']); ?>"><?php echo htmlspecialchars($alb['title']); ?></button>
+            <?php endforeach; ?>
+        </div>
+        <div class="gal-view-btns">
+            <button class="gal-view-btn active" id="btnCollage" onclick="setGalView('collage')">Collage</button>
+            <button class="gal-view-btn" id="btnSlideshow" onclick="setGalView('slideshow')">Slideshow</button>
+        </div>
+    </div>
+
+    <?php if (!empty($allGalImages)): ?>
+
+    <!-- ── Collage View ── -->
+    <div id="galCollage" class="gallery-bento">
+        <?php foreach ($allGalImages as $img): ?>
+        <a href="<?php echo htmlspecialchars($img['image_path']); ?>"
+           class="glightbox gal-bento-item"
+           data-gallery="bsfi-gallery"
+           data-album="<?php echo htmlspecialchars($img['album_slug'] ?? 'general'); ?>"
+           data-title="<?php echo htmlspecialchars($img['caption'] ?? ''); ?>"
+           data-description="<?php echo htmlspecialchars($img['credit'] ?? ''); ?>">
+            <img src="<?php echo htmlspecialchars($img['thumbnail_path'] ?: $img['image_path']); ?>"
+                 alt="<?php echo htmlspecialchars($img['alt_text'] ?? $img['caption'] ?? 'BSFI Gallery Photo'); ?>"
+                 loading="lazy">
+            <div class="gal-overlay">🔍</div>
+        </a>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- ── Slideshow View ── -->
+    <div id="galSlideshow" class="gal-slideshow-wrap gal-hidden">
+        <?php foreach ($allGalImages as $si => $img): ?>
+        <div class="gal-ss-slide <?php echo $si === 0 ? 'active' : ''; ?>" data-album="<?php echo htmlspecialchars($img['album_slug'] ?? 'general'); ?>">
+            <img src="<?php echo htmlspecialchars($img['medium_path'] ?: $img['image_path']); ?>"
+                 alt="<?php echo htmlspecialchars($img['alt_text'] ?? $img['caption'] ?? 'BSFI Gallery Photo'); ?>"
+                 loading="lazy">
+        </div>
+        <?php endforeach; ?>
+        <button class="gal-ss-arrow gal-ss-prev" onclick="galSsMove(-1)" aria-label="Previous">&#8249;</button>
+        <button class="gal-ss-arrow gal-ss-next" onclick="galSsMove(1)" aria-label="Next">&#8250;</button>
+    </div>
+
+    <button class="gal-load-more" id="galLoadMore" onclick="galLoadMore()">Load More Photos</button>
+
+    <?php else: ?>
+    <div style="text-align:center;padding:4rem;background:rgba(0,0,0,.2);border-radius:24px;">
+        <p style="font-size:1.2rem;opacity:.65;">Photo gallery is currently being updated.<br><small>Upload photos via the Admin panel to see them here.</small></p>
+    </div>
+    <?php endif; ?>
+
+</div><!-- /.container -->
 </section>
+
+<script>
+(function() {
+    /* ── Hero slider ── */
+    var heroSlides = document.querySelectorAll('.gal-hero-slide');
+    var heroDots   = document.querySelectorAll('.gal-hero-dot');
+    var heroCur    = 0, heroTimer;
+    function heroGo(n) {
+        if (!heroSlides.length) return;
+        heroSlides[heroCur].classList.remove('active');
+        if (heroDots[heroCur]) heroDots[heroCur].classList.remove('active');
+        heroCur = (n + heroSlides.length) % heroSlides.length;
+        heroSlides[heroCur].classList.add('active');
+        if (heroDots[heroCur]) heroDots[heroCur].classList.add('active');
+    }
+    heroDots.forEach(function(d){
+        d.addEventListener('click', function(){ heroGo(+d.dataset.idx); clearInterval(heroTimer); heroTimer = setInterval(function(){heroGo(heroCur+1);}, 5000); });
+    });
+    if (heroSlides.length > 1) { heroTimer = setInterval(function(){heroGo(heroCur+1);}, 5000); }
+
+    /* ── Album filter tabs ── */
+    var GAL_BATCH = 24;
+    var allBentoItems = Array.from(document.querySelectorAll('.gal-bento-item'));
+    var allSSSlides   = Array.from(document.querySelectorAll('.gal-ss-slide'));
+    var activeAlbum   = localStorage.getItem('bsfi_gal_album') || 'all';
+    var activeView    = localStorage.getItem('bsfi_gal_view')  || 'collage';
+    var visibleCount  = GAL_BATCH;
+
+    function filterItems(album) {
+        activeAlbum  = album;
+        visibleCount = GAL_BATCH;
+        localStorage.setItem('bsfi_gal_album', album);
+
+        // Update Tabs UI
+        document.querySelectorAll('.gal-tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.album === album);
+        });
+
+        // Sync Collage View items
+        var matchedCollage = 0;
+        allBentoItems.forEach(item => {
+            var itemAlb = item.dataset.album || 'general';
+            if (album === 'all' || itemAlb === album) {
+                if (matchedCollage < visibleCount) {
+                    item.classList.remove('gal-hidden');
+                } else {
+                    item.classList.add('gal-hidden');
+                }
+                matchedCollage++;
+            } else {
+                item.classList.add('gal-hidden');
+            }
+        });
+
+        // Sync Slideshow View items
+        var ssActiveSet = false;
+        allSSSlides.forEach(slide => {
+            var slideAlb = slide.dataset.album || 'general';
+            slide.classList.remove('active');
+            if (album === 'all' || slideAlb === album) {
+                slide.setAttribute('data-filtered', '1');
+                if (!ssActiveSet) {
+                    slide.classList.add('active');
+                    ssActiveSet = true;
+                }
+            } else {
+                slide.removeAttribute('data-filtered');
+            }
+        });
+
+        // Load More button visibility
+        var totalMatched = allBentoItems.filter(item => album === 'all' || (item.dataset.album || 'general') === album).length;
+        var btnLoad = document.getElementById('galLoadMore');
+        if (btnLoad) {
+            btnLoad.classList.toggle('gal-hidden', visibleCount >= totalMatched || activeView === 'slideshow');
+        }
+    }
+
+    // Bind Tabs click
+    document.querySelectorAll('.gal-tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() { filterItems(btn.dataset.album); });
+    });
+
+    /* ── View Switcher ── */
+    window.setGalView = function(view) {
+        activeView = view;
+        localStorage.setItem('bsfi_gal_view', view);
+
+        document.getElementById('btnCollage').classList.toggle('active', view === 'collage');
+        document.getElementById('btnSlideshow').classList.toggle('active', view === 'slideshow');
+
+        document.getElementById('galCollage').classList.toggle('gal-hidden', view !== 'collage');
+        document.getElementById('galSlideshow').classList.toggle('gal-hidden', view !== 'slideshow');
+
+        filterItems(activeAlbum);
+    };
+
+    /* ── Load More ── */
+    window.galLoadMore = function() {
+        visibleCount += GAL_BATCH;
+        filterItems(activeAlbum);
+    };
+
+    /* ── Slideshow Navigator ── */
+    window.galSsMove = function(dir) {
+        var filteredSlides = allSSSlides.filter(s => s.hasAttribute('data-filtered'));
+        if (!filteredSlides.length) return;
+        var curIdx = filteredSlides.findIndex(s => s.classList.contains('active'));
+        if (curIdx === -1) curIdx = 0;
+
+        filteredSlides[curIdx].classList.remove('active');
+        var nextIdx = (curIdx + dir + filteredSlides.length) % filteredSlides.length;
+        filteredSlides[nextIdx].classList.add('active');
+    };
+
+    // Initial load state triggers
+    document.addEventListener('DOMContentLoaded', function() {
+        setGalView(activeView);
+    });
+})();
+</script>
 
 <!-- Latest News Section -->
 <section id="news" class="news-section" style="padding: 6rem 0; background: var(--warm-surface) url('news%20bg.png') top center / cover fixed no-repeat;">

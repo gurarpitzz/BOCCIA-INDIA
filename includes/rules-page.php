@@ -693,6 +693,31 @@ body {
     color: #ffffff;
 }
 
+.btn-view-all-docs {
+    display: inline-block;
+    max-width: 320px;
+    font-family: var(--font-heading-sub);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: #ffffff;
+    color: var(--boccia-navy);
+    border: 2px solid #ffffff;
+    border-radius: 50px;
+    padding: 12px 35px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.btn-view-all-docs:hover {
+    background-color: var(--boccia-navy);
+    color: #ffffff;
+    border-color: var(--boccia-navy);
+    box-shadow: 0 6px 20px rgba(8, 27, 75, 0.4);
+    transform: translateY(-2px);
+}
+
 #court-diagram {
     background: url('bg.png') no-repeat center center;
     background-size: cover;
@@ -1286,7 +1311,7 @@ body {
                 </div>
             </div>
             <div class="mt-4 text-center">
-                <a href="https://www.worldboccia.com/documents/" target="_blank" class="btn btn-outline-primary px-5 py-3 rounded-pill fw-bold" style="border: 2px solid var(--boccia-navy); color: var(--boccia-navy); max-width: 320px; display: inline-block;">View All Documents</a>
+                <a href="https://www.worldboccia.com/documents/" target="_blank" class="btn-view-all-docs">View All Documents</a>
             </div>
         </div>
     </section>

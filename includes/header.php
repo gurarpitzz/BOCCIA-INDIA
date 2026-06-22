@@ -19,8 +19,14 @@ require_once __DIR__ . '/auth.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <?php
-        $css_path  = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/import/') !== false ? '../styles.css' : 'styles.css';
-        $logo_path = strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/import/') !== false ? '../' : '';
+        $script_name = $_SERVER['SCRIPT_NAME'];
+        $clean_path = ltrim($script_name, '/');
+        $parts = explode('/', $clean_path);
+        $depth = count($parts) - 1;
+        if ($depth < 0) $depth = 0;
+        $relative_prefix = str_repeat('../', $depth);
+        $css_path  = $relative_prefix . 'styles.css';
+        $logo_path = $relative_prefix;
     ?>
     <!-- Bootstrap 5.3 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -382,15 +388,24 @@ body.preloader-active { overflow: hidden !important; }
                                     echo '</ul>';
                                     echo '</li>';
                                 } else {
-                                    // Custom module routing
                                     if ($item['section'] === 'get-involved' && in_array($item['slug'], ['membership', 'players-database', 'officials-database'])) {
-                                        $link = $logo_path . "get-involved/" . $item['slug'] . ".php";
+                                         $link = $logo_path . "get-involved/" . $item['slug'] . ".php";
                                     } elseif ($item['section'] === 'news-media' && in_array($item['slug'], ['news', 'gallery', 'videos', 'tenders'])) {
-                                        $link = $logo_path . "news-media/" . $item['slug'] . ".php";
+                                         if ($item['slug'] === 'news') {
+                                             $link = $logo_path . "index.php#official-federation-updates";
+                                         } elseif ($item['slug'] === 'gallery') {
+                                             $link = $logo_path . "index.php#photo-gallery";
+                                         } else {
+                                             $link = $logo_path . "news-media/" . $item['slug'] . ".php";
+                                         }
                                     } elseif ($item['section'] === 'competitions') {
-                                        $link = $logo_path . "competitions/national-events.php";
+                                         if ($item['slug'] === 'international-events') {
+                                             $link = "https://worldboccia.io/events";
+                                         } else {
+                                             $link = $logo_path . "competitions/national-events.php";
+                                         }
                                     } else {
-                                        $link = !empty($item['slug']) ? $logo_path . "page.php?section=" . urlencode($item['section']) . "&slug=" . urlencode($item['slug']) : "#";
+                                         $link = !empty($item['slug']) ? $logo_path . "page.php?section=" . urlencode($item['section']) . "&slug=" . urlencode($item['slug']) : "#";
                                     }
 
                                     $aClass = ($item['parent_id'] !== null) ? 'npl-sub-item' : 'npl';

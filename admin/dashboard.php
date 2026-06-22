@@ -11,15 +11,48 @@ requireLogin();
 $page_title = "Admin Control Dashboard - Boccia India";
 include __DIR__ . '/../includes/header.php';
 
-// Gather basic statistics
-$stmt = $pdo->query("SELECT COUNT(*) FROM athletes");
+// Gather statistics
+$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='approved' AND deleted_at IS NULL");
 $totalAthletes = $stmt->fetchColumn();
 
-$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='pending'");
+$stmt = $pdo->query("SELECT COUNT(*) FROM athlete_applications WHERE status='pending'");
 $pendingRegistrations = $stmt->fetchColumn();
 
-$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='approved'");
-$approvedAthletes = $stmt->fetchColumn();
+// Approved this month (athletes with status = 'approved' and created_at in the current month)
+$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='approved' AND deleted_at IS NULL AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())");
+$approvedThisMonth = $stmt->fetchColumn();
+
+// Rejected Applications (athlete_applications with status = 'rejected')
+$stmt = $pdo->query("SELECT COUNT(*) FROM athlete_applications WHERE status='rejected'");
+$rejectedApplications = $stmt->fetchColumn();
+
+// Potential Duplicates (athlete_applications with possible_duplicate = 1 and status = 'pending')
+$stmt = $pdo->query("SELECT COUNT(*) FROM athlete_applications WHERE possible_duplicate = 1 AND status = 'pending'");
+$potentialDuplicates = $stmt->fetchColumn();
+
+// Total Officials (approved officials)
+$stmt = $pdo->query("SELECT COUNT(*) FROM officials WHERE status='approved' AND deleted_at IS NULL");
+$totalOfficials = $stmt->fetchColumn();
+
+// Pending Officials (official_applications status = 'pending')
+$stmt = $pdo->query("SELECT COUNT(*) FROM official_applications WHERE status='pending'");
+$pendingOfficials = $stmt->fetchColumn();
+
+// Profiles Complete (photo_status = 'verified' AND email exists AND mobile exists AND state exists AND classification exists)
+$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='approved' AND deleted_at IS NULL AND photo_status='verified' AND email IS NOT NULL AND email != '' AND mobile IS NOT NULL AND mobile != '' AND state IS NOT NULL AND state != '' AND classification IS NOT NULL AND classification != ''");
+$profilesComplete = $stmt->fetchColumn();
+
+// Missing Photos
+$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='approved' AND deleted_at IS NULL AND photo_status='missing'");
+$missingPhotos = $stmt->fetchColumn();
+
+// Missing Contact Info
+$stmt = $pdo->query("SELECT COUNT(*) FROM athletes WHERE status='approved' AND deleted_at IS NULL AND (email IS NULL OR email = '' OR mobile IS NULL OR mobile = '')");
+$missingContactInfo = $stmt->fetchColumn();
+
+// Pending Profile Updates
+$stmt = $pdo->query("SELECT COUNT(*) FROM profile_update_requests WHERE status='pending'");
+$pendingProfileUpdates = $stmt->fetchColumn();
 
 $stmt = $pdo->query("SELECT COUNT(*) FROM events");
 $totalEvents = $stmt->fetchColumn();
@@ -51,26 +84,41 @@ $auditLogs = $stmt->fetchAll();
         </div>
 
         <!-- Dashboard Stats Grid -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:2rem; margin-bottom:4rem;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1.5rem; margin-bottom:4rem;">
             <!-- Stat 1 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #F4B942; border-radius:28px;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem; text-transform:uppercase; font-weight:600;">Total Athletes</span>
-                <h2 style="font-size:2.8rem; font-family:'Outfit',sans-serif; font-weight:800; color:#F4B942; margin-top:0.5rem;"><?php echo $totalAthletes; ?></h2>
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #F4B942; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Total Athletes</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#F4B942; margin-top:0.25rem; margin-bottom:0;"><?php echo $totalAthletes; ?></h2>
             </div>
             <!-- Stat 2 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #D72638; border-radius:28px;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem; text-transform:uppercase; font-weight:600;">Pending Actions</span>
-                <h2 style="font-size:2.8rem; font-family:'Outfit',sans-serif; font-weight:800; color:#D72638; margin-top:0.5rem;"><?php echo $pendingRegistrations; ?></h2>
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #24C27A; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Profiles Complete</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#24C27A; margin-top:0.25rem; margin-bottom:0;"><?php echo $profilesComplete; ?></h2>
             </div>
             <!-- Stat 3 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #24C27A; border-radius:28px;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem; text-transform:uppercase; font-weight:600;">Approved Active</span>
-                <h2 style="font-size:2.8rem; font-family:'Outfit',sans-serif; font-weight:800; color:#24C27A; margin-top:0.5rem;"><?php echo $approvedAthletes; ?></h2>
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #D72638; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Missing Photos</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#D72638; margin-top:0.25rem; margin-bottom:0;"><?php echo $missingPhotos; ?></h2>
             </div>
             <!-- Stat 4 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #1E88E5; border-radius:28px;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem; text-transform:uppercase; font-weight:600;">Calendar Events</span>
-                <h2 style="font-size:2.8rem; font-family:'Outfit',sans-serif; font-weight:800; color:#1E88E5; margin-top:0.5rem;"><?php echo $totalEvents; ?></h2>
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #ff7e67; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Missing Contact Info</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#ff7e67; margin-top:0.25rem; margin-bottom:0;"><?php echo $missingContactInfo; ?></h2>
+            </div>
+            <!-- Stat 5 -->
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #ff0055; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Pending Updates</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#ff0055; margin-top:0.25rem; margin-bottom:0;"><?php echo $pendingProfileUpdates; ?></h2>
+            </div>
+            <!-- Stat 6 -->
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #1E88E5; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Total Officials</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#1E88E5; margin-top:0.25rem; margin-bottom:0;"><?php echo $totalOfficials; ?></h2>
+            </div>
+            <!-- Stat 7 -->
+            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #9b59b6; border-radius:20px; padding:1.25rem;">
+                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Pending Officials</span>
+                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#9b59b6; margin-top:0.25rem; margin-bottom:0;"><?php echo $pendingOfficials; ?></h2>
             </div>
         </div>
 

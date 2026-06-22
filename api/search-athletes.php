@@ -26,12 +26,23 @@ $query = "SELECT * FROM athletes WHERE 1=1";
 $params = [];
 
 if ($search !== '') {
-    $query .= " AND (regn_no LIKE ? OR full_name LIKE ? OR representing_for LIKE ? OR district LIKE ?)";
-    $searchWild = "%$search%";
-    $params[] = $searchWild;
-    $params[] = $searchWild;
-    $params[] = $searchWild;
-    $params[] = $searchWild;
+    if (is_numeric($search)) {
+        $lookupRegVal = str_pad($search, 4, '0', STR_PAD_LEFT);
+        $query .= " AND (regn_no = ? OR regn_no LIKE ? OR full_name LIKE ? OR representing_for LIKE ? OR district LIKE ?)";
+        $searchWild = "%$search%";
+        $params[] = $lookupRegVal;
+        $params[] = $searchWild;
+        $params[] = $searchWild;
+        $params[] = $searchWild;
+        $params[] = $searchWild;
+    } else {
+        $query .= " AND (regn_no LIKE ? OR full_name LIKE ? OR representing_for LIKE ? OR district LIKE ?)";
+        $searchWild = "%$search%";
+        $params[] = $searchWild;
+        $params[] = $searchWild;
+        $params[] = $searchWild;
+        $params[] = $searchWild;
+    }
 }
 
 if ($state !== '') {
