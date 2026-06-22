@@ -156,12 +156,12 @@ $auditLogs = $stmt->fetchAll();
                 <h3 style="font-size:1.3rem; margin-bottom:1rem; font-family:'Outfit',sans-serif; color:#FAF7F0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">CONTENT MANAGEMENT</h3>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom: 2.5rem;">
                     
-                    <!-- CMS & Dynamic Pages Module -->
+                    <!-- Document Pages Module -->
                     <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px; grid-column: span 2;">
-                        <h4 style="font-size:1.1rem; color:#24C27A; margin-bottom:0.5rem;">CMS &amp; Dynamic Pages</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage dynamically generated pages, view discovery logs, customize header navigation, and edit page contents.</p>
+                        <h4 style="font-size:1.1rem; color:#24C27A; margin-bottom:0.5rem;">Document Pages</h4>
+                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage standardized PDF document pages, upload policies, selection criteria, tenders, and governance documents.</p>
                         <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
-                            <a href="cms.php" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Open CMS Panel</a>
+                            <a href="document_pages.php" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage Documents</a>
                         <?php endif; ?>
                     </div>
                     <!-- Events Module -->
