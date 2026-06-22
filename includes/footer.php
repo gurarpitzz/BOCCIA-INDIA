@@ -243,7 +243,7 @@ $script_path = $relative_prefix . 'app.js';
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; 2026 Boccia Sports Federation of India (BSFI). All Rights Reserved.</p>
+                <p>&copy; 2026 Boccia Sports Federation of India (BSFI). All Rights Reserved. | <a href="#" onclick="showAccessibilityStatement(event)" style="color: inherit; text-decoration: underline;">Accessibility Statement</a></p>
                 <p style="font-size: 0.82rem; opacity: 0.85; margin-top: 0.5rem; color: #081B4B; font-weight: 500;">Recognized by World Boccia, Paralympic Committee of India (PCI), Ministry of Youth Affairs & Sports and Sports Authority of India.</p>
             </div>
         </div>
@@ -255,6 +255,8 @@ $script_path = $relative_prefix . 'app.js';
     <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <!-- App JavaScript -->
     <script src="<?php echo $script_path; ?>"></script>
+    <!-- Accessibility Script -->
+    <script src="<?php echo $relative_prefix; ?>assets/js/accessibility.js"></script>
 
 </div> <!-- /.page-wrapper -->
 </body>

@@ -31,9 +31,31 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                 }
             }
         });
+    <script>
+        try {
+            const settings = JSON.parse(localStorage.getItem('bsfiAccessibility'));
+            if (settings) {
+                if (settings.fontSize) {
+                    document.documentElement.style.fontSize = settings.fontSize + 'px';
+                }
+                const toggle = (cls, cond) => {
+                    if (cond) document.documentElement.classList.add(cls);
+                };
+                toggle('high-contrast', settings.highContrast);
+                toggle('reverse-contrast', settings.reverseContrast);
+                toggle('grayscale-mode', settings.grayscale);
+                toggle('readable-font', settings.readableFont);
+                toggle('underline-links', settings.underlineLinks);
+                toggle('underline-headers', settings.underlineHeaders);
+                toggle('big-cursor-white', settings.bigCursorWhite);
+                toggle('big-cursor-black', settings.bigCursorBlack);
+                toggle('reduce-motion', settings.reduceMotion);
+            }
+        } catch(e) {}
     </script>
 </head>
 <body class="admin-body">
+<a href="#main-content" class="skip-link">Skip to Main Content</a>
 
 <div class="admin-layout">
     <!-- Sidebar Navigation -->

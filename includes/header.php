@@ -54,9 +54,31 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
             opacity: 1;
             visibility: visible;
         }
-    </style>
+    <script>
+        try {
+            const settings = JSON.parse(localStorage.getItem('bsfiAccessibility'));
+            if (settings) {
+                if (settings.fontSize) {
+                    document.documentElement.style.fontSize = settings.fontSize + 'px';
+                }
+                const toggle = (cls, cond) => {
+                    if (cond) document.documentElement.classList.add(cls);
+                };
+                toggle('high-contrast', settings.highContrast);
+                toggle('reverse-contrast', settings.reverseContrast);
+                toggle('grayscale-mode', settings.grayscale);
+                toggle('readable-font', settings.readableFont);
+                toggle('underline-links', settings.underlineLinks);
+                toggle('underline-headers', settings.underlineHeaders);
+                toggle('big-cursor-white', settings.bigCursorWhite);
+                toggle('big-cursor-black', settings.bigCursorBlack);
+                toggle('reduce-motion', settings.reduceMotion);
+            }
+        } catch(e) {}
+    </script>
 </head>
 <body class="accessibility-target">
+<a href="#main-content" class="skip-link">Skip to Main Content</a>
 
 <!-- ═══════════════════════════════════════════════════
      VIDEO PRELOADER OVERLAY
@@ -317,25 +339,7 @@ body.preloader-active { overflow: hidden !important; }
 <!-- Content Wrapper (Fades in after preloader) -->
 <div id="page-wrapper" class="page-wrapper">
 
-    <!-- Accessibility Floating Button -->
-    <button class="a11y-toggle-btn" id="a11y-toggle" aria-label="Accessibility Options">♿</button>
-    <div class="a11y-panel" id="a11y-panel" aria-hidden="true">
-        <h4>Accessibility Control Panel</h4>
-        <div class="a11y-grid">
-            <button onclick="adjustTextSize('inc')" class="a11y-btn">Text Size +</button>
-            <button onclick="adjustTextSize('dec')" class="a11y-btn">Text Size -</button>
-            <button onclick="toggleAccessibilityClass('contrast-high')" class="a11y-btn">High Contrast</button>
-            <button onclick="toggleAccessibilityClass('contrast-rev')" class="a11y-btn">Reverse Contrast</button>
-            <button onclick="toggleAccessibilityClass('grayscale-mode')" class="a11y-btn">Grayscale</button>
-            <button onclick="toggleAccessibilityClass('font-readable')" class="a11y-btn">Readable Font</button>
-            <button onclick="toggleAccessibilityClass('underline-links')" class="a11y-btn">Underline Links</button>
-            <button onclick="toggleAccessibilityClass('underline-headers')" class="a11y-btn">Underline Headers</button>
-            <button onclick="toggleAccessibilityClass('big-cursor-white')" class="a11y-btn">Big White Cursor</button>
-            <button onclick="toggleAccessibilityClass('big-cursor-black')" class="a11y-btn">Big Black Cursor</button>
-            <button onclick="toggleAccessibilityClass('reduce-motion')" class="a11y-btn">Reduce Motion</button>
-            <button onclick="resetAccessibility()" class="a11y-btn reset">Reset Settings</button>
-        </div>
-    </div>
+
 
     <!-- ═══════════════════════════════════════════
          FULL HEADER WRAPPER (logo bar + navbar)
