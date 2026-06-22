@@ -51,82 +51,85 @@ $stmt = $pdo->query("SELECT id, username, role, created_at FROM users ORDER BY c
 $staffList = $stmt->fetchAll();
 ?>
 
-<div class="admin-wrapper" style="background:#08142E; min-height:95vh; padding:6rem 0; color:#FAF7F0;">
-    <div class="container">
+<div class="admin-wrapper">
+    <div class="container-fluid" style="padding: 2rem;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1.5rem;">
+        <div class="admin-page-title-row">
             <div>
-                <span style="color:#24C27A; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; font-size:0.9rem;">Federation Security</span>
-                <h1 style="font-family:'Outfit',sans-serif; font-size:2.5rem; font-weight:700;">Manage Staff Accounts</h1>
+                <span class="admin-section-eyebrow">Federation Security</span>
+                <h1 class="admin-page-title">Manage Staff Accounts</h1>
             </div>
-            <a href="dashboard.php" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; border-radius:999px;">Return to Dashboard</a>
+            <a href="dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
         </div>
 
-        <?php echo $message; ?>
+        <?php if (!empty($message)) echo $message; ?>
 
-        <div style="display:grid; grid-template-columns:1.2fr 2fr; gap:3rem;">
+        <div style="display:grid; grid-template-columns:1.2fr 2fr; gap:2.5rem; align-items: start;">
             
             <!-- Left Side: Add Form -->
             <div>
-                <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2rem; border-radius:28px;">
-                    <h3 style="font-size:1.3rem; margin-bottom:1.5rem; font-family:'Outfit',sans-serif;">Register Staff Account</h3>
-                    <form action="users.php" method="POST" style="display:flex; flex-direction:column; gap:1.25rem;">
+                <div class="admin-card">
+                    <h3 class="admin-card-title">Register Staff Account</h3>
+                    <p class="admin-card-desc">Create administrative and editor access credentials.</p>
+                    <form action="users.php" method="POST" style="display:flex; flex-direction:column; gap:1rem;">
                         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                         
-                        <div class="form-group">
-                            <label for="username" style="font-size:0.8rem; font-weight:600;">Username</label>
-                            <input type="text" id="username" name="username" class="form-input" required placeholder="Staff identifier">
+                        <div class="admin-form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" class="admin-input" required placeholder="Staff identifier">
                         </div>
                         
-                        <div class="form-group">
-                            <label for="password" style="font-size:0.8rem; font-weight:600;">Temporary Password</label>
-                            <input type="password" id="password" name="password" class="form-input" required placeholder="Secure password">
+                        <div class="admin-form-group">
+                            <label for="password">Temporary Password</label>
+                            <input type="password" id="password" name="password" class="admin-input" required placeholder="Secure password">
                         </div>
                         
-                        <div class="form-group">
-                            <label for="role" style="font-size:0.8rem; font-weight:600;">System Access Role</label>
-                            <select id="role" name="role" class="select-input" required>
+                        <div class="admin-form-group">
+                            <label for="role">System Access Role</label>
+                            <select id="role" name="role" class="admin-select" required>
                                 <option value="viewer">Viewer (Read-only Dashboards)</option>
                                 <option value="editor">Editor (View/Edit News, Events, Athletes)</option>
                                 <option value="admin">Administrator (Full System Control)</option>
                             </select>
                         </div>
 
-                        <button type="submit" name="create_user" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; padding:0.85rem; border-radius:999px; cursor:pointer; margin-top:0.5rem;">Create Account</button>
+                        <button type="submit" name="create_user" class="admin-btn admin-btn-primary" style="width: 100%; margin-top: 0.5rem;">Create Account</button>
                     </form>
                 </div>
             </div>
 
             <!-- Right Side: User List -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2.5rem; border-radius:28px; overflow-x:auto;">
-                <h3 style="font-size:1.3rem; margin-bottom:1.5rem; font-family:'Outfit',sans-serif;">Registered System Accounts</h3>
+            <div class="admin-card">
+                <h3 class="admin-card-title">Registered System Accounts</h3>
+                <p class="admin-card-desc">Accounts with login privileges for this administrative panel.</p>
                 
-                <table class="doc-table" style="width:100%; border-collapse:collapse; text-align:left; font-size:0.9rem;">
-                    <thead>
-                        <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
-                            <th style="padding:0.75rem;">Username</th>
-                            <th style="padding:0.75rem;">Role</th>
-                            <th style="padding:0.75rem;">Created At</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($staffList as $user): ?>
-                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                                <td style="padding:0.75rem; font-weight:bold;"><?php echo htmlspecialchars($user['username']); ?></td>
-                                <td style="padding:0.75rem;">
-                                    <span style="font-size:0.8rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); padding:0.25rem 0.5rem; border-radius:4px; text-transform:uppercase;">
-                                        <?php echo htmlspecialchars($user['role']); ?>
-                                    </span>
-                                </td>
-                                <td style="padding:0.75rem; opacity:0.7;"><?php echo htmlspecialchars($user['created_at']); ?></td>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Role</th>
+                                <th>Created At</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($staffList as $user): ?>
+                                <tr>
+                                    <td style="font-weight:bold;"><?php echo htmlspecialchars($user['username']); ?></td>
+                                    <td>
+                                        <span class="admin-badge <?php echo ($user['role'] === 'admin') ? 'admin-badge-success' : (($user['role'] === 'editor') ? 'admin-badge-warning' : 'admin-badge-info'); ?>">
+                                            <?php echo htmlspecialchars($user['role']); ?>
+                                        </span>
+                                    </td>
+                                    <td style="color: var(--text-muted);"><?php echo htmlspecialchars($user['created_at']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
-
     </div>
 </div>
 

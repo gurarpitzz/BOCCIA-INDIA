@@ -327,53 +327,53 @@ $profileUpdatesQueue = $pdo->query("SELECT p.*,
 include __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="admin-wrapper" style="background:#08142E; min-height:95vh; padding:6rem 0; color:#FAF7F0;">
-    <div class="container">
+<div class="admin-wrapper">
+    <div class="container-fluid" style="padding: 2rem;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1.5rem;">
+        <div class="admin-page-title-row">
             <div>
-                <span style="color:#24C27A; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; font-size:0.9rem;">Review Queue Panel</span>
-                <h1 style="font-family:'Outfit',sans-serif; font-size:2.5rem; font-weight:700;">Pending Applications Review</h1>
+                <span class="admin-section-eyebrow">Review Queue Panel</span>
+                <h1 class="admin-page-title">Pending Applications Review</h1>
             </div>
-            <a href="dashboard.php" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; border-radius:999px;">Return to Dashboard</a>
+            <a href="dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
         </div>
 
         <?php echo $message; ?>
 
         <!-- Tabs Navigation -->
-        <div style="display:flex; gap:1rem; margin-bottom:3rem; border-bottom:2px solid rgba(255,255,255,0.05); padding-bottom:1px;">
-            <a href="?tab=athletes" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'athletes' ? '#24C27A' : 'transparent'; ?>; color:<?php echo $tab === 'athletes' ? '#24C27A' : '#FAF7F0'; ?>; transition:all 0.3s ease;">
+        <div style="display:flex; gap:1rem; margin-bottom:2rem; border-bottom:2px solid #E2E8F0; padding-bottom:1px;">
+            <a href="?tab=athletes" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'athletes' ? 'var(--bsfi-green)' : 'transparent'; ?>; color:<?php echo $tab === 'athletes' ? 'var(--bsfi-green)' : 'var(--text-secondary)'; ?>; transition:all 0.3s ease;">
                 Athletes Queue (<?php echo count($athletesQueue); ?>)
             </a>
-            <a href="?tab=officials" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'officials' ? '#24C27A' : 'transparent'; ?>; color:<?php echo $tab === 'officials' ? '#24C27A' : '#FAF7F0'; ?>; transition:all 0.3s ease;">
+            <a href="?tab=officials" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'officials' ? 'var(--bsfi-green)' : 'transparent'; ?>; color:<?php echo $tab === 'officials' ? 'var(--bsfi-green)' : 'var(--text-secondary)'; ?>; transition:all 0.3s ease;">
                 Officials Queue (<?php echo count($officialsQueue); ?>)
             </a>
-            <a href="?tab=profile_updates" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'profile_updates' ? '#24C27A' : 'transparent'; ?>; color:<?php echo $tab === 'profile_updates' ? '#24C27A' : '#FAF7F0'; ?>; transition:all 0.3s ease;">
+            <a href="?tab=profile_updates" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'profile_updates' ? 'var(--bsfi-green)' : 'transparent'; ?>; color:<?php echo $tab === 'profile_updates' ? 'var(--bsfi-green)' : 'var(--text-secondary)'; ?>; transition:all 0.3s ease;">
                 Profile Updates (<?php echo count($profileUpdatesQueue); ?>)
             </a>
         </div>
 
         <!-- Queues Panel Content -->
-        <div style="display:flex; flex-direction:column; gap:2.5rem;">
+        <div style="display:flex; flex-direction:column; gap:2rem;">
             <?php if ($tab === 'athletes'): ?>
                 <?php if (count($athletesQueue) > 0): ?>
                     <?php foreach ($athletesQueue as $app): ?>
-                        <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2.5rem; border-radius:28px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div class="admin-card">
                             
                             <!-- Header Info -->
-                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:2rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:2rem; border-bottom:1px solid #E2E8F0; padding-bottom:1.5rem;">
                                 <div>
-                                    <h3 style="font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:700; margin:0;"><?php echo htmlspecialchars($app['full_name']); ?></h3>
-                                    <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem;">Submitted on: <?php echo date('d M Y, h:i A', strtotime($app['created_at'])); ?></span>
+                                    <h3 class="admin-card-title" style="font-size:1.6rem; margin:0;"><?php echo htmlspecialchars($app['full_name']); ?></h3>
+                                    <span style="color:var(--text-muted); font-size:0.85rem;">Submitted on: <?php echo date('d M Y, h:i A', strtotime($app['created_at'])); ?></span>
                                 </div>
                                 <?php if ($app['possible_duplicate']): ?>
-                                    <div class="badge" style="background:rgba(215, 38, 56, 0.15); color:#D72638; border:1px solid #D72638; border-radius:6px; padding:0.4rem 1rem; font-weight:700; font-size:0.85rem;">
+                                    <span class="admin-badge admin-badge-danger" style="padding:0.4rem 1rem; font-size:0.85rem;">
                                         Potential Duplicate (Score: <?php echo $app['duplicate_score']; ?>)
-                                    </div>
+                                    </span>
                                 <?php else: ?>
-                                    <div class="badge" style="background:rgba(36, 194, 122, 0.15); color:#24C27A; border:1px solid #24C27A; border-radius:6px; padding:0.4rem 1rem; font-weight:700; font-size:0.85rem;">
+                                    <span class="admin-badge admin-badge-success" style="padding:0.4rem 1rem; font-size:0.85rem;">
                                         New Registration Profile
-                                    </div>
+                                    </span>
                                 <?php endif; ?>
                             </div>
 
@@ -387,32 +387,32 @@ include __DIR__ . '/../includes/header.php';
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2rem;">
                                     
                                     <!-- Left Side: Application Details -->
-                                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:1.5rem;">
-                                        <h4 style="color:#F4B942; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-top:0;">Submitted Application</h4>
-                                        <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem;">
+                                    <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.5rem;">
+                                        <h4 style="color:var(--bsfi-saffron); border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem; margin-top:0; font-weight:700;">Submitted Application</h4>
+                                        <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem; color:var(--text-primary);">
                                             <div><strong>Name:</strong></div><div><?php echo htmlspecialchars($app['full_name']); ?></div>
                                             <div><strong>DOB:</strong></div><div><?php echo htmlspecialchars($app['dob']); ?></div>
                                             <div><strong>Email:</strong></div><div><?php echo htmlspecialchars($app['email']); ?></div>
                                             <div><strong>Phone:</strong></div><div><?php echo htmlspecialchars($app['phone']); ?></div>
                                             <div><strong>Aadhaar:</strong></div><div><?php echo htmlspecialchars($app['aadhaar'] ?: 'N/A'); ?></div>
                                             <div><strong>State:</strong></div><div><?php echo htmlspecialchars($app['state']); ?></div>
-                                            <div><strong>Classification:</strong></div><div><span class="badge bg-secondary px-2 py-1"><?php echo htmlspecialchars($app['classification']); ?></span></div>
+                                            <div><strong>Classification:</strong></div><div><span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($app['classification']); ?></span></div>
                                             <div><strong>Wheelchair:</strong></div><div><?php echo htmlspecialchars($app['wheelchair_status']); ?></div>
                                         </div>
                                     </div>
 
                                     <!-- Right Side: Existing Record Details -->
                                     <?php if ($ex): ?>
-                                        <div style="background:rgba(255,153,51,0.03); border:1px solid rgba(255,153,51,0.15); border-radius:20px; padding:1.5rem;">
-                                            <h4 style="color:#FF9933; border-bottom:1px solid rgba(255,153,51,0.05); padding-bottom:0.5rem; margin-top:0;">Existing Athlete (REGN_NO: <?php echo htmlspecialchars($ex['regn_no']); ?>)</h4>
-                                            <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem;">
+                                        <div style="background:rgba(255,153,51,0.03); border:1px solid rgba(255,153,51,0.2); border-radius:12px; padding:1.5rem;">
+                                            <h4 style="color:var(--navy); border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem; margin-top:0; font-weight:700;">Existing Athlete (REGN_NO: <?php echo htmlspecialchars($ex['regn_no']); ?>)</h4>
+                                            <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem; color:var(--text-primary);">
                                                 <div><strong>Name:</strong></div><div><?php echo htmlspecialchars($ex['full_name']); ?></div>
                                                 <div><strong>DOB:</strong></div><div><?php echo htmlspecialchars($ex['dob']); ?></div>
                                                 <div><strong>Email:</strong></div><div><?php echo htmlspecialchars($ex['email']); ?></div>
                                                 <div><strong>Phone:</strong></div><div><?php echo htmlspecialchars($ex['mobile']); ?></div>
                                                 <div><strong>Aadhaar:</strong></div><div><?php echo htmlspecialchars($ex['aadhaar'] ?: 'N/A'); ?></div>
                                                 <div><strong>State:</strong></div><div><?php echo htmlspecialchars($ex['state']); ?></div>
-                                                <div><strong>Classification:</strong></div><div><span class="badge bg-secondary px-2 py-1"><?php echo htmlspecialchars($ex['classification']); ?></span></div>
+                                                <div><strong>Classification:</strong></div><div><span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($ex['classification']); ?></span></div>
                                                 <div><strong>Wheelchair:</strong></div><div><?php echo htmlspecialchars($ex['wheelchair_status']); ?></div>
                                             </div>
                                         </div>
@@ -421,7 +421,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             <?php else: ?>
                                 <!-- Standard fields details display if no duplicates -->
-                                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:2rem; font-size:0.9rem;">
+                                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:2rem; font-size:0.9rem; color:var(--text-secondary);">
                                     <div><strong>Gender:</strong> <?php echo htmlspecialchars($app['gender']); ?></div>
                                     <div><strong>Date of Birth:</strong> <?php echo htmlspecialchars($app['dob']); ?></div>
                                     <div><strong>Phone:</strong> <?php echo htmlspecialchars($app['phone']); ?></div>
@@ -434,13 +434,13 @@ include __DIR__ . '/../includes/header.php';
                             <?php endif; ?>
 
                             <!-- Actions Row -->
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:1.5rem;">
-                                <div style="display:flex; gap:1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #E2E8F0; padding-top:1.5rem;">
+                                <div style="display:flex; gap:1rem;">
                                     <?php if (!empty($app['photo_path'])): ?>
-                                        <a href="../<?php echo htmlspecialchars($app['photo_path']); ?>" target="_blank" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; font-size:0.85rem; padding:0.4rem 1rem; border-radius:999px;">View Photo</a>
+                                        <a href="../<?php echo htmlspecialchars($app['photo_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Photo</a>
                                     <?php endif; ?>
                                     <?php if (!empty($app['receipt_path'])): ?>
-                                        <a href="../<?php echo htmlspecialchars($app['receipt_path']); ?>" target="_blank" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; font-size:0.85rem; padding:0.4rem 1rem; border-radius:999px;">View ID Proof</a>
+                                        <a href="../<?php echo htmlspecialchars($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
                                     <?php endif; ?>
                                 </div>
                                 <form action="registrations.php?tab=athletes" method="POST" style="display:flex; gap:0.5rem; margin:0;">
@@ -450,41 +450,41 @@ include __DIR__ . '/../includes/header.php';
                                     
                                     <?php if ($app['possible_duplicate'] && $app['existing_athlete_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_athlete_id']; ?>">
-                                        <button type="submit" name="action" value="approve_link" class="btn" style="background:#FF9933; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve &amp; Link Profile</button>
-                                        <button type="submit" name="action" value="approve_new" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve as New Athlete</button>
+                                        <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>
+                                        <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve as New Athlete</button>
                                     <?php else: ?>
-                                        <button type="submit" name="action" value="approve_new" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve Registration</button>
+                                        <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve Registration</button>
                                     <?php endif; ?>
-                                    <button type="submit" name="action" value="reject" class="btn" style="background:#D72638; color:#fff; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Reject</button>
+                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger">Reject</button>
                                 </form>
                             </div>
 
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.2); padding:4rem; border-radius:28px; text-align:center;">
-                        <p style="font-size:1.1rem; opacity:0.7;">🎉 All clear! There are no pending athlete registrations to review.</p>
+                    <div class="admin-card" style="text-align:center; padding: 4rem;">
+                        <p style="font-size:1.15rem; color:var(--text-secondary); margin:0;">All clear! There are no pending athlete registrations to review.</p>
                     </div>
                 <?php endif; ?>
             <?php elseif ($tab === 'officials'): ?>
                 <?php if (count($officialsQueue) > 0): ?>
                     <?php foreach ($officialsQueue as $app): ?>
-                        <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2.5rem; border-radius:28px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div class="admin-card">
                             
                             <!-- Header Info -->
-                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:2rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:2rem; border-bottom:1px solid #E2E8F0; padding-bottom:1.5rem;">
                                 <div>
-                                    <h3 style="font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:700; margin:0;"><?php echo htmlspecialchars($app['full_name']); ?></h3>
-                                    <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem;">Submitted on: <?php echo date('d M Y, h:i A', strtotime($app['created_at'])); ?></span>
+                                    <h3 class="admin-card-title" style="font-size:1.6rem; margin:0;"><?php echo htmlspecialchars($app['full_name']); ?></h3>
+                                    <span style="color:var(--text-muted); font-size:0.85rem;">Submitted on: <?php echo date('d M Y, h:i A', strtotime($app['created_at'])); ?></span>
                                 </div>
                                 <?php if ($app['possible_duplicate']): ?>
-                                    <div class="badge" style="background:rgba(215, 38, 56, 0.15); color:#D72638; border:1px solid #D72638; border-radius:6px; padding:0.4rem 1rem; font-weight:700; font-size:0.85rem;">
+                                    <span class="admin-badge admin-badge-danger" style="padding:0.4rem 1rem; font-size:0.85rem;">
                                         Potential Duplicate (Score: <?php echo $app['duplicate_score']; ?>)
-                                    </div>
+                                    </span>
                                 <?php else: ?>
-                                    <div class="badge" style="background:rgba(36, 194, 122, 0.15); color:#24C27A; border:1px solid #24C27A; border-radius:6px; padding:0.4rem 1rem; font-weight:700; font-size:0.85rem;">
+                                    <span class="admin-badge admin-badge-success" style="padding:0.4rem 1rem; font-size:0.85rem;">
                                         New Registration Profile
-                                    </div>
+                                    </span>
                                 <?php endif; ?>
                             </div>
 
@@ -498,11 +498,11 @@ include __DIR__ . '/../includes/header.php';
                                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2rem;">
                                     
                                     <!-- Left Side: Application Details -->
-                                    <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:1.5rem;">
-                                        <h4 style="color:#F4B942; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-top:0;">Submitted Application</h4>
-                                        <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem;">
+                                    <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.5rem;">
+                                        <h4 style="color:var(--bsfi-saffron); border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem; margin-top:0; font-weight:700;">Submitted Application</h4>
+                                        <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem; color:var(--text-primary);">
                                             <div><strong>Name:</strong></div><div><?php echo htmlspecialchars($app['full_name']); ?></div>
-                                            <div><strong>Role:</strong></div><div><span class="badge bg-primary px-2 py-1"><?php echo htmlspecialchars($app['role']); ?></span></div>
+                                            <div><strong>Role:</strong></div><div><span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($app['role']); ?></span></div>
                                             <div><strong>DOB:</strong></div><div><?php echo htmlspecialchars($app['dob']); ?></div>
                                             <div><strong>Email:</strong></div><div><?php echo htmlspecialchars($app['email']); ?></div>
                                             <div><strong>Phone:</strong></div><div><?php echo htmlspecialchars($app['phone']); ?></div>
@@ -513,11 +513,11 @@ include __DIR__ . '/../includes/header.php';
 
                                     <!-- Right Side: Existing Record Details -->
                                     <?php if ($ex): ?>
-                                        <div style="background:rgba(255,153,51,0.03); border:1px solid rgba(255,153,51,0.15); border-radius:20px; padding:1.5rem;">
-                                            <h4 style="color:#FF9933; border-bottom:1px solid rgba(255,153,51,0.05); padding-bottom:0.5rem; margin-top:0;">Existing Official (ID: <?php echo htmlspecialchars($ex['official_reg_no']); ?>)</h4>
-                                            <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem;">
+                                        <div style="background:rgba(255,153,51,0.03); border:1px solid rgba(255,153,51,0.2); border-radius:12px; padding:1.5rem;">
+                                            <h4 style="color:var(--navy); border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem; margin-top:0; font-weight:700;">Existing Official (ID: <?php echo htmlspecialchars($ex['official_reg_no']); ?>)</h4>
+                                            <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:0.5rem; font-size:0.88rem; color:var(--text-primary);">
                                                 <div><strong>Name:</strong></div><div><?php echo htmlspecialchars($ex['name']); ?></div>
-                                                <div><strong>Role:</strong></div><div><span class="badge bg-primary px-2 py-1"><?php echo htmlspecialchars($ex['role']); ?></span></div>
+                                                <div><strong>Role:</strong></div><div><span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($ex['role']); ?></span></div>
                                                 <div><strong>DOB:</strong></div><div><?php echo htmlspecialchars($ex['dob']); ?></div>
                                                 <div><strong>Email:</strong></div><div><?php echo htmlspecialchars($ex['email']); ?></div>
                                                 <div><strong>Phone:</strong></div><div><?php echo htmlspecialchars($ex['phone']); ?></div>
@@ -530,7 +530,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             <?php else: ?>
                                 <!-- Standard fields details display if no duplicates -->
-                                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:2rem; font-size:0.9rem;">
+                                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:2rem; font-size:0.9rem; color:var(--text-secondary);">
                                     <div><strong>Role:</strong> <?php echo htmlspecialchars($app['role']); ?></div>
                                     <div><strong>Gender:</strong> <?php echo htmlspecialchars($app['gender']); ?></div>
                                     <div><strong>Date of Birth:</strong> <?php echo htmlspecialchars($app['dob']); ?></div>
@@ -542,13 +542,13 @@ include __DIR__ . '/../includes/header.php';
                             <?php endif; ?>
 
                             <!-- Actions Row -->
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.05); padding-top:1.5rem;">
-                                <div style="display:flex; gap:1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #E2E8F0; padding-top:1.5rem;">
+                                <div style="display:flex; gap:1rem;">
                                     <?php if (!empty($app['photo_path'])): ?>
-                                        <a href="../<?php echo htmlspecialchars($app['photo_path']); ?>" target="_blank" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; font-size:0.85rem; padding:0.4rem 1rem; border-radius:999px;">View Photo</a>
+                                        <a href="../<?php echo htmlspecialchars($app['photo_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Photo</a>
                                     <?php endif; ?>
                                     <?php if (!empty($app['receipt_path'])): ?>
-                                        <a href="../<?php echo htmlspecialchars($app['receipt_path']); ?>" target="_blank" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; font-size:0.85rem; padding:0.4rem 1rem; border-radius:999px;">View ID Proof</a>
+                                        <a href="../<?php echo htmlspecialchars($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
                                     <?php endif; ?>
                                 </div>
                                 <form action="registrations.php?tab=officials" method="POST" style="display:flex; gap:0.5rem; margin:0;">
@@ -558,35 +558,35 @@ include __DIR__ . '/../includes/header.php';
                                     
                                     <?php if ($app['possible_duplicate'] && $app['existing_official_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_official_id']; ?>">
-                                        <button type="submit" name="action" value="approve_link" class="btn" style="background:#FF9933; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve &amp; Link Profile</button>
-                                        <button type="submit" name="action" value="approve_new" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve as New Official</button>
+                                        <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>
+                                        <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve as New Official</button>
                                     <?php else: ?>
-                                        <button type="submit" name="action" value="approve_new" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve Registration</button>
+                                        <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve Registration</button>
                                     <?php endif; ?>
-                                    <button type="submit" name="action" value="reject" class="btn" style="background:#D72638; color:#fff; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Reject</button>
+                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger">Reject</button>
                                 </form>
                             </div>
 
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.2); padding:4rem; border-radius:28px; text-align:center;">
-                        <p style="font-size:1.1rem; opacity:0.7;">🎉 All clear! There are no pending official registrations to review.</p>
+                    <div class="admin-card" style="text-align:center; padding: 4rem;">
+                        <p style="font-size:1.15rem; color:var(--text-secondary); margin:0;">All clear! There are no pending official registrations to review.</p>
                     </div>
                 <?php endif; ?>
             <?php elseif ($tab === 'profile_updates'): ?>
                 <?php if (count($profileUpdatesQueue) > 0): ?>
                     <?php foreach ($profileUpdatesQueue as $req): ?>
-                        <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2.5rem; border-radius:28px; border: 1px solid rgba(255,255,255,0.05); margin-bottom:2rem;">
+                        <div class="admin-card" style="margin-bottom: 2rem;">
                             
                             <!-- Header Info -->
-                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:2rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:2rem; border-bottom:1px solid #E2E8F0; padding-bottom:1.5rem;">
                                 <div>
-                                    <h3 style="font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:700; margin:0;">
+                                    <h3 class="admin-card-title" style="font-size:1.6rem; margin:0;">
                                         Profile Update Request: <?php echo htmlspecialchars($req['member_name']); ?> 
-                                        <span style="font-size:1rem; opacity:0.6;">(<?php echo htmlspecialchars($req['member_reg_no']); ?>)</span>
+                                        <span style="font-size:1rem; color:var(--text-muted);">(<?php echo htmlspecialchars($req['member_reg_no']); ?>)</span>
                                     </h3>
-                                    <span style="color:#FAF7F0; opacity:0.6; font-size:0.85rem;">Member Type: <strong style="text-transform:uppercase; color:#F4B942;"><?php echo $req['member_type']; ?></strong> | Submitted: <?php echo date('d M Y, h:i A', strtotime($req['submitted_at'])); ?></span>
+                                    <span style="color:var(--text-muted); font-size:0.85rem;">Member Type: <strong style="text-transform:uppercase; color:var(--bsfi-saffron);"><?php echo $req['member_type']; ?></strong> | Submitted: <?php echo date('d M Y, h:i A', strtotime($req['submitted_at'])); ?></span>
                                 </div>
                             </div>
 
@@ -594,54 +594,54 @@ include __DIR__ . '/../includes/header.php';
                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2.5rem;">
                                 
                                 <!-- Left Side: Current Profile -->
-                                <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:1.5rem; text-align:left;">
-                                    <h4 style="color:#FAF7F0; opacity:0.8; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem; margin-top:0;">Current Live Profile</h4>
+                                <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:1.5rem; text-align:left;">
+                                    <h4 style="color:var(--text-primary); border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem; margin-top:0; font-weight:700;">Current Live Profile</h4>
                                     
                                     <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:1.5rem;">
                                         <?php if (!empty($req['current_photo_path'])): ?>
-                                            <img src="../<?php echo htmlspecialchars($req['current_photo_path']); ?>" alt="Current Photo" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2);">
+                                            <img src="../<?php echo htmlspecialchars($req['current_photo_path']); ?>" alt="Current Photo" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid #E2E8F0;">
                                         <?php else: ?>
-                                            <div style="width: 80px; height: 80px; border-radius: 50%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.2);">
-                                                <i class="bi bi-person-fill" style="font-size: 2.2rem; color:rgba(255,255,255,0.4);"></i>
+                                            <div style="width: 80px; height: 80px; border-radius: 50%; background:#CBD5E1; display:flex; align-items:center; justify-content:center; border:2px dashed #94A3B8;">
+                                                <span style="font-size: 2.2rem; color:#FFFFFF;">👤</span>
                                             </div>
                                         <?php endif; ?>
                                         <div>
-                                            <span style="font-size:0.8rem; opacity:0.6; text-transform:uppercase; display:block;">Live Photograph</span>
-                                            <span style="font-size:0.9rem; font-weight:600;"><?php echo !empty($req['current_photo_path']) ? 'Verified Picture' : 'No Photo (Silhouette Placed)'; ?></span>
+                                            <span style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; display:block;">Live Photograph</span>
+                                            <span style="font-size:0.9rem; font-weight:600; color:var(--text-primary);"><?php echo !empty($req['current_photo_path']) ? 'Verified Picture' : 'No Photo (Silhouette Placed)'; ?></span>
                                         </div>
                                     </div>
 
-                                    <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem; font-size:0.88rem;">
+                                    <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem; font-size:0.88rem; color:var(--text-secondary);">
                                         <div><strong>Email:</strong></div><div><?php echo htmlspecialchars($req['current_email'] ?: 'N/A'); ?></div>
                                         <div><strong>Phone/Mobile:</strong></div><div><?php echo htmlspecialchars($req['current_phone'] ?: 'N/A'); ?></div>
                                     </div>
                                 </div>
 
                                 <!-- Right Side: Requested Profile Updates -->
-                                <div style="background:rgba(36, 194, 122, 0.03); border:1px solid rgba(36, 194, 122, 0.2); border-radius:20px; padding:1.5rem; text-align:left;">
-                                    <h4 style="color:#24C27A; border-bottom:1px solid rgba(36, 194, 122, 0.08); padding-bottom:0.5rem; margin-top:0;">Requested Updates</h4>
+                                <div style="background:rgba(19, 136, 8, 0.03); border:1px solid rgba(19, 136, 8, 0.2); border-radius:12px; padding:1.5rem; text-align:left;">
+                                    <h4 style="color:var(--bsfi-green); border-bottom:1px solid rgba(19, 136, 8, 0.1); padding-bottom:0.5rem; margin-top:0; font-weight:700;">Requested Updates</h4>
 
                                     <div style="display:flex; align-items:center; gap:1.5rem; margin-bottom:1.5rem;">
                                         <?php if (!empty($req['requested_photo_path'])): ?>
-                                            <img src="../<?php echo htmlspecialchars($req['requested_photo_path']); ?>" alt="Requested Photo" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid #24C27A;">
+                                            <img src="../<?php echo htmlspecialchars($req['requested_photo_path']); ?>" alt="Requested Photo" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid var(--bsfi-green);">
                                             <div>
-                                                <span style="font-size:0.8rem; color:#24C27A; text-transform:uppercase; display:block; font-weight:600;">New Uploaded Photograph</span>
-                                                <a href="../<?php echo htmlspecialchars($req['requested_photo_path']); ?>" target="_blank" style="font-size:0.85rem; color:#93C5FD; text-decoration:none;">View Full Resolution</a>
+                                                <span style="font-size:0.8rem; color:var(--bsfi-green); text-transform:uppercase; display:block; font-weight:600;">New Uploaded Photograph</span>
+                                                <a href="../<?php echo htmlspecialchars($req['requested_photo_path']); ?>" target="_blank" style="font-size:0.85rem; color:var(--navy); text-decoration:underline;">View Full Resolution</a>
                                             </div>
                                         <?php else: ?>
-                                            <div style="width: 80px; height: 80px; border-radius: 50%; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; border:2px dashed rgba(255,255,255,0.15);">
-                                                <i class="bi bi-camera-fill" style="font-size: 2.2rem; color:rgba(255,255,255,0.3);"></i>
+                                            <div style="width: 80px; height: 80px; border-radius: 50%; background:#E2E8F0; display:flex; align-items:center; justify-content:center; border:2px dashed #CBD5E1;">
+                                                <span style="font-size: 2.2rem; color:#94A3B8;">📷</span>
                                             </div>
                                             <div>
-                                                <span style="font-size:0.8rem; opacity:0.6; text-transform:uppercase; display:block;">New Photograph</span>
-                                                <span style="font-size:0.9rem; opacity:0.6; font-style:italic;">No photo change requested</span>
+                                                <span style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; display:block;">New Photograph</span>
+                                                <span style="font-size:0.9rem; color:var(--text-muted); font-style:italic;">No photo change requested</span>
                                             </div>
                                         <?php endif; ?>
                                     </div>
 
-                                    <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem; font-size:0.88rem;">
-                                        <div><strong>Requested Email:</strong></div><div style="<?php echo $req['requested_email'] !== $req['current_email'] ? 'color:#24C27A; font-weight:700;' : ''; ?>"><?php echo htmlspecialchars($req['requested_email'] ?: 'N/A'); ?></div>
-                                        <div><strong>Requested Phone:</strong></div><div style="<?php echo $req['requested_phone'] !== $req['current_phone'] ? 'color:#24C27A; font-weight:700;' : ''; ?>"><?php echo htmlspecialchars($req['requested_phone'] ?: 'N/A'); ?></div>
+                                    <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem; font-size:0.88rem; color:var(--text-primary);">
+                                        <div><strong>Requested Email:</strong></div><div style="<?php echo $req['requested_email'] !== $req['current_email'] ? 'color:var(--bsfi-green); font-weight:700;' : ''; ?>"><?php echo htmlspecialchars($req['requested_email'] ?: 'N/A'); ?></div>
+                                        <div><strong>Requested Phone:</strong></div><div style="<?php echo $req['requested_phone'] !== $req['current_phone'] ? 'color:var(--bsfi-green); font-weight:700;' : ''; ?>"><?php echo htmlspecialchars($req['requested_phone'] ?: 'N/A'); ?></div>
                                         <div><strong>Requested Address:</strong></div><div><?php echo htmlspecialchars($req['requested_address'] ?: 'N/A'); ?></div>
                                         <div><strong>Requested Pincode:</strong></div><div><?php echo htmlspecialchars($req['requested_pincode'] ?: 'N/A'); ?></div>
                                     </div>
@@ -650,26 +650,26 @@ include __DIR__ . '/../includes/header.php';
                             </div>
 
                             <!-- Review Decision Form -->
-                            <form action="registrations.php?tab=profile_updates" method="POST" style="border-top:1px solid rgba(255,255,255,0.05); padding-top:1.5rem; display:flex; flex-direction:column; gap:1rem; margin:0;">
+                            <form action="registrations.php?tab=profile_updates" method="POST" style="border-top:1px solid #E2E8F0; padding-top:1.5rem; display:flex; flex-direction:column; gap:1rem; margin:0;">
                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                 <input type="hidden" name="request_id" value="<?php echo $req['id']; ?>">
                                 
-                                <div style="display:flex; flex-direction:column; gap:0.5rem; text-align:left;">
-                                    <label style="font-size:0.8rem; font-weight:600; opacity:0.7;">Administrator Decision Notes (Reason for approval or rejection reasons like: blurry photo, wrong type)</label>
-                                    <input type="text" name="review_notes" class="search-input" placeholder="E.g. Approved. Profile picture verified. / Rejected due to poor lighting." style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#ffffff;">
+                                <div class="admin-form-group" style="text-align:left;">
+                                    <label>Administrator Decision Notes (Reason for approval or rejection reasons like: blurry photo, wrong type)</label>
+                                    <input type="text" name="review_notes" class="admin-input" placeholder="E.g. Approved. Profile picture verified. / Rejected due to poor lighting.">
                                 </div>
 
                                 <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem;">
-                                    <button type="submit" name="action" value="approve_update" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Approve &amp; Update Live Profile</button>
-                                    <button type="submit" name="action" value="reject_update" class="btn" style="background:#D72638; color:#fff; font-weight:bold; border-radius:999px; padding:0.6rem 1.5rem; cursor:pointer;">Reject Update</button>
+                                    <button type="submit" name="action" value="approve_update" class="admin-btn admin-btn-primary">Approve &amp; Update Live Profile</button>
+                                    <button type="submit" name="action" value="reject_update" class="admin-btn admin-btn-danger">Reject Update</button>
                                 </div>
                             </form>
 
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.2); padding:4rem; border-radius:28px; text-align:center;">
-                        <p style="font-size:1.1rem; opacity:0.7;">🎉 All clear! There are no pending profile update requests to review.</p>
+                    <div class="admin-card" style="text-align:center; padding: 4rem;">
+                        <p style="font-size:1.15rem; color:var(--text-secondary); margin:0;">All clear! There are no pending profile update requests to review.</p>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
@@ -677,5 +677,7 @@ include __DIR__ . '/../includes/header.php';
 
     </div>
 </div>
+
+<?php include __DIR__ . '/../includes/footer.php'; ?>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

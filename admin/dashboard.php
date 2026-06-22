@@ -65,199 +65,206 @@ $stmt = $pdo->query("SELECT a.*, u.username FROM audit_logs a LEFT JOIN users u 
 $auditLogs = $stmt->fetchAll();
 ?>
 
-<div class="admin-wrapper" style="background:#08142E; min-height:95vh; padding:6rem 0; color:#FAF7F0;">
-    <div class="container">
+<div class="admin-wrapper">
+    <div class="container-fluid" style="padding: 0;">
         
-        <!-- Welcome Header -->
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1.5rem;">
+        <!-- Welcome Header Row -->
+        <div class="admin-page-title-row" style="padding: 1.5rem 2rem; margin-bottom: 2rem;">
             <div>
-                <span style="color:#24C27A; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; font-size:0.9rem;">Federation Portal Control Desk</span>
-                <h1 style="font-family:'Outfit',sans-serif; font-size:2.5rem; font-weight:700;">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
-                <span style="font-size:0.85rem; background:rgba(36, 194, 122, 0.1); color:#24C27A; padding:0.25rem 0.75rem; border-radius:50px; text-transform:uppercase; font-weight:600; margin-top:0.5rem; display:inline-block;">Role: <?php echo htmlspecialchars($_SESSION['role']); ?></span>
+                <span class="admin-section-eyebrow">Federation Portal Control Desk</span>
+                <h1 class="admin-page-title">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
             </div>
             <div style="display:flex; gap:0.75rem;">
                 <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <a href="../import/import-athletes.php" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px;">Bulk Import CSV</a>
-                    <a href="users.php" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; border-radius:999px;">Manage Staff</a>
+                    <a href="../import/import-athletes.php" class="admin-btn admin-btn-primary">Bulk Import CSV</a>
+                    <a href="users.php" class="admin-btn admin-btn-outline">Manage Staff</a>
                 <?php endif; ?>
             </div>
         </div>
 
-        <!-- Dashboard Stats Grid -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1.5rem; margin-bottom:4rem;">
-            <!-- Stat 1 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #F4B942; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Total Athletes</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#F4B942; margin-top:0.25rem; margin-bottom:0;"><?php echo $totalAthletes; ?></h2>
-            </div>
-            <!-- Stat 2 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #24C27A; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Profiles Complete</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#24C27A; margin-top:0.25rem; margin-bottom:0;"><?php echo $profilesComplete; ?></h2>
-            </div>
-            <!-- Stat 3 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #D72638; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Missing Photos</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#D72638; margin-top:0.25rem; margin-bottom:0;"><?php echo $missingPhotos; ?></h2>
-            </div>
-            <!-- Stat 4 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #ff7e67; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Missing Contact Info</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#ff7e67; margin-top:0.25rem; margin-bottom:0;"><?php echo $missingContactInfo; ?></h2>
-            </div>
-            <!-- Stat 5 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #ff0055; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Pending Updates</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#ff0055; margin-top:0.25rem; margin-bottom:0;"><?php echo $pendingProfileUpdates; ?></h2>
-            </div>
-            <!-- Stat 6 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #1E88E5; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Total Officials</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#1E88E5; margin-top:0.25rem; margin-bottom:0;"><?php echo $totalOfficials; ?></h2>
-            </div>
-            <!-- Stat 7 -->
-            <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); border-left:4px solid #9b59b6; border-radius:20px; padding:1.25rem;">
-                <span style="color:#FAF7F0; opacity:0.6; font-size:0.8rem; text-transform:uppercase; font-weight:600;">Pending Officials</span>
-                <h2 style="font-size:2.2rem; font-family:'Outfit',sans-serif; font-weight:800; color:#9b59b6; margin-top:0.25rem; margin-bottom:0;"><?php echo $pendingOfficials; ?></h2>
-            </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:3rem;">
-            
-            <!-- Left Side: Management Modules -->
-            <div>
-                <!-- USERS & MEMBERS -->
-                <h3 style="font-size:1.3rem; margin-bottom:1rem; font-family:'Outfit',sans-serif; color:#FAF7F0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">USERS & MEMBERS</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom: 2.5rem;">
-                    
-                    <!-- Athlete Registry Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#F4B942; margin-bottom:0.5rem;">Athlete Directory</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Search, edit, verify registrations, and track athlete records.</p>
-                        <a href="athletes.php" class="btn" style="background:#F4B942; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Open Directory</a>
-                    </div>
-                    
-                    <!-- Review Portal -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#D72638; margin-bottom:0.5rem;">Registrations Review</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Process pending athlete registrations and approve entries.</p>
-                        <a href="registrations.php" class="btn" style="background:#D72638; color:#fff; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Review (<?php echo $pendingRegistrations; ?>)</a>
-                    </div>
-
-                    <!-- Admins Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#A0AABF; margin-bottom:0.5rem;">System Admins</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage admin accounts and editor permissions.</p>
-                        <a href="#" class="btn" style="background:#A0AABF; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage Access</a>
-                    </div>
+        <div style="padding: 0 2rem 3rem 2rem;">
+            <!-- Dashboard Stats Grid -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:3rem;">
+                <!-- Stat 1 -->
+                <div class="admin-stat-card accent-blue">
+                    <span class="admin-stat-label">Total Athletes</span>
+                    <h2 class="admin-stat-val"><?php echo $totalAthletes; ?></h2>
                 </div>
-
-                <!-- CONTENT MANAGEMENT -->
-                <h3 style="font-size:1.3rem; margin-bottom:1rem; font-family:'Outfit',sans-serif; color:#FAF7F0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">CONTENT MANAGEMENT</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom: 2.5rem;">
-                    
-                    <!-- Document Pages Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px; grid-column: span 2;">
-                        <h4 style="font-size:1.1rem; color:#24C27A; margin-bottom:0.5rem;">Document Pages</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage standardized PDF document pages, upload policies, selection criteria, tenders, and governance documents.</p>
-                        <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
-                            <a href="document_pages.php" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage Documents</a>
-                        <?php endif; ?>
-                    </div>
-                    <!-- Events Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#1E88E5; margin-bottom:0.5rem;">Events</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage upcoming tournaments and awareness camps.</p>
-                        <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
-                            <a href="events.php" class="btn" style="background:#1E88E5; color:#fff; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage</a>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Schedules Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#9b59b6; margin-bottom:0.5rem;">Schedules</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage the stylized schedule list for the landing page.</p>
-                        <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
-                            <a href="schedules.php" class="btn" style="background:#9b59b6; color:#fff; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage</a>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- News Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#24C27A; margin-bottom:0.5rem;">News</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Publish featured articles, announcements, and press releases.</p>
-                        <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
-                            <a href="news.php" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage</a>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Gallery Module -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#ff7e67; margin-bottom:0.5rem;">Gallery</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Upload photos, tag events, and manage the slideshow/collage.</p>
-                        <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
-                            <a href="gallery.php" class="btn" style="background:#ff7e67; color:#fff; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage</a>
-                        <?php endif; ?>
-                    </div>
+                <!-- Stat 2 -->
+                <div class="admin-stat-card accent-green">
+                    <span class="admin-stat-label">Profiles Complete</span>
+                    <h2 class="admin-stat-val"><?php echo $profilesComplete; ?></h2>
                 </div>
-
-                <!-- MEDIA -->
-                <h3 style="font-size:1.3rem; margin-bottom:1rem; font-family:'Outfit',sans-serif; color:#FAF7F0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">MEDIA</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom: 2.5rem;">
-                    
-                    <!-- Documents -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#00d2ff; margin-bottom:0.5rem;">Documents</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Manage secure internal federation documents.</p>
-                        <a href="#" class="btn" style="background:#00d2ff; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">View</a>
-                    </div>
-
-                    <!-- Downloads (Circulars) -->
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:1.5rem; border-radius:20px;">
-                        <h4 style="font-size:1.1rem; color:#00d2ff; margin-bottom:0.5rem;">Downloads & Circulars</h4>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1rem;">Upload public PDFs like policies and tournament handbooks.</p>
-                        <a href="#" class="btn" style="background:#00d2ff; color:#08142E; font-weight:bold; font-size:0.8rem; border-radius:999px; padding: 0.4rem 1rem; display:inline-block;">Manage</a>
-                    </div>
+                <!-- Stat 3 -->
+                <div class="admin-stat-card accent-red">
+                    <span class="admin-stat-label">Missing Photos</span>
+                    <h2 class="admin-stat-val"><?php echo $missingPhotos; ?></h2>
+                </div>
+                <!-- Stat 4 -->
+                <div class="admin-stat-card accent-saffron">
+                    <span class="admin-stat-label">Missing Contact Info</span>
+                    <h2 class="admin-stat-val"><?php echo $missingContactInfo; ?></h2>
+                </div>
+                <!-- Stat 5 -->
+                <div class="admin-stat-card accent-red">
+                    <span class="admin-stat-label">Pending Updates</span>
+                    <h2 class="admin-stat-val"><?php echo $pendingProfileUpdates; ?></h2>
+                </div>
+                <!-- Stat 6 -->
+                <div class="admin-stat-card accent-blue">
+                    <span class="admin-stat-label">Total Officials</span>
+                    <h2 class="admin-stat-val"><?php echo $totalOfficials; ?></h2>
+                </div>
+                <!-- Stat 7 -->
+                <div class="admin-stat-card accent-purple">
+                    <span class="admin-stat-label">Pending Officials</span>
+                    <h2 class="admin-stat-val"><?php echo $pendingOfficials; ?></h2>
                 </div>
             </div>
 
-            <!-- Right Side: Activity Log & Backups -->
-            <div>
-                <!-- Recent Logs -->
-                <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:2rem; border-radius:28px; margin-bottom:2rem;">
-                    <h3 style="font-size:1.3rem; margin-bottom:1rem; font-family:'Outfit',sans-serif;">Recent Audit Activity</h3>
-                    <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:1rem; font-size:0.85rem;">
-                        <?php if (count($auditLogs) > 0): ?>
-                            <?php foreach ($auditLogs as $log): ?>
-                                <li style="border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:0.5rem;">
-                                    <strong style="color:#24C27A;"><?php echo htmlspecialchars($log['username'] ?? 'System'); ?></strong>: 
-                                    <?php echo htmlspecialchars($log['action']); ?>
-                                    <span style="display:block; font-size:0.75rem; color:#FAF7F0; opacity:0.5; margin-top:0.25rem;"><?php echo $log['created_at']; ?></span>
-                                </li>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <li style="color:#FAF7F0; opacity:0.6; font-style:italic;">No activity recorded yet.</li>
-                        <?php endif; ?>
-                    </ul>
-                </div>
+            <!-- Main Layout Grid -->
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:2.5rem; align-items: start;">
+                
+                <!-- Left Side: Management Modules -->
+                <div>
+                    <!-- ATHLETES & MEMBERS SECTION -->
+                    <div style="margin-bottom: 2.5rem;">
+                        <span class="admin-section-eyebrow">ATHLETES &amp; MEMBERS</span>
+                        <hr style="margin: 0.5rem 0 1.5rem 0; border-color: #E2E8F0;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+                            
+                            <!-- Athlete Directory Module -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">👤 Athlete Directory</h4>
+                                <p class="admin-card-desc">Search, edit, verify registrations, and track athlete records.</p>
+                                <a href="athletes.php" class="admin-btn admin-btn-secondary">Open Directory</a>
+                            </div>
+                            
+                            <!-- Review Portal -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">📥 Registrations Review</h4>
+                                <p class="admin-card-desc">Process pending athlete registrations and approve entries.</p>
+                                <a href="registrations.php" class="admin-btn admin-btn-primary">
+                                    Review Applications <?php if($pendingRegistrations > 0): ?><span class="admin-badge admin-badge-warning" style="margin-left: 0.5rem; background: #FF9933; color: white;"><?php echo $pendingRegistrations; ?></span><?php endif; ?>
+                                </a>
+                            </div>
 
-                <!-- Database Backups (Admin Only) -->
-                <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.3); padding:2rem; border-radius:28px;">
-                        <h3 style="font-size:1.3rem; margin-bottom:1rem; font-family:'Outfit',sans-serif;">System Utilities & Backups</h3>
-                        <p style="font-size:0.85rem; opacity:0.8; margin-bottom:1.5rem;">Export primary database structures and data records natively.</p>
-                        <div style="display:flex; flex-direction:column; gap:0.75rem;">
-                            <a href="../api/export.php?type=csv" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; font-size:0.85rem; border-radius:999px; text-align:center;">Export Athletes to CSV</a>
-                            <a href="../api/export.php?type=xlsx" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; font-size:0.85rem; border-radius:999px; text-align:center;">Export Athletes to XLS</a>
-                            <a href="../api/export.php?type=sql" class="btn" style="background:#FAF7F0; color:#08142E; font-weight:bold; font-size:0.85rem; border-radius:999px; text-align:center;">Download Full Database SQL Backup</a>
+                            <!-- Staff Users Module -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">🛡 Staff Users</h4>
+                                <p class="admin-card-desc">Manage admin accounts and editor permissions.</p>
+                                <a href="users.php" class="admin-btn admin-btn-outline">Manage Access</a>
+                            </div>
                         </div>
                     </div>
-                <?php endif; ?>
+
+                    <!-- CONTENT MANAGEMENT SECTION -->
+                    <div>
+                        <span class="admin-section-eyebrow">CONTENT MANAGEMENT</span>
+                        <hr style="margin: 0.5rem 0 1.5rem 0; border-color: #E2E8F0;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+                            
+                            <!-- Document Pages Module -->
+                            <div class="admin-card hoverable" style="grid-column: span 2;">
+                                <h4 class="admin-card-title">📄 Document Pages</h4>
+                                <p class="admin-card-desc">Manage standardized PDF document pages, upload policies, selection criteria, tenders, and governance documents.</p>
+                                <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
+                                    <a href="document_pages.php" class="admin-btn admin-btn-primary">Manage Documents</a>
+                                <?php else: ?>
+                                    <span class="admin-badge admin-badge-pending">Read-only Access</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- News Module -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">📰 News Management</h4>
+                                <p class="admin-card-desc">Publish featured articles, announcements, and press releases.</p>
+                                <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
+                                    <a href="news.php" class="admin-btn admin-btn-secondary">Manage News</a>
+                                <?php else: ?>
+                                    <span class="admin-badge admin-badge-pending">Read-only Access</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Gallery Module -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">🖼 Gallery Management</h4>
+                                <p class="admin-card-desc">Upload photos, tag events, and manage the slideshow/collage.</p>
+                                <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
+                                    <a href="gallery.php" class="admin-btn admin-btn-secondary">Manage Gallery</a>
+                                <?php else: ?>
+                                    <span class="admin-badge admin-badge-pending">Read-only Access</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Events Module -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">📅 Events Management</h4>
+                                <p class="admin-card-desc">Manage upcoming tournaments and awareness camps.</p>
+                                <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
+                                    <a href="events.php" class="admin-btn admin-btn-secondary">Manage Events</a>
+                                <?php else: ?>
+                                    <span class="admin-badge admin-badge-pending">Read-only Access</span>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Schedules Module -->
+                            <div class="admin-card hoverable">
+                                <h4 class="admin-card-title">📋 Schedules</h4>
+                                <p class="admin-card-desc">Manage the stylized schedule list for the landing page.</p>
+                                <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
+                                    <a href="schedules.php" class="admin-btn admin-btn-secondary">Manage Schedules</a>
+                                <?php else: ?>
+                                    <span class="admin-badge admin-badge-pending">Read-only Access</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Activity Log & Backups -->
+                <div>
+                    <!-- Recent Logs -->
+                    <div id="audit-logs" class="admin-card" style="margin-bottom: 2.5rem;">
+                        <h3 class="admin-card-title">Recent Audit Activity</h3>
+                        <p class="admin-card-desc">Federation-wide administrative action logs.</p>
+                        <div class="admin-timeline">
+                            <?php if (count($auditLogs) > 0): ?>
+                                <?php foreach ($auditLogs as $log): ?>
+                                    <div class="admin-timeline-item <?php echo (strpos(strtolower($log['action']), 'delete') !== false) ? 'accent-saffron' : ''; ?>">
+                                        <p class="admin-timeline-title"><?php echo htmlspecialchars($log['username'] ?? 'System'); ?></p>
+                                        <p class="admin-timeline-desc"><?php echo htmlspecialchars($log['action']); ?></p>
+                                        <span class="admin-timeline-time"><?php echo $log['created_at']; ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <p style="color:var(--text-muted); font-style:italic;">No activity recorded yet.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Database Backups (Admin Only) -->
+                    <?php if ($_SESSION['role'] === 'admin'): ?>
+                        <div id="system-utilities" class="admin-card">
+                            <h3 class="admin-card-title">System Utilities &amp; Backups</h3>
+                            <p class="admin-card-desc">Export primary database structures and data records natively.</p>
+                            <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                                <a href="../api/export.php?type=csv" class="admin-btn admin-btn-outline" style="justify-content: flex-start; text-align: left;">
+                                    <span>📥</span> Export Athletes to CSV
+                                </a>
+                                <a href="../api/export.php?type=xlsx" class="admin-btn admin-btn-outline" style="justify-content: flex-start; text-align: left;">
+                                    <span>📊</span> Export Athletes to XLS
+                                </a>
+                                <a href="../api/export.php?type=sql" class="admin-btn admin-btn-warning" style="justify-content: flex-start; text-align: left;">
+                                    <span>💾</span> Download Full SQL Backup
+                                </a>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
             </div>
-
         </div>
-
     </div>
 </div>
 

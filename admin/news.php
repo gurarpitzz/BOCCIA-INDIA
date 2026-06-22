@@ -225,30 +225,30 @@ $newsList = $stmt->fetchAll();
 $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fetchAll();
 ?>
 
-<div class="admin-wrapper" style="background:#08142E; min-height:95vh; padding:6rem 0; color:#FAF7F0;">
-    <div class="container">
+<div class="admin-wrapper">
+    <div class="container-fluid" style="padding: 2rem;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1.5rem;">
+        <div class="admin-page-title-row">
             <div>
-                <span style="color:#24C27A; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; font-size:0.9rem;">Content Management</span>
-                <h1 style="font-family:'Outfit',sans-serif; font-size:2.5rem; font-weight:700;">Manage News (v4.1)</h1>
+                <span class="admin-section-eyebrow">Content Management</span>
+                <h1 class="admin-page-title">Manage News</h1>
             </div>
             <div style="display:flex; gap:0.75rem;">
-                <button onclick="openNewsModal(0)" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; cursor:pointer;">Write Article</button>
-                <a href="dashboard.php" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; border-radius:999px;">Return to Dashboard</a>
+                <button onclick="openNewsModal(0)" class="admin-btn admin-btn-primary">Write Article</button>
+                <a href="dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
             </div>
         </div>
 
-        <?php echo $message; ?>
+        <?php if (!empty($message)) echo $message; ?>
 
         <!-- Search and Filtering Panel -->
-        <div class="glass-card mb-4" style="background:rgba(22, 41, 90, 0.2); padding:1.5rem; border-radius:20px; border:1px solid rgba(255,255,255,0.08);">
-            <form method="GET" action="news.php" class="row g-3">
+        <div class="admin-toolbar">
+            <form method="GET" action="news.php" class="row g-3" style="width: 100%; margin: 0;">
                 <div class="col-md-5">
-                    <input type="text" name="search" class="form-control" placeholder="Search by title..." value="<?php echo htmlspecialchars($search); ?>" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+                    <input type="text" name="search" class="admin-input" placeholder="Search by title..." value="<?php echo htmlspecialchars($search); ?>">
                 </div>
                 <div class="col-md-3">
-                    <select name="filter_category" class="form-select" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+                    <select name="filter_category" class="admin-select">
                         <option value="">All Categories</option>
                         <?php foreach($categories as $cat): ?>
                             <option value="<?php echo $cat['id']; ?>" <?php echo $filter_category == $cat['id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($cat['name']); ?></option>
@@ -256,7 +256,7 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select name="filter_status" class="form-select" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+                    <select name="filter_status" class="admin-select">
                         <option value="">All Statuses</option>
                         <option value="draft" <?php echo $filter_status === 'draft' ? 'selected' : ''; ?>>Draft</option>
                         <option value="published" <?php echo $filter_status === 'published' ? 'selected' : ''; ?>>Published</option>
@@ -264,7 +264,7 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
                     </select>
                 </div>
                 <div class="col-md-2 d-grid">
-                    <button type="submit" class="btn btn-primary" style="border-radius:8px;">Search</button>
+                    <button type="submit" class="admin-btn admin-btn-secondary" style="height: 100%;">Search</button>
                 </div>
             </form>
         </div>
@@ -273,39 +273,39 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
         <div style="display:flex; flex-direction:column; gap:1.5rem;">
             <?php if (count($newsList) > 0): ?>
                 <?php foreach ($newsList as $item): ?>
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:1.5rem; border-radius:20px; display:grid; grid-template-columns:120px 3fr 1fr; gap:2rem; align-items:center; <?php echo $item['status'] === 'draft' ? 'opacity: 0.7;' : ''; ?>">
+                    <div class="admin-card hoverable" style="display:grid; grid-template-columns:120px 3fr 1fr; gap:2rem; align-items:center; margin-bottom: 0; <?php echo $item['status'] === 'draft' ? 'opacity: 0.75;' : ''; ?>">
                         
                         <!-- Thumbnail -->
-                        <div style="width: 120px; height: 90px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center;">
+                        <div style="width: 120px; height: 90px; border-radius: 12px; overflow: hidden; background: #F1F5F9; border: 1px solid #E2E8F0; display:flex; align-items:center; justify-content:center;">
                             <?php if(!empty($item['thumbnail_image'])): ?>
                                 <img src="../<?php echo htmlspecialchars($item['thumbnail_image']); ?>" alt="News Image" style="width: 100%; height: 100%; object-fit: cover;">
                             <?php else: ?>
-                                <span style="font-size:2rem; opacity:0.3;">📰</span>
+                                <span style="font-size:2rem; opacity:0.3;">News</span>
                             <?php endif; ?>
                         </div>
 
                         <!-- Content Info -->
                         <div>
-                            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.5rem;">
-                                <h3 style="font-size:1.2rem; font-family:'Outfit',sans-serif;"><?php echo htmlspecialchars($item['title']); ?></h3>
+                            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap: wrap;">
+                                <h3 class="admin-card-title" style="margin-bottom: 0; margin-right: 0.5rem; font-size: 1.15rem;"><?php echo htmlspecialchars($item['title']); ?></h3>
                                 <?php if($item['status'] === 'published'): ?>
-                                    <span style="font-size:0.7rem; background:rgba(36, 194, 122, 0.1); border:1px solid #24C27A; color:#24C27A; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Published</span>
+                                    <span class="admin-badge admin-badge-success">Published</span>
                                 <?php elseif($item['status'] === 'scheduled'): ?>
-                                    <span style="font-size:0.7rem; background:rgba(107, 130, 184, 0.1); border:1px solid #6b82b8; color:#6b82b8; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Scheduled</span>
+                                    <span class="admin-badge admin-badge-info">Scheduled</span>
                                 <?php else: ?>
-                                    <span style="font-size:0.7rem; background:rgba(255, 255, 255, 0.05); border:1px solid rgba(255,255,255,0.2); color:#FAF7F0; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Draft</span>
+                                    <span class="admin-badge admin-badge-pending">Draft</span>
                                 <?php endif; ?>
                                 <?php if($item['is_featured']): ?>
-                                    <span style="font-size:0.7rem; background:rgba(244, 185, 66, 0.1); border:1px solid #F4B942; color:#F4B942; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Featured</span>
+                                    <span class="admin-badge admin-badge-warning" style="background: rgba(255, 153, 51, 0.1); color: var(--bsfi-saffron);">Featured</span>
                                 <?php endif; ?>
                                 <?php if($item['is_pinned']): ?>
-                                    <span style="font-size:0.7rem; background:rgba(36, 194, 122, 0.1); border:1px solid #24C27A; color:#24C27A; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Pinned</span>
+                                    <span class="admin-badge admin-badge-success" style="background: rgba(19, 136, 8, 0.1); color: var(--bsfi-green);">Pinned</span>
                                 <?php endif; ?>
                             </div>
-                            <p style="font-size:0.85rem; opacity:0.8; margin-bottom:0.5rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                            <p style="font-size:0.85rem; color: var(--text-secondary); margin-bottom:0.5rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
                                 <?php echo htmlspecialchars($item['excerpt']); ?>
                             </p>
-                            <div style="font-size:0.8rem; opacity:0.6; display:flex; gap:1.5rem;">
+                            <div style="font-size:0.8rem; color: var(--text-muted); display:flex; gap:1.5rem; flex-wrap: wrap;">
                                 <span><strong>Author:</strong> <?php echo htmlspecialchars($item['author_name']); ?></span>
                                 <span><strong>Category:</strong> <?php echo htmlspecialchars($item['category_name'] ?? 'Uncategorized'); ?></span>
                                 <span><strong>Views:</strong> <?php echo (int)$item['views']; ?></span>
@@ -315,19 +315,19 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
 
                         <!-- Actions -->
                         <div style="display:flex; flex-direction:column; gap:0.5rem; justify-content:center;">
-                            <a href="../news-media/article.php?slug=<?php echo $item['slug']; ?>" target="_blank" class="btn" style="border:1px solid #FAF7F0; color:#FAF7F0; padding:0.5rem; font-weight:bold; border-radius:999px; cursor:pointer; text-align:center; font-size:0.85rem; text-decoration:none;">Preview</a>
-                            <button onclick='openNewsModal(<?php echo htmlspecialchars(json_encode($item), ENT_QUOTES, "UTF-8"); ?>)' class="btn" style="border:1px solid #24C27A; color:#24C27A; padding:0.5rem; font-weight:bold; border-radius:999px; cursor:pointer; text-align:center; font-size:0.85rem;">Edit Article</button>
-                            <form action="news.php" method="POST" onsubmit="return confirm('Delete this article? (It will be soft-deleted)');" style="display:block;">
+                            <a href="../news-media/article.php?slug=<?php echo $item['slug']; ?>" target="_blank" class="admin-btn admin-btn-outline" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Preview</a>
+                            <button onclick='openNewsModal(<?php echo htmlspecialchars(json_encode($item), ENT_QUOTES, "UTF-8"); ?>)' class="admin-btn admin-btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Edit Article</button>
+                            <form action="news.php" method="POST" onsubmit="return confirm('Delete this article? (It will be soft-deleted)');" style="display:block; margin: 0;">
                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                 <input type="hidden" name="news_id" value="<?php echo $item['id']; ?>">
-                                <button type="submit" name="delete_news" class="btn" style="border:1px solid #D72638; color:#D72638; padding:0.5rem; font-weight:bold; border-radius:999px; cursor:pointer; width:100%; text-align:center; font-size:0.85rem;">Delete</button>
+                                <button type="submit" name="delete_news" class="admin-btn admin-btn-danger" style="font-size: 0.8rem; padding: 0.4rem 0.8rem; width: 100%;">Delete</button>
                             </form>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="glass-card" style="background:rgba(22, 41, 90, 0.2); padding:4rem; border-radius:28px; text-align:center;">
-                    <p style="font-size:1.1rem; opacity:0.7;">No news articles found matching the criteria.</p>
+                <div class="admin-card" style="padding:4rem; text-align:center;">
+                    <p style="font-size:1.1rem; color: var(--text-muted);">No news articles found matching the criteria.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -336,24 +336,24 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
 </div>
 
 <!-- Modal Form Editor for News -->
-<div id="news-modal" class="lightbox" style="display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); z-index:9999; position:fixed; inset:0;">
-    <div class="glass-card" style="background:#08142E; border:1px solid rgba(255,255,255,0.1); padding:2.5rem; border-radius:28px; max-width:800px; width:95%; position:relative; max-height: 90vh; overflow-y: auto;">
-        <button onclick="closeNewsModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#FAF7F0; font-size:1.5rem; cursor:pointer;">&times;</button>
-        <h3 id="modal-title" style="font-family:'Outfit',sans-serif; font-size:1.6rem; margin-bottom:1.5rem;">Write Article</h3>
+<div id="news-modal" class="lightbox" style="display:none; align-items:center; justify-content:center; background:rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); z-index:9999; position:fixed; inset:0;">
+    <div class="admin-card" style="background:#FFFFFF; padding:2.5rem; max-width:800px; width:95%; position:relative; max-height: 90vh; overflow-y: auto; margin-bottom: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
+        <button onclick="closeNewsModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer;">&times;</button>
+        <h3 id="modal-title" class="admin-card-title" style="font-size:1.5rem; margin-bottom:1.5rem;">Write Article</h3>
         
-        <form action="news.php" method="POST" enctype="multipart/form-data" id="news-editor-form" style="display:flex; flex-direction:column; gap:1.25rem;">
+        <form action="news.php" method="POST" enctype="multipart/form-data" id="news-editor-form" style="display:flex; flex-direction:column; gap:1rem;">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input type="hidden" name="save_news" value="1">
             <input type="hidden" name="id" id="news-id" value="0">
             
             <div style="display:grid; grid-template-columns:2fr 1fr; gap:1rem;">
-                <div class="form-group">
-                    <label for="news-title" style="font-size:0.8rem; font-weight:600; color:#fff;">Article Title <span style="color:#D72638">*</span></label>
-                    <input type="text" id="news-title" name="title" class="form-control" required style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="Enter headline...">
+                <div class="admin-form-group">
+                    <label for="news-title">Article Title <span style="color:#D72638">*</span></label>
+                    <input type="text" id="news-title" name="title" class="admin-input" required placeholder="Enter headline...">
                 </div>
-                <div class="form-group">
-                    <label for="news-category" style="font-size:0.8rem; font-weight:600; color:#fff;">Category <span style="color:#D72638">*</span></label>
-                    <select id="news-category" name="category_id" class="form-select" required style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+                <div class="admin-form-group">
+                    <label for="news-category">Category <span style="color:#D72638">*</span></label>
+                    <select id="news-category" name="category_id" class="admin-select" required>
                         <option value="">Select Category</option>
                         <?php foreach($categories as $cat): ?>
                             <option value="<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['name']); ?></option>
@@ -363,121 +363,121 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div class="form-group">
-                    <label for="news-author" style="font-size:0.8rem; font-weight:600; color:#fff;">Author Name</label>
-                    <input type="text" id="news-author" name="author_name" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="e.g. BSFI Media Team" value="BSFI Official">
+                <div class="admin-form-group">
+                    <label for="news-author">Author Name</label>
+                    <input type="text" id="news-author" name="author_name" class="admin-input" placeholder="e.g. BSFI Media Team" value="BSFI Official">
                 </div>
-                <div class="form-group">
-                    <label for="news-slug" style="font-size:0.8rem; font-weight:600; color:#fff;">URL Slug</label>
-                    <input type="text" id="news-slug" name="slug" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="Auto-generated if empty">
+                <div class="admin-form-group">
+                    <label for="news-slug">URL Slug</label>
+                    <input type="text" id="news-slug" name="slug" class="admin-input" placeholder="Auto-generated if empty">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="news-excerpt" style="font-size:0.8rem; font-weight:600; color:#fff;">Excerpt / Subhead</label>
-                <textarea id="news-excerpt" name="excerpt" class="form-control" rows="2" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="Brief summary of the article..."></textarea>
+            <div class="admin-form-group">
+                <label for="news-excerpt">Excerpt / Subhead</label>
+                <textarea id="news-excerpt" name="excerpt" class="admin-textarea" rows="2" placeholder="Brief summary of the article..."></textarea>
             </div>
             
-            <div class="form-group">
-                <label for="news-content" style="font-size:0.8rem; font-weight:600; color:#fff;">Content (up to 5000 chars) <span style="color:#D72638">*</span></label>
-                <textarea id="news-content" name="content" class="form-control" rows="8" required style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="Write your full article here."></textarea>
+            <div class="admin-form-group">
+                <label for="news-content">Content (up to 5000 chars) <span style="color:#D72638">*</span></label>
+                <textarea id="news-content" name="content" class="admin-textarea" rows="8" required placeholder="Write your full article here."></textarea>
             </div>
 
             <!-- Uploads Grid -->
-            <div style="border:1px dashed rgba(255,255,255,0.2); padding:1rem; border-radius:12px; display:flex; flex-direction:column; gap:1rem;">
+            <div style="border:1px dashed #CBD5E1; padding:1.25rem; border-radius:12px; display:flex; flex-direction:column; gap:1rem;">
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                    <div class="form-group">
-                        <label for="news-thumbnail" style="font-size:0.8rem; font-weight:600; color:#fff;">Thumbnail Image</label>
-                        <input type="file" id="news-thumbnail" name="thumbnail_image" class="form-control" accept="image/jpeg,image/png,image/webp" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
-                        <p style="font-size:0.75rem; opacity:0.6; margin-top:0.25rem; color:#fff;">Landscape format. Max 1MB.</p>
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label for="news-thumbnail">Thumbnail Image</label>
+                        <input type="file" id="news-thumbnail" name="thumbnail_image" class="admin-input" accept="image/jpeg,image/png,image/webp">
+                        <p style="font-size:0.75rem; color: var(--text-muted); margin-top:0.25rem; margin-bottom: 0;">Landscape format. Max 1MB.</p>
                     </div>
-                    <div class="form-group">
-                        <label for="news-cover" style="font-size:0.8rem; font-weight:600; color:#fff;">Cover / Hero Banner</label>
-                        <input type="file" id="news-cover" name="cover_image" class="form-control" accept="image/jpeg,image/png,image/webp" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
-                        <p style="font-size:0.75rem; opacity:0.6; margin-top:0.25rem; color:#fff;">Large header format. Max 1MB.</p>
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label for="news-cover">Cover / Hero Banner</label>
+                        <input type="file" id="news-cover" name="cover_image" class="admin-input" accept="image/jpeg,image/png,image/webp">
+                        <p style="font-size:0.75rem; color: var(--text-muted); margin-top:0.25rem; margin-bottom: 0;">Large header format. Max 1MB.</p>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="news-extra-images" style="font-size:0.8rem; font-weight:600; color:#fff;">Upload Multiple Gallery Photos (Max 1MB each)</label>
-                    <input type="file" id="news-extra-images" name="gallery_images[]" class="form-control" multiple accept="image/jpeg,image/png,image/webp" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
-                    <p style="font-size:0.75rem; opacity:0.6; margin-top:0.25rem; color:#fff;">Select one or more photos to display on the article page gallery.</p>
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="news-extra-images">Upload Multiple Gallery Photos (Max 1MB each)</label>
+                    <input type="file" id="news-extra-images" name="gallery_images[]" class="admin-input" multiple accept="image/jpeg,image/png,image/webp">
+                    <p style="font-size:0.75rem; color: var(--text-muted); margin-top:0.25rem; margin-bottom: 0;">Select one or more photos to display on the article page gallery.</p>
                 </div>
             </div>
 
             <!-- Social Links Group -->
-            <div style="border:1px solid rgba(255,255,255,0.1); padding:1rem; border-radius:12px;">
-                <h4 style="font-size:0.9rem; margin-bottom:1rem; color:#A0AABF;">External Related Posts (Social Links)</h4>
+            <div style="border:1px solid #E2E8F0; padding:1.25rem; border-radius:12px;">
+                <h4 style="font-size:0.9rem; margin-top: 0; margin-bottom:1rem; color: var(--navy); font-weight: 700;">External Related Posts (Social Links)</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                    <div class="form-group">
-                        <label style="font-size:0.75rem; color:#fff;">Facebook URL</label>
-                        <input type="url" name="facebook_url" id="news-facebook" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="https://facebook.com/...">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label>Facebook URL</label>
+                        <input type="url" name="facebook_url" id="news-facebook" class="admin-input" placeholder="https://facebook.com/...">
                     </div>
-                    <div class="form-group">
-                        <label style="font-size:0.75rem; color:#fff;">Instagram URL</label>
-                        <input type="url" name="instagram_url" id="news-instagram" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="https://instagram.com/...">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label>Instagram URL</label>
+                        <input type="url" name="instagram_url" id="news-instagram" class="admin-input" placeholder="https://instagram.com/...">
                     </div>
-                    <div class="form-group">
-                        <label style="font-size:0.75rem; color:#fff;">Twitter/X URL</label>
-                        <input type="url" name="twitter_url" id="news-twitter" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="https://twitter.com/...">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label>Twitter/X URL</label>
+                        <input type="url" name="twitter_url" id="news-twitter" class="admin-input" placeholder="https://twitter.com/...">
                     </div>
-                    <div class="form-group">
-                        <label style="font-size:0.75rem; color:#fff;">LinkedIn URL</label>
-                        <input type="url" name="linkedin_url" id="news-linkedin" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="https://linkedin.com/in/...">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label>LinkedIn URL</label>
+                        <input type="url" name="linkedin_url" id="news-linkedin" class="admin-input" placeholder="https://linkedin.com/in/...">
                     </div>
                 </div>
-                <div class="form-group mt-2">
-                    <label style="font-size:0.75rem; color:#fff;">YouTube URL</label>
-                    <input type="url" name="youtube_url" id="news-youtube" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="https://youtube.com/watch?...">
+                <div class="admin-form-group" style="margin-top: 1rem; margin-bottom: 0;">
+                    <label>YouTube URL</label>
+                    <input type="url" name="youtube_url" id="news-youtube" class="admin-input" placeholder="https://youtube.com/watch?...">
                 </div>
             </div>
 
             <!-- SEO Settings -->
-            <div style="border:1px solid rgba(255,255,255,0.1); padding:1rem; border-radius:12px;">
-                <h4 style="font-size:0.9rem; margin-bottom:1rem; color:#A0AABF;">SEO Custom Headers</h4>
+            <div style="border:1px solid #E2E8F0; padding:1.25rem; border-radius:12px;">
+                <h4 style="font-size:0.9rem; margin-top: 0; margin-bottom:1rem; color: var(--navy); font-weight: 700;">SEO Custom Headers</h4>
                 <div style="display:grid; grid-template-columns:1fr; gap:1rem;">
-                    <div class="form-group">
-                        <label style="font-size:0.75rem; color:#fff;">Meta Title</label>
-                        <input type="text" name="meta_title" id="news-meta-title" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="Custom title header">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label>Meta Title</label>
+                        <input type="text" name="meta_title" id="news-meta-title" class="admin-input" placeholder="Custom title header">
                     </div>
-                    <div class="form-group">
-                        <label style="font-size:0.75rem; color:#fff;">Meta Description</label>
-                        <textarea name="meta_description" id="news-meta-desc" class="form-control" rows="2" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;" placeholder="Custom description header"></textarea>
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label>Meta Description</label>
+                        <textarea name="meta_description" id="news-meta-desc" class="admin-textarea" rows="2" placeholder="Custom description header"></textarea>
                     </div>
                 </div>
             </div>
 
             <!-- Publishing control -->
-            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top:0.5rem; padding-top:1.5rem;">
-                <h4 style="font-size:1rem; margin-bottom:1rem; color:#A0AABF;">Publishing & Scheduling</h4>
+            <div style="border-top: 1px solid #E2E8F0; margin-top:0.5rem; padding-top:1.5rem;">
+                <h4 style="font-size:0.95rem; margin-top: 0; margin-bottom:1rem; color: var(--navy); font-weight: 700;">Publishing &amp; Scheduling</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;">
-                    <div class="form-group">
-                        <label for="news-status" style="font-size:0.8rem; font-weight:600; color:#fff;">Status</label>
-                        <select id="news-status" name="status" class="form-select" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label for="news-status">Status</label>
+                        <select id="news-status" name="status" class="admin-select">
                             <option value="draft">Draft (Hidden)</option>
                             <option value="published">Published (Live)</option>
                             <option value="scheduled">Scheduled (Future)</option>
                             <option value="archived">Archived</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="news-published-at" style="font-size:0.8rem; font-weight:600; color:#fff;">Publish Date/Time</label>
-                        <input type="datetime-local" id="news-published-at" name="published_at" class="form-control" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#fff;">
+                    <div class="admin-form-group" style="margin-bottom: 0;">
+                        <label for="news-published-at">Publish Date/Time</label>
+                        <input type="datetime-local" id="news-published-at" name="published_at" class="admin-input">
                     </div>
                 </div>
             </div>
 
-            <div style="display:flex; gap:1.5rem; align-items:center; margin-top: 0.5rem;">
+            <div style="display:flex; gap:1.5rem; align-items:center; margin-top: 0.5rem; flex-wrap: wrap;">
                 <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <input type="checkbox" id="news-featured" name="is_featured" value="1" style="width: 18px; height: 18px;">
-                    <label for="news-featured" style="font-size:0.9rem; font-weight:600; cursor:pointer; color:#F4B942;">★ Featured Article</label>
+                    <input type="checkbox" id="news-featured" name="is_featured" value="1" style="width: 18px; height: 18px; accent-color: var(--bsfi-saffron);">
+                    <label for="news-featured" style="font-size:0.9rem; font-weight:600; cursor:pointer; color: var(--bsfi-saffron);">Featured Article</label>
                 </div>
                 <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <input type="checkbox" id="news-pinned" name="is_pinned" value="1" style="width: 18px; height: 18px;">
-                    <label for="news-pinned" style="font-size:0.9rem; font-weight:600; cursor:pointer; color:#fff;">📌 Pin to Top</label>
+                    <input type="checkbox" id="news-pinned" name="is_pinned" value="1" style="width: 18px; height: 18px; accent-color: var(--bsfi-green);">
+                    <label for="news-pinned" style="font-size:0.9rem; font-weight:600; cursor:pointer; color: var(--text-primary);">Pin to Top</label>
                 </div>
             </div>
             
-            <button type="submit" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; padding:0.85rem; border-radius:999px; cursor:pointer; margin-top:1rem; width:100%; font-size:1.1rem;">Save Article</button>
+            <button type="submit" class="admin-btn admin-btn-primary" style="margin-top:1rem; width:100%; padding: 0.8rem;">Save Article</button>
         </form>
     </div>
 </div>

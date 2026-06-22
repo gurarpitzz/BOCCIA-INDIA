@@ -69,17 +69,17 @@ $stmt = $pdo->query("SELECT * FROM schedules ORDER BY sort_order ASC, id DESC");
 $schedulesList = $stmt->fetchAll();
 ?>
 
-<div class="admin-wrapper" style="background:#08142E; min-height:95vh; padding:6rem 0; color:#FAF7F0;">
-    <div class="container">
+<div class="admin-wrapper">
+    <div class="container-fluid" style="padding: 2rem;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1.5rem;">
+        <div class="admin-page-title-row">
             <div>
-                <span style="color:#24C27A; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; font-size:0.9rem;">National Calendar</span>
-                <h1 style="font-family:'Outfit',sans-serif; font-size:2.5rem; font-weight:700;">Manage Schedules</h1>
+                <span class="admin-section-eyebrow">National Calendar</span>
+                <h1 class="admin-page-title">Manage Schedules</h1>
             </div>
             <div style="display:flex; gap:0.75rem;">
-                <button onclick="openScheduleModal(0)" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; border-radius:999px; cursor:pointer;">Add Schedule</button>
-                <a href="dashboard.php" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; border-radius:999px;">Return to Dashboard</a>
+                <button onclick="openScheduleModal(0)" class="admin-btn admin-btn-primary">Add Schedule</button>
+                <a href="dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
             </div>
         </div>
 
@@ -89,20 +89,20 @@ $schedulesList = $stmt->fetchAll();
         <div style="display:flex; flex-direction:column; gap:1.5rem;">
             <?php if (count($schedulesList) > 0): ?>
                 <?php foreach ($schedulesList as $item): ?>
-                    <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2rem; border-radius:28px; display:grid; grid-template-columns:3fr 1fr; gap:2rem; align-items:center; <?php echo !$item['active'] ? 'opacity: 0.6;' : ''; ?>">
+                    <div class="admin-card" style="display:grid; grid-template-columns:3fr 1fr; gap:2rem; align-items:center; margin-bottom: 0; <?php echo !$item['active'] ? 'opacity: 0.6;' : ''; ?>">
                         <div>
                             <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem;">
-                                <h3 style="font-size:1.4rem; font-family:'Outfit',sans-serif;"><?php echo htmlspecialchars($item['discipline']); ?></h3>
+                                <h3 class="admin-card-title" style="font-size:1.4rem; margin:0;"><?php echo htmlspecialchars($item['discipline']); ?></h3>
                                 <?php if($item['event_type']): ?>
-                                    <span style="font-size:0.8rem; background:rgba(255,255,255,0.05); border:1px solid #1E88E5; color:#1E88E5; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;"><?php echo htmlspecialchars($item['event_type']); ?></span>
+                                    <span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($item['event_type']); ?></span>
                                 <?php endif; ?>
                                 <?php if(!$item['active']): ?>
-                                    <span style="font-size:0.8rem; background:rgba(255,255,255,0.05); border:1px solid #D72638; color:#D72638; padding:0.2rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">Inactive</span>
+                                    <span class="admin-badge admin-badge-danger">Inactive</span>
                                 <?php endif; ?>
                             </div>
-                            <p style="font-size:0.95rem; opacity:0.9; margin-bottom:0.5rem;"><strong>🗓️ Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
-                            <p style="font-size:0.95rem; opacity:0.9; margin-bottom:0.5rem;"><strong>📍 Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
-                            <div style="font-size:0.9rem; opacity:0.8; margin-top:0.5rem; display:flex; gap:1.5rem;">
+                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>🗓️ Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
+                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>📍 Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
+                            <div style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem; display:flex; gap:1.5rem;">
                                 <span><strong>Sort Order:</strong> <?php echo (int)$item['sort_order']; ?></span>
                                 <?php if($item['registration_link']): ?>
                                     <span><strong>🔗 URL:</strong> <?php echo htmlspecialchars($item['registration_link']); ?></span>
@@ -110,18 +110,18 @@ $schedulesList = $stmt->fetchAll();
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:0.5rem; justify-content:center;">
-                            <button onclick="openScheduleModal(<?php echo htmlspecialchars(json_encode($item)); ?>)" class="btn" style="border:1px solid #24C27A; color:#24C27A; padding:0.6rem; font-weight:bold; border-radius:999px; cursor:pointer; text-align:center;">Edit Schedule</button>
-                            <form action="schedules.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this schedule?');" style="display:block;">
+                            <button onclick="openScheduleModal(<?php echo htmlspecialchars(json_encode($item)); ?>)" class="admin-btn admin-btn-primary">Edit Schedule</button>
+                            <form action="schedules.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this schedule?');" style="display:block; margin:0;">
                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                 <input type="hidden" name="schedule_id" value="<?php echo $item['id']; ?>">
-                                <button type="submit" name="delete_schedule" class="btn" style="border:1px solid #D72638; color:#D72638; padding:0.6rem; font-weight:bold; border-radius:999px; cursor:pointer; width:100%; text-align:center;">Delete Schedule</button>
+                                <button type="submit" name="delete_schedule" class="admin-btn admin-btn-danger" style="width:100%;">Delete Schedule</button>
                             </form>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <div class="glass-card" style="background:rgba(22, 41, 90, 0.2); padding:4rem; border-radius:28px; text-align:center;">
-                    <p style="font-size:1.1rem; opacity:0.7;">No schedules found. Click "Add Schedule" to create one.</p>
+                <div class="admin-card" style="text-align:center; padding:4rem;">
+                    <p style="font-size:1.15rem; color:var(--text-secondary); margin:0;">No schedules found. Click "Add Schedule" to create one.</p>
                 </div>
             <?php endif; ?>
         </div>
@@ -130,10 +130,10 @@ $schedulesList = $stmt->fetchAll();
 </div>
 
 <!-- Modal Form Editor for Schedules -->
-<div id="schedule-modal" class="lightbox" style="display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.8);">
-    <div class="glass-card" style="background:#08142E; border:1px solid rgba(255,255,255,0.1); padding:2.5rem; border-radius:28px; max-width:600px; width:90%; position:relative; max-height: 90vh; overflow-y: auto;">
-        <button onclick="closeScheduleModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; color:#FAF7F0; font-size:1.5rem; cursor:pointer;">&times;</button>
-        <h3 id="modal-title" style="font-family:'Outfit',sans-serif; font-size:1.6rem; margin-bottom:1.5rem;">Add Schedule</h3>
+<div id="schedule-modal" class="lightbox" style="display:none; align-items:center; justify-content:center; background:rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000;">
+    <div class="admin-card" style="background:#FFFFFF; border:1px solid #E2E8F0; padding:2.5rem; border-radius:20px; max-width:600px; width:90%; position:relative; max-height: 90vh; overflow-y: auto; color: var(--text-primary); margin-bottom:0; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
+        <button onclick="closeScheduleModal()" style="position:absolute; top:15px; right:15px; background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">&times;</button>
+        <h3 id="modal-title" style="font-family:'Outfit',sans-serif; font-size:1.6rem; margin-bottom:1.5rem; color: var(--navy); font-weight: 700;">Add Schedule</h3>
         
         <form action="schedules.php" method="POST" id="schedule-editor-form" style="display:flex; flex-direction:column; gap:1.25rem;">
             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
@@ -141,43 +141,43 @@ $schedulesList = $stmt->fetchAll();
             <input type="hidden" name="id" id="schedule-id" value="0">
             
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div class="form-group">
-                    <label for="schedule-discipline" style="font-size:0.8rem; font-weight:600;">Discipline <span style="color:#D72638">*</span></label>
-                    <input type="text" id="schedule-discipline" name="discipline" class="form-input" required placeholder="e.g. Para Archery">
+                <div class="admin-form-group">
+                    <label for="schedule-discipline">Discipline <span style="color:var(--danger)">*</span></label>
+                    <input type="text" id="schedule-discipline" name="discipline" class="admin-input" required placeholder="e.g. Para Archery">
                 </div>
-                <div class="form-group">
-                    <label for="schedule-type" style="font-size:0.8rem; font-weight:600;">Event Type (Optional)</label>
-                    <input type="text" id="schedule-type" name="event_type" class="form-input" placeholder="e.g. National Championship">
+                <div class="admin-form-group">
+                    <label for="schedule-type">Event Type (Optional)</label>
+                    <input type="text" id="schedule-type" name="event_type" class="admin-input" placeholder="e.g. National Championship">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="schedule-date" style="font-size:0.8rem; font-weight:600;">Date Display Text <span style="color:#D72638">*</span></label>
-                <input type="text" id="schedule-date" name="date_text" class="form-input" required placeholder="e.g. 22-23 March, 2026">
+            <div class="admin-form-group">
+                <label for="schedule-date">Date Display Text <span style="color:var(--danger)">*</span></label>
+                <input type="text" id="schedule-date" name="date_text" class="admin-input" required placeholder="e.g. 22-23 March, 2026">
             </div>
             
-            <div class="form-group">
-                <label for="schedule-venue" style="font-size:0.8rem; font-weight:600;">Venue <span style="color:#D72638">*</span></label>
-                <input type="text" id="schedule-venue" name="venue" class="form-input" required placeholder="e.g. JLN Stadium, New Delhi">
+            <div class="admin-form-group">
+                <label for="schedule-venue">Venue <span style="color:var(--danger)">*</span></label>
+                <input type="text" id="schedule-venue" name="venue" class="admin-input" required placeholder="e.g. JLN Stadium, New Delhi">
             </div>
             
-            <div class="form-group">
-                <label for="schedule-link" style="font-size:0.8rem; font-weight:600;">Registration URL (Optional)</label>
-                <input type="url" id="schedule-link" name="registration_link" class="form-input" placeholder="https://...">
+            <div class="admin-form-group">
+                <label for="schedule-link">Registration URL (Optional)</label>
+                <input type="url" id="schedule-link" name="registration_link" class="admin-input" placeholder="https://...">
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:center;">
-                <div class="form-group">
-                    <label for="schedule-sort" style="font-size:0.8rem; font-weight:600;">Sort Order</label>
-                    <input type="number" id="schedule-sort" name="sort_order" class="form-input" value="0" placeholder="1 = First, 2 = Second...">
+                <div class="admin-form-group">
+                    <label for="schedule-sort">Sort Order</label>
+                    <input type="number" id="schedule-sort" name="sort_order" class="admin-input" value="0" placeholder="1 = First, 2 = Second...">
                 </div>
-                <div class="form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 1.5rem;">
-                    <input type="checkbox" id="schedule-active" name="active" value="1" checked style="width: 18px; height: 18px;">
-                    <label for="schedule-active" style="font-size:0.9rem; font-weight:600; cursor:pointer;">Active / Visible</label>
+                <div class="admin-form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 1.5rem;">
+                    <input type="checkbox" id="schedule-active" name="active" value="1" checked style="width: 18px; height: 18px; cursor:pointer;">
+                    <label for="schedule-active" style="font-size:0.9rem; font-weight:600; cursor:pointer; margin-bottom:0;">Active / Visible</label>
                 </div>
             </div>
             
-            <button type="submit" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; padding:0.85rem; border-radius:999px; cursor:pointer; margin-top:0.5rem;">Save Schedule</button>
+            <button type="submit" class="admin-btn admin-btn-primary" style="width:100%; margin-top:0.5rem;">Save Schedule</button>
         </form>
     </div>
 </div>

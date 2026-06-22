@@ -1,5 +1,10 @@
 <?php
 // footer.php - Layout Footer with Quick Links and scripts
+if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
+    include __DIR__ . '/admin_footer.php';
+    return;
+}
+
 if (!isset($relative_prefix)) {
     $script_name = $_SERVER['SCRIPT_NAME'];
     $clean_path = ltrim($script_name, '/');

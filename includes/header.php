@@ -1,6 +1,12 @@
 <?php
 // header.php - Main navbar and Accessibility widgets
 require_once __DIR__ . '/auth.php';
+
+// If in admin directory, load admin header instead
+if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
+    include __DIR__ . '/admin_header.php';
+    return;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" style="background: var(--warm-surface);">

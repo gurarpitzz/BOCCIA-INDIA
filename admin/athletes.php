@@ -79,47 +79,45 @@ $stmt->execute($params);
 $athletesList = $stmt->fetchAll();
 ?>
 
-<div class="admin-wrapper" style="background:#08142E; min-height:95vh; padding:6rem 0; color:#FAF7F0;">
-    <div class="container">
+<div class="admin-wrapper">
+    <div class="container-fluid" style="padding: 2rem;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; border-bottom:1px solid rgba(255,255,255,0.08); padding-bottom:1.5rem;">
+        <div class="admin-page-title-row">
             <div>
-                <span style="color:#24C27A; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; font-size:0.9rem;">Federation Database</span>
-                <h1 style="font-family:'Outfit',sans-serif; font-size:2.5rem; font-weight:700;">Athlete Directory</h1>
+                <span class="admin-section-eyebrow">Federation Database</span>
+                <h1 class="admin-page-title">Athlete Directory</h1>
             </div>
-            <div style="display:flex; gap:0.75rem;">
-                <a href="dashboard.php" class="btn" style="border:1px solid rgba(255,255,255,0.15); color:#FAF7F0; border-radius:999px;">Return to Dashboard</a>
-            </div>
+            <a href="dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
         </div>
 
-        <!-- Filter Form -->
-        <div class="glass-card" style="background:rgba(22, 41, 90, 0.4); padding:2rem; border-radius:28px; margin-bottom:3rem;">
-            <form action="athletes.php" method="GET" style="display:grid; grid-template-columns:2fr 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr; gap:0.75rem; align-items:flex-end;">
-                <div class="input-group">
-                    <label for="search" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Search Query</label>
-                    <input type="text" name="search" id="search" class="search-input" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search by name or registration number...">
+        <!-- Filter Form Toolbar -->
+        <div class="admin-toolbar" style="padding: 1.25rem;">
+            <form action="athletes.php" method="GET" style="display:grid; grid-template-columns:2fr 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr auto; gap:0.75rem; align-items:flex-end; width: 100%; margin: 0;">
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="search">Search Query</label>
+                    <input type="text" name="search" id="search" class="admin-input" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search by name or registration number...">
                 </div>
-                <div class="input-group">
-                    <label for="state" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">State Association</label>
-                    <select name="state" id="state" class="select-input">
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="state">State Association</label>
+                    <select name="state" id="state" class="admin-select">
                         <option value="">All States</option>
                         <?php foreach ($statesList as $st): ?>
                             <option value="<?php echo htmlspecialchars($st); ?>" <?php if ($state === $st) echo 'selected'; ?>><?php echo htmlspecialchars($st); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label for="class" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Classification</label>
-                    <select name="class" id="class" class="select-input">
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="class">Classification</label>
+                    <select name="class" id="class" class="admin-select">
                         <option value="">All Classifications</option>
                         <?php foreach ($classesList as $cl): ?>
                             <option value="<?php echo htmlspecialchars($cl); ?>" <?php if ($class === $cl) echo 'selected'; ?>><?php echo htmlspecialchars($cl); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label for="status" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Registry Status</label>
-                    <select name="status" id="status" class="select-input">
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="status">Registry Status</label>
+                    <select name="status" id="status" class="admin-select">
                         <option value="">All Statuses</option>
                         <option value="pending" <?php if ($status === 'pending') echo 'selected'; ?>>Pending</option>
                         <option value="approved" <?php if ($status === 'approved') echo 'selected'; ?>>Approved</option>
@@ -127,84 +125,90 @@ $athletesList = $stmt->fetchAll();
                         <option value="archived" <?php if ($status === 'archived') echo 'selected'; ?>>Archived</option>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label for="photo_status" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Photo Status</label>
-                    <select name="photo_status" id="photo_status" class="select-input">
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="photo_status">Photo Status</label>
+                    <select name="photo_status" id="photo_status" class="admin-select">
                         <option value="">All Photos</option>
                         <option value="missing" <?php if ($photoStatus === 'missing') echo 'selected'; ?>>Missing Photo</option>
                         <option value="verified" <?php if ($photoStatus === 'verified') echo 'selected'; ?>>Verified Photo</option>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label for="contact_status" style="font-size:0.75rem; font-weight:600; color:#FAF7F0; opacity:0.7;">Contact Info</label>
-                    <select name="contact_status" id="contact_status" class="select-input">
+                <div class="admin-form-group" style="margin-bottom: 0;">
+                    <label for="contact_status">Contact Info</label>
+                    <select name="contact_status" id="contact_status" class="admin-select">
                         <option value="">All Contacts</option>
                         <option value="missing" <?php if ($contactStatus === 'missing') echo 'selected'; ?>>Missing Info</option>
                     </select>
                 </div>
-                <div>
-                    <button type="submit" class="btn" style="background:#24C27A; color:#08142E; font-weight:bold; padding:0.85rem; border-radius:999px; width:100%; cursor:pointer;">Apply</button>
+                <div style="display: flex; height: 100%; align-items: flex-end;">
+                    <button type="submit" class="admin-btn admin-btn-primary" style="height: calc(100% - 1.5rem); padding: 0 1.5rem;">Apply</button>
                 </div>
             </form>
         </div>
 
         <!-- Results Table -->
-        <div class="table-wrapper">
-            <table class="doc-table" style="width:100%; border-collapse:collapse; text-align:left;">
-                <thead>
-                    <tr>
-                        <th>Registration No</th>
-                        <th>Full Name</th>
-                        <th>Gender</th>
-                        <th>DOB</th>
-                        <th>State Association</th>
-                        <th>Classification</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (count($athletesList) > 0): ?>
-                        <?php foreach ($athletesList as $ath): ?>
-                            <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
-                                <td style="padding:1.2rem; font-family:monospace; color:#24C27A;"><?php echo htmlspecialchars($ath['regn_no']); ?></td>
-                                <td style="padding:1.2rem; font-weight:bold;"><?php echo htmlspecialchars($ath['full_name']); ?></td>
-                                <td style="padding:1.2rem;"><?php echo htmlspecialchars($ath['gender']); ?></td>
-                                <td style="padding:1.2rem;"><?php echo htmlspecialchars($ath['dob']); ?></td>
-                                <td style="padding:1.2rem;"><?php echo htmlspecialchars($ath['representing_for']); ?></td>
-                                <td style="padding:1.2rem;"><?php echo htmlspecialchars($ath['classification']); ?></td>
-                                <td style="padding:1.2rem;">
-                                    <?php
-                                        $color = '#F4B942';
-                                        if ($ath['status'] === 'approved') $color = '#24C27A';
-                                        if ($ath['status'] === 'rejected') $color = '#D72638';
-                                        if ($ath['status'] === 'archived') $color = '#7f8c8d';
-                                    ?>
-                                    <span style="font-size:0.8rem; background:rgba(255,255,255,0.05); color:<?php echo $color; ?>; border:1px solid <?php echo $color; ?>; padding:0.25rem 0.5rem; border-radius:4px; text-transform:uppercase; font-weight:600;">
-                                        <?php echo htmlspecialchars($ath['status']); ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="7" style="text-align:center; padding:3rem; color:#FAF7F0; opacity:0.6;">No athlete records found matching current criteria.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pagination -->
-        <?php if ($totalPages > 1): ?>
-            <div class="pagination" style="margin-top:3rem; display:flex; justify-content:center; gap:0.5rem;">
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="athletes.php?search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($state); ?>&class=<?php echo urlencode($class); ?>&status=<?php echo urlencode($status); ?>&page=<?php echo $i; ?>" 
-                       class="pagination-btn <?php if ($page === $i) echo 'active'; ?>" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-                        <?php echo $i; ?>
-                    </a>
-                <?php endfor; ?>
+        <div class="admin-card" style="padding: 1.5rem;">
+            <div class="admin-results-count" style="margin-bottom: 1rem;">
+                Found <strong><?php echo $totalRows; ?></strong> athlete records
             </div>
-        <?php endif; ?>
+            
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Registration No</th>
+                            <th>Full Name</th>
+                            <th>Gender</th>
+                            <th>DOB</th>
+                            <th>State Association</th>
+                            <th>Classification</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (count($athletesList) > 0): ?>
+                            <?php foreach ($athletesList as $ath): ?>
+                                <tr>
+                                    <td style="font-family:monospace; color:var(--bsfi-green); font-weight: 700;"><?php echo htmlspecialchars($ath['regn_no']); ?></td>
+                                    <td style="font-weight:bold;"><?php echo htmlspecialchars($ath['full_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($ath['gender']); ?></td>
+                                    <td><?php echo htmlspecialchars($ath['dob']); ?></td>
+                                    <td><?php echo htmlspecialchars($ath['representing_for']); ?></td>
+                                    <td><?php echo htmlspecialchars($ath['classification']); ?></td>
+                                    <td>
+                                        <?php
+                                            $badgeClass = 'admin-badge-warning';
+                                            if ($ath['status'] === 'approved') $badgeClass = 'admin-badge-success';
+                                            if ($ath['status'] === 'rejected') $badgeClass = 'admin-badge-danger';
+                                            if ($ath['status'] === 'archived') $badgeClass = 'admin-badge-pending';
+                                        ?>
+                                        <span class="admin-badge <?php echo $badgeClass; ?>">
+                                            <?php echo htmlspecialchars($ath['status']); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding:3rem; color:var(--text-muted); font-style:italic;">No athlete records found matching current criteria.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <?php if ($totalPages > 1): ?>
+                <div style="margin-top:1.5rem; display:flex; justify-content:center; gap:0.5rem;">
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <a href="athletes.php?search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($state); ?>&class=<?php echo urlencode($class); ?>&status=<?php echo urlencode($status); ?>&page=<?php echo $i; ?>" 
+                           class="admin-btn <?php echo ($page === $i) ? 'admin-btn-secondary' : 'admin-btn-outline'; ?>" style="min-width: 40px; padding: 0.4rem 0.8rem; font-size: 0.8rem; border-radius: 6px;">
+                            <?php echo $i; ?>
+                        </a>
+                    <?php endfor; ?>
+                </div>
+            <?php endif; ?>
+        </div>
 
     </div>
 </div>
