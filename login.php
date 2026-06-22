@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form action="login.php" method="POST">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 
-                <input type="text" id="login-username" name="username" class="form-control-custom" required placeholder="Email">
+                <input type="text" id="login-username" name="username" class="form-control-custom" required placeholder="User">
                 <input type="password" id="login-password" name="password" class="form-control-custom" required placeholder="Password">
                 
                 <button type="submit" class="btn-login-blue">Login</button>
