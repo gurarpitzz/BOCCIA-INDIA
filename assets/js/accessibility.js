@@ -69,19 +69,20 @@
 
         /* Accessibility Button */
         .a11y-toggle-btn {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: #081B4B url('${logoUrl}') no-repeat center center;
-            background-size: 100% 100%;
-            border: 2px solid #138808;
-            cursor: pointer;
-            z-index: 999998;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: fixed !important;
+            bottom: 25px !important;
+            left: 25px !important;
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 50% !important;
+            background: url('${logoUrl}') no-repeat center center !important;
+            background-size: contain !important;
+            background-color: transparent !important;
+            border: none !important;
+            cursor: pointer !important;
+            z-index: 999998 !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
         }
         .a11y-toggle-btn:hover {
             transform: scale(1.08);
