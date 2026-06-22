@@ -2,9 +2,9 @@
 // db.php - MySQL PDO Connection
 
 $host = 'localhost';
-$db   = 'boccia_india';
-$user = 'root';
-$pass = '';
+$db   = 'tstpllmy_boccia_india';
+$user = 'tstpllmy_boccia_user';
+$pass = '0Passwo0@';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
