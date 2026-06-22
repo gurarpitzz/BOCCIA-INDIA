@@ -521,10 +521,10 @@ body {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-        to bottom,
-        rgba(4, 12, 30, 0.35) 0%,
-        rgba(4, 12, 30, 0.55) 50%,
-        rgba(4, 12, 30, 0.82) 100%
+        135deg,
+        rgba(8, 27, 75, 0.75) 0%,
+        rgba(8, 27, 75, 0.55) 50%,
+        rgba(8, 27, 75, 0.85) 100%
     );
     z-index: 2;
 }
