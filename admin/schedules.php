@@ -100,12 +100,12 @@ $schedulesList = $stmt->fetchAll();
                                     <span class="admin-badge admin-badge-danger">Inactive</span>
                                 <?php endif; ?>
                             </div>
-                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>🗓️ Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
-                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>📍 Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
+                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
+                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
                             <div style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem; display:flex; gap:1.5rem;">
                                 <span><strong>Sort Order:</strong> <?php echo (int)$item['sort_order']; ?></span>
                                 <?php if($item['registration_link']): ?>
-                                    <span><strong>🔗 URL:</strong> <?php echo htmlspecialchars($item['registration_link']); ?></span>
+                                    <span><strong>URL:</strong> <?php echo htmlspecialchars($item['registration_link']); ?></span>
                                 <?php endif; ?>
                             </div>
                         </div>

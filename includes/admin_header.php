@@ -39,83 +39,85 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     <!-- Sidebar Navigation -->
     <aside class="admin-sidebar">
         <div class="admin-sidebar-brand">
-            <h2>BSFI Control Desk</h2>
-            <span>Administrator Portal</span>
+            <?php 
+            $logo_path = '../';
+            include __DIR__ . '/logo-bar.php'; 
+            ?>
         </div>
         <nav class="admin-sidebar-nav">
             <ul>
                 <li>
                     <a href="dashboard.php" class="<?php echo ($current_file === 'dashboard.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">📊</span> Dashboard
+                        Dashboard
                     </a>
                 </li>
                 
                 <li class="nav-section-title">Athletes</li>
                 <li>
                     <a href="athletes.php" class="<?php echo ($current_file === 'athletes.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">👤</span> Athlete Directory
+                        Athlete Directory
                     </a>
                 </li>
                 <li>
                     <a href="registrations.php" class="<?php echo ($current_file === 'registrations.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">📥</span> Registrations
+                        Registrations
                     </a>
                 </li>
                 
                 <li class="nav-section-title">Content</li>
                 <li>
                     <a href="news.php" class="<?php echo ($current_file === 'news.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">📰</span> News
+                        News
                     </a>
                 </li>
                 <li>
                     <a href="gallery.php" class="<?php echo ($current_file === 'gallery.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">🖼</span> Gallery
+                        Gallery
                     </a>
                 </li>
                 <li>
                     <a href="events.php" class="<?php echo ($current_file === 'events.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">📅</span> Events
+                        Events
                     </a>
                 </li>
                 <li>
                     <a href="schedules.php" class="<?php echo ($current_file === 'schedules.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">📋</span> Schedules
+                        Schedules
                     </a>
                 </li>
                 
                 <li class="nav-section-title">Documents</li>
                 <li>
                     <a href="document_pages.php" class="<?php echo ($current_file === 'document_pages.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">📄</span> Document Pages
+                        Document Pages
                     </a>
                 </li>
                 
                 <li class="nav-section-title">System</li>
                 <li>
                     <a href="users.php" class="<?php echo ($current_file === 'users.php') ? 'active' : ''; ?>">
-                        <span style="margin-right: 0.5rem;">🛡</span> Users
+                        Users
                     </a>
                 </li>
                 <li>
                     <a href="dashboard.php#audit-logs">
-                        <span style="margin-right: 0.5rem;">📜</span> Audit Logs
+                        Audit Logs
                     </a>
                 </li>
                 <li>
                     <a href="dashboard.php#system-utilities">
-                        <span style="margin-right: 0.5rem;">💾</span> Backups
+                        Backups
                     </a>
                 </li>
                 
                 <li style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
                     <a href="../index.php" style="color: var(--bsfi-saffron);">
-                        <span style="margin-right: 0.5rem;">🌐</span> View Website
+                        View Website
                     </a>
                 </li>
                 <li>
                     <a href="../logout.php" style="color: #FF7777;">
-                        <span style="margin-right: 0.5rem;">🚪</span> Logout
+                        Logout
                     </a>
                 </li>
             </ul>

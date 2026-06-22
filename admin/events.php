@@ -64,8 +64,8 @@ $eventsList = $stmt->fetchAll();
                                     else echo 'admin-badge-danger';
                                 ?>"><?php echo htmlspecialchars($item['status']); ?></span>
                             </div>
-                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>📍 Location:</strong> <?php echo htmlspecialchars($item['location']); ?></p>
-                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>🗓️ Dates:</strong> <?php echo htmlspecialchars($item['start_date']) . ' to ' . htmlspecialchars($item['end_date']); ?></p>
+                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Location:</strong> <?php echo htmlspecialchars($item['location']); ?></p>
+                            <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Dates:</strong> <?php echo htmlspecialchars($item['start_date']) . ' to ' . htmlspecialchars($item['end_date']); ?></p>
                             <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem;"><?php echo htmlspecialchars($item['description'] ?: 'No description provided.'); ?></p>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:0.5rem; justify-content:center;">

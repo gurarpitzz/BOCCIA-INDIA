@@ -1,4 +1,5 @@
 /* admin-theme.css - Dedicated theme for BSFI Admin Panel */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Kaushan+Script&display=swap');
 
 :root {
     --admin-bg: #F1F5F9;
@@ -116,10 +117,10 @@ body.admin-body {
 }
 
 .admin-sidebar-nav a.active {
-    color: #FFFFFF;
-    background-color: rgba(255, 255, 255, 0.08);
-    border-left-color: var(--bsfi-saffron);
-    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-left: 4px solid #138808 !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
     text-decoration: none;
 }
 
@@ -228,11 +229,13 @@ body.admin-body {
     height: 5px;
 }
 
-.admin-stat-card.accent-green::before { background-color: var(--bsfi-green); }
-.admin-stat-card.accent-saffron::before { background-color: var(--bsfi-saffron); }
-.admin-stat-card.accent-blue::before { background-color: var(--navy); }
-.admin-stat-card.accent-red::before { background-color: var(--danger); }
+.admin-stat-card.accent-green::before { background-color: #138808; }
+.admin-stat-card.accent-blue::before { background-color: #1D4ED8; }
+.admin-stat-card.accent-red::before { background-color: #DC2626; }
+.admin-stat-card.accent-orange::before { background-color: #F97316; }
 .admin-stat-card.accent-purple::before { background-color: #7C3AED; }
+.admin-stat-card.accent-navy::before { background-color: #081B4B; }
+.admin-stat-card.accent-amber::before { background-color: #F59E0B; }
 
 .admin-stat-label {
     font-size: 0.8rem;
@@ -567,3 +570,89 @@ body.admin-body {
     font-size: 0.9rem;
     font-weight: 600;
 }
+
+/* Welcome Hero Card styling */
+.admin-hero {
+    background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('../../../board/board%20bg.png');
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.admin-hero-eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--bsfi-green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.admin-hero-title {
+    font-family: 'Kaushan Script', 'Caveat', cursive !important;
+    font-size: 2.5rem;
+    color: var(--navy);
+    margin: 0 0 1rem 0;
+    font-weight: normal;
+}
+
+.admin-hero-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+    line-height: 1.6;
+}
+
+.admin-hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Adapt public logo-bar to admin sidebar vertical layout */
+.admin-sidebar-brand {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    padding: 1.25rem 1rem !important;
+}
+
+.admin-sidebar-brand .top-logo-bar {
+    background: transparent !important;
+    border-bottom: none !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+.admin-sidebar-brand .top-logo-inner {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: center !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+
+.admin-sidebar-brand .tl-sep {
+    width: 70% !important;
+    height: 1px !important;
+    background: #E2E8F0 !important;
+    margin: 2px 0 !important;
+}
+
+.admin-sidebar-brand .tl-img {
+    height: 40px !important;
+    max-width: 100% !important;
+    filter: none !important;
+}
+
+.admin-sidebar-brand .tl-bsfi { height: 44px !important; }
+.admin-sidebar-brand .tl-myas { height: 44px !important; }
+.admin-sidebar-brand .tl-pci  { height: 46px !important; }
+.admin-sidebar-brand .tl-world { height: 32px !important; }
+

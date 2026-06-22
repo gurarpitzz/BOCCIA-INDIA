@@ -68,16 +68,17 @@ $auditLogs = $stmt->fetchAll();
 <div class="admin-wrapper">
     <div class="container-fluid" style="padding: 0;">
         
-        <!-- Welcome Header Row -->
-        <div class="admin-page-title-row" style="padding: 1.5rem 2rem; margin-bottom: 2rem;">
-            <div>
-                <span class="admin-section-eyebrow">Federation Portal Control Desk</span>
-                <h1 class="admin-page-title">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
-            </div>
-            <div style="display:flex; gap:0.75rem;">
+        <!-- Welcome Hero Card -->
+        <div style="padding: 2rem 2rem 0 2rem;">
+            <div class="admin-hero">
+                <span class="admin-hero-eyebrow">BSFI FEDERATION CONTROL DESK</span>
+                <h1 class="admin-hero-title">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></h1>
+                <p class="admin-hero-desc">Manage athletes, registrations, media, competitions, documents, and federation operations from a centralized portal.</p>
                 <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <a href="../import/import-athletes.php" class="admin-btn admin-btn-primary">Bulk Import CSV</a>
-                    <a href="users.php" class="admin-btn admin-btn-outline">Manage Staff</a>
+                    <div class="admin-hero-actions">
+                        <a href="../import/import-athletes.php" class="admin-btn admin-btn-primary">Bulk Import CSV</a>
+                        <a href="users.php" class="admin-btn admin-btn-outline">Manage Staff</a>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
@@ -86,12 +87,12 @@ $auditLogs = $stmt->fetchAll();
             <!-- Dashboard Stats Grid -->
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:3rem;">
                 <!-- Stat 1 -->
-                <div class="admin-stat-card accent-blue">
+                <div class="admin-stat-card accent-green">
                     <span class="admin-stat-label">Total Athletes</span>
                     <h2 class="admin-stat-val"><?php echo $totalAthletes; ?></h2>
                 </div>
                 <!-- Stat 2 -->
-                <div class="admin-stat-card accent-green">
+                <div class="admin-stat-card accent-blue">
                     <span class="admin-stat-label">Profiles Complete</span>
                     <h2 class="admin-stat-val"><?php echo $profilesComplete; ?></h2>
                 </div>
@@ -101,22 +102,22 @@ $auditLogs = $stmt->fetchAll();
                     <h2 class="admin-stat-val"><?php echo $missingPhotos; ?></h2>
                 </div>
                 <!-- Stat 4 -->
-                <div class="admin-stat-card accent-saffron">
+                <div class="admin-stat-card accent-orange">
                     <span class="admin-stat-label">Missing Contact Info</span>
                     <h2 class="admin-stat-val"><?php echo $missingContactInfo; ?></h2>
                 </div>
                 <!-- Stat 5 -->
-                <div class="admin-stat-card accent-red">
+                <div class="admin-stat-card accent-purple">
                     <span class="admin-stat-label">Pending Updates</span>
                     <h2 class="admin-stat-val"><?php echo $pendingProfileUpdates; ?></h2>
                 </div>
                 <!-- Stat 6 -->
-                <div class="admin-stat-card accent-blue">
+                <div class="admin-stat-card accent-navy">
                     <span class="admin-stat-label">Total Officials</span>
                     <h2 class="admin-stat-val"><?php echo $totalOfficials; ?></h2>
                 </div>
                 <!-- Stat 7 -->
-                <div class="admin-stat-card accent-purple">
+                <div class="admin-stat-card accent-amber">
                     <span class="admin-stat-label">Pending Officials</span>
                     <h2 class="admin-stat-val"><?php echo $pendingOfficials; ?></h2>
                 </div>
@@ -135,14 +136,14 @@ $auditLogs = $stmt->fetchAll();
                             
                             <!-- Athlete Directory Module -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">👤 Athlete Directory</h4>
+                                <h4 class="admin-card-title">Athlete Directory</h4>
                                 <p class="admin-card-desc">Search, edit, verify registrations, and track athlete records.</p>
                                 <a href="athletes.php" class="admin-btn admin-btn-secondary">Open Directory</a>
                             </div>
                             
                             <!-- Review Portal -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">📥 Registrations Review</h4>
+                                <h4 class="admin-card-title">Registrations Review</h4>
                                 <p class="admin-card-desc">Process pending athlete registrations and approve entries.</p>
                                 <a href="registrations.php" class="admin-btn admin-btn-primary">
                                     Review Applications <?php if($pendingRegistrations > 0): ?><span class="admin-badge admin-badge-warning" style="margin-left: 0.5rem; background: #FF9933; color: white;"><?php echo $pendingRegistrations; ?></span><?php endif; ?>
@@ -151,7 +152,7 @@ $auditLogs = $stmt->fetchAll();
 
                             <!-- Staff Users Module -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">🛡 Staff Users</h4>
+                                <h4 class="admin-card-title">Staff Users</h4>
                                 <p class="admin-card-desc">Manage admin accounts and editor permissions.</p>
                                 <a href="users.php" class="admin-btn admin-btn-outline">Manage Access</a>
                             </div>
@@ -166,7 +167,7 @@ $auditLogs = $stmt->fetchAll();
                             
                             <!-- Document Pages Module -->
                             <div class="admin-card hoverable" style="grid-column: span 2;">
-                                <h4 class="admin-card-title">📄 Document Pages</h4>
+                                <h4 class="admin-card-title">Document Pages</h4>
                                 <p class="admin-card-desc">Manage standardized PDF document pages, upload policies, selection criteria, tenders, and governance documents.</p>
                                 <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
                                     <a href="document_pages.php" class="admin-btn admin-btn-primary">Manage Documents</a>
@@ -177,7 +178,7 @@ $auditLogs = $stmt->fetchAll();
 
                             <!-- News Module -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">📰 News Management</h4>
+                                <h4 class="admin-card-title">News Management</h4>
                                 <p class="admin-card-desc">Publish featured articles, announcements, and press releases.</p>
                                 <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
                                     <a href="news.php" class="admin-btn admin-btn-secondary">Manage News</a>
@@ -188,7 +189,7 @@ $auditLogs = $stmt->fetchAll();
 
                             <!-- Gallery Module -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">🖼 Gallery Management</h4>
+                                <h4 class="admin-card-title">Gallery Management</h4>
                                 <p class="admin-card-desc">Upload photos, tag events, and manage the slideshow/collage.</p>
                                 <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
                                     <a href="gallery.php" class="admin-btn admin-btn-secondary">Manage Gallery</a>
@@ -199,7 +200,7 @@ $auditLogs = $stmt->fetchAll();
 
                             <!-- Events Module -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">📅 Events Management</h4>
+                                <h4 class="admin-card-title">Events Management</h4>
                                 <p class="admin-card-desc">Manage upcoming tournaments and awareness camps.</p>
                                 <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
                                     <a href="events.php" class="admin-btn admin-btn-secondary">Manage Events</a>
@@ -210,7 +211,7 @@ $auditLogs = $stmt->fetchAll();
 
                             <!-- Schedules Module -->
                             <div class="admin-card hoverable">
-                                <h4 class="admin-card-title">📋 Schedules</h4>
+                                <h4 class="admin-card-title">Schedules</h4>
                                 <p class="admin-card-desc">Manage the stylized schedule list for the landing page.</p>
                                 <?php if (in_array($_SESSION['role'], ['admin', 'editor'])): ?>
                                     <a href="schedules.php" class="admin-btn admin-btn-secondary">Manage Schedules</a>
@@ -232,9 +233,9 @@ $auditLogs = $stmt->fetchAll();
                             <?php if (count($auditLogs) > 0): ?>
                                 <?php foreach ($auditLogs as $log): ?>
                                     <div class="admin-timeline-item <?php echo (strpos(strtolower($log['action']), 'delete') !== false) ? 'accent-saffron' : ''; ?>">
-                                        <p class="admin-timeline-title"><?php echo htmlspecialchars($log['username'] ?? 'System'); ?></p>
+                                        <p class="admin-timeline-title"><?php echo htmlspecialchars(strtoupper($log['username'] ?? 'System')); ?></p>
                                         <p class="admin-timeline-desc"><?php echo htmlspecialchars($log['action']); ?></p>
-                                        <span class="admin-timeline-time"><?php echo $log['created_at']; ?></span>
+                                        <span class="admin-timeline-time"><?php echo date('d M Y • h:i A', strtotime($log['created_at'])); ?></span>
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -250,13 +251,13 @@ $auditLogs = $stmt->fetchAll();
                             <p class="admin-card-desc">Export primary database structures and data records natively.</p>
                             <div style="display:flex; flex-direction:column; gap:0.75rem;">
                                 <a href="../api/export.php?type=csv" class="admin-btn admin-btn-outline" style="justify-content: flex-start; text-align: left;">
-                                    <span>📥</span> Export Athletes to CSV
+                                    Export Athletes to CSV
                                 </a>
                                 <a href="../api/export.php?type=xlsx" class="admin-btn admin-btn-outline" style="justify-content: flex-start; text-align: left;">
-                                    <span>📊</span> Export Athletes to XLS
+                                    Export Athletes to XLS
                                 </a>
                                 <a href="../api/export.php?type=sql" class="admin-btn admin-btn-warning" style="justify-content: flex-start; text-align: left;">
-                                    <span>💾</span> Download Full SQL Backup
+                                    Download Full SQL Backup
                                 </a>
                             </div>
                         </div>

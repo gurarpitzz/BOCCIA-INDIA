@@ -602,7 +602,7 @@ include __DIR__ . '/../includes/header.php';
                                             <img src="../<?php echo htmlspecialchars($req['current_photo_path']); ?>" alt="Current Photo" style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; border: 2px solid #E2E8F0;">
                                         <?php else: ?>
                                             <div style="width: 80px; height: 80px; border-radius: 50%; background:#CBD5E1; display:flex; align-items:center; justify-content:center; border:2px dashed #94A3B8;">
-                                                <span style="font-size: 2.2rem; color:#FFFFFF;">👤</span>
+                                                <span style="font-size: 0.72rem; font-weight: 700; color:#FFFFFF; text-transform: uppercase;">No Pic</span>
                                             </div>
                                         <?php endif; ?>
                                         <div>
