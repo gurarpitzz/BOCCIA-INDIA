@@ -19,24 +19,13 @@
 
 /* Base resets & styles override */
 body.admin-body {
-    background: none !important;
+    background: linear-gradient(180deg, #F8F5EF 0%, #FDFCF8 100%) !important;
     color: var(--text-primary) !important;
     font-family: 'Outfit', 'Inter', sans-serif !important;
     margin: 0;
     padding: 0;
     position: relative;
-}
-
-/* Blurred background layer — image stays behind all content */
-body.admin-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: url('../../../bg%20schedule.png') no-repeat center center;
-    background-size: cover;
-    filter: blur(6px);
-    transform: scale(1.06); /* compensate for blur edge bleed */
+    min-height: 100vh;
 }
 
 .admin-wrapper {
@@ -63,6 +52,40 @@ body.admin-body::before {
     top: 0;
     height: 100vh;
     z-index: 100;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Collapsed Sidebar Styles */
+.admin-layout.sidebar-collapsed .admin-sidebar {
+    width: 80px;
+}
+.admin-layout.sidebar-collapsed .admin-sidebar-brand {
+    padding: 1rem 0;
+    text-align: center;
+}
+.admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-logo-row,
+.admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-subtext {
+    display: none !important;
+}
+.admin-layout.sidebar-collapsed .admin-sidebar-nav li.nav-section-title {
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin: 0.5rem 0.75rem;
+}
+.admin-layout.sidebar-collapsed .admin-sidebar-nav .nav-label {
+    display: none !important;
+}
+.admin-layout.sidebar-collapsed .admin-sidebar-nav a {
+    justify-content: center;
+    padding: 0.8rem 0;
+}
+.admin-layout.sidebar-collapsed .admin-sidebar-nav a i,
+.admin-layout.sidebar-collapsed .admin-sidebar-nav a svg {
+    margin-right: 0 !important;
+    font-size: 1.3rem;
 }
 
 .admin-sidebar-brand {
@@ -586,37 +609,38 @@ body.admin-body::before {
 
 /* Welcome Hero Card styling */
 .admin-hero {
-    background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('../../../board/board%20bg.png');
-    background-size: cover;
-    background-position: center;
-    border: 1px solid #E2E8F0;
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    margin-bottom: 2.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    background: linear-gradient(135deg, #081B4B 0%, #0B2A6E 100%) !important;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
 }
 
 .admin-hero-eyebrow {
     display: block;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: var(--bsfi-green);
+    color: var(--bsfi-saffron) !important;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
 }
 
 .admin-hero-title {
-    font-family: 'Kaushan Script', 'Caveat', cursive !important;
-    font-size: 2.5rem;
-    color: var(--navy);
-    margin: 0 0 1rem 0;
-    font-weight: normal;
+    font-size: 2.2rem !important;
+    color: #ffffff !important;
+    margin: 0 0 0.5rem 0;
+    font-weight: 800 !important;
+    font-family: 'Outfit', 'Inter', sans-serif !important;
 }
 
 .admin-hero-desc {
     font-size: 0.95rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 1.5rem;
     max-width: 800px;
     line-height: 1.6;
@@ -626,46 +650,84 @@ body.admin-body::before {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
 }
 
-/* Adapt public logo-bar to admin sidebar vertical layout */
+/* Sidebar Brand Layout */
 .admin-sidebar-brand {
     background-color: #FFFFFF !important;
     border-bottom: 1px solid #E2E8F0 !important;
     padding: 1.25rem 1rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
 }
 
-.admin-sidebar-brand .top-logo-bar {
-    background: transparent !important;
-    border-bottom: none !important;
-    padding: 0 !important;
-    height: auto !important;
-    overflow: visible !important;
+.brand-title-wrap {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.brand-title-wrap strong {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #081B4B;
+    line-height: 1.1;
+}
+.brand-subtext {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--bsfi-saffron);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.15rem;
 }
 
-.admin-sidebar-brand .top-logo-inner {
-    flex-direction: column !important;
-    gap: 0.75rem !important;
-    align-items: center !important;
-    padding: 0 !important;
-    background: transparent !important;
+.brand-logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 0.6rem;
+    margin-top: 0.2rem;
+}
+.brand-logo-row img {
+    height: 24px;
+    width: auto;
+    object-fit: contain;
 }
 
-.admin-sidebar-brand .tl-sep {
-    width: 70% !important;
-    height: 1px !important;
-    background: #E2E8F0 !important;
-    margin: 2px 0 !important;
+/* Collapse Toggle Button */
+.sidebar-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #081B4B;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 12px;
+    top: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+.sidebar-toggle-btn:hover {
+    background-color: #F1F5F9;
 }
 
-.admin-sidebar-brand .tl-img {
-    height: 40px !important;
-    max-width: 100% !important;
-    filter: none !important;
+/* Collapse navigation styles adaptation */
+.admin-sidebar-nav a i {
+    width: 20px;
+    text-align: center;
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    flex-shrink: 0;
 }
-
-.admin-sidebar-brand .tl-bsfi { height: 44px !important; }
-.admin-sidebar-brand .tl-myas { height: 44px !important; }
-.admin-sidebar-brand .tl-pci  { height: 46px !important; }
-.admin-sidebar-brand .tl-world { height: 32px !important; }
 

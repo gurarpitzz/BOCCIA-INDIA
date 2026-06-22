@@ -13,6 +13,8 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <!-- Bootstrap 5.3 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Standalone Admin Theme -->
@@ -58,88 +60,116 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
 <body class="admin-body">
 <a href="#main-content" class="skip-link">Skip to Main Content</a>
 
-<div class="admin-layout">
+<div class="admin-layout" id="admin-layout-container">
+    <script>
+        if (localStorage.getItem("adminSidebarCollapsed") === "true") {
+            document.getElementById("admin-layout-container").classList.add("sidebar-collapsed");
+        }
+    </script>
     <!-- Sidebar Navigation -->
     <aside class="admin-sidebar">
         <div class="admin-sidebar-brand">
-            <a href="dashboard.php" style="display:flex; align-items:center; padding: 0.7rem 1.5rem;">
-                <img src="../boccia-india-logo.webp" alt="Boccia Sports Federation of India" style="height: 36px; width: auto; object-fit: contain;">
-            </a>
+            <div class="brand-title-wrap">
+                <strong>BSFI</strong>
+                <span class="brand-subtext">Federation Portal</span>
+            </div>
+            <button class="sidebar-toggle-btn" id="sidebar-toggle" aria-label="Toggle Sidebar">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="brand-logo-row">
+                <img src="../boccia-india-logo.webp" alt="BSFI" title="BSFI">
+                <img src="../logos/Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS" title="MYAS">
+                <img src="../logos/PCI.png" alt="PCI" title="PCI">
+                <img src="../logos/Full Logo World Boccia.webp" alt="World Boccia" title="World Boccia">
+            </div>
         </div>
         <nav class="admin-sidebar-nav">
             <ul>
                 <li>
                     <a href="dashboard.php" class="<?php echo ($current_file === 'dashboard.php') ? 'active' : ''; ?>">
-                        Dashboard
+                        <i class="fa-solid fa-gauge"></i>
+                        <span class="nav-label">Dashboard</span>
                     </a>
                 </li>
                 
                 <li class="nav-section-title">Athletes</li>
                 <li>
                     <a href="athletes.php" class="<?php echo ($current_file === 'athletes.php') ? 'active' : ''; ?>">
-                        Athlete Directory
+                        <i class="fa-solid fa-users"></i>
+                        <span class="nav-label">Athlete Directory</span>
                     </a>
                 </li>
                 <li>
                     <a href="registrations.php" class="<?php echo ($current_file === 'registrations.php') ? 'active' : ''; ?>">
-                        Registrations
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span class="nav-label">Registrations</span>
                     </a>
                 </li>
                 
                 <li class="nav-section-title">Content</li>
                 <li>
                     <a href="news.php" class="<?php echo ($current_file === 'news.php') ? 'active' : ''; ?>">
-                        News
+                        <i class="fa-solid fa-newspaper"></i>
+                        <span class="nav-label">News</span>
                     </a>
                 </li>
                 <li>
                     <a href="gallery.php" class="<?php echo ($current_file === 'gallery.php') ? 'active' : ''; ?>">
-                        Gallery
+                        <i class="fa-solid fa-images"></i>
+                        <span class="nav-label">Gallery</span>
                     </a>
                 </li>
                 <li>
                     <a href="events.php" class="<?php echo ($current_file === 'events.php') ? 'active' : ''; ?>">
-                        Events
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span class="nav-label">Events</span>
                     </a>
                 </li>
                 <li>
                     <a href="schedules.php" class="<?php echo ($current_file === 'schedules.php') ? 'active' : ''; ?>">
-                        Schedules
+                        <i class="fa-solid fa-clock"></i>
+                        <span class="nav-label">Schedules</span>
                     </a>
                 </li>
                 
                 <li class="nav-section-title">Documents</li>
                 <li>
                     <a href="document_pages.php" class="<?php echo ($current_file === 'document_pages.php') ? 'active' : ''; ?>">
-                        Document Pages
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span class="nav-label">Document Pages</span>
                     </a>
                 </li>
                 
                 <li class="nav-section-title">System</li>
                 <li>
                     <a href="users.php" class="<?php echo ($current_file === 'users.php') ? 'active' : ''; ?>">
-                        Users
+                        <i class="fa-solid fa-user-shield"></i>
+                        <span class="nav-label">Users</span>
                     </a>
                 </li>
                 <li>
                     <a href="dashboard.php#audit-logs">
-                        Audit Logs
+                        <i class="fa-solid fa-list-check"></i>
+                        <span class="nav-label">Audit Logs</span>
                     </a>
                 </li>
                 <li>
                     <a href="dashboard.php#system-utilities">
-                        Backups
+                        <i class="fa-solid fa-database"></i>
+                        <span class="nav-label">Backups</span>
                     </a>
                 </li>
                 
                 <li style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem;">
                     <a href="../index.php" style="color: var(--bsfi-saffron);">
-                        View Website
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="nav-label">View Website</span>
                     </a>
                 </li>
                 <li>
                     <a href="../logout.php" style="color: #FF7777;">
-                        Logout
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="nav-label">Logout</span>
                     </a>
                 </li>
             </ul>
@@ -161,3 +191,16 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
             </div>
         </header>
         <div class="admin-content-body">
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const layout = document.getElementById("admin-layout-container");
+                const toggleBtn = document.getElementById("sidebar-toggle");
+                if (toggleBtn && layout) {
+                    toggleBtn.addEventListener("click", function() {
+                        layout.classList.toggle("sidebar-collapsed");
+                        const isCollapsed = layout.classList.contains("sidebar-collapsed");
+                        localStorage.setItem("adminSidebarCollapsed", isCollapsed ? "true" : "false");
+                    });
+                }
+            });
+        </script>
