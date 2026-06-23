@@ -25,7 +25,7 @@ try {
         include __DIR__ . '/includes/header.php';
         require_once __DIR__ . '/includes/document_renderer.php';
         
-        $heroBg = !empty($docPage['hero_image']) ? $docPage['hero_image'] : 'board/board%20bg.webp';
+        $heroBg = !empty($docPage['hero_image']) ? $docPage['hero_image'] : 'board/board_bg.webp';
         ?>
         <div class="board-page-wrapper">
             <!-- Hero Section -->

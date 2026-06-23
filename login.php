@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: url('login bg.webp?v=2') center center / cover no-repeat fixed;
+            background: url('login_bg.webp?v=2') center center / cover no-repeat fixed;
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             margin: 0;
