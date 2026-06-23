@@ -82,7 +82,7 @@ $auditLogs = $stmt->fetchAll();
         
         <!-- Navy Welcome Hero Card -->
         <div style="padding: 2rem 2rem 0 2rem;">
-            <div class="admin-hero">
+            <div class="admin-hero d-none d-md-block">
                 <!-- Subtle Watermark -->
                 <div style="position: absolute; right: 40px; bottom: -20px; opacity: 0.05; pointer-events: none; z-index: 1; transform: rotate(-10deg);">
                     <img src="../boccia-india-logo.webp" alt="" style="width: 200px; height: auto;">
@@ -107,34 +107,76 @@ $auditLogs = $stmt->fetchAll();
                     </div>
                 </div>
             </div>
+            
+            <!-- Mobile-only Dashboard Header and Quick Actions -->
+            <div class="d-block d-md-none mb-4">
+                <span class="admin-section-eyebrow">BSFI Federation Control Desk</span>
+                <h1 style="font-family:'Outfit', sans-serif; font-size:1.8rem; font-weight:800; color:var(--navy); margin-top:0.25rem; margin-bottom:1.5rem;">Dashboard Overview</h1>
+                
+                <h4 class="admin-section-eyebrow" style="color:var(--text-secondary); margin-bottom:0.75rem;">Quick Actions</h4>
+                <div class="row row-cols-2 g-2">
+                    <div class="col">
+                        <a href="../import/import-athletes.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-file-import"></i> Import CSV
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="registrations.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-user-check"></i> Registrations
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="athletes.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-users"></i> Athletes
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="news.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-newspaper"></i> News
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div style="padding: 0 2rem 3rem 2rem;">
-            <!-- KPI Row (Single row grid) -->
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:1.25rem; margin-bottom:2.5rem;">
-                <div class="admin-stat-card accent-green">
-                    <span class="admin-stat-label">Athletes</span>
-                    <h2 class="admin-stat-val"><?php echo $totalAthletes; ?></h2>
+            <!-- KPI Row (Responsive Bootstrap grid) -->
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3 mb-4">
+                <div class="col">
+                    <div class="admin-stat-card accent-green h-100">
+                        <span class="admin-stat-label">Athletes</span>
+                        <h2 class="admin-stat-val"><?php echo $totalAthletes; ?></h2>
+                    </div>
                 </div>
-                <div class="admin-stat-card accent-blue">
-                    <span class="admin-stat-label">Profiles Complete</span>
-                    <h2 class="admin-stat-val"><?php echo $profilesComplete; ?></h2>
+                <div class="col">
+                    <div class="admin-stat-card accent-blue h-100">
+                        <span class="admin-stat-label">Profiles Complete</span>
+                        <h2 class="admin-stat-val"><?php echo $profilesComplete; ?></h2>
+                    </div>
                 </div>
-                <div class="admin-stat-card accent-red">
-                    <span class="admin-stat-label">Missing Photos</span>
-                    <h2 class="admin-stat-val"><?php echo $missingPhotos; ?></h2>
+                <div class="col">
+                    <div class="admin-stat-card accent-red h-100">
+                        <span class="admin-stat-label">Missing Photos</span>
+                        <h2 class="admin-stat-val"><?php echo $missingPhotos; ?></h2>
+                    </div>
                 </div>
-                <div class="admin-stat-card accent-orange">
-                    <span class="admin-stat-label">Missing Contact</span>
-                    <h2 class="admin-stat-val"><?php echo $missingContactInfo; ?></h2>
+                <div class="col">
+                    <div class="admin-stat-card accent-orange h-100">
+                        <span class="admin-stat-label">Missing Contact</span>
+                        <h2 class="admin-stat-val"><?php echo $missingContactInfo; ?></h2>
+                    </div>
                 </div>
-                <div class="admin-stat-card accent-navy">
-                    <span class="admin-stat-label">Officials</span>
-                    <h2 class="admin-stat-val"><?php echo $totalOfficials; ?></h2>
+                <div class="col">
+                    <div class="admin-stat-card accent-navy h-100">
+                        <span class="admin-stat-label">Officials</span>
+                        <h2 class="admin-stat-val"><?php echo $totalOfficials; ?></h2>
+                    </div>
                 </div>
-                <div class="admin-stat-card accent-amber">
-                    <span class="admin-stat-label">Pending Reviews</span>
-                    <h2 class="admin-stat-val"><?php echo $pendingRegistrations; ?></h2>
+                <div class="col">
+                    <div class="admin-stat-card accent-amber h-100">
+                        <span class="admin-stat-label">Pending Reviews</span>
+                        <h2 class="admin-stat-val"><?php echo $pendingRegistrations; ?></h2>
+                    </div>
                 </div>
             </div>
 

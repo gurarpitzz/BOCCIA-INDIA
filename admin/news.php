@@ -242,12 +242,12 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
         <?php if (!empty($message)) echo $message; ?>
 
         <!-- Search and Filtering Panel -->
-        <div class="admin-toolbar">
-            <form method="GET" action="news.php" class="row g-3" style="width: 100%; margin: 0;">
-                <div class="col-md-5">
+        <div class="admin-toolbar" style="padding: 1.25rem;">
+            <form method="GET" action="news.php" class="row g-2 w-100 m-0">
+                <div class="col-12 col-md-5">
                     <input type="text" name="search" class="admin-input" placeholder="Search by title..." value="<?php echo htmlspecialchars($search); ?>">
                 </div>
-                <div class="col-md-3">
+                <div class="col-12 col-sm-6 col-md-3">
                     <select name="filter_category" class="admin-select">
                         <option value="">All Categories</option>
                         <?php foreach($categories as $cat): ?>
@@ -255,7 +255,7 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-12 col-sm-6 col-md-2">
                     <select name="filter_status" class="admin-select">
                         <option value="">All Statuses</option>
                         <option value="draft" <?php echo $filter_status === 'draft' ? 'selected' : ''; ?>>Draft</option>
@@ -263,7 +263,7 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
                         <option value="scheduled" <?php echo $filter_status === 'scheduled' ? 'selected' : ''; ?>>Scheduled</option>
                     </select>
                 </div>
-                <div class="col-md-2 d-grid">
+                <div class="col-12 col-md-2 d-grid">
                     <button type="submit" class="admin-btn admin-btn-secondary" style="height: 100%;">Search</button>
                 </div>
             </form>
@@ -273,55 +273,58 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
         <div style="display:flex; flex-direction:column; gap:1.5rem;">
             <?php if (count($newsList) > 0): ?>
                 <?php foreach ($newsList as $item): ?>
-                    <div class="admin-card hoverable" style="display:grid; grid-template-columns:120px 3fr 1fr; gap:2rem; align-items:center; margin-bottom: 0; <?php echo $item['status'] === 'draft' ? 'opacity: 0.75;' : ''; ?>">
-                        
-                        <!-- Thumbnail -->
-                        <div style="width: 120px; height: 90px; border-radius: 12px; overflow: hidden; background: #F1F5F9; border: 1px solid #E2E8F0; display:flex; align-items:center; justify-content:center;">
-                            <?php if(!empty($item['thumbnail_image'])): ?>
-                                <img src="../<?php echo htmlspecialchars($item['thumbnail_image']); ?>" alt="News Image" style="width: 100%; height: 100%; object-fit: cover;">
-                            <?php else: ?>
-                                <span style="font-size:2rem; opacity:0.3;">News</span>
-                            <?php endif; ?>
-                        </div>
-
-                        <!-- Content Info -->
-                        <div>
-                            <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap: wrap;">
-                                <h3 class="admin-card-title" style="margin-bottom: 0; margin-right: 0.5rem; font-size: 1.15rem;"><?php echo htmlspecialchars($item['title']); ?></h3>
-                                <?php if($item['status'] === 'published'): ?>
-                                    <span class="admin-badge admin-badge-success">Published</span>
-                                <?php elseif($item['status'] === 'scheduled'): ?>
-                                    <span class="admin-badge admin-badge-info">Scheduled</span>
-                                <?php else: ?>
-                                    <span class="admin-badge admin-badge-pending">Draft</span>
-                                <?php endif; ?>
-                                <?php if($item['is_featured']): ?>
-                                    <span class="admin-badge admin-badge-warning" style="background: rgba(255, 153, 51, 0.1); color: var(--bsfi-saffron);">Featured</span>
-                                <?php endif; ?>
-                                <?php if($item['is_pinned']): ?>
-                                    <span class="admin-badge admin-badge-success" style="background: rgba(19, 136, 8, 0.1); color: var(--bsfi-green);">Pinned</span>
-                                <?php endif; ?>
+                    <div class="admin-card hoverable news-list-card" style="margin-bottom: 0; <?php echo $item['status'] === 'draft' ? 'opacity: 0.75;' : ''; ?>">
+                        <div class="row align-items-center g-3">
+                            <!-- Thumbnail -->
+                            <div class="col-12 col-md-2 col-lg-1.5 d-flex justify-content-center">
+                                <div style="width: 120px; height: 90px; border-radius: 12px; overflow: hidden; background: #F1F5F9; border: 1px solid #E2E8F0; display:flex; align-items:center; justify-content:center;">
+                                    <?php if(!empty($item['thumbnail_image'])): ?>
+                                        <img src="../<?php echo htmlspecialchars($item['thumbnail_image']); ?>" alt="News Image" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <?php else: ?>
+                                        <span style="font-size:2rem; opacity:0.3;">News</span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                            <p style="font-size:0.85rem; color: var(--text-secondary); margin-bottom:0.5rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
-                                <?php echo htmlspecialchars($item['excerpt']); ?>
-                            </p>
-                            <div style="font-size:0.8rem; color: var(--text-muted); display:flex; gap:1.5rem; flex-wrap: wrap;">
-                                <span><strong>Author:</strong> <?php echo htmlspecialchars($item['author_name']); ?></span>
-                                <span><strong>Category:</strong> <?php echo htmlspecialchars($item['category_name'] ?? 'Uncategorized'); ?></span>
-                                <span><strong>Views:</strong> <?php echo (int)$item['views']; ?></span>
-                                <span><strong>Date:</strong> <?php echo $item['published_at'] ? date('M j, Y h:i A', strtotime($item['published_at'])) : 'Unpublished'; ?></span>
-                            </div>
-                        </div>
 
-                        <!-- Actions -->
-                        <div style="display:flex; flex-direction:column; gap:0.5rem; justify-content:center;">
-                            <a href="../news-media/article.php?slug=<?php echo $item['slug']; ?>" target="_blank" class="admin-btn admin-btn-outline" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Preview</a>
-                            <button onclick='openNewsModal(<?php echo htmlspecialchars(json_encode($item), ENT_QUOTES, "UTF-8"); ?>)' class="admin-btn admin-btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Edit Article</button>
-                            <form action="news.php" method="POST" onsubmit="return confirm('Delete this article? (It will be soft-deleted)');" style="display:block; margin: 0;">
-                                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-                                <input type="hidden" name="news_id" value="<?php echo $item['id']; ?>">
-                                <button type="submit" name="delete_news" class="admin-btn admin-btn-danger" style="font-size: 0.8rem; padding: 0.4rem 0.8rem; width: 100%;">Delete</button>
-                            </form>
+                            <!-- Content Info -->
+                            <div class="col-12 col-md-7 col-lg-8.5">
+                                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap: wrap;">
+                                    <h3 class="admin-card-title" style="margin-bottom: 0; margin-right: 0.5rem; font-size: 1.15rem;"><?php echo htmlspecialchars($item['title']); ?></h3>
+                                    <?php if($item['status'] === 'published'): ?>
+                                        <span class="admin-badge admin-badge-success">Published</span>
+                                    <?php elseif($item['status'] === 'scheduled'): ?>
+                                        <span class="admin-badge admin-badge-info">Scheduled</span>
+                                    <?php else: ?>
+                                        <span class="admin-badge admin-badge-pending">Draft</span>
+                                    <?php endif; ?>
+                                    <?php if($item['is_featured']): ?>
+                                        <span class="admin-badge admin-badge-warning" style="background: rgba(255, 153, 51, 0.1); color: var(--bsfi-saffron);">Featured</span>
+                                    <?php endif; ?>
+                                    <?php if($item['is_pinned']): ?>
+                                        <span class="admin-badge admin-badge-success" style="background: rgba(19, 136, 8, 0.1); color: var(--bsfi-green);">Pinned</span>
+                                    <?php endif; ?>
+                                </div>
+                                <p style="font-size:0.85rem; color: var(--text-secondary); margin-bottom:0.5rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                                    <?php echo htmlspecialchars($item['excerpt']); ?>
+                                </p>
+                                <div style="font-size:0.8rem; color: var(--text-muted); display:flex; gap:1.5rem; flex-wrap: wrap;">
+                                    <span><strong>Author:</strong> <?php echo htmlspecialchars($item['author_name']); ?></span>
+                                    <span><strong>Category:</strong> <?php echo htmlspecialchars($item['category_name'] ?? 'Uncategorized'); ?></span>
+                                    <span><strong>Views:</strong> <?php echo (int)$item['views']; ?></span>
+                                    <span><strong>Date:</strong> <?php echo $item['published_at'] ? date('M j, Y h:i A', strtotime($item['published_at'])) : 'Unpublished'; ?></span>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="col-12 col-md-3 col-lg-2 d-flex flex-column gap-2 news-actions">
+                                <a href="../news-media/article.php?slug=<?php echo $item['slug']; ?>" target="_blank" class="admin-btn admin-btn-outline w-100" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Preview</a>
+                                <button onclick='openNewsModal(<?php echo htmlspecialchars(json_encode($item), ENT_QUOTES, "UTF-8"); ?>)' class="admin-btn admin-btn-secondary w-100" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Edit Article</button>
+                                <form action="news.php" method="POST" onsubmit="return confirm('Delete this article? (It will be soft-deleted)');" style="display:block; margin: 0; width: 100%;">
+                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                    <input type="hidden" name="news_id" value="<?php echo $item['id']; ?>">
+                                    <button type="submit" name="delete_news" class="admin-btn admin-btn-danger w-100" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>

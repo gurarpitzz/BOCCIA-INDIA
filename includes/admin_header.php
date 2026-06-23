@@ -15,8 +15,8 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Bootstrap 5.3 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap 5.3 (Local) -->
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css?v=1">
     <!-- Standalone Admin Theme -->
     <link rel="stylesheet" href="assets/css/admin-theme.css?v=<?php echo time(); ?>">
     <!-- Inline fallback overrides in case assets resolution path needs prefix -->
@@ -62,7 +62,7 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
 
 <div class="admin-layout" id="admin-layout-container">
     <script>
-        if (localStorage.getItem("adminSidebarCollapsed") === "true") {
+        if (localStorage.getItem("adminSidebarCollapsed") === "true" || window.innerWidth < 991) {
             document.getElementById("admin-layout-container").classList.add("sidebar-collapsed");
         }
     </script>
@@ -181,12 +181,16 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
         <!-- Top bar with user name, role, site return link -->
         <header class="admin-topbar">
             <div class="admin-topbar-left">
-                <span class="admin-section-eyebrow" style="margin-bottom: 0;">BSFI Federation Control Desk</span>
+                <span class="admin-section-eyebrow d-none d-md-inline">BSFI Federation Control Desk</span>
+                <div class="d-flex d-md-none align-items-center gap-2">
+                    <img src="../boccia-india-logo.webp" alt="Boccia India Logo" style="height: 32px; width: auto; object-fit: contain;">
+                    <img src="../logos/Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS Logo" style="height: 32px; width: auto; object-fit: contain;">
+                </div>
             </div>
             <div class="admin-topbar-right">
                 <div class="admin-topbar-user">
-                    Logged in: <strong><?php echo htmlspecialchars($_SESSION['username'] ?? 'Staff'); ?></strong>
-                    <span><?php echo htmlspecialchars($_SESSION['role'] ?? 'viewer'); ?></span>
+                    <span class="d-none d-sm-inline">Logged in: </span><strong><?php echo htmlspecialchars($_SESSION['username'] ?? 'Staff'); ?></strong>
+                    <span class="d-none d-md-inline-block"><?php echo htmlspecialchars($_SESSION['role'] ?? 'viewer'); ?></span>
                 </div>
             </div>
         </header>

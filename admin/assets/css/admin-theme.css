@@ -26,6 +26,7 @@ body.admin-body {
     padding: 0;
     position: relative;
     min-height: 100vh;
+    overflow-x: hidden !important;
 }
 
 .admin-wrapper {
@@ -729,5 +730,176 @@ body.admin-body {
     margin-right: 0.75rem;
     font-size: 1.1rem;
     flex-shrink: 0;
+}
+
+/* --- Mobile Responsive Layout (Off-canvas sidebar & stacked panels) --- */
+@media (max-width: 991px) {
+    .admin-layout {
+        position: relative;
+    }
+    
+    .admin-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 280px !important;
+        height: 100vh;
+        z-index: 999;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(0); /* Default show if not collapsed */
+    }
+
+    /* When collapsed, push off-screen */
+    .admin-layout.sidebar-collapsed .admin-sidebar {
+        transform: translateX(-100%);
+        width: 280px !important; /* Keep full size when sliding */
+    }
+
+    /* Collapse navigation overrides on mobile */
+    .admin-layout.sidebar-collapsed .admin-sidebar-nav .nav-label,
+    .admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-logo-row,
+    .admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-subtext {
+        display: block !important;
+    }
+    .admin-layout.sidebar-collapsed .admin-sidebar-brand {
+        padding: 1.25rem 1rem !important;
+        text-align: left !important;
+    }
+    .admin-layout.sidebar-collapsed .admin-sidebar-nav a {
+        justify-content: flex-start !important;
+        padding: 0.7rem 1.5rem !important;
+    }
+    .admin-layout.sidebar-collapsed .admin-sidebar-nav a i {
+        margin-right: 0.75rem !important;
+    }
+
+    .admin-main-content {
+        width: 100% !important;
+        flex: 1 !important;
+        margin-left: 0 !important;
+    }
+
+    /* Make toggle button accessible on topbar - Shift to right to avoid overlapping left-aligned logos */
+    .sidebar-toggle-btn {
+        position: fixed;
+        right: 12px;
+        top: 14px;
+        z-index: 1001;
+        background: #ffffff;
+        border: 1px solid #CBD5E1;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        width: 42px;
+        height: 42px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        color: #081B4B;
+    }
+
+    /* Shift Topbar title to the right to clear toggle button, but align logos to extreme left */
+    .admin-topbar {
+        padding: 0 4.5rem 0 0.75rem !important;
+        height: 70px;
+    }
+    
+    .admin-topbar-left {
+        overflow: hidden;
+        margin-left: 0;
+    }
+    
+    .admin-topbar-left .admin-section-eyebrow {
+        font-size: 0.65rem;
+        white-space: nowrap;
+    }
+
+    .admin-content-body {
+        padding: 1.25rem 1rem !important;
+    }
+
+    /* Dashboard cards wrapping */
+    .admin-hero {
+        padding: 1.5rem !important;
+    }
+    .admin-hero-title {
+        font-size: 1.6rem !important;
+        line-height: 1.2;
+    }
+    .admin-hero-desc {
+        font-size: 0.88rem;
+    }
+    .admin-hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+    .admin-hero-actions .admin-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Cards display stack */
+    .dashboard-grid-container {
+        flex-direction: column !important;
+    }
+    .dashboard-grid-container > div {
+        width: 100% !important;
+    }
+    
+    /* Overlay background when sidebar is open */
+    .admin-layout:not(.sidebar-collapsed)::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(8, 27, 75, 0.45);
+        backdrop-filter: blur(4px);
+        z-index: 998;
+    }
+
+    /* Accessibility Widget Button Override */
+    .a11y-toggle-btn {
+        bottom: 15px !important;
+        left: 15px !important;
+        width: 56px !important;
+        height: 56px !important;
+        z-index: 999 !important;
+    }
+    .a11y-panel {
+        bottom: 80px !important;
+        left: 15px !important;
+        z-index: 999 !important;
+        width: 290px !important;
+    }
+
+    /* Full-width action button stacks */
+    .news-actions .btn, 
+    .news-actions .admin-btn,
+    .news-actions form,
+    .news-actions button {
+        width: 100% !important;
+    }
+
+    /* Stack gallery album filter selectors and search elements vertically */
+    .gadm-tabs {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    .gadm-tabs a {
+        width: 100% !important;
+        text-align: center !important;
+    }
+    .gadm-table-wrap, .admin-table-wrapper {
+        overflow-x: auto !important;
+    }
+    /* Set all search elements, select inputs, and toolbar controls to full width */
+    .admin-toolbar form select,
+    .admin-toolbar form input,
+    .admin-toolbar form button,
+    .admin-toolbar form .admin-btn,
+    .gadm-form-input {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 }
 
