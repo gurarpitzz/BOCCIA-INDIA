@@ -101,6 +101,9 @@ $coverImage = !empty($article['cover_image']) ? $article['cover_image'] : (!empt
 include __DIR__ . '/includes/header.php';
 ?>
 
+<!-- FontAwesome 6 Icons for Social Share and Follow Buttons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 <!-- Premium Article Header & Page Layout -->
 <article class="article-details-page" style="background:#FAF7F0; min-height: 80vh; padding-bottom: 5rem;">
     
