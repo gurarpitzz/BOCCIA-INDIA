@@ -136,7 +136,7 @@ try {
     <div class="hero-content-overlay">
         <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
         <h1 class="hero-quote-text animated-quote">
-            <span class="hero-quote-accent">"</span><span class="animated-words">I didn't know there was a sport for me until I found Boccia</span><span class="hero-quote-accent">"</span>
+            <span class="animated-words">“I didn't know there was a sport for me until I found Boccia”</span>
         </h1>
 
         <!-- Desktop Subtitle -->
@@ -195,11 +195,6 @@ try {
             el.innerHTML = words.map(word => `<span class="hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.25em;">${word}</span>`).join('');
         });
 
-        // Hide quotes initially
-        document.querySelectorAll('.hero-quote-accent').forEach(q => {
-            q.style.opacity = '0';
-        });
-
         // Hide subtitle and buttons initially
         document.querySelectorAll('.animated-fade-item').forEach(item => {
             item.style.opacity = '0';
@@ -226,20 +221,14 @@ try {
         }
 
         const tl = gsap.timeline();
-        // Fade in the quotes at the start
-        tl.to(".hero-quote-accent", {
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.out"
-        });
-        // Stagger individual words
+        // Stagger individual words (opening/closing quotes are embedded as first and last word)
         tl.to(".hero-anim-word", {
             opacity: 1,
             y: 0,
             stagger: 0.22,
             duration: 0.5,
             ease: "power2.out"
-        }, "<");
+        });
         // Fade in subtitle and buttons sequentially after words finish
         tl.to(".animated-fade-item", {
             opacity: 1,
