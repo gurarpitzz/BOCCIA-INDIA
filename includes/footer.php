@@ -245,7 +245,7 @@ $script_path = $relative_prefix . 'app.js';
             <div class="container">
                 <p>&copy; 2026 Boccia Sports Federation of India (BSFI). All Rights Reserved. | <a href="#" onclick="showAccessibilityStatement(event)" style="color: inherit; text-decoration: underline;">Accessibility Statement</a></p>
                 <p style="font-size: 0.82rem; opacity: 0.85; margin-top: 0.5rem; color: #081B4B; font-weight: 500;">Recognized by World Boccia, Paralympic Committee of India (PCI), Ministry of Youth Affairs & Sports and Sports Authority of India.</p>
-                <p style="font-size: 0.75rem; opacity: 0.65; margin-top: 0.4rem; color: #081B4B;">Designed by Gurarpit Singh. Ajeet Graphics</p>
+                <p style="font-size: 0.75rem; opacity: 0.65; margin-top: 0.4rem; color: #081B4B;">Designed by Gurarpit Singh . Ajeet Graphics</p>
             </div>
         </div>
     </footer>
