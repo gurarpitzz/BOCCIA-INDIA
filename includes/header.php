@@ -490,6 +490,15 @@ body.preloader-active { overflow: hidden !important; }
         });
     });
 
+    // Close mobile menu when clicking any link that is not a dropdown toggle
+    document.querySelectorAll('.nav-pill-list a').forEach(function(link){
+        link.addEventListener('click', function(){
+            if (!this.classList.contains('npl-has-drop') && !this.classList.contains('npl-has-sub-drop')) {
+                pillList.classList.remove('open');
+            }
+        });
+    });
+
     // Scroll effect to toggle header background and transition layout
     var header = document.querySelector('.site-header-fixed');
     window.addEventListener('scroll', function() {
