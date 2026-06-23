@@ -27,7 +27,12 @@ function isLoggedIn() {
 
 // Audit logger helper
 function logAction($pdo, $action, $target_type = null, $target_id = null, $details = null) {
-    $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-    $stmt = $pdo->prepare("INSERT INTO audit_logs (action, user_id, target_type, target_id, details) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$action, $userId, $target_type, $target_id, $details]);
+    try {
+        $userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+        $stmt = $pdo->prepare("INSERT INTO audit_logs (action, user_id, target_type, target_id, details) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$action, $userId, $target_type, $target_id, $details]);
+    } catch (\PDOException $e) {
+        // Fail silently so database log issues don't crash key actions like logout/login
+        error_log("Audit log failed: " . $e->getMessage());
+    }
 }
