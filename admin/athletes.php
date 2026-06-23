@@ -164,14 +164,23 @@ $athletesList = $stmt->fetchAll();
                             <th>State Association</th>
                             <th>Classification</th>
                             <th>Status</th>
+                            <th style="text-align:right;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (count($athletesList) > 0): ?>
                             <?php foreach ($athletesList as $ath): ?>
                                 <tr>
-                                    <td style="font-family:monospace; color:var(--bsfi-green); font-weight: 700;"><?php echo htmlspecialchars($ath['regn_no']); ?></td>
-                                    <td style="font-weight:bold;"><?php echo htmlspecialchars($ath['full_name']); ?></td>
+                                    <td style="font-family:monospace; color:var(--bsfi-green); font-weight: 700;">
+                                        <a href="athlete-details.php?id=<?php echo $ath['id']; ?>" style="text-decoration:none; color:inherit; font-weight:bold;">
+                                            <?php echo htmlspecialchars($ath['regn_no']); ?>
+                                        </a>
+                                    </td>
+                                    <td style="font-weight:bold;">
+                                        <a href="athlete-details.php?id=<?php echo $ath['id']; ?>" style="text-decoration:none; color:inherit;">
+                                            <?php echo htmlspecialchars($ath['full_name']); ?>
+                                        </a>
+                                    </td>
                                     <td><?php echo htmlspecialchars($ath['gender']); ?></td>
                                     <td><?php echo htmlspecialchars($ath['dob']); ?></td>
                                     <td><?php echo htmlspecialchars($ath['representing_for']); ?></td>
@@ -187,11 +196,16 @@ $athletesList = $stmt->fetchAll();
                                             <?php echo htmlspecialchars($ath['status']); ?>
                                         </span>
                                     </td>
+                                    <td style="text-align:right;">
+                                        <a href="athlete-details.php?id=<?php echo $ath['id']; ?>" class="admin-btn admin-btn-outline" style="padding: 0.3rem 0.6rem; font-size: 0.78rem;">
+                                            <i class="fa-solid fa-clock-history"></i> Profile &amp; History
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="7" style="text-align:center; padding:3rem; color:var(--text-muted); font-style:italic;">No athlete records found matching current criteria.</td>
+                                <td colspan="8" style="text-align:center; padding:3rem; color:var(--text-muted); font-style:italic;">No athlete records found matching current criteria.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
