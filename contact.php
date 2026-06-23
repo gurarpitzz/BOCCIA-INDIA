@@ -29,98 +29,177 @@ include __DIR__ . '/includes/header.php';
     opacity: 0.9;
 }
 .contact-section {
-    padding: 5rem 2rem;
-    background: linear-gradient(180deg, rgba(248, 250, 252, 0.85) 0%, rgba(248, 250, 252, 0.85) 100%), url('about boccia/why boccia matter BG.png') no-repeat center center / cover;
+    padding: 6rem 2rem;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%), url('about boccia/why boccia matter BG.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
     position: relative;
+    min-height: 80vh;
 }
 .contact-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 1000px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
 }
 .contact-card {
-    background: #ffffff;
-    border: 2px solid #E2E8F0;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-    padding: 2.5rem;
+    background: #081B4B;
+    color: #ffffff !important;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(8, 27, 75, 0.2);
+    padding: 3rem;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
 }
 .contact-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(8, 27, 75, 0.3);
 }
-/* Orange White Theme (Saffron) */
+
+/* Accent Left Borders */
 .contact-card.theme-saffron {
-    border-color: rgba(255, 153, 51, 0.4);
+    border-left: 12px solid var(--bsfi-saffron);
 }
+.contact-card.theme-green {
+    border-left: 12px solid var(--bsfi-green);
+}
+.contact-card.theme-blue {
+    border-left: 12px solid #3b82f6;
+}
+
+.contact-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .contact-card.theme-saffron .contact-card-title {
     color: var(--bsfi-saffron);
-    border-bottom: 2px solid rgba(255, 153, 51, 0.2);
-}
-/* Green White Theme */
-.contact-card.theme-green {
-    border-color: rgba(19, 136, 8, 0.4);
 }
 .contact-card.theme-green .contact-card-title {
     color: var(--bsfi-green);
-    border-bottom: 2px solid rgba(19, 136, 8, 0.2);
-}
-/* Blue Theme */
-.contact-card.theme-blue {
-    border-color: rgba(8, 27, 75, 0.4);
 }
 .contact-card.theme-blue .contact-card-title {
-    color: #081B4B;
-    border-bottom: 2px solid rgba(8, 27, 75, 0.2);
+    color: #3b82f6;
 }
-.contact-card-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding-bottom: 0.75rem;
-}
-.contact-info-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-.contact-info-item {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-}
-.contact-info-icon {
+
+.contact-description {
     font-size: 1.1rem;
-    margin-top: 0.2rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2rem;
+    line-height: 1.6;
 }
-.contact-info-item strong {
-    color: var(--text-primary);
+
+.contact-pills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
+
+.contact-badge-pill {
+    background: #12285A;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 1rem 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    color: #ffffff !important;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.contact-badge-pill:hover {
+    background: #1b3573;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.contact-badge-pill i {
+    font-size: 1.3rem;
+}
+
+/* Icon Colors based on parent theme */
+.contact-card.theme-saffron .contact-badge-pill i {
+    color: var(--bsfi-saffron);
+}
+.contact-card.theme-green .contact-badge-pill i {
+    color: var(--bsfi-green);
+}
+.contact-card.theme-blue .contact-badge-pill i {
+    color: #3b82f6;
+}
+
+.address-box {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.address-box strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.contact-card.theme-saffron .address-box strong {
+    color: var(--bsfi-saffron);
+}
+.contact-card.theme-green .address-box strong {
+    color: var(--bsfi-green);
+}
+.contact-card.theme-blue .address-box strong {
+    color: #3b82f6;
+}
+
 .bank-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    font-size: 1.05rem;
 }
+
 .bank-table td {
-    padding: 0.6rem 0.5rem;
-    border-bottom: 1px solid #F1F5F9;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .bank-table td:first-child {
     font-weight: 700;
-    color: #081B4B;
-    width: 35%;
+    color: rgba(255, 255, 255, 0.7);
+    width: 30%;
+}
+
+.bank-table td:last-child {
+    color: #ffffff;
+}
+
+.tax-badge {
+    display: inline-block;
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
 }
 </style>
 
@@ -137,69 +216,51 @@ include __DIR__ . '/includes/header.php';
             
             <!-- Corporate Office -->
             <div class="contact-card theme-green">
-                <h3 class="contact-card-title">
-                    <i class="fa-solid fa-building"></i> Corporate Office
-                </h3>
-                <div class="contact-info-list">
-                    <div class="contact-info-item">
-                        <i class="fa-solid fa-phone contact-info-icon" style="color: var(--bsfi-green);"></i>
-                        <div>
-                            <strong>Phone:</strong><br>
-                            <a href="tel:01141653466" style="color: inherit; text-decoration: none;">011-41653466</a>
-                        </div>
-                    </div>
-                    <div class="contact-info-item">
-                        <i class="fa-solid fa-envelope contact-info-icon" style="color: var(--bsfi-green);"></i>
-                        <div>
-                            <strong>Email:</strong><br>
-                            <a href="mailto:bocciaindia@gmail.com" style="color: inherit; text-decoration: none;">bocciaindia@gmail.com</a>
-                        </div>
-                    </div>
-                    <div class="contact-info-item">
-                        <i class="fa-solid fa-location-dot contact-info-icon" style="color: var(--bsfi-green);"></i>
-                        <div>
-                            <strong>Address:</strong><br>
-                            LG 101, Bharat Chamber, 70/71, Scindia House, Connaught Circus, Janpath, New Delhi - 110001
-                        </div>
-                    </div>
+                <h3 class="contact-card-title">Corporate Office</h3>
+                <p class="contact-description">
+                    For general administrative inquiries, official letters, and corporate communications, please reach out to our New Delhi office:
+                </p>
+                <div class="contact-pills-container">
+                    <a href="mailto:bocciaindia@gmail.com" class="contact-badge-pill">
+                        <i class="fa-solid fa-envelope"></i> Bocciaindia@gmail.com
+                    </a>
+                    <a href="tel:01141653466" class="contact-badge-pill">
+                        <i class="fa-solid fa-phone"></i> 011-41653466
+                    </a>
+                </div>
+                <div class="address-box">
+                    <strong>Office Address</strong>
+                    LG 101, Bharat Chamber, 70/71, Scindia House, Connaught Circus, Janpath, New Delhi - 110001
                 </div>
             </div>
 
             <!-- Registered Office -->
             <div class="contact-card theme-saffron">
-                <h3 class="contact-card-title">
-                    <i class="fa-solid fa-house-chimney"></i> Registered Office
-                </h3>
-                <div class="contact-info-list">
-                    <div class="contact-info-item">
-                        <i class="fa-solid fa-phone contact-info-icon" style="color: var(--bsfi-saffron);"></i>
-                        <div>
-                            <strong>Phone:</strong><br>
-                            <a href="tel:+919803454949" style="color: inherit; text-decoration: none;">+91 9803454949</a>
-                        </div>
-                    </div>
-                    <div class="contact-info-item">
-                        <i class="fa-solid fa-envelope contact-info-icon" style="color: var(--bsfi-saffron);"></i>
-                        <div>
-                            <strong>Email:</strong><br>
-                            <a href="mailto:bocciaindia@gmail.com" style="color: inherit; text-decoration: none;">bocciaindia@gmail.com</a>
-                        </div>
-                    </div>
-                    <div class="contact-info-item">
-                        <i class="fa-solid fa-location-dot contact-info-icon" style="color: var(--bsfi-saffron);"></i>
-                        <div>
-                            <strong>Address:</strong><br>
-                            #69, VPO Ablu, District Bathinda, Punjab - 151201
-                        </div>
-                    </div>
+                <h3 class="contact-card-title">Registered Office</h3>
+                <p class="contact-description">
+                    For statutory, legal registration affairs, and state-level coordinates, contact our registered office in Punjab:
+                </p>
+                <div class="contact-pills-container">
+                    <a href="mailto:bocciaindia@gmail.com" class="contact-badge-pill">
+                        <i class="fa-solid fa-envelope"></i> Bocciaindia@gmail.com
+                    </a>
+                    <a href="tel:+919803454949" class="contact-badge-pill">
+                        <i class="fa-solid fa-phone"></i> +91 9803454949
+                    </a>
+                </div>
+                <div class="address-box">
+                    <strong>Registered Address</strong>
+                    #69, VPO Ablu, District Bathinda, Punjab - 151201
                 </div>
             </div>
 
             <!-- Bank Details -->
             <div class="contact-card theme-blue">
-                <h3 class="contact-card-title">
-                    <i class="fa-solid fa-landmark"></i> Our Bank Details
-                </h3>
+                <h3 class="contact-card-title">Our Bank Details</h3>
+                <p class="contact-description">
+                    Direct donations, sponsorship payments, and registration fee transfers can be made to the following bank account:
+                </p>
+                
                 <table class="bank-table">
                     <tr>
                         <td>Name</td>
@@ -211,20 +272,21 @@ include __DIR__ . '/includes/header.php';
                     </tr>
                     <tr>
                         <td>Account No</td>
-                        <td style="font-family: monospace; font-weight: 700; font-size: 0.95rem;">36123404464</td>
+                        <td style="font-family: monospace; font-weight: 700; letter-spacing: 0.5px;">36123404464</td>
                     </tr>
                     <tr>
                         <td>IFSC Code</td>
-                        <td style="font-family: monospace; font-weight: 700; font-size: 0.95rem;">SBIN0017259</td>
+                        <td style="font-family: monospace; font-weight: 700; letter-spacing: 0.5px;">SBIN0017259</td>
                     </tr>
                     <tr>
                         <td>Branch</td>
                         <td>SCO 128-129, Grain Market, Bathinda, Pin Code 151001</td>
                     </tr>
                 </table>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1.25rem; font-style: italic;">
-                    * We have 12A, 80G and Income tax approvals.
-                </p>
+
+                <div class="tax-badge">
+                    <i class="fa-solid fa-circle-check"></i> We have 12A, 80G and Income tax approvals
+                </div>
             </div>
 
         </div>
@@ -232,3 +294,4 @@ include __DIR__ . '/includes/header.php';
 </div>
 
 <?php include __DIR__ . '/includes/footer.php'; ?>
+
