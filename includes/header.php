@@ -15,11 +15,23 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?></title>
     <meta name="description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia Sports Federation of India (BSFI). Affiliated with Paralympic Committee of India and Boccia International Sports Federation."; ?>">
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="og:title" content="<?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?>">
+    <meta property="og:description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia Sports Federation of India (BSFI). Affiliated with Paralympic Committee of India and Boccia International Sports Federation."; ?>">
+    <?php 
+        $og_img_src = isset($og_image) && !empty($og_image) ? $og_image : $relative_prefix . 'boccia-india-logo.webp';
+        // Clean leading slash/dots for combining
+        $og_img_clean = ltrim($og_img_src, './');
+        $og_img_absolute = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/' . $og_img_clean;
+    ?>
+    <meta property="og:image" content="<?php echo htmlspecialchars($og_img_absolute); ?>">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <?php if (isset($canonical_url)): ?>
     <link rel="canonical" href="<?php echo htmlspecialchars($canonical_url); ?>">
-    <?php endif; ?>
-    <?php if (isset($og_image)): ?>
-    <meta property="og:image" content="<?php echo htmlspecialchars($og_image); ?>">
     <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
