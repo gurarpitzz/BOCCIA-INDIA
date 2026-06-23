@@ -128,7 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         state = ?, district = ?, classification = ?, wheelchair_status = ?, 
                         photo_path = COALESCE(?, photo_path), receipt_path = COALESCE(?, receipt_path), 
                         aadhaar = COALESCE(?, aadhaar), status = 'approved',
-                        photo_status = IF(? != '' OR photo_path IS NOT NULL, 'verified', photo_status) 
+                        photo_status = IF(? != '' OR photo_path IS NOT NULL, 'verified', photo_status),
+                        father_name = ?, mother_name = ?, age_category = ?, impairment_type = ?,
+                        address = ?, pincode = ?, kit_tshirt = ?, kit_tracksuit = ?, kit_shoe = ?, passport_file = COALESCE(?, passport_file) 
                         WHERE id = ?");
                     
                     $genderFormatted = strtoupper($app['gender']);
@@ -139,7 +141,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $upAthlete->execute([
                         $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
                         $app['state'], $app['district'], $app['classification'], $app['wheelchair_status'],
-                        $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $app['photo_path'], $existingId
+                        $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $app['photo_path'],
+                        $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
+                        $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['receipt_path'],
+                        $existingId
                     ]);
 
                     $upApp = $pdo->prepare("UPDATE athlete_applications SET status = 'approved', existing_athlete_id = ? WHERE id = ?");
@@ -189,14 +194,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     // Newly approved athlete sets photo_status to verified if photo exists
                     $insAthlete = $pdo->prepare("INSERT INTO athletes 
-                        (regn_no, full_name, gender, dob, mobile, email, state, district, classification, representing_for, state_association_id, wheelchair_status, photo_path, receipt_path, status, aadhaar, digilocker_imported, photo_status) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, 0, ?)");
+                        (regn_no, full_name, gender, dob, mobile, email, state, district, classification, representing_for, state_association_id, wheelchair_status, photo_path, receipt_path, status, aadhaar, digilocker_imported, photo_status,
+                         father_name, mother_name, age_category, impairment_type, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, passport_file) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     
                     $hasPhoto = !empty($app['photo_path']) ? 'verified' : 'missing';
                     $insAthlete->execute([
                         $regnNo, $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
                         $app['state'], $app['district'], $app['classification'], $app['state'], $assocId,
-                        $app['wheelchair_status'], $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $hasPhoto
+                        $app['wheelchair_status'], $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $hasPhoto,
+                        $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
+                        $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['receipt_path']
                     ]);
                     $newAthleteId = $pdo->lastInsertId();
 

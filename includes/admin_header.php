@@ -148,6 +148,12 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                     </a>
                 </li>
                 <li>
+                    <a href="export-center.php" class="<?php echo ($current_file === 'export-center.php') ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-file-export"></i>
+                        <span class="nav-label">Export Center</span>
+                    </a>
+                </li>
+                <li>
                     <a href="dashboard.php#audit-logs">
                         <i class="fa-solid fa-list-check"></i>
                         <span class="nav-label">Audit Logs</span>

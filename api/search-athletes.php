@@ -22,7 +22,9 @@ $limit = 9;
 $offset = ($page - 1) * $limit;
 
 // Build query
-$query = "SELECT * FROM athletes WHERE 1=1";
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+$selectCols = $isAdmin ? "*" : "id, regn_no, full_name, gender, dob, state, district, classification, representing_for, wheelchair_status, photo_path, receipt_path, status, is_legacy_registry";
+$query = "SELECT $selectCols FROM athletes WHERE 1=1";
 $params = [];
 
 if ($search !== '') {

@@ -42,13 +42,13 @@ if (empty($regn_no) || empty($full_name) || empty($gender) || empty($dob) || emp
 
 try {
     if ($id > 0) {
-        // Update
-        $stmt = $pdo->prepare("UPDATE athletes SET regn_no=?, full_name=?, gender=?, dob=?, mobile=?, email=?, state=?, district=?, classification=?, representing_for=?, wheelchair_status=?, status=?, updated_by=? WHERE id=?");
-        $stmt->execute([$regn_no, $full_name, $gender, $dob, $mobile, $email, $state, $district, $classification, $representing_for, $wheelchair_status, $status, $_SESSION['user_id'], $id]);
-        logAction($pdo, "Updated Athlete", "athletes", $id, "Registration No: $regn_no");
+        // Update (regn_no is locked and cannot be edited)
+        $stmt = $pdo->prepare("UPDATE athletes SET full_name=?, gender=?, dob=?, mobile=?, email=?, state=?, district=?, classification=?, representing_for=?, wheelchair_status=?, status=?, updated_by=? WHERE id=?");
+        $stmt->execute([$full_name, $gender, $dob, $mobile, $email, $state, $district, $classification, $representing_for, $wheelchair_status, $status, $_SESSION['user_id'], $id]);
+        logAction($pdo, "Updated Athlete Details", "athletes", $id, "Updated details, REGN_NO remained locked.");
         echo json_encode(['success' => 'Athlete updated successfully.']);
     } else {
-        // Create
+        // Create (for new inserts, generate via registration sequences or insert with new generated regn_no if provided)
         $stmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, mobile, email, state, district, classification, representing_for, wheelchair_status, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$regn_no, $full_name, $gender, $dob, $mobile, $email, $state, $district, $classification, $representing_for, $wheelchair_status, $status, $_SESSION['user_id']]);
         $newId = $pdo->lastInsertId();

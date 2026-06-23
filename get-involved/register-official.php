@@ -155,6 +155,11 @@ function checkOfficialDuplicate($pdo, $name, $dob, $email, $phone, $aadhaar) {
             $n2 = strtolower(trim($off['name']));
             if ($n1 === $n2) {
                 $score += 10;
+                
+                // If both Name and DOB match, boost score to 60 to guarantee duplicate detection (threshold is 50)
+                if (!empty($dob) && !empty($off['dob']) && $dob === $off['dob']) {
+                    $score += 30; // 20 (dob) + 10 (name) + 30 (boost) = 60
+                }
             } else {
                 $lev = levenshtein($n1, $n2);
                 $maxLen = max(strlen($n1), strlen($n2));

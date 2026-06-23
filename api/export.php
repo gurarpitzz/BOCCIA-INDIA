@@ -98,7 +98,16 @@ if ($type === 'csv') {
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename=db_backup_' . date('Y-m-d_H-i-s') . '.sql');
     
-    $tables = ['users', 'athletes', 'events', 'news', 'gallery', 'site_settings', 'audit_logs'];
+    $tables = [
+        'users', 'states', 'state_associations', 'athletes', 'athlete_applications', 
+        'athlete_history', 'athlete_registry_import', 'athlete_status_history', 
+        'registration_sequences', 'officials', 'official_applications', 
+        'profile_update_requests', 'events', 'event_documents', 'event_gallery', 
+        'news', 'news_categories', 'news_images', 'schedules', 'gallery_albums', 
+        'gallery_categories', 'gallery_images', 'media_assets', 'site_pages', 
+        'page_versions', 'navigation_items', 'document_pages', 'search_index', 
+        'site_settings', 'audit_logs', 'activity_logs'
+    ];
     
     echo "-- BSFI Database Backup\n";
     echo "-- Generated on: " . date('Y-m-d H:i:s') . "\n\n";

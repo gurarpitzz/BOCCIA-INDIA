@@ -228,14 +228,16 @@ while (($row = fgetcsv($handle)) !== false) {
         
         if ($athRow) {
             $athlete_id = $athRow['id'];
-            // Update details
-            $updateStmt = $pdo->prepare("UPDATE athletes SET full_name = ?, gender = ?, dob = ?, state = ?, classification = ?, representing_for = ?, state_association_id = ?, status = 'approved', digilocker_imported = 1, photo_status = 'missing' WHERE id = ?");
-            $updateStmt->execute([$full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId, $athlete_id]);
+            // Update details (marking as legacy registry if they are in the range 1-99)
+            $isLegacy = (is_numeric($regn_no) && (int)$regn_no >= 1 && (int)$regn_no <= 99) ? 1 : 0;
+            $updateStmt = $pdo->prepare("UPDATE athletes SET full_name = ?, gender = ?, dob = ?, state = ?, classification = ?, representing_for = ?, state_association_id = ?, status = 'approved', digilocker_imported = 1, photo_status = 'missing', is_legacy_registry = ? WHERE id = ?");
+            $updateStmt->execute([$full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId, $isLegacy, $athlete_id]);
             $updated++;
         } else {
             // Insert new athlete
-            $insertStmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, state, classification, representing_for, state_association_id, status, digilocker_imported, photo_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved', 1, 'missing')");
-            $insertStmt->execute([$regn_no, $full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId]);
+            $isLegacy = (is_numeric($regn_no) && (int)$regn_no >= 1 && (int)$regn_no <= 99) ? 1 : 0;
+            $insertStmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, state, classification, representing_for, state_association_id, status, digilocker_imported, photo_status, is_legacy_registry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved', 1, 'missing', ?)");
+            $insertStmt->execute([$regn_no, $full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId, $isLegacy]);
             $athlete_id = $pdo->lastInsertId();
             $inserted++;
         }

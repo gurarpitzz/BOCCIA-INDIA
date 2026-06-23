@@ -66,7 +66,7 @@ try {
     $totalRecords = (int)$countStmt->fetchColumn();
     $totalPages = ceil($totalRecords / $recordsPerPage);
 
-    $query = "SELECT * FROM officials WHERE $whereSql ORDER BY name ASC LIMIT $recordsPerPage OFFSET $offset";
+    $query = "SELECT id, official_reg_no, name, role, gender, dob, state, photo_path, photo_status FROM officials WHERE $whereSql ORDER BY name ASC LIMIT $recordsPerPage OFFSET $offset";
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $officials = $stmt->fetchAll();
