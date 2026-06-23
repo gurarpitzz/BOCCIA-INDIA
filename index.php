@@ -1047,13 +1047,13 @@ try {
       
                         <!-- Post Body -->
                         <div style="padding: 0 1.5rem 1rem; flex-grow: 1;">
-                            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--deep-navy); margin-bottom: 0.5rem; font-family: var(--font-heading);"><?php echo htmlspecialchars($news['title']); ?></h3>
+                            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--deep-navy); margin-bottom: 0.5rem; font-family: var(--font-heading);">
+                                <a href="news.php?slug=<?php echo urlencode($news['slug']); ?>" style="color: inherit; text-decoration: none;" class="hover-orange"><?php echo htmlspecialchars($news['title']); ?></a>
+                            </h3>
                             <p style="font-size: 0.95rem; color: #3b5a9a; line-height: 1.5; margin-bottom: 0;">
                                 <?php echo $displayContent; ?>
                             </p>
-                            <?php if($isLong): ?>
-                                <button onclick="alert('Read More feature to be implemented inline/modal')" style="background:none; border:none; color: var(--accent-saffron); font-weight: 700; padding: 0; margin-top: 0.5rem; cursor: pointer; font-size: 0.9rem;">Read More &raquo;</button>
-                            <?php endif; ?>
+                            <a href="news.php?slug=<?php echo urlencode($news['slug']); ?>" style="color: var(--accent-saffron); font-weight: 700; text-decoration: none; font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;" class="hover-orange">Read More &raquo;</a>
                         </div>
       
                         <!-- Media Grid -->
