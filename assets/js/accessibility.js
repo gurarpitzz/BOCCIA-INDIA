@@ -309,6 +309,9 @@
 
     // 5. Build and Inject accessibility panel and toggle button
     function initAccessibilityPanel() {
+        // Do not display the accessibility icon/widget on admin pages
+        if (window.location.pathname.includes('/admin/')) return;
+
         // Only run once DOM is loaded or loading
         if (document.getElementById('a11y-toggle')) return;
 
