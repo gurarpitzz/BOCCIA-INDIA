@@ -30,7 +30,8 @@ include __DIR__ . '/includes/header.php';
 }
 .contact-section {
     padding: 5rem 2rem;
-    background-color: #F8FAFC;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.85) 0%, rgba(248, 250, 252, 0.85) 100%), url('about boccia/why boccia matter BG.png') no-repeat center center / cover;
+    position: relative;
 }
 .contact-grid {
     display: grid;
@@ -38,10 +39,12 @@ include __DIR__ . '/includes/header.php';
     gap: 2.5rem;
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
 }
 .contact-card {
     background: #ffffff;
-    border: 1px solid #E2E8F0;
+    border: 2px solid #E2E8F0;
     border-radius: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.02);
     padding: 2.5rem;
@@ -51,16 +54,38 @@ include __DIR__ . '/includes/header.php';
     transform: translateY(-5px);
     box-shadow: 0 12px 30px rgba(0,0,0,0.06);
 }
+/* Orange White Theme (Saffron) */
+.contact-card.theme-saffron {
+    border-color: rgba(255, 153, 51, 0.4);
+}
+.contact-card.theme-saffron .contact-card-title {
+    color: var(--bsfi-saffron);
+    border-bottom: 2px solid rgba(255, 153, 51, 0.2);
+}
+/* Green White Theme */
+.contact-card.theme-green {
+    border-color: rgba(19, 136, 8, 0.4);
+}
+.contact-card.theme-green .contact-card-title {
+    color: var(--bsfi-green);
+    border-bottom: 2px solid rgba(19, 136, 8, 0.2);
+}
+/* Blue Theme */
+.contact-card.theme-blue {
+    border-color: rgba(8, 27, 75, 0.4);
+}
+.contact-card.theme-blue .contact-card-title {
+    color: #081B4B;
+    border-bottom: 2px solid rgba(8, 27, 75, 0.2);
+}
 .contact-card-title {
     font-family: 'Outfit', sans-serif;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #081B4B;
     margin-bottom: 1.25rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    border-bottom: 2px solid #F1F5F9;
     padding-bottom: 0.75rem;
 }
 .contact-info-list {
@@ -111,9 +136,9 @@ include __DIR__ . '/includes/header.php';
         <div class="contact-grid">
             
             <!-- Corporate Office -->
-            <div class="contact-card">
-                <h3 class="contact-card-title" style="border-bottom-color: rgba(19,136,8,0.2);">
-                    <i class="fa-solid fa-building" style="color: var(--bsfi-green);"></i> Corporate Office
+            <div class="contact-card theme-green">
+                <h3 class="contact-card-title">
+                    <i class="fa-solid fa-building"></i> Corporate Office
                 </h3>
                 <div class="contact-info-list">
                     <div class="contact-info-item">
@@ -141,9 +166,9 @@ include __DIR__ . '/includes/header.php';
             </div>
 
             <!-- Registered Office -->
-            <div class="contact-card">
-                <h3 class="contact-card-title" style="border-bottom-color: rgba(255,153,51,0.2);">
-                    <i class="fa-solid fa-house-chimney" style="color: var(--bsfi-saffron);"></i> Registered Office
+            <div class="contact-card theme-saffron">
+                <h3 class="contact-card-title">
+                    <i class="fa-solid fa-house-chimney"></i> Registered Office
                 </h3>
                 <div class="contact-info-list">
                     <div class="contact-info-item">
@@ -171,9 +196,9 @@ include __DIR__ . '/includes/header.php';
             </div>
 
             <!-- Bank Details -->
-            <div class="contact-card">
+            <div class="contact-card theme-blue">
                 <h3 class="contact-card-title">
-                    <i class="fa-solid fa-landmark" style="color: #081B4B;"></i> Our Bank Details
+                    <i class="fa-solid fa-landmark"></i> Our Bank Details
                 </h3>
                 <table class="bank-table">
                     <tr>
