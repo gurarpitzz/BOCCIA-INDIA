@@ -630,7 +630,7 @@ include __DIR__ . '/../includes/header.php';
                                             </div>
                                         <?php else: ?>
                                             <div style="width: 80px; height: 80px; border-radius: 50%; background:#E2E8F0; display:flex; align-items:center; justify-content:center; border:2px dashed #CBD5E1;">
-                                                <span style="font-size: 2.2rem; color:#94A3B8;">📷</span>
+                                                <span style="font-size: 0.8rem; color:#94A3B8; font-weight: bold; text-align: center; text-transform: uppercase;">No Photo</span>
                                             </div>
                                             <div>
                                                 <span style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; display:block;">New Photograph</span>

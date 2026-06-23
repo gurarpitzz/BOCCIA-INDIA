@@ -513,6 +513,96 @@ body {
     line-height: 1.7;
     color: var(--boccia-text-dark);
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 767px) {
+    .antidoping-hero {
+        padding: 60px 0 40px 0;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .antidoping-content-section {
+        padding: 40px 0;
+    }
+    .antidoping-tabs {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 20px;
+        padding: 8px;
+        gap: 8px;
+    }
+    .tab-btn {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        border-radius: 15px;
+        text-align: center;
+    }
+    .intro-grid {
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    .intro-image-wrapper {
+        border-radius: 16px;
+        padding: 10px;
+    }
+    .intro-text-card {
+        padding: 20px;
+    }
+    .anti-doping-highlight-box {
+        padding: 20px;
+        border-radius: 0 16px 16px 0;
+    }
+    .spirit-values-wrapper-card {
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 20px;
+    }
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .value-card {
+        padding: 15px;
+        border-radius: 14px;
+    }
+    .clean-sport-banner {
+        padding: 25px 20px;
+        margin-top: 30px;
+        border-left-width: 6px;
+        border-radius: 20px;
+    }
+    .clean-sport-banner h4 {
+        font-size: 1.4rem;
+    }
+    .tue-intro-card {
+        padding: 20px;
+        margin-bottom: 25px;
+        border-radius: 20px;
+    }
+    .link-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    .contact-callout {
+        padding: 25px 20px;
+        margin-top: 30px;
+        border-radius: 20px;
+    }
+    .faq-wrapper-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .faq-question {
+        padding: 15px 20px;
+        font-size: 1.05rem;
+    }
+    .faq-answer-content {
+        padding: 20px;
+    }
+}
 </style>
 
 <div class="antidoping-page">

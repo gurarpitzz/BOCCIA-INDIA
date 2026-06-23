@@ -100,6 +100,12 @@ body {
     max-width: 600px;
 }
 
+@media (max-width: 575px) {
+    .quick-nav-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 .quick-nav-card {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -114,6 +120,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 .quick-nav-card i {
@@ -830,6 +837,28 @@ body {
     .boccia-footer-cta {
         flex-direction: column;
         text-align: center;
+        padding: 30px 20px;
+        gap: 20px;
+        margin-top: 30px;
+    }
+    .cta-left {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+    }
+    .cta-text h3 {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+    .cta-text p {
+        font-size: 1.2rem;
+    }
+    .btn-cta-action {
+        width: 100%;
+        text-align: center;
+        padding: 12px 24px;
+        white-space: normal;
     }
 }
 

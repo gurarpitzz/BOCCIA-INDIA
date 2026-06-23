@@ -630,7 +630,7 @@ include __DIR__ . '/../includes/header.php';
                             <input type="hidden" name="set_album_cover" value="1">
                             <input type="hidden" name="album_id" value="<?php echo $item['album_id']; ?>">
                             <input type="hidden" name="image_id" value="<?php echo $item['id']; ?>">
-                            <button type="submit" class="gadm-btn gadm-btn-sec" style="padding:.3rem .6rem;font-size:.72rem;" title="Set as Album Cover">🖼️ Cover</button>
+                            <button type="submit" class="gadm-btn gadm-btn-sec" style="padding:.3rem .6rem;font-size:.72rem;" title="Set as Album Cover">Cover</button>
                         </form>
                     <?php endif; ?>
                     <button class="gadm-btn gadm-btn-sec" style="padding:.3rem .6rem;font-size:.78rem;" onclick='openPhotoModal(<?php echo json_encode(array_map("strval",$item)); ?>)'>Edit</button>
@@ -774,7 +774,7 @@ include __DIR__ . '/../includes/header.php';
                     <tbody>
                         <?php foreach ($categories as $cat): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($cat['icon'] ?: '📁'); ?></td>
+                            <td><?php echo htmlspecialchars($cat['icon'] ?: ''); ?></td>
                             <td><strong><?php echo htmlspecialchars($cat['name']); ?></strong></td>
                             <td><?php echo (int)$cat['display_order']; ?></td>
                             <td><?php echo $cat['is_active'] ? '<span class="text-success">Active</span>' : '<span class="text-muted">Inactive</span>'; ?></td>

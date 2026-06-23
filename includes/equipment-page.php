@@ -253,6 +253,90 @@ body {
 .contact-detail-item a:hover {
     color: var(--boccia-saffron);
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 767px) {
+    .equipment-content-section {
+        padding: 40px 0;
+    }
+    .equipment-tabs {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 20px;
+        padding: 8px;
+        gap: 8px;
+    }
+    .tab-btn {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        border-radius: 15px;
+        text-align: center;
+    }
+    .equipment-intro-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    .equipment-intro-card p {
+        font-size: 1.05rem;
+    }
+    .specs-grid {
+        gap: 15px;
+    }
+    .spec-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    .spec-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    .spec-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    .market-card {
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+    }
+    .market-card h3 {
+        font-size: 1.4rem;
+    }
+    .market-card p {
+        font-size: 1rem;
+    }
+    .contact-card {
+        padding: 25px 20px;
+        border-radius: 20px;
+        border-left-width: 6px;
+    }
+    .contact-card h4 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+    .contact-card p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    .contact-details-grid {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .contact-detail-item {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px 15px;
+        border-radius: 10px;
+    }
+    .contact-detail-item a {
+        word-break: break-all;
+        font-size: 0.95rem;
+    }
+}
 </style>
 
 <div class="equipment-page-wrapper">

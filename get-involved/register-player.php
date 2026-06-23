@@ -257,17 +257,46 @@ include __DIR__ . '/../includes/header.php';
 }
 
 @media (max-width: 991px) {
+    .outer-registration-bg {
+        padding: 40px 0;
+    }
     .split-card-container {
         flex-direction: column;
+        min-height: auto;
     }
     .split-card-left {
         width: 100%;
-        height: 300px;
+        height: 200px;
         background-position: center center;
     }
     .split-card-right {
         width: 100%;
         padding: 30px 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .split-card-right {
+        padding: 25px 15px;
+    }
+    .form-header-box {
+        margin-bottom: 25px;
+    }
+    .form-title-text {
+        font-size: 1.4rem;
+    }
+    .form-label-custom {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+    .form-control-custom, .form-select-custom {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    .btn-submit-custom {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
     }
 }
 

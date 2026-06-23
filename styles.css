@@ -385,18 +385,24 @@ body {
 .burger-btn {
     display: none;
     flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background: #ffffff;
+    border: 1.5px solid var(--primary-navy);
+    border-radius: 8px;
     cursor: pointer;
-    padding: 4px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 .burger-btn span {
     display: block;
-    width: 24px;
+    width: 18px;
     height: 2px;
-    background: #ffffff;
-    border-radius: 2px;
+    background: var(--accent-green) !important;
+    border-radius: 99px;
 }
 
 /* ════════════════════════════════════════════════════
@@ -1311,10 +1317,10 @@ body {
 }
 
 .footer-grid {
-    display: grid !important;
-    grid-template-columns: 1.2fr 0.8fr 1.2fr 1fr !important;
-    gap: 3rem !important;
-    margin-bottom: 3.5rem !important;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 1.2fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3.5rem;
 }
 
 .footer-logos-row {
@@ -1535,11 +1541,32 @@ body {
 
     .burger-btn {
         display: flex;
+        order: 1;
+    }
+    .nav-login-wrap {
+        order: 3;
+        display: flex;
+        align-items: center;
+    }
+    .login-pill {
+        height: 28px;
+        padding: 0 0.8rem;
+        font-size: 0.75rem;
+        margin-top: 0;
+    }
+    .login-pill svg {
+        width: 1em !important;
+        height: 1em !important;
+        margin-right: 0.35rem !important;
     }
     .nav-pill {
         background: transparent;
         justify-content: flex-end;
         padding: 0;
+        box-shadow: none;
+        height: auto;
+        flex: none;
+        order: 2;
     }
     .nav-pill-list {
         display: none;
@@ -1575,23 +1602,31 @@ body {
     .npl.active {
         background: rgba(255,255,255,0.08);
     }
-    .npl-submenu {
-        position: static;
-        transform: none;
-        width: 100%;
-        background: rgba(255,255,255,0.04);
-        box-shadow: none;
+    .npl-submenu,
+    .npl-sub-submenu {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
         display: none;
-        opacity: 1;
-        visibility: visible;
+        opacity: 1 !important;
+        visibility: visible !important;
         padding: 0.5rem 0;
     }
-    .npl-dropdown.open .npl-submenu {
-        display: block;
+    .npl-dropdown.open > .npl-submenu,
+    .npl-sub-dropdown.open > .npl-sub-submenu {
+        display: block !important;
+        transform: none !important;
     }
     .npl-sub-item {
         padding: 0.6rem 2rem;
         font-size: 0.9rem;
+        color: #081B4B !important;
+    }
+    .npl-sub-item:hover {
+        color: var(--accent-green) !important;
+        background: rgba(8, 27, 75, 0.05);
     }
 
     .schedule-table-wrapper {
@@ -1605,6 +1640,25 @@ body {
 @media (max-width: 768px) {
     body {
         padding-top: 100px; /* Scaled down logo bar for mobile */
+    }
+    .hero-quote-text {
+        font-size: clamp(1.4rem, 6vw, 2.2rem) !important;
+        line-height: 1.15 !important;
+        max-width: 95%;
+    }
+    .hero-btns {
+        flex-wrap: nowrap !important;
+        gap: 0.5rem !important;
+        width: 100%;
+        max-width: 480px;
+    }
+    .hero-btns .btn {
+        flex: 1;
+        padding: 0.55rem 0.75rem !important;
+        font-size: 0.82rem !important;
+        justify-content: center !important;
+        text-align: center;
+        white-space: nowrap;
     }
     .top-logo-bar {
         height: 100px;
@@ -1640,8 +1694,10 @@ body {
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-.schedule-mobile-cards {
-    display: none; /* Hidden on desktop */
+@media (min-width: 993px) {
+    .schedule-mobile-cards {
+        display: none; /* Hidden on desktop */
+    }
 }
 .schedule-card {
     background: #fff;
@@ -2912,6 +2968,18 @@ body {
     }
     .why-boccia-cards {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .class-glass-card {
+        padding: 1.5rem;
+        border-radius: 18px;
+    }
+    .class-name {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .class-summary {
+        font-size: 0.9rem;
+        margin-bottom: 1.25rem;
     }
 }
 

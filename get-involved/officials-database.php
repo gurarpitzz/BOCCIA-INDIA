@@ -85,6 +85,69 @@ include __DIR__ . '/../includes/header.php';
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+<style>
+@media (max-width: 767px) {
+    .table-responsive table,
+    .table-responsive tbody,
+    .table-responsive th,
+    .table-responsive td,
+    .table-responsive tr {
+        display: block !important;
+        width: 100% !important;
+    }
+    .table-responsive thead {
+        display: none !important;
+    }
+    .table-responsive tr {
+        border-bottom: 2px solid #E2E8F0 !important;
+        padding: 15px 10px !important;
+        margin-bottom: 15px !important;
+        background: #ffffff !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 10px rgba(8, 27, 75, 0.03) !important;
+    }
+    .table-responsive td {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 12px !important;
+        border: none !important;
+        font-size: 0.9rem !important;
+        background: none !important;
+    }
+    .table-responsive td:first-child {
+        justify-content: center !important;
+        border-bottom: 1px solid #F1F5F9 !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 8px !important;
+    }
+    .table-responsive td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: #081B4B;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+    }
+    .table-responsive td:first-child::before {
+        display: none !important;
+    }
+    .pagination {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    .pagination .page-item .page-link {
+        border-radius: 8px !important;
+        margin: 2px !important;
+        padding: 8px 12px !important;
+        font-size: 0.85rem !important;
+        border: 1px solid #E2E8F0 !important;
+    }
+}
+</style>
+
 <div style="
     background: linear-gradient(100deg, #081B4B 30%, rgba(8, 27, 75, 0.92) 55%, rgba(8, 27, 75, 0.25) 100%),
                 url('../about boccia/why boccia matter BG.png') no-repeat center right;
@@ -203,7 +266,7 @@ include __DIR__ . '/../includes/header.php';
                     <?php if (count($officials) > 0): ?>
                         <?php foreach ($officials as $off): ?>
                             <tr>
-                                <td class="p-3">
+                                <td class="p-3" data-label="Photo">
                                     <?php if (!empty($off['photo_path']) && isset($off['photo_status']) && $off['photo_status'] === 'verified'): ?>
                                         <img src="../<?php echo htmlspecialchars($off['photo_path']); ?>" alt="Profile" style="width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid #CBD5E1;">
                                     <?php else: ?>
@@ -212,11 +275,11 @@ include __DIR__ . '/../includes/header.php';
                                         </div>
                                     <?php endif; ?>
                                 </td>
-                                <td class="p-3"><code><?php echo htmlspecialchars($off['official_reg_no']); ?></code></td>
-                                <td class="p-3"><strong><?php echo htmlspecialchars($off['name']); ?></strong></td>
-                                <td class="p-3"><?php echo htmlspecialchars($off['gender']); ?></td>
-                                <td class="p-3"><?php echo htmlspecialchars($off['state']); ?></td>
-                                <td class="p-3"><span class="badge bg-secondary px-3 py-2"><?php echo htmlspecialchars($off['role']); ?></span></td>
+                                <td class="p-3" data-label="Official ID"><code><?php echo htmlspecialchars($off['official_reg_no']); ?></code></td>
+                                <td class="p-3" data-label="Official Name"><strong><?php echo htmlspecialchars($off['name']); ?></strong></td>
+                                <td class="p-3" data-label="Gender"><?php echo htmlspecialchars($off['gender']); ?></td>
+                                <td class="p-3" data-label="State"><?php echo htmlspecialchars($off['state']); ?></td>
+                                <td class="p-3" data-label="Role"><span class="badge bg-secondary px-3 py-2"><?php echo htmlspecialchars($off['role']); ?></span></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>

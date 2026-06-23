@@ -181,7 +181,48 @@ include __DIR__ . '/../includes/header.php';
         gap: 20px;
     }
     .portal-glass-card {
-        padding: 35px 20px;
+        padding: 30px 20px;
+    }
+    .choice-link-card {
+        padding: 30px 20px;
+        border-radius: 18px;
+    }
+    .choice-icon-wrap {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        border-radius: 14px;
+    }
+    .choice-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    .choice-desc {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+    }
+    .choice-action-indicator {
+        font-size: 0.85rem;
+        padding: 7px 15px;
+        gap: 6px;
+    }
+    .portal-main-heading {
+        font-size: 1.5rem;
+    }
+    .portal-info-body {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+    .portal-highlight-info {
+        padding: 15px;
+        margin: 20px 0 30px 0;
+        gap: 10px;
+        border-radius: 0 12px 12px 0;
+    }
+    .portal-highlight-info p {
+        font-size: 0.88rem;
     }
 }
 

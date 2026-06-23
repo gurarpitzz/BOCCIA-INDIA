@@ -249,10 +249,10 @@ $script_path = $relative_prefix . 'app.js';
         </div>
     </footer>
 
-    <!-- Bootstrap 5.3 JS Bundle (includes Popper.js) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmk3j6M4zRq8+r6q2KGPWR/MJVS" crossorigin="anonymous"></script>
-    <!-- GLightbox JS -->
-    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <!-- Bootstrap 5.3 JS Bundle (Local) -->
+    <script src="<?php echo $relative_prefix; ?>assets/vendor/bootstrap/bootstrap.bundle.min.js?v=1"></script>
+    <!-- GLightbox JS (Local) -->
+    <script src="<?php echo $relative_prefix; ?>assets/vendor/glightbox/glightbox.min.js?v=1"></script>
     <!-- App JavaScript -->
     <script src="<?php echo $script_path; ?>"></script>
     <!-- Accessibility Script -->

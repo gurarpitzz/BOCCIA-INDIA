@@ -134,9 +134,17 @@ try {
 
     <!-- Hero Text Content -->
     <div class="hero-content-overlay">
-        <h1 class="hero-quote-text"><span class="hero-quote-accent">"</span>I didn't know there was a sport for me until I found Boccia<span class="hero-quote-accent">"</span></h1>
-        <p class="hero-subtitle">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
-        <div class="hero-btns">
+        <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
+        <h1 class="hero-quote-text animated-quote">
+            <span class="hero-quote-accent">"</span><span class="animated-words">I didn't know there was a sport for me until I found Boccia</span><span class="hero-quote-accent">"</span>
+        </h1>
+
+        <!-- Desktop Subtitle -->
+        <p class="hero-subtitle d-none d-md-block animated-fade-item">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
+        <!-- Mobile Subtitle -->
+        <p class="hero-subtitle d-block d-md-none animated-fade-item">India's official governing body for Boccia, empowering athletes with severe physical disabilities nationwide.</p>
+
+        <div class="hero-btns animated-fade-item">
             <a href="get-involved/membership.php" class="btn btn-hero-primary">Player Registration &rarr;</a>
             <a href="page.php?section=about&slug=about-boccia" class="btn btn-hero-secondary">Explore Boccia</a>
         </div>
@@ -177,6 +185,76 @@ try {
     dots.forEach(dot => dot.addEventListener('click', () => { goTo(+dot.dataset.index); startTimer(); }));
 
     startTimer();
+
+    // --- Hero Text GSAP Animation Logic ---
+    function prepareHeroAnimation() {
+        const textElements = document.querySelectorAll('.animated-words');
+        textElements.forEach(el => {
+            const text = el.textContent.trim();
+            const words = text.split(/\s+/);
+            el.innerHTML = words.map(word => `<span class="hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.25em;">${word}</span>`).join('');
+        });
+
+        // Hide quotes initially
+        document.querySelectorAll('.hero-quote-accent').forEach(q => {
+            q.style.opacity = '0';
+        });
+
+        // Hide subtitle and buttons initially
+        document.querySelectorAll('.animated-fade-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(15px)';
+            item.style.transition = 'none';
+        });
+    }
+
+    function triggerHeroAnimation() {
+        if (typeof gsap === 'undefined') {
+            // Fallback if GSAP fails to load
+            document.querySelectorAll('.hero-quote-accent').forEach(q => {
+                q.style.opacity = '1';
+            });
+            document.querySelectorAll('.hero-anim-word').forEach(w => {
+                w.style.opacity = '1';
+                w.style.transform = 'none';
+            });
+            document.querySelectorAll('.animated-fade-item').forEach(i => {
+                i.style.opacity = '1';
+                i.style.transform = 'none';
+            });
+            return;
+        }
+
+        const tl = gsap.timeline();
+        // Fade in the quotes at the start
+        tl.to(".hero-quote-accent", {
+            opacity: 1,
+            duration: 0.4,
+            ease: "power2.out"
+        });
+        // Stagger individual words
+        tl.to(".hero-anim-word", {
+            opacity: 1,
+            y: 0,
+            stagger: 0.22,
+            duration: 0.5,
+            ease: "power2.out"
+        }, "<");
+        // Fade in subtitle and buttons sequentially after words finish
+        tl.to(".animated-fade-item", {
+            opacity: 1,
+            y: 0,
+            stagger: 0.15,
+            duration: 0.6,
+            ease: "power2.out"
+        });
+    }
+
+    // Prepare text nodes immediately
+    prepareHeroAnimation();
+    
+    // Register global trigger
+    window.triggerHeroAnimation = triggerHeroAnimation;
 })();
 </script>
 
@@ -350,10 +428,10 @@ try {
                 </div>
                 <div class="schedule-card-body" style="margin-bottom: 1rem;">
                     <p class="date" style="font-size: 0.95rem; color: #FF9933; font-weight: 700; margin-bottom: 0.5rem; display: flex; gap: 0.5rem; align-items: center;">
-                        <span style="color: #FF9933;">🗓️</span> <?php echo htmlspecialchars($sched['date_text']); ?>
+                        <span style="color: #FF9933; display: inline-flex; align-items: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span> <?php echo htmlspecialchars($sched['date_text']); ?>
                     </p>
                     <p class="venue" style="font-size: 0.95rem; color: #3b4a6b; font-weight: 500; margin-bottom: 0; display: flex; gap: 0.5rem; align-items: center;">
-                        <span>📍</span> <?php echo htmlspecialchars($sched['venue']); ?>
+                        <span style="display: inline-flex; align-items: center; color: #3b4a6b;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span> <?php echo htmlspecialchars($sched['venue']); ?>
                     </p>
                 </div>
                 <?php if ($sched['registration_link']): ?>
@@ -637,6 +715,27 @@ try {
     .gal-photos-grid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
+    .gal-filters-wrap {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0.5rem 1.5rem;
+        margin-left: -1rem;
+        margin-right: -1rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+    .gal-filters-wrap::-webkit-scrollbar {
+        display: none;
+    }
+    .gal-filter-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding: 0.45rem 1.15rem;
+        font-size: 0.82rem;
+    }
 }
 </style>
 
@@ -686,10 +785,10 @@ try {
                     <h3 class="gal-album-title"><?php echo htmlspecialchars($alb['title']); ?></h3>
                     <p class="gal-album-meta">
                         <?php if (!empty($alb['event_location'])): ?>
-                            <span>📍 <?php echo htmlspecialchars($alb['event_location']); ?></span>
+                            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><?php echo htmlspecialchars($alb['event_location']); ?></span>
                         <?php endif; ?>
                         <?php if (!empty($alb['event_date'])): ?>
-                            <span>• 🗓️ <?php echo date('M Y', strtotime($alb['event_date'])); ?></span>
+                            <span>• <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><?php echo date('M Y', strtotime($alb['event_date'])); ?></span>
                         <?php endif; ?>
                     </p>
                     <p class="gal-album-desc"><?php echo htmlspecialchars($alb['description'] ?: 'Official tournament and athlete media.'); ?></p>
@@ -722,10 +821,10 @@ try {
                     <h3 class="gal-album-title" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')"><?php echo htmlspecialchars($alb['title']); ?></h3>
                     <p class="gal-album-meta">
                         <?php if (!empty($alb['event_location'])): ?>
-                            <span>📍 <?php echo htmlspecialchars($alb['event_location']); ?></span>
+                            <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><?php echo htmlspecialchars($alb['event_location']); ?></span>
                         <?php endif; ?>
                         <?php if (!empty($alb['event_date'])): ?>
-                            <span>• 🗓️ <?php echo date('M Y', strtotime($alb['event_date'])); ?></span>
+                            <span>• <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><?php echo date('M Y', strtotime($alb['event_date'])); ?></span>
                         <?php endif; ?>
                     </p>
                     <p class="gal-album-desc"><?php echo htmlspecialchars($alb['description'] ?: 'Official media resources.'); ?></p>
@@ -784,11 +883,11 @@ try {
         document.getElementById('detailTitle').textContent = album.title;
         
         let metaHtml = `<strong>${album.image_count}</strong> Photos`;
-        if (album.event_location) metaHtml += ` <span style="opacity: 0.4;">•</span> 📍 ${album.event_location}`;
+        if (album.event_location) metaHtml += ` <span style="opacity: 0.4;">•</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>${album.event_location}`;
         if (album.event_date) {
             const dateObj = new Date(album.event_date);
             const dateStr = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
-            metaHtml += ` <span style="opacity: 0.4;">•</span> 🗓️ ${dateStr}`;
+            metaHtml += ` <span style="opacity: 0.4;">•</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 3px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>${dateStr}`;
         }
         document.getElementById('detailMeta').innerHTML = metaHtml;
         document.getElementById('detailDesc').textContent = album.description || 'Official media archive event.';
@@ -802,7 +901,7 @@ try {
                 const imgPath = img.image_path;
                 const thumbPath = img.thumbnail_path || img.image_path;
                 const caption = img.caption || 'BSFI Gallery Photo';
-                const credit = img.credit ? `📷 ${img.credit}` : '';
+                const credit = img.credit ? `Photo: ${img.credit}` : '';
 
                 gridHtml += `
                 <a href="${imgPath}" class="glightbox gal-photo-item" data-gallery="album-detail-gallery" data-title="${caption}" data-description="${credit}">

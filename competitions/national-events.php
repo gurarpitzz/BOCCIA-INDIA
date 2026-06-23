@@ -42,8 +42,8 @@ include __DIR__ . '/../includes/header.php';
                                 <h3 class="fw-bold text-dark mb-3" style="font-family: var(--font-heading); color:#081B4B !important;"><?php echo htmlspecialchars($event['title']); ?></h3>
                                 <p class="text-secondary mb-3"><?php echo htmlspecialchars($event['description'] ?? 'National tournament under BSFI.'); ?></p>
                                 <p class="m-0 text-muted" style="font-size:0.9rem;">
-                                    <strong>📍 Venue:</strong> <?php echo htmlspecialchars($event['location']); ?><br>
-                                    <strong>🗓️ Dates:</strong> <?php echo date('M j, Y', strtotime($event['start_date'])); ?> – <?php echo date('M j, Y', strtotime($event['end_date'])); ?>
+                                    <strong>Venue:</strong> <?php echo htmlspecialchars($event['location']); ?><br>
+                                    <strong>Dates:</strong> <?php echo date('M j, Y', strtotime($event['start_date'])); ?> – <?php echo date('M j, Y', strtotime($event['end_date'])); ?>
                                 </p>
                             </div>
 

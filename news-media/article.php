@@ -95,7 +95,7 @@ $articleTitle = urlencode($article['title']);
             <span>•</span>
             <span>Published: <?php echo date('F j, Y', strtotime($article['published_at'] ?? $article['created_at'])); ?></span>
             <span>•</span>
-            <span>👁 <?php echo (int)$article['views']; ?> views</span>
+            <span><?php echo (int)$article['views']; ?> views</span>
         </div>
     </div>
 
@@ -152,19 +152,19 @@ $articleTitle = urlencode($article['title']);
                     <p class="small text-muted mb-4">Follow the official conversation on other federation profiles:</p>
                     <div class="d-grid gap-2">
                         <?php if (!empty($article['facebook_url'])): ?>
-                            <a href="<?php echo htmlspecialchars($article['facebook_url']); ?>" target="_blank" class="btn btn-outline-primary w-100 text-start">🌐 Facebook Link</a>
+                            <a href="<?php echo htmlspecialchars($article['facebook_url']); ?>" target="_blank" class="btn btn-outline-primary w-100 text-start">Facebook Link</a>
                         <?php endif; ?>
                         <?php if (!empty($article['instagram_url'])): ?>
-                            <a href="<?php echo htmlspecialchars($article['instagram_url']); ?>" target="_blank" class="btn btn-outline-danger w-100 text-start">📸 Instagram Link</a>
+                            <a href="<?php echo htmlspecialchars($article['instagram_url']); ?>" target="_blank" class="btn btn-outline-danger w-100 text-start">Instagram Link</a>
                         <?php endif; ?>
                         <?php if (!empty($article['twitter_url'])): ?>
-                            <a href="<?php echo htmlspecialchars($article['twitter_url']); ?>" target="_blank" class="btn btn-outline-dark w-100 text-start">🐦 Twitter/X Link</a>
+                            <a href="<?php echo htmlspecialchars($article['twitter_url']); ?>" target="_blank" class="btn btn-outline-dark w-100 text-start">Twitter/X Link</a>
                         <?php endif; ?>
                         <?php if (!empty($article['linkedin_url'])): ?>
-                            <a href="<?php echo htmlspecialchars($article['linkedin_url']); ?>" target="_blank" class="btn btn-outline-info w-100 text-start">💼 LinkedIn Link</a>
+                            <a href="<?php echo htmlspecialchars($article['linkedin_url']); ?>" target="_blank" class="btn btn-outline-info w-100 text-start">LinkedIn Link</a>
                         <?php endif; ?>
                         <?php if (!empty($article['youtube_url'])): ?>
-                            <a href="<?php echo htmlspecialchars($article['youtube_url']); ?>" target="_blank" class="btn btn-outline-danger w-100 text-start">📺 YouTube Video</a>
+                            <a href="<?php echo htmlspecialchars($article['youtube_url']); ?>" target="_blank" class="btn btn-outline-danger w-100 text-start">YouTube Video</a>
                         <?php endif; ?>
                     </div>
                 </div>

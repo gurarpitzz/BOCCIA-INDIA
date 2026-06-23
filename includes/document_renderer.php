@@ -25,9 +25,9 @@ class DocumentRenderer {
         $filename = htmlspecialchars(basename($filePath));
 
         $html = "<div class='document-viewer-container mb-4 p-3 border rounded bg-white shadow-sm'>";
-        $html .= "<div class='d-flex justify-content-between align-items-center mb-3 border-bottom pb-2'>";
-        $html .= "<h5 class='text-primary m-0'><i class='bi bi-file-earmark'></i> $filename</h5>";
-        $html .= "<a href='$downloadUrl' download class='btn btn-sm btn-outline-primary'><svg viewBox='0 0 24 24' width='16' height='16' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-3px; margin-right:3px;'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'></path><polyline points='7 10 12 15 17 10'></polyline><line x1='12' y1='15' x2='12' y2='3'></line></svg> Download</a>";
+        $html .= "<div class='d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-3 border-bottom pb-2'>";
+        $html .= "<h5 class='text-primary m-0 text-break'><i class='bi bi-file-earmark'></i> $filename</h5>";
+        $html .= "<a href='$downloadUrl' download class='btn btn-sm btn-outline-primary' style='flex-shrink: 0;'><svg viewBox='0 0 24 24' width='16' height='16' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:-3px; margin-right:3px;'><path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'></path><polyline points='7 10 12 15 17 10'></polyline><line x1='12' y1='15' x2='12' y2='3'></line></svg> Download</a>";
         $html .= "</div>";
 
         if ($ext === 'pdf' || $mimeType === 'application/pdf') {

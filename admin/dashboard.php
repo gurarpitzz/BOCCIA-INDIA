@@ -135,6 +135,16 @@ $auditLogs = $stmt->fetchAll();
                             <i class="fa-solid fa-newspaper"></i> News
                         </a>
                     </div>
+                    <div class="col">
+                        <a href="../index.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700; color: var(--bsfi-green) !important; border-color: rgba(19, 136, 8, 0.3);">
+                            <i class="fa-solid fa-globe"></i> View Website
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="../logout.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700; color: var(--danger) !important; border-color: rgba(220, 38, 38, 0.3);">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

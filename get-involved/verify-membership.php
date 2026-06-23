@@ -243,6 +243,46 @@ include __DIR__ . '/../includes/header.php';
         transform: translateY(0);
     }
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 767px) {
+    .verification-bg {
+        padding: 40px 0;
+    }
+    .glass-card-verification {
+        padding: 25px 20px;
+        border-radius: 20px;
+    }
+    .verification-input-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .verification-input {
+        padding: 12px 15px;
+        font-size: 1rem;
+        border-radius: 10px;
+    }
+    .btn-verify-submit {
+        width: 100%;
+        padding: 12px 20px;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: 1rem;
+    }
+    .certificate-card {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    .certificate-card .d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+    .certificate-card .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
 </style>
 
 <div class="verification-bg">

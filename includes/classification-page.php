@@ -39,7 +39,7 @@ include __DIR__ . '/header.php';
 
 /* --- Tabs Styling (Match Anti-Doping Pill Style) --- */
 .classification-tabs-container {
-    text-center: center;
+    text-align: center;
     margin-bottom: 50px;
 }
 
@@ -188,6 +188,43 @@ include __DIR__ . '/header.php';
     font-size: 1rem;
     line-height: 1.7;
     color: var(--boccia-text-dark);
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 767px) {
+    .classification-content-section {
+        padding: 40px 0;
+    }
+    .classification-tabs {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 20px;
+        padding: 8px;
+        gap: 8px;
+    }
+    .tab-btn {
+        width: 100%;
+        padding: 10px 20px;
+        font-size: 0.95rem;
+        border-radius: 15px;
+        text-align: center;
+    }
+    .faq-wrapper-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    .faq-section-title {
+        font-size: 1.4rem;
+        margin-bottom: 25px;
+    }
+    .faq-question {
+        padding: 15px 20px;
+        font-size: 1.05rem;
+    }
+    .faq-answer-content {
+        padding: 20px;
+    }
 }
 </style>
 

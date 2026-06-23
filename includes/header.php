@@ -34,12 +34,12 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
         $css_path  = $relative_prefix . 'styles.css';
         $logo_path = $relative_prefix;
     ?>
-    <!-- Bootstrap 5.3 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap 5.3 (Local) -->
+    <link rel="stylesheet" href="<?php echo $relative_prefix; ?>assets/vendor/bootstrap/bootstrap.min.css?v=1">
     <!-- Custom Styles -->
     <link rel="stylesheet" href="<?php echo $css_path; ?>?v=<?php echo time(); ?>">
-    <!-- GLightbox -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <!-- GLightbox (Local) -->
+    <link rel="stylesheet" href="<?php echo $relative_prefix; ?>assets/vendor/glightbox/glightbox.min.css?v=1">
     <style>
         /* Prevent white flash: background set from very first frame */
         html, body { background-color: var(--warm-surface) !important; }
@@ -81,10 +81,8 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
 <body class="accessibility-target">
 <a href="#main-content" class="skip-link">Skip to Main Content</a>
 
-<!-- ═══════════════════════════════════════════════════
-     VIDEO PRELOADER OVERLAY
-═══════════════════════════════════════════════════ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<!-- GSAP Preloader (Local) -->
+<script src="<?php echo $relative_prefix; ?>assets/vendor/gsap/gsap.min.js?v=1"></script>
 <div id="bsfi-preloader">
     <div id="gsap-preloader-container" style="width: 100%; max-width: 450px; margin: 0 auto; position: relative; aspect-ratio: 16/9;">
         <svg id="boccia-loader-svg" viewBox="0 0 320 180" style="width:100%; height:100%; overflow:visible;" role="status" aria-label="Loading Boccia India">
@@ -243,16 +241,17 @@ body.preloader-active { overflow: hidden !important; }
     var preloader = document.getElementById('bsfi-preloader');
     var sweep     = document.getElementById('tricolour-sweep');
 
+    var loaderTimeline;
     if (typeof gsap !== 'undefined') {
-        const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
+        loaderTimeline = gsap.timeline({ repeat: -1, repeatDelay: 0.5 });
         
-        tl.set(["#red-ball", "#blue-ball", "#white-ball"], { x: 0, y: 0 })
+        loaderTimeline.set(["#red-ball", "#blue-ball", "#white-ball"], { x: 0, y: 0 })
           .set("#player-arm", { rotation: 0, svgOrigin: "41.75 94.5" })
           .set(["#player-group", "#red-ball", "#ground-line"], { opacity: 1, scale: 1 })
           .set(["#blue-ball", "#white-ball"], { scale: 1 })
           .set("#text-lockup", { opacity: 0 });
 
-        tl.to("#player-arm", { rotation: -40, duration: 0.3, ease: "power1.inOut" })
+        loaderTimeline.to("#player-arm", { rotation: -40, duration: 0.3, ease: "power1.inOut" })
           .add("throw")
           .to("#red-ball", { x: 65, duration: 0.5, ease: "power1.inOut" }, "throw")
           .to("#red-ball", { y: -15, duration: 0.25, ease: "power1.out" }, "throw")
@@ -287,8 +286,10 @@ body.preloader-active { overflow: hidden !important; }
         if (dismissed) return;
         dismissed = true;
 
-        // Stop GSAP loop
-        if (typeof gsap !== 'undefined') gsap.globalTimeline.pause();
+        // Stop GSAP loop for loader only, keeping global timeline active
+        if (typeof gsap !== 'undefined' && loaderTimeline) {
+            loaderTimeline.kill();
+        }
 
         // ─ Phase 1: Start the diagonal tricolour sweep (1.5s) ─
         sweep.classList.add('sweeping');
@@ -308,6 +309,9 @@ body.preloader-active { overflow: hidden !important; }
         setTimeout(function () {
             document.getElementById('page-wrapper').classList.add('content-ready');
             navyHold.style.opacity = '0';
+            if (typeof window.triggerHeroAnimation === 'function') {
+                window.triggerHeroAnimation();
+            }
             setTimeout(function () {
                 navyHold.style.display = 'none';
                 navyHold.style.pointerEvents = 'none';

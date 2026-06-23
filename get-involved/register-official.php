@@ -429,6 +429,46 @@ include __DIR__ . '/../includes/header.php';
 .btn-submit-custom:hover {
     background-color: var(--boccia-accent-red);
 }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 767px) {
+    .registration-container-section {
+        padding: 40px 0;
+    }
+    .form-wrapper-card {
+        padding: 25px 20px;
+        border-radius: 16px;
+    }
+    .form-title-block {
+        margin-bottom: 25px;
+        padding-left: 10px;
+    }
+    .form-title-block h2 {
+        font-size: 1.4rem;
+    }
+    .form-title-block p {
+        font-size: 0.88rem;
+    }
+    .form-label-custom {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+    .form-control-custom, .form-select-custom {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    .d-flex.justify-content-between {
+        flex-direction: column-reverse;
+        gap: 15px;
+        align-items: center !important;
+        text-align: center;
+    }
+    .btn-submit-custom {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+    }
+}
 </style>
 
 <div class="registration-container-section">
