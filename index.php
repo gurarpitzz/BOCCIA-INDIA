@@ -136,7 +136,7 @@ try {
     <div class="hero-content-overlay">
         <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
         <h1 class="hero-quote-text animated-quote">
-            <span class="animated-words">“I didn't know there was a sport for me until I found Boccia”</span>
+            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span><span class="animated-words">I didn't know there was a sport for me until I found Boccia</span><span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
         </h1>
 
         <!-- Desktop Subtitle -->
@@ -206,9 +206,6 @@ try {
     function triggerHeroAnimation() {
         if (typeof gsap === 'undefined') {
             // Fallback if GSAP fails to load
-            document.querySelectorAll('.hero-quote-accent').forEach(q => {
-                q.style.opacity = '1';
-            });
             document.querySelectorAll('.hero-anim-word').forEach(w => {
                 w.style.opacity = '1';
                 w.style.transform = 'none';
@@ -221,7 +218,7 @@ try {
         }
 
         const tl = gsap.timeline();
-        // Stagger individual words (opening/closing quotes are embedded as first and last word)
+        // Stagger all words + the quote accent spans (which also carry .hero-anim-word class)
         tl.to(".hero-anim-word", {
             opacity: 1,
             y: 0,
@@ -241,15 +238,13 @@ try {
 
     // Prepare text nodes immediately
     prepareHeroAnimation();
-    
+
     // Register global trigger
     window.triggerHeroAnimation = triggerHeroAnimation;
 })();
 </script>
 
-<!-- ══════════════════════════════════════════════════════
-     ONE SHARED bg.png wrapper — map + stats bar together
-═══════════════════════════════════════════════════════ -->
+
 <div class="map-stats-bg-wrapper">
 
 <!-- India Participation Map Section -->
