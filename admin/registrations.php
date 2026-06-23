@@ -437,7 +437,23 @@ include __DIR__ . '/../includes/header.php';
                                     <div><strong>State:</strong> <?php echo htmlspecialchars($app['state']); ?></div>
                                     <div><strong>District:</strong> <?php echo htmlspecialchars($app['district']); ?></div>
                                     <div><strong>Classification:</strong> <?php echo htmlspecialchars($app['classification']); ?></div>
-                                    <div><strong>Aadhaar No:</strong> <?php echo htmlspecialchars($app['aadhaar'] ?: 'N/A'); ?></div>
+                                    <div><strong>Aadhaar No:</strong> 
+                                        <?php
+                                            $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
+                                            $rawAadhaar = $app['aadhaar'] ?? '';
+                                            if (strlen($rawAadhaar) === 12 && ctype_digit($rawAadhaar)) {
+                                                $maskedAadhaar = 'XXXX-XXXX-' . substr($rawAadhaar, -4);
+                                                if ($isAdmin) {
+                                                    echo '<span id="aadhaar-ath-' . $app['id'] . '" class="fw-bold text-dark" style="font-family: monospace;" data-full="' . htmlspecialchars($rawAadhaar) . '" data-masked="' . htmlspecialchars($maskedAadhaar) . '">' . htmlspecialchars($maskedAadhaar) . '</span>';
+                                                    echo ' <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none" onclick="toggleAadhaarReg(\'ath\', ' . $app['id'] . ')" style="font-size:0.75rem; border:none; background:none; vertical-align:middle;"><i id="aadhaar-ath-icon-' . $app['id'] . '" class="fa-solid fa-eye text-primary"></i> <span id="aadhaar-ath-lbl-' . $app['id'] . '">Show</span></button>';
+                                                } else {
+                                                    echo '<span class="fw-bold text-dark" style="font-family: monospace;">' . htmlspecialchars($maskedAadhaar) . '</span>';
+                                                }
+                                            } else {
+                                                echo htmlspecialchars($rawAadhaar ?: 'N/A');
+                                            }
+                                        ?>
+                                    </div>
                                 </div>
                             <?php endif; ?>
 
@@ -448,7 +464,7 @@ include __DIR__ . '/../includes/header.php';
                                         <a href="../<?php echo htmlspecialchars($app['photo_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Photo</a>
                                     <?php endif; ?>
                                     <?php if (!empty($app['receipt_path'])): ?>
-                                        <a href="../<?php echo htmlspecialchars($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
+                                        <a href="download-doc.php?file=<?php echo urlencode($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
                                     <?php endif; ?>
                                 </div>
                                 <form action="registrations.php?tab=athletes" method="POST" style="display:flex; gap:0.5rem; margin:0;">
@@ -545,7 +561,23 @@ include __DIR__ . '/../includes/header.php';
                                     <div><strong>Phone:</strong> <?php echo htmlspecialchars($app['phone']); ?></div>
                                     <div><strong>Email:</strong> <?php echo htmlspecialchars($app['email']); ?></div>
                                     <div><strong>State:</strong> <?php echo htmlspecialchars($app['state']); ?></div>
-                                    <div><strong>Aadhaar No:</strong> <?php echo htmlspecialchars($app['aadhaar'] ?: 'N/A'); ?></div>
+                                    <div><strong>Aadhaar No:</strong> 
+                                        <?php
+                                            $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
+                                            $rawAadhaar = $app['aadhaar'] ?? '';
+                                            if (strlen($rawAadhaar) === 12 && ctype_digit($rawAadhaar)) {
+                                                $maskedAadhaar = 'XXXX-XXXX-' . substr($rawAadhaar, -4);
+                                                if ($isAdmin) {
+                                                    echo '<span id="aadhaar-off-' . $app['id'] . '" class="fw-bold text-dark" style="font-family: monospace;" data-full="' . htmlspecialchars($rawAadhaar) . '" data-masked="' . htmlspecialchars($maskedAadhaar) . '">' . htmlspecialchars($maskedAadhaar) . '</span>';
+                                                    echo ' <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none" onclick="toggleAadhaarReg(\'off\', ' . $app['id'] . ')" style="font-size:0.75rem; border:none; background:none; vertical-align:middle;"><i id="aadhaar-off-icon-' . $app['id'] . '" class="fa-solid fa-eye text-primary"></i> <span id="aadhaar-off-lbl-' . $app['id'] . '">Show</span></button>';
+                                                } else {
+                                                    echo '<span class="fw-bold text-dark" style="font-family: monospace;">' . htmlspecialchars($maskedAadhaar) . '</span>';
+                                                }
+                                            } else {
+                                                echo htmlspecialchars($rawAadhaar ?: 'N/A');
+                                            }
+                                        ?>
+                                    </div>
                                 </div>
                             <?php endif; ?>
 
@@ -556,7 +588,7 @@ include __DIR__ . '/../includes/header.php';
                                         <a href="../<?php echo htmlspecialchars($app['photo_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Photo</a>
                                     <?php endif; ?>
                                     <?php if (!empty($app['receipt_path'])): ?>
-                                        <a href="../<?php echo htmlspecialchars($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
+                                        <a href="download-doc.php?file=<?php echo urlencode($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
                                     <?php endif; ?>
                                 </div>
                                 <form action="registrations.php?tab=officials" method="POST" style="display:flex; gap:0.5rem; margin:0;">
@@ -685,6 +717,25 @@ include __DIR__ . '/../includes/header.php';
 
     </div>
 </div>
+
+<script>
+function toggleAadhaarReg(type, id) {
+    const txt = document.getElementById('aadhaar-' + type + '-' + id);
+    const icon = document.getElementById('aadhaar-' + type + '-icon-' + id);
+    const lbl = document.getElementById('aadhaar-' + type + '-lbl-' + id);
+    if (txt.textContent === txt.dataset.masked) {
+        txt.textContent = txt.dataset.full;
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+        lbl.textContent = 'Hide';
+    } else {
+        txt.textContent = txt.dataset.masked;
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+        lbl.textContent = 'Show';
+    }
+}
+</script>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
 

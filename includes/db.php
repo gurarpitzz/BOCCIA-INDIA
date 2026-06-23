@@ -1,6 +1,11 @@
 <?php
 // db.php - MySQL PDO Connection
 
+if (!defined('PRIVATE_UPLOADS_DIR')) {
+    define('PRIVATE_UPLOADS_DIR', dirname(__DIR__, 2) . '/private_uploads/');
+}
+
+
 $host = 'localhost';
 $db = 'boccia_india';
 $user = 'root';

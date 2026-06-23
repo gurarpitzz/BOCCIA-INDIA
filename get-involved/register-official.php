@@ -196,9 +196,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $isValid = false;
                 break;
             } elseif (!empty($_FILES[$name]['name'])) {
-                // File Size Check (Limit to 5MB)
-                if ($_FILES[$name]['size'] > 5 * 1024 * 1024) {
-                    $error = "File size of '{$field['label']}' exceeds the maximum allowed limit of 5MB.";
+                // File Size Check (Limit: 5MB for photos, 10MB for documents)
+                $maxSize = ($name === 'photo_path') ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+                if ($_FILES[$name]['size'] > $maxSize) {
+                    $error = "File size of '{$field['label']}' exceeds the maximum allowed limit of " . ($maxSize / (1024 * 1024)) . "MB.";
                     $isValid = false;
                     break;
                 }
@@ -206,10 +207,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Extension verification
                 $filename = $_FILES[$name]['name'];
                 $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                $allowedExts = ['pdf', 'png', 'jpg', 'jpeg'];
+                $allowedExts = ($name === 'photo_path') ? ['png', 'jpg', 'jpeg'] : ['pdf', 'png', 'jpg', 'jpeg'];
+                $rejectedExts = ['exe', 'js', 'php', 'zip', 'rar'];
                 
-                if (!in_array($ext, $allowedExts)) {
-                    $error = "Invalid file extension for '{$field['label']}'. Only PDF, PNG, JPG, and JPEG files are allowed.";
+                if (in_array($ext, $rejectedExts) || !in_array($ext, $allowedExts)) {
+                    $error = "Invalid file extension for '{$field['label']}'. Only " . implode(', ', $allowedExts) . " files are allowed.";
                     $isValid = false;
                     break;
                 }
@@ -217,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // MIME Type Verification
                 $tempFile = $_FILES[$name]['tmp_name'];
                 $mime = mime_content_type($tempFile);
-                $allowedMimes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+                $allowedMimes = ($name === 'photo_path') ? ['image/png', 'image/jpeg', 'image/jpg'] : ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
                 if (!in_array($mime, $allowedMimes)) {
                     $error = "Invalid file content for '{$field['label']}'. The file content does not match allowed types.";
                     $isValid = false;
@@ -257,18 +259,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // Process file uploads securely
             $uploadedPaths = [];
-            $uploadDir = __DIR__ . '/../uploads/memberships/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
+            $webUploadDir = __DIR__ . '/../uploads/memberships/';
+            if (!is_dir($webUploadDir)) {
+                mkdir($webUploadDir, 0755, true);
+            }
+
+            if (!is_dir(PRIVATE_UPLOADS_DIR)) {
+                mkdir(PRIVATE_UPLOADS_DIR, 0755, true);
             }
 
             foreach ($files as $name => $fileInfo) {
                 $ext = strtolower(pathinfo($fileInfo['name'], PATHINFO_EXTENSION));
                 $secureName = bin2hex(random_bytes(16)) . '_' . time() . '.' . $ext;
-                $destPath = $uploadDir . $secureName;
                 
-                if (move_uploaded_file($fileInfo['tmp_name'], $destPath)) {
-                    $uploadedPaths[$name] = 'uploads/memberships/' . $secureName;
+                if ($name === 'photo_path') {
+                    $destPath = $webUploadDir . $secureName;
+                    if (move_uploaded_file($fileInfo['tmp_name'], $destPath)) {
+                        $uploadedPaths[$name] = 'uploads/memberships/' . $secureName;
+                    }
+                } else {
+                    $subFolder = ($name === 'passport_file') ? 'passports/' : 'receipts/';
+                    $targetFolder = PRIVATE_UPLOADS_DIR . $subFolder;
+                    if (!is_dir($targetFolder)) {
+                        mkdir($targetFolder, 0755, true);
+                    }
+                    $destPath = $targetFolder . $secureName;
+                    if (move_uploaded_file($fileInfo['tmp_name'], $destPath)) {
+                        $uploadedPaths[$name] = 'private_uploads/' . $subFolder . $secureName;
+                    }
                 }
             }
 

@@ -183,7 +183,39 @@ $statusList = $statusStmt->fetchAll();
                             <div class="mb-3">
                                 <span class="text-muted d-block" style="font-size:0.8rem; font-weight:600;">Aadhaar Number</span>
                                 <?php if ($isAdmin): ?>
-                                    <span class="fw-bold text-dark" style="font-family: monospace;"><?php echo htmlspecialchars($athlete['aadhaar'] ?? 'Not Provided'); ?></span>
+                                    <?php 
+                                        $rawAadhaar = $athlete['aadhaar'] ?? '';
+                                        $maskedAadhaar = 'Not Provided';
+                                        if (strlen($rawAadhaar) === 12 && ctype_digit($rawAadhaar)) {
+                                            $maskedAadhaar = 'XXXX-XXXX-' . substr($rawAadhaar, -4);
+                                        } elseif (!empty($rawAadhaar)) {
+                                            $maskedAadhaar = htmlspecialchars($rawAadhaar);
+                                        }
+                                    ?>
+                                    <span id="aadhaar-text" class="fw-bold text-dark" style="font-family: monospace;" data-full="<?php echo htmlspecialchars($rawAadhaar); ?>" data-masked="<?php echo htmlspecialchars($maskedAadhaar); ?>"><?php echo htmlspecialchars($maskedAadhaar); ?></span>
+                                    <?php if (strlen($rawAadhaar) === 12): ?>
+                                        <button type="button" class="btn btn-sm btn-link p-0 ms-2 text-decoration-none" onclick="toggleAadhaarDisplay()" style="font-size:0.75rem; vertical-align:middle; border:none; background:none;">
+                                            <i id="aadhaar-icon" class="fa-solid fa-eye text-primary"></i> <span id="aadhaar-btn-lbl">Show</span>
+                                        </button>
+                                        <script>
+                                        function toggleAadhaarDisplay() {
+                                            const txt = document.getElementById('aadhaar-text');
+                                            const icon = document.getElementById('aadhaar-icon');
+                                            const lbl = document.getElementById('aadhaar-btn-lbl');
+                                            if (txt.textContent === txt.dataset.masked) {
+                                                txt.textContent = txt.dataset.full;
+                                                icon.classList.remove('fa-eye');
+                                                icon.classList.add('fa-eye-slash');
+                                                lbl.textContent = 'Hide';
+                                            } else {
+                                                txt.textContent = txt.dataset.masked;
+                                                icon.classList.remove('fa-eye-slash');
+                                                icon.classList.add('fa-eye');
+                                                lbl.textContent = 'Show';
+                                            }
+                                        }
+                                        </script>
+                                    <?php endif; ?>
                                 <?php else: ?>
                                     <span class="text-muted style-italic" style="font-size: 0.85rem;"><i class="fa-solid fa-lock text-danger me-1"></i> [Restricted - Admin Only]</span>
                                 <?php endif; ?>
@@ -223,7 +255,7 @@ $statusList = $statusStmt->fetchAll();
                                         <span class="fw-semibold" style="font-size:0.82rem;">Registration Receipt</span>
                                     </div>
                                     <?php if (!empty($athlete['receipt_path'])): ?>
-                                        <a href="<?php echo '../' . htmlspecialchars($athlete['receipt_path']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
+                                        <a href="download-doc.php?file=<?php echo urlencode($athlete['receipt_path']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
                                     <?php else: ?>
                                         <span class="text-muted" style="font-size:0.75rem;">None Uploaded</span>
                                     <?php endif; ?>
@@ -238,7 +270,7 @@ $statusList = $statusStmt->fetchAll();
                                     </div>
                                     <?php if ($isAdmin): ?>
                                         <?php if (!empty($athlete['passport_file'])): ?>
-                                            <a href="<?php echo '../' . htmlspecialchars($athlete['passport_file']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
+                                            <a href="download-doc.php?file=<?php echo urlencode($athlete['passport_file']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
                                         <?php else: ?>
                                             <span class="text-muted" style="font-size:0.75rem;">None Uploaded</span>
                                         <?php endif; ?>
