@@ -46,6 +46,42 @@ if (isset($_POST['create_user'])) {
     }
 }
 
+// Handle role update
+if (isset($_POST['update_role'])) {
+    if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
+         $message = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
+    } else {
+         $targetId = (int)$_POST['user_id'];
+         $newRole = $_POST['new_role'];
+         
+         if ($targetId === (int)$_SESSION['user_id']) {
+             $message = "<div class='alert alert-danger'>Safety Error: You cannot modify your own access privileges.</div>";
+         } elseif (in_array($newRole, ['admin', 'editor', 'viewer'])) {
+             $stmt = $pdo->prepare("UPDATE users SET role = ? WHERE id = ?");
+             $stmt->execute([$newRole, $targetId]);
+             logAction($pdo, "Updated Staff User Role", "users", $targetId, "Role set to: $newRole");
+             $message = "<div class='alert alert-success'>Role updated successfully.</div>";
+         }
+    }
+}
+
+// Handle deleting user
+if (isset($_POST['delete_user'])) {
+    if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
+         $message = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
+    } else {
+         $targetId = (int)$_POST['user_id'];
+         if ($targetId === (int)$_SESSION['user_id']) {
+             $message = "<div class='alert alert-danger'>Safety Error: You cannot delete your own account.</div>";
+         } else {
+             $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+             $stmt->execute([$targetId]);
+             logAction($pdo, "Deleted Staff User Account", "users", $targetId);
+             $message = "<div class='alert alert-success'>Staff account deleted successfully.</div>";
+         }
+    }
+}
+
 // Fetch staff list
 $stmt = $pdo->query("SELECT id, username, role, created_at FROM users ORDER BY created_at DESC");
 $staffList = $stmt->fetchAll();
@@ -105,26 +141,54 @@ $staffList = $stmt->fetchAll();
                 
                 <div class="admin-table-wrapper">
                     <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Role</th>
-                                <th>Created At</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($staffList as $user): ?>
-                                <tr>
-                                    <td style="font-weight:bold;"><?php echo htmlspecialchars($user['username']); ?></td>
-                                    <td>
-                                        <span class="admin-badge <?php echo ($user['role'] === 'admin') ? 'admin-badge-success' : (($user['role'] === 'editor') ? 'admin-badge-warning' : 'admin-badge-info'); ?>">
-                                            <?php echo htmlspecialchars($user['role']); ?>
-                                        </span>
-                                    </td>
-                                    <td style="color: var(--text-muted);"><?php echo htmlspecialchars($user['created_at']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
+                         <thead>
+                             <tr>
+                                 <th>Username</th>
+                                 <th>Role</th>
+                                 <th>Created At</th>
+                                 <th style="text-align: right;">Actions</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <?php foreach ($staffList as $user): ?>
+                                 <tr>
+                                     <td style="font-weight:bold;"><?php echo htmlspecialchars($user['username']); ?></td>
+                                     <td>
+                                         <span class="admin-badge <?php echo ($user['role'] === 'admin') ? 'admin-badge-success' : (($user['role'] === 'editor') ? 'admin-badge-warning' : 'admin-badge-info'); ?>" style="margin-bottom: 0.5rem; display: inline-block;">
+                                             <?php echo htmlspecialchars($user['role']); ?>
+                                         </span>
+                                         
+                                         <!-- Revoke / Role Change Trigger -->
+                                         <?php if ((int)$user['id'] !== (int)$_SESSION['user_id']): ?>
+                                             <form action="users.php" method="POST" style="margin: 0; display: flex; gap: 0.25rem; align-items: center;">
+                                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                 <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                                 <select name="new_role" class="admin-select" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; height: auto; width: auto; min-width: 90px;" onchange="this.form.submit()">
+                                                     <option value="viewer" <?php echo ($user['role'] === 'viewer') ? 'selected' : ''; ?>>Viewer</option>
+                                                     <option value="editor" <?php echo ($user['role'] === 'editor') ? 'selected' : ''; ?>>Editor</option>
+                                                     <option value="admin" <?php echo ($user['role'] === 'admin') ? 'selected' : ''; ?>>Admin</option>
+                                                 </select>
+                                                 <input type="hidden" name="update_role" value="1">
+                                             </form>
+                                         <?php endif; ?>
+                                     </td>
+                                     <td style="color: var(--text-muted); font-size: 0.8rem;"><?php echo htmlspecialchars($user['created_at']); ?></td>
+                                     <td style="text-align: right;">
+                                         <?php if ((int)$user['id'] !== (int)$_SESSION['user_id']): ?>
+                                             <form action="users.php" method="POST" style="display: inline; margin: 0;" onsubmit="return confirm('Are you sure you want to permanently revoke rights and delete the staff user account: <?php echo htmlspecialchars($user['username']); ?>?');">
+                                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                 <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                                 <button type="submit" name="delete_user" class="admin-btn admin-btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; border-radius: 6px;">
+                                                     <i class="fa-solid fa-trash-can"></i> Delete
+                                                 </button>
+                                             </form>
+                                         <?php else: ?>
+                                             <span style="font-size: 0.75rem; font-style: italic; color: var(--text-muted);">Current Active Session</span>
+                                         <?php endif; ?>
+                                     </td>
+                                 </tr>
+                             <?php endforeach; ?>
+                         </tbody>
                     </table>
                 </div>
             </div>
