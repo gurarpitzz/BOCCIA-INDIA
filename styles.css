@@ -138,11 +138,11 @@ body {
 }
 
 /* Logo sizes — enlarged to match reference */
-.tl-img     { height: 62px; width: auto; object-fit: contain; }
-.tl-bsfi    { height: 68px; }
-.tl-myas    { height: 68px; }
-.tl-pci     { height: 72px; }
-.tl-world   { height: 50px; }
+.tl-img     { height: 80px; width: auto; object-fit: contain; }
+.tl-bsfi    { height: 95px; }
+.tl-myas    { height: 90px; }
+.tl-pci     { height: 95px; }
+.tl-world   { height: 70px; }
 
 .tl-sep {
     width: 1px;
