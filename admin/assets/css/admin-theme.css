@@ -64,10 +64,21 @@ body.admin-body {
 .admin-layout.sidebar-collapsed .admin-sidebar-brand {
     padding: 1rem 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70px;
 }
+.admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-title-wrap,
 .admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-logo-row,
 .admin-layout.sidebar-collapsed .admin-sidebar-brand .brand-subtext {
     display: none !important;
+}
+.admin-layout.sidebar-collapsed .sidebar-toggle-btn {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 0 !important;
 }
 .admin-layout.sidebar-collapsed .admin-sidebar-nav li.nav-section-title {
     padding: 1rem 0;
