@@ -703,16 +703,26 @@ try {
         justify-content: flex-start;
         flex-wrap: nowrap;
         overflow-x: auto;
-        padding: 0.5rem 1.5rem;
+        padding: 0.5rem 1.5rem 0.85rem 1.5rem;
         margin-left: -1rem;
         margin-right: -1rem;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        gap: 0.5rem;
+        gap: 0.6rem;
         margin-bottom: 2rem;
+        scrollbar-width: thin;
+        scrollbar-color: #FF9933 rgba(8, 27, 75, 0.05);
     }
     .gal-filters-wrap::-webkit-scrollbar {
-        display: none;
+        display: block;
+        height: 3px;
+    }
+    .gal-filters-wrap::-webkit-scrollbar-track {
+        background: rgba(8, 27, 75, 0.05);
+        border-radius: 10px;
+    }
+    .gal-filters-wrap::-webkit-scrollbar-thumb {
+        background: #FF9933;
+        border-radius: 10px;
     }
     .gal-filter-btn {
         flex-shrink: 0;
