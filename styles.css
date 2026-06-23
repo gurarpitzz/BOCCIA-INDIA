@@ -3376,6 +3376,7 @@ body {
 @media (max-width: 767px) {
     .news-section {
         background-attachment: scroll !important;
+        background-size: 100% 100% !important;
     }
     .spotlight-card {
         padding: 1.5rem;
