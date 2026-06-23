@@ -4,7 +4,7 @@ An enterprise-grade sports management system and public portal custom-developed 
 
 ---
 
-## 🏛️ Affiliation & Official Bodies
+## Affiliation & Official Bodies
 
 <table bgcolor="white" style="background-color: white;">
   <tr bgcolor="white">
@@ -33,7 +33,7 @@ An enterprise-grade sports management system and public portal custom-developed 
 
 ---
 
-## 🌟 Boccia as an Initiative in India
+## Boccia as an Initiative in India
 
 **Boccia** is a precision target ball sport, similar to bocce, designed specifically for athletes with severe physical disabilities, particularly Cerebral Palsy, Muscular Dystrophy, Spinal Cord Injuries, and other neurological conditions. 
 
@@ -46,7 +46,7 @@ Through the official portal and registry, the Boccia Sports Federation of India 
 
 ---
 
-## 📸 Website Highlights
+## Website Highlights
 
 ### 1. Public Gallery & Album Viewer
 A premium, responsive album grid featuring category filters and horizontal swipe navigation on mobile viewports. Clicking an album transitions into a beautiful masonry layout with an integrated media lightbox.
@@ -58,15 +58,15 @@ A centralized system dashboard showing real-time statistics (total registrations
 
 ---
 
-## ⚙️ Key Technical Features
+## Key Technical Features
 
-### 💻 Public Web Portal
+### Public Web Portal
 *   **Accessible Design System**: Tailored HSL color palette and accessibility controls (contrast toggle, text magnifier, NADA/WADA compliant layouts).
 *   **Dynamic Interactive Map**: SVG-based state map reflecting live athlete registration density across India.
 *   **Media Center Archive**: Structured **Category ➔ Album ➔ Photo** organization matching professional athletic federations.
 *   **Online Registration**: Custom forms for Athletes and Officials with data sanitization, profile completeness scoring, and security checks.
 
-### 🛡️ Administrative CMS (Control Desk)
+### Administrative CMS (Control Desk)
 *   **Metrics Dashboard**: Live KPI cards detailing missing files, status of registries, and database health.
 *   **Role-Based Security**: Restrictive authentication layers separating Administrators, Editors, and Viewers.
 *   **Bulk Sync & Data Import**: Deduplicated folder scanning, EXIF stripping, and Excel/CSV parsing helpers.
@@ -74,7 +74,7 @@ A centralized system dashboard showing real-time statistics (total registrations
 
 ---
 
-## ⚖️ Legal & Compliance Structure
+## Legal & Compliance Structure
 
 ### 1. Trademark & IP Notice
 All trademarks, logo marks, and official documents of **BOCCIA INDIA**, **BSFI**, **MYAS**, **PCI**, and **World Boccia** are legally protected. This software is built in accordance with the official guidelines of:
@@ -86,6 +86,6 @@ All trademarks, logo marks, and official documents of **BOCCIA INDIA**, **BSFI**
 All athlete registry details, medical classifications, and sensitive documents are stored securely. Personal Identifiable Information (PII) is encrypted and accessed exclusively by authorized executive officers.
 
 ---
-## 📄 License
+## License
 Copyright © 2026 **Boccia Sports Federation of India (BSFI)**. All rights reserved. 
 Licensed exclusively for deployment on the official Boccia India domains.
