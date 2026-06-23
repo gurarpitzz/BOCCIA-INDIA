@@ -423,14 +423,11 @@ body.preloader-active { overflow: hidden !important; }
                                 if (strtolower($parent['title']) === 'home') continue;
                                 renderNavItem($parent, $logo_path, $pdo);
                             }
+                            echo '<li><a href="' . $logo_path . 'contact.php" class="npl">Contact Us</a></li>';
                         } catch (\Exception $e) {
                             // Fallback rendering
                             echo '<li><a href="' . $logo_path . 'index.php#home" class="npl">Home</a></li>';
                         }
-                        
-                        // Append Contact Us navigation item linking to index.php#contact-bottom
-                        echo '<li><a href="' . $logo_path . 'index.php#contact-bottom" class="npl">Contact Us</a></li>';
-
                         if (isLoggedIn()) {
                             echo '<li><a href="' . $logo_path . 'admin/dashboard.php" class="npl">Dashboard</a></li>';
                         }
