@@ -86,31 +86,6 @@ All trademarks, logo marks, and official documents of **BOCCIA INDIA**, **BSFI**
 All athlete registry details, medical classifications, and sensitive documents are stored securely. Personal Identifiable Information (PII) is encrypted and accessed exclusively by authorized executive officers.
 
 ---
-
-## 🚀 Setup & Execution
-
-### Prerequisites
-- PHP 8.0 or higher
-- MySQL 5.7 or higher
-- Web server (Apache, Nginx, or XAMPP suite)
-
-### Installation
-1.  Clone the repository into your server root directory.
-2.  Import the database structure from the `schema.sql` file:
-    ```sql
-    mysql -u [user] -p [database_name] < schema.sql
-    ```
-3.  Configure your credentials in `includes/db.php`:
-    ```php
-    $host = 'localhost';
-    $db   = 'your_database';
-    $user = 'your_username';
-    $pass = 'your_password';
-    ```
-4.  Launch your local PHP development server or run XAMPP.
-
----
-
 ## 📄 License
 Copyright © 2026 **Boccia Sports Federation of India (BSFI)**. All rights reserved. 
 Licensed exclusively for deployment on the official Boccia India domains.
