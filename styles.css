@@ -769,7 +769,7 @@ body {
    SHARED BG WRAPPER (map + stats bar)
 ════════════════════════════════════════ */
 .map-stats-bg-wrapper {
-    background: url('bg.png') center top / 100% 100% no-repeat;
+    background: url('bg.webp') center top / 100% 100% no-repeat;
     position: relative;
 }
 
@@ -1300,7 +1300,7 @@ body {
    FOOTER
 ════════════════════════════════════════ */
 .main-footer {
-    background: url('footer.png') center/cover no-repeat !important;
+    background: url('footer.webp') center/cover no-repeat !important;
     color: #081B4B !important;
     padding: 5rem 0 3rem !important;
     border-top: 1px solid rgba(8, 27, 75, 0.1) !important;
@@ -1737,7 +1737,7 @@ body {
     border-top: 1px solid rgba(0,0,0,0.05);
 }
 
-.main-footer { background: url('footer.png') center/cover no-repeat !important; }
+.main-footer { background: url('footer.webp') center/cover no-repeat !important; }
 
 /* ════════════════════════════════════════════════════
    RECOGNITIONS & AFFILIATIONS + STRATEGIC PARTNERS
@@ -2302,7 +2302,7 @@ body {
 
 /* ─── 5. Boccia in India ─── */
 .about-india {
-    background: url('about boccia/NATIONAL IMPRINT bg.png') no-repeat center center;
+    background: url('about boccia/NATIONAL IMPRINT bg.webp') no-repeat center center;
     background-size: cover;
     padding: 7rem 0 5rem;
 }
@@ -2399,7 +2399,7 @@ body {
 /* ─── 6. Sport Classes ─── */
 .sport-classes {
     padding: 7rem 0;
-    background: url('bg.png') no-repeat center center;
+    background: url('bg.webp') no-repeat center center;
     background-size: 100% 100%;
     position: relative;
 }
@@ -2505,7 +2505,7 @@ body {
 /* ─── 7. Watch & Learn ─── */
 .watch-learn {
     padding: 7rem 0;
-    background: url('about boccia/Watch & Learn bg.png') no-repeat center center;
+    background: url('about boccia/Watch & Learn bg.webp') no-repeat center center;
     background-size: cover;
 }
 .watch-featured-wrapper {
@@ -3049,7 +3049,7 @@ body {
 /* Board Sections with Board Background Image */
 .board-section {
     padding: 6rem 0;
-    background-image: url('board/board%20bg.png');
+    background-image: url('board/board%20bg.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

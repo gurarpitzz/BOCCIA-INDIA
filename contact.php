@@ -41,7 +41,7 @@ include __DIR__ . '/includes/header.php';
     right: -50px;
     width: 500px;
     height: 500px;
-    background-image: url('about boccia/why boccia matter BG.png');
+    background-image: url('about boccia/why_boccia_matter_BG.webp');
     background-repeat: no-repeat;
     background-position: top right;
     background-size: contain;

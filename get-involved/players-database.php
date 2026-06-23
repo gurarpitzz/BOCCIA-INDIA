@@ -150,7 +150,7 @@ include __DIR__ . '/../includes/header.php';
 
 <div style="
     background: linear-gradient(100deg, #081B4B 30%, rgba(8, 27, 75, 0.92) 55%, rgba(8, 27, 75, 0.25) 100%),
-                url('../about boccia/why boccia matter BG.png') no-repeat center right;
+                url('../about boccia/why_boccia_matter_BG.webp') no-repeat center right;
     background-size: cover;
     min-height: 100vh;
     color: #ffffff;

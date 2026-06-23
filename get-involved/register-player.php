@@ -249,7 +249,7 @@ include __DIR__ . '/../includes/header.php';
 
 .split-card-left {
     width: 45%;
-    background: url('../about boccia/hero bg.png') no-repeat right center;
+    background: url('../about boccia/hero bg.webp') no-repeat right center;
     background-size: cover;
     position: relative;
 }

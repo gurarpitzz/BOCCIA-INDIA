@@ -28,7 +28,7 @@ include __DIR__ . '/header.php';
 }
 
 body {
-    background: url('board/board bg.png') no-repeat center top;
+    background: url('board/board bg.webp') no-repeat center top;
     background-size: 100% auto;
     background-color: #FAF8F5;
     color: var(--boccia-text-dark);
@@ -586,7 +586,7 @@ body {
 }
 
 #documents {
-    background: url('about boccia/NATIONAL IMPRINT bg.png') no-repeat center center;
+    background: url('about boccia/NATIONAL IMPRINT bg.webp') no-repeat center center;
     background-size: cover;
 }
 
@@ -726,7 +726,7 @@ body {
 }
 
 #court-diagram {
-    background: url('bg.png') no-repeat center center;
+    background: url('bg.webp') no-repeat center center;
     background-size: cover;
 }
 

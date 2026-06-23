@@ -21,7 +21,7 @@ if (!isset($logo_path)) {
         </a>
         <div class="tl-sep"></div>
         <a href="https://www.paralympic.org.in" target="_blank" rel="noopener" class="tl-item">
-            <img src="<?php echo $logo_path; ?>PCI.png" alt="Paralympic Committee of India" class="tl-img tl-pci">
+            <img src="<?php echo $logo_path; ?>PCI.webp" alt="Paralympic Committee of India" class="tl-img tl-pci">
         </a>
         <div class="tl-sep"></div>
         <a href="https://worldboccia.com" target="_blank" rel="noopener" class="tl-item">

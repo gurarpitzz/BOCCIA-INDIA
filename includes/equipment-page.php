@@ -35,7 +35,7 @@ body {
 /* Content wrapper background integration */
 .equipment-content-section {
     padding: 60px 0 80px 0;
-    background: url('about boccia/overview bg.png') no-repeat center center;
+    background: url('about boccia/overview bg.webp') no-repeat center center;
     background-size: cover;
     position: relative;
 }
@@ -341,7 +341,7 @@ body {
 
 <div class="equipment-page-wrapper">
     <!-- Hero Section -->
-    <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.92) 0%, rgba(7, 25, 84, 0.82) 35%, rgba(7, 25, 84, 0.55) 55%, rgba(7, 25, 84, 0.15) 75%, transparent 100%), url('board/board%20bg.png');">
+    <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.92) 0%, rgba(7, 25, 84, 0.82) 35%, rgba(7, 25, 84, 0.55) 55%, rgba(7, 25, 84, 0.15) 75%, transparent 100%), url('board/board%20bg.webp');">
         <div class="container board-hero-container">
             <div class="board-hero-content scroll-reveal">
                 <span class="board-hero-eyebrow">-- Equipment --</span>

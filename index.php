@@ -337,7 +337,7 @@ try {
 </div><!-- /.map-stats-bg-wrapper -->
 
 <!-- National Schedules Section -->
-<section id="schedules" class="schedules-section" style="padding: 6rem 0; background: url('bg schedule.png') center/cover no-repeat;">
+<section id="schedules" class="schedules-section" style="padding: 6rem 0; background: url('bg_schedule.webp') center/cover no-repeat;">
 
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
@@ -974,7 +974,7 @@ try {
 </script>
 
 <!-- Latest News Section -->
-<section id="news" class="news-section" style="padding: 6rem 0; background: var(--warm-surface) url('news%20bg.png') top center / cover fixed no-repeat;">
+<section id="news" class="news-section" style="padding: 6rem 0; background: var(--warm-surface) url('news%20bg.webp') top center / cover fixed no-repeat;">
     <div id="official-federation-updates" style="scroll-margin-top: 120px;"></div>
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">

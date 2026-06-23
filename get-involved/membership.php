@@ -26,7 +26,7 @@ include __DIR__ . '/../includes/header.php';
 .membership-hero {
     min-height: calc(100vh - 140px);
     height: calc(100vh - 140px);
-    background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.85) 35%, rgba(7, 25, 84, 0.6) 55%, rgba(7, 25, 84, 0.2) 75%, transparent 100%), url('../board/board%20bg.png');
+    background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.85) 35%, rgba(7, 25, 84, 0.6) 55%, rgba(7, 25, 84, 0.2) 75%, transparent 100%), url('../board/board%20bg.webp');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -79,7 +79,7 @@ include __DIR__ . '/../includes/header.php';
 /* Content Section with specified background */
 .membership-portal-content {
     padding: 100px 0;
-    background: url('../about boccia/why boccia matter BG.png') no-repeat center center;
+    background: url('../about boccia/why_boccia_matter_BG.webp') no-repeat center center;
     background-size: cover;
     position: relative;
 }

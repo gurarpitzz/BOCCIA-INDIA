@@ -157,7 +157,7 @@ include __DIR__ . '/../includes/header.php';
 
 .update-portal-bg {
     min-height: 80vh;
-    background: linear-gradient(135deg, rgba(8, 27, 75, 0.95) 0%, rgba(140, 32, 28, 0.95) 100%), url('../about boccia/why boccia matter BG.png') no-repeat center center;
+    background: linear-gradient(135deg, rgba(8, 27, 75, 0.95) 0%, rgba(140, 32, 28, 0.95) 100%), url('../about boccia/why_boccia_matter_BG.webp') no-repeat center center;
     background-size: cover;
     display: flex;
     align-items: center;

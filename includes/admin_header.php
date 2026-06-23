@@ -79,7 +79,7 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
             <div class="brand-logo-row">
                 <img src="../boccia-india-logo.webp" alt="BSFI" title="BSFI">
                 <img src="../logos/Ministry_of_Youth_Affairs_and_Sports.svg" alt="MYAS" title="MYAS">
-                <img src="../logos/PCI.png" alt="PCI" title="PCI">
+                <img src="../logos/PCI.webp" alt="PCI" title="PCI">
                 <img src="../logos/Full Logo World Boccia.webp" alt="World Boccia" title="World Boccia">
             </div>
         </div>

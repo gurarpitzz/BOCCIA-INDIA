@@ -1,7 +1,7 @@
 <?php
 // includes/about-boccia/why-boccia.php - Why Boccia Matters Section
 ?>
-<section class="why-boccia" style="background-image: url('about boccia/why boccia matter BG.png');">
+<section class="why-boccia" style="background-image: url('about boccia/why_boccia_matter_BG.webp');">
     <div class="container">
         <div class="section-header text-center scroll-reveal">
             <span class="about-section-eyebrow" style="color: #22C55E;">Impact</span>

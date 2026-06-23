@@ -39,9 +39,9 @@ $script_path = $relative_prefix . 'app.js';
 
                 <!-- Paralympic Committee of India -->
                 <div class="logo-item" title="Paralympic Committee of India">
-                    <img src="PCI.png"
+                    <img src="PCI.webp"
                          alt="Paralympic Committee of India"
-                         onerror="this.src='../PCI.png'">
+                         onerror="this.src='../PCI.webp'">
                 </div>
 
                 <!-- MYAS -->
@@ -90,9 +90,9 @@ $script_path = $relative_prefix . 'app.js';
 
                 <!-- Swavlamban (MSJE / SBIF) -->
                 <div class="logo-item" title="Swavlamban – Ministry of Social Justice &amp; Empowerment">
-                    <img src="logos/logo_msje.png"
+                    <img src="logos/logo_msje.webp"
                          alt="Swavlamban / MSJE"
-                         onerror="this.src='../logos/logo_msje.png'">
+                         onerror="this.src='../logos/logo_msje.webp'">
                 </div>
 
                 <!-- BEML -->
