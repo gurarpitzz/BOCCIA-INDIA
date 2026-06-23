@@ -35,7 +35,7 @@ body {
 /* Content wrapper background integration */
 .equipment-content-section {
     padding: 60px 0 80px 0;
-    background: url('about boccia/overview bg.webp') no-repeat center center;
+    background: url('about boccia/overview_bg.webp') no-repeat center center;
     background-size: cover;
     position: relative;
 }

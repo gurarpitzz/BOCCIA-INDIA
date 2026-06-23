@@ -1,7 +1,7 @@
 <?php
 // includes/about-boccia/overview.php - Overview Section with Tabs
 ?>
-<section class="about-overview" style="background-image: url('about boccia/overview bg.webp');">
+<section class="about-overview" style="background-image: url('about boccia/overview_bg.webp');">
     <div class="container">
         <div class="row align-items-center g-5">
             <!-- Left: Interactive Content Tabs -->

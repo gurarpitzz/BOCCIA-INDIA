@@ -334,7 +334,7 @@ include __DIR__ . '/../includes/header.php';
 
 .registration-container-section {
     padding: 80px 0;
-    background: url('../about boccia/hero bg.webp') no-repeat right center;
+    background: url('../about boccia/hero_bg.webp') no-repeat right center;
     background-size: cover;
     background-attachment: fixed;
     position: relative;

@@ -1,7 +1,7 @@
 <?php
 // includes/about-boccia/hero.php - Cinematic Hero Section
 ?>
-<section class="about-hero" style="background-image: url('about boccia/hero bg.webp');">
+<section class="about-hero" style="background-image: url('about boccia/hero_bg.webp');">
     <!-- Dark gradient overlay for text readability -->
     <div class="about-hero-overlay"></div>
     

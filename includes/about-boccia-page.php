@@ -3,7 +3,7 @@
 $page_title = "About Boccia | Boccia India";
 $meta_desc = "Learn about Boccia, the Paralympic precision sport empowering athletes with severe physical disabilities. Explore history, classifications, videos, and opportunities in India.";
 $canonical_url = "page.php?section=about&slug=about-boccia";
-$og_image = "about boccia/hero bg.webp";
+$og_image = "about boccia/hero_bg.webp";
 
 // Load header
 include __DIR__ . '/header.php';
