@@ -10,9 +10,9 @@ include __DIR__ . '/includes/header.php';
 <!-- Custom Contact Styles -->
 <style>
 .contact-hero {
-    background: linear-gradient(135deg, #081B4B 0%, #0B2A6E 100%);
+    background: linear-gradient(135deg, rgba(8, 27, 75, 0.9) 0%, rgba(11, 42, 110, 0.9) 100%), url('about boccia/why boccia matter BG.png') no-repeat center center / cover;
     color: #ffffff;
-    padding: 5rem 2rem;
+    padding: 5.5rem 2rem;
     text-align: center;
     border-bottom: 5px solid var(--bsfi-saffron);
 }

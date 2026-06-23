@@ -190,7 +190,7 @@ $script_path = $relative_prefix . 'app.js';
                     <li><a href="#competitions"><span class="link-arrow">↗</span> Competitions</a></li>
                     <li><a href="#news"><span class="link-arrow">↗</span> News & Media</a></li>
                     <li><a href="#photo-gallery"><span class="link-arrow">↗</span> Gallery</a></li>
-                    <li><a href="#contact-bottom"><span class="link-arrow">↗</span> Contact Us</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>contact.php"><span class="link-arrow">↗</span> Contact Us</a></li>
                 </ul>
             </div>
 
