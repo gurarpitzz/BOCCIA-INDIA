@@ -6,10 +6,26 @@ An enterprise-grade sports management system and public portal custom-developed 
 
 ## 🏛️ Affiliation & Official Bodies
 
-| Boccia India (BSFI) | MYAS (Govt of India) | Paralympic Committee of India | World Boccia |
-| :---: | :---: | :---: | :---: |
-| <img src="docs/logos/boccia_india_logo.webp" width="100" alt="BSFI Logo"> | <img src="docs/logos/myas_logo.svg" width="120" alt="MYAS Logo"> | <img src="docs/logos/pci_logo.webp" width="100" alt="PCI Logo"> | <img src="docs/logos/world_boccia_logo.webp" width="140" alt="World Boccia Logo"> |
-| **National Federation** | **Recognized Ministry** | **Paralympic Affiliate** | **International Body** |
+<table bgcolor="white" style="background-color: white;">
+  <tr bgcolor="white">
+    <th bgcolor="white" style="color: #081B4B; text-align: center;">Boccia India (BSFI)</th>
+    <th bgcolor="white" style="color: #081B4B; text-align: center;">MYAS (Govt of India)</th>
+    <th bgcolor="white" style="color: #081B4B; text-align: center;">Paralympic Committee of India</th>
+    <th bgcolor="white" style="color: #081B4B; text-align: center;">World Boccia</th>
+  </tr>
+  <tr bgcolor="white">
+    <td align="center" bgcolor="white" style="text-align: center; vertical-align: middle;"><img src="docs/logos/boccia_india_logo.webp" width="100" alt="BSFI Logo"></td>
+    <td align="center" bgcolor="white" style="text-align: center; vertical-align: middle;"><img src="docs/logos/myas_logo.svg" width="120" alt="MYAS Logo"></td>
+    <td align="center" bgcolor="white" style="text-align: center; vertical-align: middle;"><img src="docs/logos/pci_logo.webp" width="100" alt="PCI Logo"></td>
+    <td align="center" bgcolor="white" style="text-align: center; vertical-align: middle;"><img src="docs/logos/world_boccia_logo.webp" width="140" alt="World Boccia Logo"></td>
+  </tr>
+  <tr bgcolor="white">
+    <td align="center" bgcolor="white" style="color: #081B4B; text-align: center;"><b>National Federation</b></td>
+    <td align="center" bgcolor="white" style="color: #081B4B; text-align: center;"><b>Recognized Ministry</b></td>
+    <td align="center" bgcolor="white" style="color: #081B4B; text-align: center;"><b>Paralympic Affiliate</b></td>
+    <td align="center" bgcolor="white" style="color: #081B4B; text-align: center;"><b>International Body</b></td>
+  </tr>
+</table>
 
 > [!IMPORTANT]
 > **PROPRIETARY & COMMERCIAL PROJECT**
