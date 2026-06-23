@@ -131,14 +131,7 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                         <span class="nav-label">Schedules</span>
                     </a>
                 </li>
-                
-                <li class="nav-section-title">Documents</li>
-                <li>
-                    <a href="document_pages.php" class="<?php echo ($current_file === 'document_pages.php') ? 'active' : ''; ?>">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        <span class="nav-label">Document Pages</span>
-                    </a>
-                </li>
+
                 
                 <li class="nav-section-title">System</li>
                 <li>
