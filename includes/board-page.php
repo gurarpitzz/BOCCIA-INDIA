@@ -185,7 +185,7 @@ include __DIR__ . '/header.php';
     <!-- 5. Federation Values Banner -->
     <section class="board-values-banner scroll-reveal">
         <div class="container-fluid p-0">
-            <div class="values-banner-container" style="background-image: linear-gradient(rgba(8, 27, 75, 0.9), rgba(8, 27, 75, 0.95)), url('bg%20schedule.png');">
+            <div class="values-banner-container" style="background-image: linear-gradient(rgba(8, 27, 75, 0.9), rgba(8, 27, 75, 0.95)), url('bg_schedule.webp');">
                 <div class="container">
                     <div class="row align-items-center g-5">
                         <div class="col-12">
