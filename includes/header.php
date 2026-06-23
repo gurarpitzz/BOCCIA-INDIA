@@ -427,6 +427,10 @@ body.preloader-active { overflow: hidden !important; }
                             // Fallback rendering
                             echo '<li><a href="' . $logo_path . 'index.php#home" class="npl">Home</a></li>';
                         }
+                        
+                        // Append Contact Us navigation item linking to index.php#contact-bottom
+                        echo '<li><a href="' . $logo_path . 'index.php#contact-bottom" class="npl">Contact Us</a></li>';
+
                         if (isLoggedIn()) {
                             echo '<li><a href="' . $logo_path . 'admin/dashboard.php" class="npl">Dashboard</a></li>';
                         }
