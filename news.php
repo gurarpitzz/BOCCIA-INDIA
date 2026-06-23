@@ -233,12 +233,12 @@ include __DIR__ . '/includes/header.php';
 
                     <!-- Social Sharing Buttons -->
                     <div class="border-top mt-4 pt-4 d-flex align-items-center gap-3 flex-wrap">
-                        <span class="fw-bold text-dark" style="font-size: 0.9rem;">Share Article:</span>
-                        <div class="d-flex gap-2">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; padding:0;" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                            <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; padding:0;" title="Share on X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-                            <a href="https://api.whatsapp.com/send?text=<?php echo urlencode($article['title'] . ' - ' . 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="btn btn-outline-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; padding:0;" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&title=<?php echo urlencode($article['title']); ?>" target="_blank" class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; padding:0; border-color:#0A66C2; color:#0A66C2;" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <span class="fw-bold text-dark" style="font-size: 1rem;">Share Article:</span>
+                        <div class="d-flex gap-3">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="share-circle-btn share-facebook" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" class="share-circle-btn share-twitter" title="Share on X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="https://api.whatsapp.com/send?text=<?php echo urlencode($article['title'] . ' - ' . 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="share-circle-btn share-whatsapp" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&title=<?php echo urlencode($article['title']); ?>" target="_blank" class="share-circle-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>
 
@@ -309,6 +309,50 @@ include __DIR__ . '/includes/header.php';
 .last-no-border:last-child {
     border-bottom: none !important;
     padding-bottom: 0 !important;
+}
+.share-circle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    background: #ffffff;
+}
+.share-facebook {
+    border: 2px solid #3b5998;
+    color: #3b5998;
+}
+.share-facebook:hover {
+    background: #3b5998;
+    color: #ffffff;
+}
+.share-twitter {
+    border: 2px solid #000000;
+    color: #000000;
+}
+.share-twitter:hover {
+    background: #000000;
+    color: #ffffff;
+}
+.share-whatsapp {
+    border: 2px solid #25D366;
+    color: #25D366;
+}
+.share-whatsapp:hover {
+    background: #25D366;
+    color: #ffffff;
+}
+.share-linkedin {
+    border: 2px solid #0A66C2;
+    color: #0A66C2;
+}
+.share-linkedin:hover {
+    background: #0A66C2;
+    color: #ffffff;
 }
 </style>
 

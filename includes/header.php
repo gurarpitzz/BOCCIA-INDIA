@@ -34,6 +34,8 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
         $css_path  = $relative_prefix . 'styles.css';
         $logo_path = $relative_prefix;
     ?>
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="<?php echo $relative_prefix; ?>boccia-india-logo.webp">
     <!-- Bootstrap 5.3 (Local) -->
     <link rel="stylesheet" href="<?php echo $relative_prefix; ?>assets/vendor/bootstrap/bootstrap.min.css?v=1">
     <!-- Custom Styles -->

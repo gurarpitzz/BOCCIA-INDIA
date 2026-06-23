@@ -15,6 +15,8 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="../boccia-india-logo.webp">
     <!-- Bootstrap 5.3 (Local) -->
     <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css?v=1">
     <!-- Standalone Admin Theme -->
