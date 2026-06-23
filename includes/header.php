@@ -14,12 +14,12 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?></title>
-    <meta name="description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia Sports Federation of India (BSFI). Affiliated with Paralympic Committee of India and Boccia International Sports Federation."; ?>">
+    <meta name="description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia India (BSFI). Affiliated with PCI & World Boccia."; ?>">
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?php echo 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>">
     <meta property="og:title" content="<?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?>">
-    <meta property="og:description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia Sports Federation of India (BSFI). Affiliated with Paralympic Committee of India and Boccia International Sports Federation."; ?>">
+    <meta property="og:description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia India (BSFI). Affiliated with PCI & World Boccia."; ?>">
     <?php 
         $og_img_src = isset($og_image) && !empty($og_image) ? $og_image : $relative_prefix . 'boccia-india-logo.webp';
         // Clean leading slash/dots for combining
