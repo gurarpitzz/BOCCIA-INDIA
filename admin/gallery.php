@@ -9,10 +9,21 @@ require_once __DIR__ . '/../includes/db.php';
 // Self-healing: Ensure primary key auto-increment is enabled on the live database
 try {
     $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
+    
+    // Check if an image with ID 0 exists and renumber it to a safe positive ID
+    $checkZero = $pdo->query("SELECT COUNT(*) FROM gallery_images WHERE id = 0")->fetchColumn();
+    if ($checkZero > 0) {
+        $maxId = (int)$pdo->query("SELECT MAX(id) FROM gallery_images")->fetchColumn();
+        $newId = $maxId + 1;
+        
+        $pdo->prepare("UPDATE gallery_images SET id = ? WHERE id = 0")->execute([$newId]);
+        $pdo->prepare("UPDATE gallery_albums SET cover_image_id = ? WHERE cover_image_id = 0")->execute([$newId]);
+    }
+    
     $pdo->exec("ALTER TABLE gallery_images MODIFY id INT NOT NULL AUTO_INCREMENT;");
     $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
 } catch (PDOException $e) {
-    // Fail silently if already auto-incremented
+    echo "<div class='alert alert-danger' style='margin: 10px;'>Database auto-repair failed: " . htmlspecialchars($e->getMessage()) . "</div>";
 }
 
 require_once __DIR__ . '/../includes/auth.php';
