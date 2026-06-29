@@ -1731,7 +1731,7 @@ body {
         width: 100%;
         height: 100%;
     }
-    .header-logo-container {
+    .header-logo-link {
         display: flex;
         align-items: center;
         justify-content: center;
