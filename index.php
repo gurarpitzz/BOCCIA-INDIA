@@ -136,7 +136,7 @@ try {
     <div class="hero-content-overlay">
         <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
         <h1 class="hero-quote-text animated-quote">
-            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span><span class="animated-words">I didn't know there was a sport for me until<br class="d-none d-md-inline"> I found Boccia</span><span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
+            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span><span class="animated-words">I didn't know<br>there was a sport<br>for me until<br>I found Boccia</span><span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
         </h1>
 
         <!-- Desktop Subtitle -->

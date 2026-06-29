@@ -629,11 +629,11 @@ body {
 /* Quote headline — bold, large, left-aligned */
 .hero-quote-text {
     font-family: 'Caveat', cursive;
-    font-size: clamp(2.0rem, 4.5vw, 3.8rem);
+    font-size: clamp(2.2rem, 4.8vw, 3.8rem);
     font-weight: 700;
     font-style: normal;
-    line-height: 1.25;
-    letter-spacing: 0.02em;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
     margin-bottom: 1.5rem;
     text-shadow: 0 2px 16px rgba(0,0,0,0.6);
     color: #fff;
