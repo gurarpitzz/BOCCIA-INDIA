@@ -144,11 +144,11 @@ body {
 }
 
 .tl-img { height: 75px; width: auto; object-fit: contain; }
-.tl-bsfi { height: 85px; transition: height 0.3s ease; }
+.tl-bsfi { height: 115px; transition: height 0.3s ease; }
 
 .header-v-sep {
     width: 1px;
-    height: 65px;
+    height: 85px;
     background-color: #081B4B;
     opacity: 0.35;
     margin: 0 clamp(1rem, 2vw, 2rem);
@@ -158,10 +158,10 @@ body {
 .header-text-wrap {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     flex-grow: 1;
-    text-align: left;
+    text-align: center;
 }
 
 .header-title-en {
