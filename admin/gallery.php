@@ -134,7 +134,10 @@ if (isset($_POST['ajax'])) {
     }
 
     $action = $_POST['action'] ?? '';
-    $ids    = array_filter(array_map('intval', explode(',', $_POST['ids'] ?? '')));
+    $ids    = [];
+    if (isset($_POST['ids']) && $_POST['ids'] !== '') {
+        $ids = array_map('intval', explode(',', $_POST['ids']));
+    }
 
     if (empty($ids) && !in_array($action, ['sync_folder', 'purge_bin'])) {
         echo json_encode(['ok' => false, 'error' => 'No items selected']); exit;
@@ -1017,14 +1020,23 @@ function bulkAssignAlbum() {
 }
 function softDeleteOne(id) {
     if (!confirm('Move to recycle bin?')) return;
-    ajax({action:'soft_delete', ids:String(id)}, res => { if(res.ok) location.reload(); });
+    ajax({action:'soft_delete', ids:String(id)}, res => {
+        if(res.ok) location.reload();
+        else alert('Error: ' + res.error);
+    });
 }
 function restoreOne(id) {
-    ajax({action:'restore', ids:String(id)}, res => { if(res.ok) location.reload(); });
+    ajax({action:'restore', ids:String(id)}, res => {
+        if(res.ok) location.reload();
+        else alert('Error: ' + res.error);
+    });
 }
 function hardDeleteOne(id) {
     if (!confirm('Delete permanently?')) return;
-    ajax({action:'hard_delete', ids:String(id)}, res => { if(res.ok) location.reload(); });
+    ajax({action:'hard_delete', ids:String(id)}, res => {
+        if(res.ok) location.reload();
+        else alert('Error: ' + res.error);
+    });
 }
 function purgeBin() {
     if (!confirm('Permanently delete all items in the bin older than 90 days?')) return;
