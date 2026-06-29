@@ -565,7 +565,7 @@ body {
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: 65% center;
+    background-position: 58% 20%;
     background-repeat: no-repeat;
     background-color: var(--deep-navy);
     opacity: 0;
