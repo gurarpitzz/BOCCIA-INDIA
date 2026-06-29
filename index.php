@@ -134,19 +134,21 @@ try {
 
     <!-- Hero Text Content -->
     <div class="hero-content-overlay">
-        <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
-        <h1 class="hero-quote-text animated-quote">
-            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span><span class="animated-words">I didn't know there was a sport for me until I found Boccia</span><span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
-        </h1>
+        <div class="hero-content-container">
+            <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
+            <h1 class="hero-quote-text animated-quote">
+                <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span><span class="animated-words">I didn't know there was a sport for me until I found Boccia</span><span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
+            </h1>
 
-        <!-- Desktop Subtitle -->
-        <p class="hero-subtitle d-none d-md-block animated-fade-item">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
-        <!-- Mobile Subtitle -->
-        <p class="hero-subtitle d-block d-md-none animated-fade-item">India's official governing body for Boccia, empowering athletes with severe physical disabilities nationwide.</p>
+            <!-- Desktop Subtitle -->
+            <p class="hero-subtitle d-none d-md-block animated-fade-item">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
+            <!-- Mobile Subtitle -->
+            <p class="hero-subtitle d-block d-md-none animated-fade-item">India's official governing body for Boccia, empowering athletes with severe physical disabilities nationwide.</p>
 
-        <div class="hero-btns animated-fade-item">
-            <a href="get-involved/membership.php" class="btn btn-hero-primary">Player Registration &rarr;</a>
-            <a href="page.php?section=about&slug=about-boccia" class="btn btn-hero-secondary">Explore Boccia</a>
+            <div class="hero-btns animated-fade-item">
+                <a href="get-involved/membership.php" class="btn btn-hero-primary">Player Registration &rarr;</a>
+                <a href="page.php?section=about&slug=about-boccia" class="btn btn-hero-secondary">Explore Boccia</a>
+            </div>
         </div>
     </div>
 
