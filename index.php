@@ -134,10 +134,15 @@ try {
 
     <!-- Hero Text Content -->
     <div class="hero-content-overlay">
-        <!-- Animated Quote Headline (Unified for Mobile & Desktop) -->
         <h1 class="hero-quote-text animated-quote">
-            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span><span class="animated-words">I didn't know<br>there was a sport<br>for me until<br>I found Boccia</span><span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
+            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span>
+            <span class="animated-words">I didn't know</span><br>
+            <span class="animated-words">there was a sport</span><br>
+            <span class="animated-words">for me until</span><br>
+            <span class="animated-words">I found Boccia</span>
+            <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
         </h1>
+        <div class="hero-quote-underline animated-fade-item"></div>
 
         <!-- Desktop Subtitle -->
         <p class="hero-subtitle d-none d-md-block animated-fade-item">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
