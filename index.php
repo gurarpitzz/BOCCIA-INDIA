@@ -144,7 +144,7 @@ try {
         <div class="hero-quote-underline animated-fade-item"></div>
 
         <!-- Desktop Subtitle -->
-        <p class="hero-subtitle d-none d-md-block animated-fade-item">We are proud to have widened the reach of Boccia in India — from those with severe physical disabilities, including Cerebral Palsy. We hope every Indian Boccia athlete achieves their targets.</p>
+        <p class="hero-subtitle d-none d-md-block animated-fade-item">Widening the reach of Boccia in India, empowering athletes with severe physical disabilities to achieve their targets.</p>
         <!-- Mobile Subtitle -->
         <p class="hero-subtitle d-block d-md-none animated-fade-item">India's official governing body for Boccia, empowering athletes with severe physical disabilities nationwide.</p>
 
