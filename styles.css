@@ -110,7 +110,7 @@ body {
     background: #ffffff;
     border-bottom: 1px solid #e2e2e2;
     padding-top: 10px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
     padding-left: 0;
     padding-right: 0;
     width: 100%;
@@ -126,29 +126,89 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(0.75rem, 2.5vw, 2rem);
     height: 100%;
 }
 
-.tl-item {
+.header-brand-wrap {
     display: flex;
     align-items: center;
-    text-decoration: none;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.header-logo-link {
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
 }
 
-/* Logo sizes — enlarged to match reference */
-.tl-img     { height: 80px; width: auto; object-fit: contain; }
-.tl-bsfi    { height: 95px; }
-.tl-myas    { height: 72px; }
-.tl-pci     { height: 95px; }
-.tl-world   { height: 70px; }
+.tl-img { height: 80px; width: auto; object-fit: contain; }
+.tl-bsfi { height: 110px; }
 
-.tl-sep {
-    width: 1px;
-    height: 48px;
-    background: #d0d0d0;
-    flex-shrink: 0;
+.header-text-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.header-title-en {
+    font-family: var(--font-heading);
+    font-size: clamp(1.15rem, 2.3vw, 2.05rem);
+    font-weight: 800;
+    color: #081B4B;
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+    margin: 0;
+}
+
+.header-title-hi {
+    font-family: var(--font-heading);
+    font-size: clamp(1.05rem, 2.1vw, 1.95rem);
+    font-weight: 700;
+    color: #081B4B;
+    letter-spacing: 0.01em;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+    line-height: 1.15;
+}
+
+.header-separator {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: clamp(250px, 45%, 480px);
+    gap: 8px;
+    margin-top: 0.15rem;
+}
+
+.sep-line {
+    flex-grow: 1;
+    height: 2px;
+}
+
+.sep-saffron {
+    background: linear-gradient(90deg, transparent, #FF9933);
+}
+
+.sep-green {
+    background: linear-gradient(90deg, #138808, transparent);
+}
+
+.sep-chakra {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sep-chakra svg {
+    width: 100%;
+    height: 100%;
 }
 
 /* ════════════════════════════════════════════════════
@@ -1527,12 +1587,12 @@ body {
     .top-logo-bar {
         height: 120px;
         padding-top: 10px;
-        padding-bottom: 24px;
+        padding-bottom: 10px;
         padding-left: 0;
         padding-right: 0;
     }
     .navbar-row {
-        margin-top: -24px;
+        margin-top: -15px;
     }
     .scrolled .top-logo-bar {
         margin-top: -120px;
@@ -1540,12 +1600,14 @@ body {
     .hero-slideshow-wrapper {
         height: calc(100vh - 120px);
     }
-    .tl-img { height: 48px; }
-    .tl-bsfi { height: 52px; }
-    .tl-myas { height: 52px; }
-    .tl-pci { height: 54px; }
-    .tl-world { height: 38px; }
-    .tl-sep { height: 36px; }
+    .header-brand-wrap {
+        gap: 1rem;
+    }
+    .tl-bsfi { height: 90px; }
+    .header-title-en { font-size: 1.1rem; }
+    .header-title-hi { font-size: 1rem; }
+    .header-separator { max-width: 280px; }
+    .sep-chakra { width: 16px; height: 16px; }
 
     .burger-btn {
         display: flex;
@@ -1649,6 +1711,28 @@ body {
     body {
         padding-top: 100px; /* Scaled down logo bar for mobile */
     }
+    .top-logo-bar {
+        height: 100px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+    .scrolled .top-logo-bar {
+        margin-top: -100px;
+    }
+    .hero-slideshow-wrapper {
+        height: calc(100vh - 100px);
+    }
+    .navbar-row {
+        margin-top: -8px;
+    }
+    .header-brand-wrap {
+        gap: 0.5rem;
+    }
+    .tl-bsfi { height: 75px; }
+    .header-title-en { font-size: 0.88rem; }
+    .header-title-hi { font-size: 0.8rem; }
+    .header-separator { max-width: 180px; margin-top: 0.05rem; }
+    .sep-chakra { width: 12px; height: 12px; }
     .hero-quote-text {
         font-size: clamp(1.4rem, 6vw, 2.2rem) !important;
         line-height: 1.15 !important;
