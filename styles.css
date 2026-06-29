@@ -1757,28 +1757,28 @@ body {
     .header-text-wrap {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; /* Centered horizontally */
         justify-content: center;
         flex-grow: 1;
-        text-align: left;
-        padding: 0 0 0 15px; /* Left indent from divider */
+        text-align: center; /* Center aligned text */
+        padding: 0 10px;
     }
     .header-title-en {
         font-family: 'Montserrat', sans-serif;
-        font-size: 20px; /* English Title size: 20px */
-        font-weight: 600; /* Montserrat SemiBold */
-        line-height: 1.1; /* Line height: 1.1 */
-        margin: 0 0 4px 0; /* Spacing 4px below English title */
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.1;
+        margin: 0 0 4px 0;
         text-transform: uppercase;
-        text-align: left;
+        text-align: center;
     }
     .header-title-hi {
         font-family: 'Noto Serif Devanagari', serif;
-        font-size: 13px; /* Hindi Title size: 13px */
-        font-weight: 500; /* Weight 500 */
+        font-size: 13px;
+        font-weight: 500;
         line-height: 1.2;
         margin: 0;
-        text-align: left;
+        text-align: center;
     }
     .hero-quote-text {
         font-size: clamp(1.3rem, 5.5vw, 2.0rem) !important;
