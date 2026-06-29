@@ -389,7 +389,7 @@ body.preloader-active { overflow: hidden !important; }
                                     $liClass = $isSubmenu ? 'npl-sub-dropdown' : 'npl-dropdown';
                                     $aClass = $isSubmenu ? 'npl-sub-item npl-has-sub-drop' : 'npl npl-has-drop';
                                     $ulClass = $isSubmenu ? 'npl-sub-submenu' : 'npl-submenu';
-                                    $caret = $isSubmenu ? ' ▸' : ' ▾';
+                                    $caret = $isSubmenu ? ' ▸' : ' -';
 
                                     echo '<li class="' . $liClass . '">';
                                     echo '<a href="#" class="' . $aClass . '">' . htmlspecialchars($item['title']) . '<span class="drop-caret">' . $caret . '</span></a>';
