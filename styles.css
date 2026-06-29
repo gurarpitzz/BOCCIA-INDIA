@@ -1800,30 +1800,6 @@ body {
         text-align: center;
         white-space: nowrap;
     }
-    .top-logo-bar {
-        height: 100px;
-        padding-top: 8px;
-        padding-bottom: 20px;
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .navbar-row {
-        margin-top: -20px;
-    }
-    .scrolled .top-logo-bar {
-        margin-top: -100px;
-    }
-    .hero-slideshow-wrapper {
-        height: calc(100vh - 100px);
-    }
-    .tl-img { height: 38px; }
-    .tl-bsfi { height: 42px; }
-    .tl-myas { height: 42px; }
-    .tl-pci { height: 44px; }
-    .tl-world { height: 30px; }
-    .tl-sep { height: 28px; }
-    .top-logo-inner { gap: 1rem; }
-
     .footer-grid  { grid-template-columns: 1fr; }
     .discover-grid { grid-template-columns: 1fr; }
 }
