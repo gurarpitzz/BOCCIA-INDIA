@@ -629,11 +629,11 @@ body {
 /* Quote headline — bold, large, left-aligned */
 .hero-quote-text {
     font-family: 'Poppins', sans-serif;
-    font-size: clamp(1.8rem, 3.2vw, 3.2rem);
-    font-weight: 500;
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-weight: 400;
     font-style: italic;
     line-height: 1.25;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     margin-bottom: 1.5rem;
     text-shadow: 0 2px 16px rgba(0,0,0,0.6);
     color: #fff;
