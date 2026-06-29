@@ -74,6 +74,10 @@ function processImageVersions(string $srcPath, string $destDir, string $baseName
     $origH = imagesy($img);
     $sizes = ['thumb'  => 400, 'medium' => 800, 'full'   => 1920];
 
+    // Auto-convert to webp if supported by GD
+    $useWebp = function_exists('imagewebp');
+    $outBaseName = $useWebp ? (pathinfo($baseName, PATHINFO_FILENAME) . '.webp') : $baseName;
+
     foreach ($sizes as $label => $maxW) {
         $subDir = $destDir . $label . '/';
         if (!is_dir($subDir)) mkdir($subDir, 0775, true);
@@ -83,23 +87,32 @@ function processImageVersions(string $srcPath, string $destDir, string $baseName
         $newH   = (int)round($origH * $ratio);
         $canvas = imagecreatetruecolor($newW, $newH);
 
-        if (in_array($ext, ['png', 'webp'])) {
-            imagealphablending($canvas, false);
-            imagesavealpha($canvas, true);
-            imagefill($canvas, 0, 0, imagecolorallocatealpha($canvas, 0, 0, 0, 127));
-        }
+        // Retain alpha transparency for PNGs converting to WebP
+        imagealphablending($canvas, false);
+        imagesavealpha($canvas, true);
+        imagefill($canvas, 0, 0, imagecolorallocatealpha($canvas, 0, 0, 0, 127));
 
         imagecopyresampled($canvas, $img, 0, 0, 0, 0, $newW, $newH, $origW, $origH);
 
-        $outFile = $subDir . $baseName;
-        if (in_array($ext, ['jpg', 'jpeg'])) imagejpeg($canvas, $outFile, 85);
-        elseif ($ext === 'png') imagepng($canvas, $outFile, 6);
-        elseif ($ext === 'webp') imagewebp($canvas, $outFile, 82);
+        $outFile = $subDir . $outBaseName;
+        if ($useWebp) {
+            imagewebp($canvas, $outFile, 82);
+        } else {
+            if (in_array($ext, ['jpg', 'jpeg'])) imagejpeg($canvas, $outFile, 85);
+            elseif ($ext === 'png') imagepng($canvas, $outFile, 6);
+            elseif ($ext === 'webp' && function_exists('imagewebp')) imagewebp($canvas, $outFile, 82);
+        }
 
         imagedestroy($canvas);
         $paths[$label] = $outFile;
     }
     imagedestroy($img);
+
+    // Clean up original non-webp uploads to save storage space
+    if ($useWebp && $ext !== 'webp' && file_exists($srcPath)) {
+        @unlink($srcPath);
+    }
+
     return $paths;
 }
 
