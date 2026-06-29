@@ -143,15 +143,15 @@ body {
     flex-shrink: 0;
 }
 
-.tl-img { height: 80px; width: auto; object-fit: contain; }
-.tl-bsfi { height: 110px; transition: height 0.3s ease; }
+.tl-img { height: 75px; width: auto; object-fit: contain; }
+.tl-bsfi { height: 85px; transition: height 0.3s ease; }
 
 .header-v-sep {
-    width: 2px;
-    height: 90px;
+    width: 1px;
+    height: 65px;
     background-color: #081B4B;
-    opacity: 0.85;
-    margin: 0 clamp(1rem, 2vw, 2.5rem);
+    opacity: 0.35;
+    margin: 0 clamp(1rem, 2vw, 2rem);
     flex-shrink: 0;
 }
 
@@ -165,25 +165,25 @@ body {
 }
 
 .header-title-en {
-    font-family: 'Oswald', sans-serif;
-    font-size: clamp(1.25rem, 2.8vw, 2.5rem);
-    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.15rem, 2.5vw, 2.15rem);
+    font-weight: 500;
     color: #081B4B;
-    letter-spacing: 0.01em;
-    line-height: 1.1;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
     margin: 0;
     text-transform: uppercase;
 }
 
 .header-title-hi {
-    font-family: var(--font-heading);
-    font-size: clamp(1.1rem, 2.4vw, 2.05rem);
-    font-weight: 700;
+    font-family: 'Outfit', 'Poppins', sans-serif;
+    font-size: clamp(0.95rem, 2.1vw, 1.7rem);
+    font-weight: 500;
     color: #081B4B;
-    letter-spacing: 0.01em;
-    margin-top: 0.3rem;
+    letter-spacing: 0.02em;
+    margin-top: 0.4rem;
     margin-bottom: 0;
-    line-height: 1.1;
+    line-height: 1.2;
 }
 
 /* ════════════════════════════════════════════════════
@@ -1578,8 +1578,8 @@ body {
     .header-brand-wrap {
         gap: 0;
     }
-    .tl-bsfi { height: 90px; }
-    .header-v-sep { height: 70px; margin: 0 1.25rem; }
+    .tl-bsfi { height: 65px; }
+    .header-v-sep { height: 50px; margin: 0 1.25rem; }
 
     .burger-btn {
         display: flex;
@@ -1700,8 +1700,8 @@ body {
     .header-brand-wrap {
         gap: 0;
     }
-    .tl-bsfi { height: 75px; }
-    .header-v-sep { height: 50px; margin: 0 0.75rem; }
+    .tl-bsfi { height: 55px; }
+    .header-v-sep { height: 40px; margin: 0 0.75rem; }
     .hero-quote-text {
         font-size: clamp(1.4rem, 6vw, 2.2rem) !important;
         line-height: 1.15 !important;
