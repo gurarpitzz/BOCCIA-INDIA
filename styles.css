@@ -247,6 +247,16 @@ body {
     margin-left: 2px;
 }
 
+.npl-dropdown:hover .drop-caret-svg,
+.npl-dropdown.open .drop-caret-svg {
+    transform: rotate(180deg);
+}
+
+.npl-sub-dropdown:hover .drop-caret-svg,
+.npl-sub-dropdown.open .drop-caret-svg {
+    transform: rotate(90deg);
+}
+
 /* ── DROPDOWN ── */
 .npl-dropdown {
     position: relative;

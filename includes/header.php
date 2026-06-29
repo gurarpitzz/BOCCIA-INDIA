@@ -389,7 +389,9 @@ body.preloader-active { overflow: hidden !important; }
                                     $liClass = $isSubmenu ? 'npl-sub-dropdown' : 'npl-dropdown';
                                     $aClass = $isSubmenu ? 'npl-sub-item npl-has-sub-drop' : 'npl npl-has-drop';
                                     $ulClass = $isSubmenu ? 'npl-sub-submenu' : 'npl-submenu';
-                                    $caret = $isSubmenu ? ' ▸' : ' ▾';
+                                    $caret = $isSubmenu ? 
+                                        '<svg class="drop-caret-svg" viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px; display: inline-block; vertical-align: middle; transition: transform 0.25s;"><polyline points="9 18 15 12 9 6"></polyline></svg>' : 
+                                        '<svg class="drop-caret-svg" viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 6px; display: inline-block; vertical-align: middle; transition: transform 0.25s;"><polyline points="6 9 12 15 18 9"></polyline></svg>';
 
                                     echo '<li class="' . $liClass . '">';
                                     echo '<a href="#" class="' . $aClass . '">' . htmlspecialchars($item['title']) . '<span class="drop-caret">' . $caret . '</span></a>';
