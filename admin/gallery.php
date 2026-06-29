@@ -5,6 +5,16 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/../includes/db.php';
+
+// Self-healing: Ensure primary key auto-increment is enabled on the live database
+try {
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 0;");
+    $pdo->exec("ALTER TABLE gallery_images MODIFY id INT NOT NULL AUTO_INCREMENT;");
+    $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
+} catch (PDOException $e) {
+    // Fail silently if already auto-incremented
+}
+
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
 
