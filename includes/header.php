@@ -35,7 +35,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
     <?php
         $script_name = $_SERVER['SCRIPT_NAME'];
         $clean_path = ltrim($script_name, '/');

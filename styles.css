@@ -114,7 +114,7 @@ body {
     padding-left: 0;
     padding-right: 0;
     width: 100%;
-    height: 140px;
+    height: 120px;
     transition: margin-top 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
 }
@@ -130,9 +130,17 @@ body {
 }
 
 .header-brand-wrap {
+    display: grid;
+    grid-template-columns: 165px 1fr 165px;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.header-logo-container {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     width: 100%;
     height: 100%;
 }
@@ -144,14 +152,12 @@ body {
 }
 
 .tl-img { height: 75px; width: auto; object-fit: contain; }
-.tl-bsfi { height: 115px; transition: height 0.3s ease; }
+.tl-bsfi { width: 145px; height: auto; object-fit: contain; margin-top: 8px; transition: width 0.3s ease, margin-top 0.3s ease; }
 
 .header-v-sep {
     width: 1px;
-    height: 85px;
-    background-color: #081B4B;
-    opacity: 0.35;
-    margin: 0 clamp(1rem, 2vw, 2rem);
+    height: 70%;
+    background-color: rgba(8, 27, 75, 0.25);
     flex-shrink: 0;
 }
 
@@ -165,25 +171,31 @@ body {
 }
 
 .header-title-en {
-    font-family: 'Outfit', sans-serif;
-    font-size: clamp(1.15rem, 2.5vw, 2.15rem);
-    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.05rem, 2.2vw, 1.95rem);
+    font-weight: 600;
     color: #081B4B;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
     line-height: 1.2;
-    margin: 0;
+    margin: 0 0 10px 0;
     text-transform: uppercase;
 }
 
 .header-title-hi {
-    font-family: 'Outfit', 'Poppins', sans-serif;
-    font-size: clamp(0.95rem, 2.1vw, 1.7rem);
+    font-family: 'Noto Serif Devanagari', serif;
+    font-size: clamp(0.85rem, 1.8vw, 1.55rem);
     font-weight: 500;
     color: #081B4B;
-    letter-spacing: 0.02em;
-    margin-top: 0.4rem;
+    letter-spacing: 0.01em;
+    margin-top: 0;
     margin-bottom: 0;
-    line-height: 1.2;
+    line-height: 1.15;
+}
+
+.header-right-spacer {
+    width: 165px;
+    height: 1px;
+    visibility: hidden;
 }
 
 /* ════════════════════════════════════════════════════
@@ -193,7 +205,7 @@ body {
     background: transparent;
     border-bottom: none;
     padding: 0.6rem 0;
-    margin-top: -30px; /* pull up to intersect logo bar & slideshow without cutting off logo text */
+    margin-top: -15px; /* pull up to intersect logo bar & slideshow without cutting off logo text */
     transition: margin-top 0.3s ease, background 0.3s ease, border-bottom 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     z-index: 10;
@@ -210,7 +222,7 @@ body {
 }
 
 .scrolled .top-logo-bar {
-    margin-top: -140px;
+    margin-top: -120px;
     opacity: 0;
     pointer-events: none;
 }
@@ -555,7 +567,7 @@ body {
     position: absolute;
     inset: 0;
     background-size: cover;
-    background-position: center 20%;
+    background-position: 65% center;
     background-repeat: no-repeat;
     background-color: var(--deep-navy);
     opacity: 0;
@@ -619,10 +631,10 @@ body {
 /* Quote headline — bold, large, left-aligned */
 .hero-quote-text {
     font-family: var(--font-heading);
-    font-size: clamp(1.8rem, 3.8vw, 3rem);
-    font-weight: 800;
+    font-size: clamp(1.6rem, 3.4vw, 2.75rem);
+    font-weight: 600;
     font-style: italic;
-    line-height: 1.2;
+    line-height: 1.35;
     letter-spacing: -0.01em;
     margin-bottom: 1.2rem;
     text-shadow: 0 2px 16px rgba(0,0,0,0.6);
@@ -1557,29 +1569,28 @@ body {
 
 @media (max-width: 992px) {
     body {
-        padding-top: 120px; /* Adjusted for smaller logo bar on tablet */
+        padding-top: 110px; /* Adjusted for smaller logo bar on tablet */
     }
     .top-logo-bar {
-        height: 120px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 0;
-        padding-right: 0;
+        height: 110px;
+        padding-top: 8px;
+        padding-bottom: 8px;
     }
     .navbar-row {
-        margin-top: -15px;
+        margin-top: -12px;
     }
     .scrolled .top-logo-bar {
-        margin-top: -120px;
+        margin-top: -110px;
     }
     .hero-slideshow-wrapper {
-        height: calc(100vh - 120px);
+        height: calc(100vh - 110px);
     }
     .header-brand-wrap {
-        gap: 0;
+        grid-template-columns: 140px 1fr 140px;
     }
-    .tl-bsfi { height: 65px; }
-    .header-v-sep { height: 50px; margin: 0 1.25rem; }
+    .tl-bsfi { width: 120px; margin-top: 4px; }
+    .header-v-sep { height: 65%; }
+    .header-right-spacer { width: 140px; }
 
     .burger-btn {
         display: flex;
@@ -1681,30 +1692,58 @@ body {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 100px; /* Scaled down logo bar for mobile */
+        padding-top: 155px; /* Scaled down logo bar for mobile */
     }
     .top-logo-bar {
-        height: 100px;
-        padding-top: 8px;
-        padding-bottom: 8px;
+        height: auto;
+        min-height: 155px;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
     .scrolled .top-logo-bar {
-        margin-top: -100px;
+        margin-top: -155px;
     }
     .hero-slideshow-wrapper {
-        height: calc(100vh - 100px);
+        height: calc(100vh - 155px);
     }
     .navbar-row {
-        margin-top: -8px;
+        margin-top: 0;
     }
     .header-brand-wrap {
-        gap: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
     }
-    .tl-bsfi { height: 55px; }
-    .header-v-sep { height: 40px; margin: 0 0.75rem; }
+    .header-logo-container {
+        justify-content: center;
+        height: auto;
+        width: auto;
+    }
+    .tl-bsfi {
+        width: 110px;
+        margin-top: 0;
+    }
+    .header-v-sep {
+        display: none;
+    }
+    .header-right-spacer {
+        display: none;
+    }
+    .header-title-en {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 6px;
+    }
+    .header-title-hi {
+        font-size: 15px;
+        text-align: center;
+    }
     .hero-quote-text {
-        font-size: clamp(1.4rem, 6vw, 2.2rem) !important;
-        line-height: 1.15 !important;
+        font-size: clamp(1.3rem, 5.5vw, 2.0rem) !important;
+        font-weight: 600 !important;
+        line-height: 1.3 !important;
         max-width: 95%;
     }
     .hero-btns {
