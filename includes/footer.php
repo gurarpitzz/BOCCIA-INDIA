@@ -13,7 +13,7 @@ if (!isset($relative_prefix)) {
     if ($depth < 0) $depth = 0;
     $relative_prefix = str_repeat('../', $depth);
 }
-$script_path = $relative_prefix . 'app.js';
+$script_path = $relative_prefix . 'app.js?v=2.2';
 ?>
     <?php
     // Only show Recognitions & Affiliations and Strategic Partners on the Home Page
