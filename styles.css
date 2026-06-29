@@ -84,7 +84,7 @@ body {
     font-family: var(--font-body);
     line-height: 1.6;
     overflow-x: hidden;
-    padding-top: 150px;  /* logo bar height (~150px), navbar row overlays the hero section */
+    padding-top: 140px;  /* logo bar height (~140px), navbar row overlays the hero section */
 }
 
 .container {
@@ -114,7 +114,7 @@ body {
     padding-left: 0;
     padding-right: 0;
     width: 100%;
-    height: 150px;
+    height: 120px;
     box-sizing: border-box;
     transition: margin-top 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
@@ -148,7 +148,7 @@ body {
 }
 
 .tl-img { height: 100%; width: auto; object-fit: contain; }
-.tl-bsfi { height: 115px; width: auto; object-fit: contain; transition: height 0.3s ease; }
+.tl-bsfi { height: 88px; width: auto; object-fit: contain; transition: height 0.3s ease; }
 
 .header-v-sep {
     width: 1px;
@@ -220,7 +220,7 @@ body {
 }
 
 .scrolled .top-logo-bar {
-    margin-top: -150px;
+    margin-top: -120px;
     opacity: 0;
     pointer-events: none;
 }
@@ -1576,10 +1576,10 @@ body {
 
 @media (max-width: 992px) {
     body {
-        padding-top: 130px; /* Adjusted for smaller logo bar on tablet */
+        padding-top: 110px; /* Adjusted for smaller logo bar on tablet */
     }
     .top-logo-bar {
-        height: 130px;
+        height: 110px;
         padding-top: 8px;
         padding-bottom: 8px;
         box-sizing: border-box;
@@ -1594,15 +1594,15 @@ body {
         padding: 0 24px;
     }
     .scrolled .top-logo-bar {
-        margin-top: -130px;
+        margin-top: -110px;
     }
     .hero-slideshow-wrapper {
-        height: calc(100vh - 130px);
+        height: calc(100vh - 110px);
     }
     .header-brand-wrap {
         grid-template-columns: 130px 1px 1fr 131px;
     }
-    .tl-bsfi { height: 100px; width: auto; object-fit: contain; }
+    .tl-bsfi { height: 78px; width: auto; object-fit: contain; }
     .header-v-sep { height: 70%; justify-self: center; }
     .header-right-spacer { width: 131px; }
 
@@ -1706,19 +1706,19 @@ body {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 180px; /* Scaled down logo bar for mobile */
+        padding-top: 155px; /* Scaled down logo bar for mobile */
     }
     .top-logo-bar {
         height: auto;
-        min-height: 180px;
+        min-height: 155px;
         padding-top: 15px;
         padding-bottom: 15px;
     }
     .scrolled .top-logo-bar {
-        margin-top: -180px;
+        margin-top: -155px;
     }
     .hero-slideshow-wrapper {
-        height: calc(100vh - 180px);
+        height: calc(100vh - 155px);
     }
     .navbar-row {
         margin-top: 0;
@@ -1736,7 +1736,7 @@ body {
         width: auto;
     }
     .tl-bsfi {
-        height: 90px;
+        height: 80px;
         width: auto;
         margin-top: 0;
     }
