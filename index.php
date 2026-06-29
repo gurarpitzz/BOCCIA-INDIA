@@ -136,9 +136,8 @@ try {
     <div class="hero-content-overlay">
         <h1 class="hero-quote-text animated-quote">
             <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-right: 0.1em;">“</span>
-            <span class="animated-words">I didn't know</span><br>
-            <span class="animated-words">there was a sport</span><br>
-            <span class="animated-words">for me until</span><br>
+            <span class="animated-words">I didn't know there was a</span><br>
+            <span class="animated-words">sport for me until</span><br>
             <span class="animated-words">I found Boccia</span>
             <span class="hero-quote-accent hero-anim-word" style="display: inline-block; opacity: 0; transform: translateY(10px); margin-left: 0.1em;">”</span>
         </h1>
