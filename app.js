@@ -48,46 +48,75 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (data.error) {
                             mapDetailsCard.innerHTML = `
                                 <h4 class="map-detail-heading">${stateName}</h4>
-                                <p class="map-detail-body" style="color:#ff8a95;">Failed to load statistics.</p>`;
+                                <p class="map-detail-body" style="color:#ff8a95;">Failed to load details.</p>`;
                             return;
                         }
 
-                        const pendingRow = data.role ? `
-                            <div class="map-stat-row">
-                                <span>Pending Approval</span>
-                                <strong style="color:#F4B942;">${data.pending}</strong>
-                            </div>` : '';
+                        if (data.has_association) {
+                            let statusBadge = '';
+                            let statusColor = '#ff8a95';
+                            if (data.status === 'Registered') {
+                                statusBadge = '🟢 Registered';
+                                statusColor = '#24C27A';
+                            } else if (data.status === 'Under Process') {
+                                statusBadge = '🟡 Under Process';
+                                statusColor = '#F4B942';
+                            } else {
+                                statusBadge = '🔴 Not Available';
+                            }
 
-                        const adminActions = data.can_view_details ? `
-                            <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.25rem;">
-                                <a href="${data.details_url}" class="btn" style="font-size:0.82rem;padding:0.55rem 1.1rem;border-radius:999px;background:#24C27A;color:#0B1B3D;font-weight:700;text-decoration:none;">View Directory</a>
-                                ${data.export_url ? `<a href="${data.export_url}" class="btn" style="font-size:0.82rem;padding:0.55rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,0.2);color:#FAF7F0;font-weight:700;text-decoration:none;">Export CSV</a>` : ''}
-                            </div>` : `<span class="map-detail-badge">â—� National Registry System</span>`;
-
-                        mapDetailsCard.innerHTML = `
-                            <h4 class="map-detail-heading">${data.state}</h4>
-                            <div style="margin-bottom:1.25rem;">
-                                <div class="map-stat-row">
-                                    <span>Approved Athletes</span>
-                                    <strong style="color:#F4B942;">${data.approved}</strong>
+                            mapDetailsCard.innerHTML = `
+                                <h4 class="map-detail-heading">${data.state}</h4>
+                                <div style="margin-bottom:1.25rem;">
+                                    <div class="map-stat-row" style="margin-bottom:0.4rem; display:flex; justify-content:space-between; align-items:center;">
+                                        <span style="opacity:0.8; font-size:0.85rem;">State Association</span>
+                                        <strong style="color:#FAF7F0; font-size:0.95rem; text-align:right; max-width:60%; word-break:break-word;">${data.association_name}</strong>
+                                    </div>
+                                    <div class="map-stat-row" style="display:flex; justify-content:space-between; align-items:center;">
+                                        <span style="opacity:0.8; font-size:0.85rem;">Affiliation Status</span>
+                                        <strong style="color:${statusColor}; font-size:0.95rem;">${statusBadge}</strong>
+                                    </div>
                                 </div>
-                                ${pendingRow}
-                            </div>
-                            <p style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.06em;font-weight:700;color:rgba(250,247,240,0.6);margin-bottom:0.6rem;">Classification Split</p>
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
-                                ${['BC1','BC2','BC3','BC4'].map(c => `
-                                <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:center;">
-                                    <div style="font-size:0.72rem;opacity:0.65;">${c}</div>
-                                    <strong style="font-size:1rem;color:#FAF7F0;">${data.classifications[c.toLowerCase()]}</strong>
-                                </div>`).join('')}
-                            </div>
-                            ${adminActions}
-                        `;
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                        <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Contact Person</div>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.contact_person}">${data.contact_person}</strong>
+                                    </div>
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                        <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Official Email</div>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.email}">${data.email}</strong>
+                                    </div>
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                        <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Contact Number</div>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.phone}">${data.phone}</strong>
+                                    </div>
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                        <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Association Status</div>
+                                        <strong style="font-size:0.85rem;color:${statusColor};display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.status}">${data.status}</strong>
+                                    </div>
+                                </div>
+                                <span class="map-detail-badge">● Recognized by BSFI</span>
+                            `;
+                        } else {
+                            mapDetailsCard.innerHTML = `
+                                <h4 class="map-detail-heading">${data.state}</h4>
+                                <div style="margin-bottom:1.25rem;">
+                                    <div class="map-stat-row" style="display:flex; justify-content:space-between; align-items:center;">
+                                        <span style="opacity:0.8; font-size:0.85rem;">Affiliation Status</span>
+                                        <strong style="color:#ff8a95; font-size:0.95rem;">🔴 No Registered Association</strong>
+                                    </div>
+                                </div>
+                                <p class="map-detail-body" style="font-size:0.85rem; line-height:1.45; color:rgba(250,247,240,0.75); margin-bottom:1.25rem;">
+                                    No official Boccia State Association has been registered for this state yet. Please contact the Boccia Sports Federation of India for further information.
+                                </p>
+                                <span class="map-detail-badge">● Recognized by BSFI</span>
+                            `;
+                        }
                     })
                     .catch(() => {
                         mapDetailsCard.innerHTML = `
                             <h4 class="map-detail-heading">${stateName}</h4>
-                            <p class="map-detail-body" style="color:#ff8a95;">Failed to load statistics.</p>`;
+                            <p class="map-detail-body" style="color:#ff8a95;">Failed to load details.</p>`;
                     });
             });
         });

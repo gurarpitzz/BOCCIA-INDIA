@@ -1,0 +1,298 @@
+{
+    "Andhra Pradesh": {
+        "state_name": "Andhra Pradesh",
+        "association_name": "Para Boccia Association of Andhra Pradesh",
+        "contact_person": "Subbarao Suravarapu",
+        "email": "parabocciaassociationofap@yahoo.com",
+        "phone": "+91 98490 11731",
+        "status": "Registered"
+    },
+    "Arunachal Pradesh": {
+        "state_name": "Arunachal Pradesh",
+        "association_name": "Boccia Association of Arunachal Pradesh",
+        "contact_person": "Techi Sonu",
+        "email": "bocciaarunachal@gmail.com",
+        "phone": "+91 81190 24488",
+        "status": "Registered"
+    },
+    "Assam": {
+        "state_name": "Assam",
+        "association_name": "Boccia Association of Assam",
+        "contact_person": "Rajib Dey",
+        "email": "rajib345@rediffmail.com",
+        "phone": "+91 98647 17151",
+        "status": "Registered"
+    },
+    "Bihar": {
+        "state_name": "Bihar",
+        "association_name": "Boccia Association of Bihar",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Chhattisgarh": {
+        "state_name": "Chhattisgarh",
+        "association_name": "Boccia Association of Chhattisgarh",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Goa": {
+        "state_name": "Goa",
+        "association_name": "Boccia Association of Goa",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Gujarat": {
+        "state_name": "Gujarat",
+        "association_name": "Para Boccia Federation Gujarat",
+        "contact_person": "Nileshkumar Hemrajbhai Rabari",
+        "email": "bocciagujarat2024@gmail.com",
+        "phone": "+91 82383 99385",
+        "status": "Registered"
+    },
+    "Haryana": {
+        "state_name": "Haryana",
+        "association_name": "Boccia Association of Haryana",
+        "contact_person": "Rosy",
+        "email": "Not Available",
+        "phone": "+91 99920 25255",
+        "status": "Under Process"
+    },
+    "Himachal Pradesh": {
+        "state_name": "Himachal Pradesh",
+        "association_name": "Boccia Association of Himachal Pradesh",
+        "contact_person": "Sanjana",
+        "email": "iamdsanjana@gmail.com",
+        "phone": "+91 70188 98384",
+        "status": "Under Process"
+    },
+    "Jharkhand": {
+        "state_name": "Jharkhand",
+        "association_name": "Boccia Association of Jharkhand",
+        "contact_person": "Suman",
+        "email": "bocciajharkhand@gmail.com",
+        "phone": "+91 96250 10227",
+        "status": "Registered"
+    },
+    "Karnataka": {
+        "state_name": "Karnataka",
+        "association_name": "Boccia Association of Karnataka",
+        "contact_person": "Shikha",
+        "email": "karnatakaparaboccia@gmail.com",
+        "phone": "+91 95386 69167",
+        "status": "Registered"
+    },
+    "Kerala": {
+        "state_name": "Kerala",
+        "association_name": "Boccia Association of Kerala",
+        "contact_person": "Sudalaimani",
+        "email": "Keralaboccia@gmail.com",
+        "phone": "+91 90375 67633",
+        "status": "Registered"
+    },
+    "Madhya Pradesh": {
+        "state_name": "Madhya Pradesh",
+        "association_name": "Boccia Association of Madhya Pradesh",
+        "contact_person": "Suryadutt joshi",
+        "email": "mpparabocciaass@gmail.com",
+        "phone": "+91 97700 84488",
+        "status": "Under Process"
+    },
+    "Maharashtra": {
+        "state_name": "Maharashtra",
+        "association_name": "Boccia Association of Maharashtra",
+        "contact_person": "Jahanvi Modi",
+        "email": "bocciamaharashtra@gmail.com",
+        "phone": "+91 99675 39461",
+        "status": "Registered"
+    },
+    "Manipur": {
+        "state_name": "Manipur",
+        "association_name": "Boccia Association of Manipur",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Meghalaya": {
+        "state_name": "Meghalaya",
+        "association_name": "Boccia Association of Meghalaya",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Mizoram": {
+        "state_name": "Mizoram",
+        "association_name": "Boccia Association of Mizoram",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Nagaland": {
+        "state_name": "Nagaland",
+        "association_name": "Boccia Association of Nagaland",
+        "contact_person": "M. Kikon",
+        "email": "Not Available",
+        "phone": "+91 70859 27093",
+        "status": "Under Process"
+    },
+    "Odisha": {
+        "state_name": "Odisha",
+        "association_name": "Boccia Association of Odisha",
+        "contact_person": "Sunil Pardhan",
+        "email": "odishaparaboccia@gmail.com",
+        "phone": "+91 98610 09396",
+        "status": "Registered"
+    },
+    "Punjab": {
+        "state_name": "Punjab",
+        "association_name": "Boccia Association of Punjab",
+        "contact_person": "Davinder Singh Brar",
+        "email": "taffybrar58@gmail.com",
+        "phone": "+91 99153 58558",
+        "status": "Registered"
+    },
+    "Rajasthan": {
+        "state_name": "Rajasthan",
+        "association_name": "Boccia Association of Rajasthan",
+        "contact_person": "DM",
+        "email": "dhaliwalgurman30@gmail.com",
+        "phone": "+91 81011 00003",
+        "status": "Registered"
+    },
+    "Sikkim": {
+        "state_name": "Sikkim",
+        "association_name": "Boccia Association of Sikkim",
+        "contact_person": "Dr. Tenzing",
+        "email": "norzomtenzing07@gmail.com",
+        "phone": "+91 77230 26745",
+        "status": "Under Process"
+    },
+    "Tamil Nadu": {
+        "state_name": "Tamil Nadu",
+        "association_name": "Boccia Association of Tamil Nadu",
+        "contact_person": "Siddheswaran KR",
+        "email": "tnbocciaoffice@gmail.com",
+        "phone": "+91 96292 57541",
+        "status": "Under Process"
+    },
+    "Telangana": {
+        "state_name": "Telangana",
+        "association_name": "Boccia Association of Telangana",
+        "contact_person": "Satyea",
+        "email": "telanganaparabocciaassociation@gmail.com",
+        "phone": "+91 94403 98889",
+        "status": "Registered"
+    },
+    "Tripura": {
+        "state_name": "Tripura",
+        "association_name": "Boccia Association of Tripura",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Uttarakhand": {
+        "state_name": "Uttarakhand",
+        "association_name": "Boccia Association of Uttarakhand",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Uttar Pradesh": {
+        "state_name": "Uttar Pradesh",
+        "association_name": "Boccia Association of Uttar Pradesh",
+        "contact_person": "Priyanka Yadav",
+        "email": "doc4priyanka@gmail.com",
+        "phone": "+91 70078 97725",
+        "status": "Registered"
+    },
+    "West Bengal": {
+        "state_name": "West Bengal",
+        "association_name": "Boccia Association of West Bengal",
+        "contact_person": "Inderjit Singh Walia",
+        "email": "parasportsassociationofboccia@gmail.com",
+        "phone": "+91 97486 19067",
+        "status": "Under Process"
+    },
+    "State": {
+        "state_name": "State",
+        "association_name": "Boccia Association of State",
+        "contact_person": "Contact Person",
+        "email": "Email",
+        "phone": "Phone",
+        "status": "Under Process"
+    },
+    "Dadra and Nagar Haveli and Daman and Diu": {
+        "state_name": "Dadra and Nagar Haveli and Daman and Diu",
+        "association_name": "Boccia Association of Dadra and Nagar Haveli and Daman and Diu",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Delhi": {
+        "state_name": "Delhi",
+        "association_name": "Boccia Association of Delhi",
+        "contact_person": "Ashok Bedi",
+        "email": "paradelhibocciaassociation@gmail.com",
+        "phone": "+91 98100 13279",
+        "status": "Registered"
+    },
+    "Jammu & Kashmir": {
+        "state_name": "Jammu & Kashmir",
+        "association_name": "Boccia Association of Jammu & Kashmir",
+        "contact_person": "Manzoor",
+        "email": "Not Available",
+        "phone": "+91 98581 23333",
+        "status": "Under Process"
+    },
+    "Ladakh": {
+        "state_name": "Ladakh",
+        "association_name": "Boccia Association of Ladakh",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Chandigarh": {
+        "state_name": "Chandigarh",
+        "association_name": "Boccia Association of Chandigarh",
+        "contact_person": "Navdeep Singh",
+        "email": "advnavdeepdhillon@gmail.com",
+        "phone": "+91 96203 00000",
+        "status": "Registered"
+    },
+    "Puducherry": {
+        "state_name": "Puducherry",
+        "association_name": "Boccia Association of Puducherry",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Lakshadweep": {
+        "state_name": "Lakshadweep",
+        "association_name": "Boccia Association of Lakshadweep",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    },
+    "Andaman & Nicobar Islands": {
+        "state_name": "Andaman & Nicobar Islands",
+        "association_name": "Boccia Association of Andaman & Nicobar Islands",
+        "contact_person": "Not Available",
+        "email": "Not Available",
+        "phone": "Not Available",
+        "status": "Under Process"
+    }
+}

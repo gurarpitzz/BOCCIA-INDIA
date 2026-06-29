@@ -271,14 +271,14 @@ try {
             <div class="col-lg-6">
                 <div class="map-content-panel">
                     <span class="map-eyebrow">National Footprint</span>
-                    <h2 class="map-main-title">State Participation<br>&amp; Associations</h2>
-                    <p class="map-desc">Click on any state on the interactive map to view athlete registration counts, classification splits, and state association details.</p>
+                    <h2 class="map-main-title">Official State<br>Associations</h2>
+                    <p class="map-desc">Click on any state on the interactive map to view its officially recognized Boccia State Association, contact representative, affiliation status, and official communication details maintained by the Boccia Sports Federation of India.</p>
 
                     <!-- Dynamic detail card (populated by app.js on click) -->
                     <div id="map-details-card" class="map-detail-box">
                         <h4 class="map-detail-heading">Select a State</h4>
-                        <p class="map-detail-body">Click on any of the active states on the map to load association statistics, athlete representation, and active registries.</p>
-                        <span class="map-detail-badge">● National Registry System</span>
+                        <p class="map-detail-body">Click on any state on the interactive map to view its officially recognized Boccia State Association, contact representative, affiliation status, and official communication details.</p>
+                        <span class="map-detail-badge">● Recognized by BSFI</span>
                     </div>
 
                     <!-- Athlete Density Legend — moved here from map card -->
@@ -302,36 +302,36 @@ try {
 ════════════════════════════════════════════ -->
 <section class="stats-bar-section" id="stats-bar">
     <div class="container">
-        <p class="stats-bar-eyebrow">BSFI in Numbers</p>
+        <p class="stats-bar-eyebrow">BSFI At a Glance</p>
         <div class="stats-bar-pill">
 
             <div class="stat-item">
-                <span class="stat-number" data-target="<?php echo $siteStats['total_athletes']; ?>" data-suffix="+">0+</span>
+                <span class="stat-number" data-target="19" data-suffix="+">0+</span>
+                <span class="stat-label">Affiliated States</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="41" data-suffix="+">0+</span>
+                <span class="stat-label">Recognized State Associations</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="4" data-suffix="">0</span>
+                <span class="stat-label">Official Sport Classes</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="<?php echo max(100, $siteStats['total_athletes']); ?>" data-suffix="+">0+</span>
                 <span class="stat-label">Registered Athletes</span>
             </div>
             <div class="stat-divider"></div>
 
             <div class="stat-item">
-                <span class="stat-number" data-target="<?php echo $siteStats['states_active']; ?>" data-suffix="+">0+</span>
-                <span class="stat-label">States Represented</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="<?php echo $siteStats['associations']; ?>" data-suffix="+">0+</span>
-                <span class="stat-label">State Associations</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="<?php echo $siteStats['bc_classes']; ?>" data-suffix="">0</span>
-                <span class="stat-label">BC Classifications</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
                 <span class="stat-number" data-target="<?php echo $siteStats['years_active']; ?>" data-suffix="+">0+</span>
-                <span class="stat-label">Years Active</span>
+                <span class="stat-label">Years of Excellence</span>
             </div>
 
         </div>
