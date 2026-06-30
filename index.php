@@ -300,6 +300,10 @@ try {
                     </div>
                     
                 </div>
+                
+                <div style="margin-top: 2.25rem;">
+                    <a href="https://bocciaindia.ajeetgraphics.com/page.php?section=about&slug=about-boccia" class="btn btn-bsfi-navy">Learn About Boccia &rarr;</a>
+                </div>
             </div>
             
             <!-- Right: Premium Video Player -->
