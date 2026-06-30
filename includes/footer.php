@@ -220,7 +220,7 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
                             <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: #081B4B; margin: 0; font-weight: 700; line-height: 1.2;">Interested in Supporting BSFI?</h3>
                             <p style="color: rgba(8, 27, 75, 0.7); margin: 0; margin-top: 0.15rem; font-size: 0.78rem; line-height: 1.2;">Learn how your organization can contribute to the growth of Boccia in India.</p>
                         </div>
-                        <a href="https://boccia-india-landing.gurarpitzz.com/contact.php" class="btn btn-bsfi-green" style="padding: 0.7rem 1.75rem; font-size: 0.85rem; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; flex-shrink: 0;">Contact BSFI &rarr;</a>
+                        <a href="https://bocciaindia.ajeetgraphics.com/contact.php" class="btn btn-bsfi-green" style="padding: 0.7rem 1.75rem; font-size: 0.85rem; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; flex-shrink: 0;">Contact BSFI &rarr;</a>
                     </div>
                     
                 </div>
