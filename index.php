@@ -329,7 +329,6 @@ try {
      SECTION 3: Who Can Participate?
 ════════════════════════════════════════════ -->
 <section id="who-can-participate" class="who-can-participate-section">
-    <div class="section-dark-overlay"></div>
     <div class="container section-content-relative text-center">
         <span class="section-sub-label">ATHLETE ELIGIBILITY</span>
         <h2 class="section-main-heading text-center" style="margin-bottom: 1.25rem; color: #ffffff;">Who Can Participate?</h2>
