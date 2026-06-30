@@ -484,7 +484,7 @@ try {
 <!-- ═══════════════════════════════════════════
      SECTION 5: Become a Boccia Athlete
 ════════════════════════════════════════════ -->
-<section id="become-athlete" class="become-athlete-section">
+<section id="become-athlete" class="become-athlete-section" style="background-image: url('about boccia/Watch_Learn_bg.webp'); background-size: cover; background-position: center;">
     <div class="container text-center">
         <span class="section-sub-label">JOIN THE MOVEMENT</span>
         <h2 class="section-main-heading text-center" style="margin-bottom: 0.75rem; color: #081B4B;">Become a Boccia Athlete</h2>
