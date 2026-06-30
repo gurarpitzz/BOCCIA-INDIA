@@ -251,7 +251,7 @@ try {
 <!-- ═══════════════════════════════════════════
      SECTION 2: What is Boccia?
 ════════════════════════════════════════════ -->
-<section id="what-is-boccia" class="what-is-boccia-section" style="background-image: url('about boccia/overview_bg.webp');">
+<section id="what-is-boccia" class="what-is-boccia-section" style="background-image: url('news_bg.webp');">
     <div class="section-dark-overlay"></div>
     <div class="container section-content-relative">
         <div class="row align-items-center g-5">
