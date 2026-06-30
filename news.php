@@ -238,6 +238,7 @@ include __DIR__ . '/includes/header.php';
                             <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="share-circle-btn share-facebook" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                             <a href="https://twitter.com/intent/tweet?url=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&text=<?php echo urlencode($article['title']); ?>" target="_blank" class="share-circle-btn share-twitter" title="Share on X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
                             <a href="https://api.whatsapp.com/send?text=<?php echo urlencode($article['title'] . ' - ' . 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>" target="_blank" class="share-circle-btn share-whatsapp" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                            <a href="#" onclick="shareOnInstagram(event, '<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>')" class="share-circle-btn share-instagram" title="Share on Instagram"><i class="fa-brands fa-instagram"></i></a>
                             <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']); ?>&title=<?php echo urlencode($article['title']); ?>" target="_blank" class="share-circle-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>
@@ -346,6 +347,14 @@ include __DIR__ . '/includes/header.php';
     background: #25D366;
     color: #ffffff;
 }
+.share-instagram {
+    border: 2px solid #E1306C;
+    color: #E1306C;
+}
+.share-instagram:hover {
+    background: #E1306C;
+    color: #ffffff;
+}
 .share-linkedin {
     border: 2px solid #0A66C2;
     color: #0A66C2;
@@ -357,6 +366,28 @@ include __DIR__ . '/includes/header.php';
 </style>
 
 <script>
+function shareOnInstagram(e, url) {
+    e.preventDefault();
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() {
+            alert("Article link copied to clipboard! Opening Instagram to share.");
+            window.open("https://www.instagram.com/", "_blank");
+        }, function() {
+            window.open("https://www.instagram.com/", "_blank");
+        });
+    } else {
+        // Fallback for older browsers
+        const tempInput = document.createElement("input");
+        tempInput.value = url;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Article link copied to clipboard! Opening Instagram to share.");
+        window.open("https://www.instagram.com/", "_blank");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     if(typeof GLightbox !== 'undefined') {
         GLightbox({
