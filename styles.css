@@ -3799,10 +3799,8 @@ body {
     margin-top: 2.5rem;
 }
 .eligibility-panel {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #ffffff;
+    border: 1px solid rgba(11, 27, 61, 0.1);
     border-radius: 18px;
     padding: 1.25rem;
     display: flex;
@@ -3829,20 +3827,30 @@ body {
 .panel-content h4 {
     font-size: 0.95rem; /* Card titles: ~24px equivalent proportion */
     font-weight: 700;
-    color: #ffffff;
+    color: #081B4B; /* Dark navy text for white cards */
     margin: 0;
     line-height: 1.25;
 }
 .panel-content p {
     font-size: 0.78rem; /* Card description */
-    color: rgba(250, 247, 240, 0.65);
+    color: rgba(8, 27, 75, 0.75); /* Dark grey text for readability */
     margin: 0;
     margin-top: 0.15rem;
 }
 .eligibility-panel:hover {
     transform: translateY(-4px);
-    border-color: rgba(36, 194, 122, 0.45);
-    box-shadow: 0 12px 28px rgba(36, 194, 122, 0.1);
+    border-color: rgba(36, 194, 122, 0.3);
+    box-shadow: 0 12px 28px rgba(11, 27, 61, 0.08);
+}
+
+/* Add dashes to the cursive section sub-labels */
+.section-sub-label::before {
+    content: "-- ";
+    margin-right: 0.25rem;
+}
+.section-sub-label::after {
+    content: " --";
+    margin-left: 0.25rem;
 }
 
 /* ═══════════════════════════════════════════
