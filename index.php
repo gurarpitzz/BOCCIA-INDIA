@@ -386,7 +386,7 @@ try {
         </div>
         
         <div style="margin-top: 3rem;">
-            <a href="page.php?section=get-involved&slug=classification" class="btn btn-bsfi-outline-light">Check Eligibility &rarr;</a>
+            <a href="page.php?section=get-involved&slug=classification" class="btn btn-bsfi-green">Check Eligibility &rarr;</a>
         </div>
     </div>
 </section>
