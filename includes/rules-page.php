@@ -1095,7 +1095,7 @@ body {
     </section>
 
     <!-- ═══════════ SECTION 2: HOW TO PLAY BOCCIA ═══════════ -->
-    <section class="rules-section bg-white border-top border-bottom">
+    <section id="how-to-play" class="rules-section bg-white border-top border-bottom">
         <div class="container">
             <h3 class="section-divider-title">2. How to Play Boccia</h3>
             

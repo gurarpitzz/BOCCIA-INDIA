@@ -613,10 +613,10 @@
                     <h5 class="bsfi-ast-menu-title">Learn About Boccia</h5>
                     <p class="bsfi-ast-menu-desc">Explore the game, governing rules, and equipment setups.</p>
                     
-                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=about&slug=about-boccia')" class="bsfi-ast-btn">What is Boccia? <span>&rarr;</span></button>
-                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=rules')" class="bsfi-ast-btn">Rules of the Sport <span>&rarr;</span></button>
+                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=rules#how-it-works')" class="bsfi-ast-btn">What is Boccia? <span>&rarr;</span></button>
+                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=rules#how-to-play')" class="bsfi-ast-btn">Rules of the Sport <span>&rarr;</span></button>
                     <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=equipment')" class="bsfi-ast-btn">Equipment <span>&rarr;</span></button>
-                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=rules')" class="bsfi-ast-btn">Competition Format <span>&rarr;</span></button>
+                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=rules#classification')" class="bsfi-ast-btn">Competition Format <span>&rarr;</span></button>
                     <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=about&slug=about-boccia')" class="bsfi-ast-btn">History of Boccia <span>&rarr;</span></button>
                 </div>
 
