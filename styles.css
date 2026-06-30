@@ -4084,26 +4084,26 @@ body {
     box-shadow: 0 4px 15px rgba(36, 194, 122, 0.25) !important;
 }
 
-/* Album Cards in Dark Theme: Premium Glassmorphism */
+/* Album Cards: Solid White for high contrast pop */
 .photo-gallery-section .gal-album-card {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .photo-gallery-section .gal-album-card:hover {
     border-color: #24C27A !important; /* Highlight border using Brand Green */
     transform: translateY(-6px) !important;
-    box-shadow: 0 20px 40px rgba(36, 194, 122, 0.12) !important;
+    box-shadow: 0 20px 40px rgba(36, 194, 122, 0.2) !important;
 }
 .photo-gallery-section .gal-album-title {
-    color: #ffffff !important;
+    color: #081B4B !important; /* Rich Navy Blue */
 }
 .photo-gallery-section .gal-album-meta {
-    color: rgba(250, 247, 240, 0.5) !important;
+    color: rgba(8, 27, 75, 0.6) !important; /* Muted Navy Blue */
 }
 .photo-gallery-section .gal-album-desc {
-    color: rgba(250, 247, 240, 0.7) !important;
+    color: rgba(8, 27, 75, 0.75) !important; /* Description Navy Blue */
 }
 
 /* Detail View Back Button */
