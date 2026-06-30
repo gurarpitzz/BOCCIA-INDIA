@@ -4307,3 +4307,23 @@ body {
     }
 }
 
+/* ── Support Us Light Theme (Left Aligned Layout) ── */
+.support-card-light {
+    background: #ffffff;
+    border: 1px solid rgba(11, 27, 61, 0.1);
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(11, 27, 61, 0.03);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.support-card-light:hover {
+    transform: translateY(-4px);
+    border-color: rgba(36, 194, 122, 0.35);
+    box-shadow: 0 10px 24px rgba(11, 27, 61, 0.08);
+}
+@media (max-width: 768px) {
+    .support-left-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
