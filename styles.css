@@ -4014,35 +4014,59 @@ body {
 .photo-gallery-section {
     position: relative;
     padding: 6rem 0;
-    background: #FAF7F0; /* Cream background base */
+    background: linear-gradient(135deg, #FAF7F0 0%, #faf6ec 40%, rgba(242, 100, 25, 0.03) 75%, rgba(142, 212, 45, 0.03) 100%);
     overflow: hidden;
 }
 .photo-gallery-section::before {
     content: '';
     position: absolute;
-    top: -250px;
-    left: -250px;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(242, 100, 25, 0.45) 0%, rgba(242, 100, 25, 0.18) 45%, rgba(250, 247, 240, 0) 70%); /* Concentrated Orange/Saffron glow */
-    filter: blur(50px);
+    top: -200px;
+    left: -200px;
+    width: 1000px;
+    height: 1000px;
+    background: radial-gradient(circle, rgba(242, 100, 25, 0.55) 0%, rgba(242, 100, 25, 0.2) 45%, rgba(250, 247, 240, 0) 70%); /* Giant prominent Orange glow */
+    filter: blur(70px);
     z-index: 1;
     pointer-events: none;
     will-change: transform;
-    animation: aurora-glow-left 28s infinite alternate ease-in-out;
+    animation: aurora-gallery-left 35s infinite alternate ease-in-out;
 }
 .photo-gallery-section::after {
     content: '';
     position: absolute;
     bottom: -300px;
-    right: -250px;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(142, 212, 45, 0.42) 0%, rgba(142, 212, 45, 0.15) 45%, rgba(250, 247, 240, 0) 70%); /* Concentrated Lime green glow */
-    filter: blur(50px);
+    right: -200px;
+    width: 1200px;
+    height: 1200px;
+    background: radial-gradient(circle, rgba(142, 212, 45, 0.52) 0%, rgba(142, 212, 45, 0.18) 45%, rgba(250, 247, 240, 0) 70%); /* Giant prominent Lime green glow */
+    filter: blur(80px);
     z-index: 1;
     pointer-events: none;
     will-change: transform;
-    animation: aurora-glow-right 32s infinite alternate ease-in-out;
+    animation: aurora-gallery-right 40s infinite alternate ease-in-out;
+}
+
+@keyframes aurora-gallery-left {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(250px, 300px) scale(1.2) rotate(120deg);
+    }
+    100% {
+        transform: translate(-100px, 500px) scale(0.9) rotate(240deg);
+    }
+}
+
+@keyframes aurora-gallery-right {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(-300px, -400px) scale(1.25) rotate(-90deg);
+    }
+    100% {
+        transform: translate(150px, -600px) scale(0.85) rotate(-180deg);
+    }
 }
 
