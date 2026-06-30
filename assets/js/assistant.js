@@ -603,10 +603,8 @@
                     
                     <a href="${pathPrefix}get-involved/register-player.php" class="bsfi-ast-btn">Register as Athlete <span>&rarr;</span></a>
                     <a href="${pathPrefix}get-involved/register-official.php" class="bsfi-ast-btn">Register as Official <span>&rarr;</span></a>
-                    <button onclick="closeAssistantAndScroll('#eligibility')" class="bsfi-ast-btn">Eligibility Criteria <span>&rarr;</span></button>
-                    <button onclick="closeAssistantAndScroll('#eligibility')" class="bsfi-ast-btn">Required Documents <span>&rarr;</span></button>
+                    <button onclick="closeAssistantAndScroll('#who-can-participate')" class="bsfi-ast-btn">Eligibility Criteria <span>&rarr;</span></button>
                     <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=classification')" class="bsfi-ast-btn">Classification Process <span>&rarr;</span></button>
-                    <a href="${pathPrefix}get-involved/membership.php" class="bsfi-ast-btn">Registration FAQ <span>&rarr;</span></a>
                 </div>
 
                 <!-- ════ SUBMENU: LEARN ════ -->
