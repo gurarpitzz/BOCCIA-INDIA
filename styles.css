@@ -4087,14 +4087,14 @@ body {
 /* Album Cards: Solid White for high contrast pop */
 .photo-gallery-section .gal-album-card {
     background: #ffffff !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid #ffffff !important; /* Solid white border */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .photo-gallery-section .gal-album-card:hover {
-    border-color: #24C27A !important; /* Highlight border using Brand Green */
+    border-color: #ffffff !important; /* White border on hover */
     transform: translateY(-6px) !important;
-    box-shadow: 0 20px 40px rgba(36, 194, 122, 0.2) !important;
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.3) !important; /* White glow shadow on hover */
 }
 .photo-gallery-section .gal-album-title {
     color: #081B4B !important; /* Rich Navy Blue */
