@@ -4037,9 +4037,9 @@ body {
     will-change: transform;
     opacity: 0.85;
 }
-/* Green Blobs: Vibrant secondary green (lime-green accent) */
+/* Green Blobs: Changed to blue as per request */
 .green-blob {
-    background: radial-gradient(circle, rgba(36, 194, 122, 0.45) 0%, rgba(36, 194, 122, 0.15) 50%, rgba(5, 19, 54, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 162, 255, 0.45) 0%, rgba(0, 162, 255, 0.15) 50%, rgba(5, 19, 54, 0) 70%);
 }
 /* Blue Blobs: Premium royal/cyan blue */
 .blue-blob {
