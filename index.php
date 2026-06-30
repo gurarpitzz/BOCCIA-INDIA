@@ -398,6 +398,7 @@ try {
      SECTION 4: Official State Associations (Map)
 ════════════════════════════════════════════ -->
 <div class="map-stats-bg-wrapper">
+<!-- India Participation Map Section -->
 <section id="map" class="map-section">
     <div class="container">
         <div class="row align-items-center g-5">
@@ -437,6 +438,45 @@ try {
                         <div class="legend-row"><span class="legend-badge" style="background:#0b1b3d;"></span> 30+ Athletes</div>
                     </div>
                 </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- DYNAMIC STATS BAR -->
+<section class="stats-bar-section" id="stats-bar">
+    <div class="container">
+        <p class="stats-bar-eyebrow">BSFI At a Glance</p>
+        <div class="stats-bar-pill">
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="19" data-suffix="+">0+</span>
+                <span class="stat-label">Affiliated States</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="41" data-suffix="+">0+</span>
+                <span class="stat-label">Recognized State Associations</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="4" data-suffix="">0</span>
+                <span class="stat-label">Official Sport Classes</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="<?php echo max(100, $siteStats['total_athletes']); ?>" data-suffix="+">0+</span>
+                <span class="stat-label">Registered Athletes</span>
+            </div>
+            <div class="stat-divider"></div>
+
+            <div class="stat-item">
+                <span class="stat-number" data-target="<?php echo $siteStats['years_active']; ?>" data-suffix="+">0+</span>
+                <span class="stat-label">Years of Excellence</span>
             </div>
 
         </div>
@@ -492,49 +532,6 @@ try {
         </div>
     </div>
 </section>
-
-<!-- ═══════════════════════════════════════════
-     SECTION 6: BSFI At a Glance (Stats Bar)
-════════════════════════════════════════════ -->
-<div class="map-stats-bg-wrapper">
-<section class="stats-bar-section" id="stats-bar">
-    <div class="container">
-        <p class="stats-bar-eyebrow">BSFI At a Glance</p>
-        <div class="stats-bar-pill">
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="19" data-suffix="+">0+</span>
-                <span class="stat-label">Affiliated States</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="41" data-suffix="+">0+</span>
-                <span class="stat-label">Recognized State Associations</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="4" data-suffix="">0</span>
-                <span class="stat-label">Official Sport Classes</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="<?php echo max(100, $siteStats['total_athletes']); ?>" data-suffix="+">0+</span>
-                <span class="stat-label">Registered Athletes</span>
-            </div>
-            <div class="stat-divider"></div>
-
-            <div class="stat-item">
-                <span class="stat-number" data-target="<?php echo $siteStats['years_active']; ?>" data-suffix="+">0+</span>
-                <span class="stat-label">Years of Excellence</span>
-            </div>
-
-        </div>
-    </div>
-</section>
-</div>
 
 <!-- National Schedules Section -->
 <section id="schedules" class="schedules-section" style="padding: 6rem 0; background: url('bg_schedule.webp') center/cover no-repeat;">
