@@ -444,7 +444,6 @@ try {
 <!-- DYNAMIC STATS BAR -->
 <section class="stats-bar-section" id="stats-bar">
     <div class="container">
-        <p class="stats-bar-eyebrow">BSFI At a Glance</p>
         <div class="stats-bar-pill">
 
             <div class="stat-item">
