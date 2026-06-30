@@ -3845,10 +3845,38 @@ body {
    SECTION 5: Become a Boccia Athlete
 ════════════════════════════════════════════ */
 .become-athlete-section {
-    background: #FAF7F0;
-    padding: 4.5rem 0; /* Reduced padding spacing */
     position: relative;
+    padding: 4.5rem 0; /* Reduced padding spacing */
+    background: linear-gradient(135deg, #051336 0%, #081B4B 50%, #0c235c 100%);
     overflow: hidden;
+}
+.become-athlete-section::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: -200px; /* Gradient glow from the top-left */
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(250, 247, 240, 0.45) 0%, rgba(36, 194, 122, 0.25) 50%, rgba(8, 27, 75, 0) 70%);
+    filter: blur(80px);
+    z-index: 1;
+    pointer-events: none;
+    will-change: transform;
+    animation: aurora-glow-left 25s infinite alternate ease-in-out;
+}
+.become-athlete-section::after {
+    content: '';
+    position: absolute;
+    bottom: -250px;
+    right: -200px; /* Gradient glow from bottom-right */
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(36, 194, 122, 0.35) 0%, rgba(250, 247, 240, 0.25) 40%, rgba(8, 27, 75, 0) 70%);
+    filter: blur(100px);
+    z-index: 1;
+    pointer-events: none;
+    will-change: transform;
+    animation: aurora-glow-right 30s infinite alternate ease-in-out;
 }
 .roadmap-timeline-wrapper {
     position: relative;
@@ -3861,7 +3889,7 @@ body {
     left: 10%;
     right: 10%;
     height: 2px;
-    background: linear-gradient(90deg, rgba(8, 27, 75, 0.03) 0%, rgba(8, 27, 75, 0.18) 50%, rgba(8, 27, 75, 0.03) 100%);
+    background: linear-gradient(90deg, rgba(250, 247, 240, 0.05) 0%, rgba(250, 247, 240, 0.4) 50%, rgba(250, 247, 240, 0.05) 100%);
     z-index: 1;
 }
 .roadmap-steps-container {

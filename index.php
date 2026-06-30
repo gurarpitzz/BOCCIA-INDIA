@@ -484,11 +484,11 @@ try {
 <!-- ═══════════════════════════════════════════
      SECTION 5: Become a Boccia Athlete
 ════════════════════════════════════════════ -->
-<section id="become-athlete" class="become-athlete-section" style="background-image: url('about boccia/Watch_Learn_bg.webp'); background-size: cover; background-position: center;">
-    <div class="container text-center">
+<section id="become-athlete" class="become-athlete-section">
+    <div class="container text-center section-content-relative">
         <span class="section-sub-label">JOIN THE MOVEMENT</span>
-        <h2 class="section-main-heading text-center" style="margin-bottom: 0.75rem; color: #081B4B;">Become a Boccia Athlete</h2>
-        <p class="section-desc-para mx-auto" style="max-width: 600px; margin-bottom: 3.5rem; color: rgba(8, 27, 75, 0.75);">
+        <h2 class="section-main-heading text-center" style="margin-bottom: 0.75rem; color: #ffffff;">Become a Boccia Athlete</h2>
+        <p class="section-desc-para mx-auto" style="max-width: 600px; margin-bottom: 3.5rem; color: rgba(255, 255, 255, 0.75);">
             Follow the official registration pathway to become part of India's national Boccia community.
         </p>
         
