@@ -4016,6 +4016,7 @@ body {
     padding: 6rem 0;
     background: #FAF7F0; /* Clean cream background base */
     overflow: hidden;
+    contain: paint; /* Enforce strict painting containment to clip all blurred elements */
 }
 .gallery-aurora-bg {
     position: absolute;
@@ -4023,6 +4024,7 @@ body {
     overflow: hidden;
     pointer-events: none;
     z-index: 1;
+    contain: paint; /* Enforce strict painting containment on the child bg container */
 }
 .aurora-blob {
     position: absolute;
