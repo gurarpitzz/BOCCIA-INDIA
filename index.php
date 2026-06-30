@@ -534,9 +534,9 @@ try {
 
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
                 <span style="height: 1px; width: 40px; background: var(--accent-saffron);"></span>
-                <span style="color: var(--accent-saffron); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">BOCCIA INDIA 2026</span>
+                <span class="schedules-eyebrow" style="color: var(--accent-saffron);">BOCCIA INDIA 2026</span>
                 <span style="height: 1px; width: 40px; background: var(--accent-saffron);"></span>
             </div>
             <h2 class="section-title" style="color: #ffffff; font-size: 2.8rem;">Schedule</h2>
@@ -1193,9 +1193,9 @@ try {
     <div id="official-federation-updates" style="scroll-margin-top: 120px;"></div>
     <div class="container">
         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 0.5rem;">
                 <span style="height: 1px; width: 40px; background: var(--accent-saffron);"></span>
-                <span style="color: var(--accent-saffron); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">BOCCIA INDIA 2026</span>
+                <span class="news-eyebrow" style="color: var(--accent-saffron);">BOCCIA INDIA 2026</span>
                 <span style="height: 1px; width: 40px; background: var(--accent-saffron);"></span>
             </div>
             <h2 class="section-title" style="color: #081B4B; font-size: 2.8rem;">Official Federation Updates</h2>

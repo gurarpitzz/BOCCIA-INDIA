@@ -4139,3 +4139,18 @@ body {
     100% { transform: translate(-100px, -180px) scale(0.95) rotate(120deg); }
 }
 
+/* ── Section Eyebrows: Matching the cursive 'Caveat' font style from The Sport ── */
+.section-sub-label,
+.map-eyebrow,
+.gal-eyebrow,
+.schedules-eyebrow,
+.news-eyebrow {
+    font-family: 'Caveat', cursive !important;
+    font-size: 1.8rem !important; /* Scale to match the original cursive styling */
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: 0.02em !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
