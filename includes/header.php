@@ -502,8 +502,15 @@ body.preloader-active { overflow: hidden !important; }
                                          $link = !empty($item['slug']) ? $logo_path . "page.php?section=" . urlencode($item['section']) . "&slug=" . urlencode($item['slug']) : "#";
                                     }
 
+                                     $title = $item['title'];
+                                     if ($title === 'Players Database 2024') {
+                                         $title = 'Player Database 2026';
+                                     } elseif ($title === 'Officials Database 2024') {
+                                         $title = 'Officials Database 2026';
+                                     }
+
                                     $aClass = ($item['parent_id'] !== null) ? 'npl-sub-item' : 'npl';
-                                    echo '<li><a href="' . $link . '" class="' . $aClass . '">' . htmlspecialchars($item['title']) . '</a></li>';
+                                    echo '<li><a href="' . $link . '" class="' . $aClass . '">' . htmlspecialchars($title) . '</a></li>';
                                 }
                             }
                         }
