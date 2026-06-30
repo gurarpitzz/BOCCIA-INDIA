@@ -839,7 +839,7 @@ body {
 
 /* ── MAP SECTION (transparent — inherits wrapper bg) ── */
 .map-section {
-    padding: 3rem 0 2rem;
+    padding: 3rem 0 7rem; /* Increased bottom padding to give spacing for overlap */
     background: transparent;
     position: relative;
 }
@@ -1095,8 +1095,8 @@ body {
 .stats-bar-section {
     position: relative;
     z-index: 10;
-    margin-top: -30px; /* Reduced negative margin to avoid legend collision */
-    margin-bottom: -40px; /* Spaced out from Join the Movement title */
+    margin-top: -60px; /* Symmetrical overlap positioning */
+    margin-bottom: -50px; /* Symmetrical overlap positioning */
     padding: 0;
     background: transparent;
 }
@@ -3850,7 +3850,7 @@ body {
 ════════════════════════════════════════════ */
 .become-athlete-section {
     position: relative;
-    padding: 4.5rem 0; /* Reduced padding spacing */
+    padding: 8rem 0 6rem; /* Increased top padding to give spacing from the overlapping stats pill */
     background: linear-gradient(135deg, #051336 0%, #081B4B 50%, #0c235c 100%);
     overflow: hidden;
 }
