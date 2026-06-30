@@ -625,7 +625,7 @@ try {
 </section>
 
 <!-- Photo Gallery Section -->
-<section id="photo-gallery" style="padding: 6rem 0; background: #F8F5EF; color: #081B4B;">
+<section id="photo-gallery" class="photo-gallery-section">
 <style>
 /* ── Wide Gallery Container ── */
 .gallery-wide-container {
@@ -927,7 +927,7 @@ try {
 }
 </style>
 
-<div class="gallery-wide-container">
+<div class="gallery-wide-container section-content-relative">
 
     <!-- Section Header -->
     <div style="text-align:center; margin-bottom:1.5rem;">
