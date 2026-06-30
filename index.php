@@ -256,8 +256,8 @@ try {
     <div class="container section-content-relative">
         <div class="row align-items-center g-5">
             
-            <!-- Left Column: Premium Media Card -->
-            <div class="col-lg-6">
+            <!-- Left Column: Premium Media Card (38% width class) -->
+            <div class="col-lg-5 col-md-12">
                 <div class="premium-media-card">
                     <div class="media-thumbnail-wrapper">
                         <img src="gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg" alt="Boccia Gameplay" class="media-thumb-img">
@@ -270,58 +270,58 @@ try {
                 </div>
             </div>
             
-            <!-- Right Column: Info & Features -->
-            <div class="col-lg-6">
+            <!-- Right Column: Info & Features (58% width class) -->
+            <div class="col-lg-7 col-md-12">
                 <div class="branding-content-panel">
                     <span class="section-sub-label">DISCOVER THE SPORT</span>
                     <h2 class="section-main-heading">What is Boccia?</h2>
                     <p class="section-desc-para">
                         Boccia is a Paralympic precision ball sport designed for athletes with severe physical disabilities. It combines strategy, concentration, and precision, allowing athletes to compete individually, in pairs, or as teams.
-                      </p>
-                      
-                      <!-- 4 Feature Cards -->
-                      <div class="feature-grid-row">
-                          <div class="feature-card-item">
-                              <span class="feature-icon-box">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
-                              </span>
-                              <div class="feature-card-text">
-                                  <strong>Official Paralympic Sport</strong>
-                                  <span>Full medal event status since 1984</span>
-                              </div>
-                          </div>
-                          <div class="feature-card-item">
-                              <span class="feature-icon-box">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                              </span>
-                              <div class="feature-card-text">
-                                  <strong>Precision Ball Sport</strong>
-                                  <span>Tested accuracy and tactical layout</span>
-                              </div>
-                          </div>
-                          <div class="feature-card-item">
-                              <span class="feature-icon-box">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-                              </span>
-                              <div class="feature-card-text">
-                                  <strong>Indoor Competition</strong>
-                                  <span>Played on flat, smooth indoor courts</span>
-                              </div>
-                          </div>
-                          <div class="feature-card-item">
-                              <span class="feature-icon-box">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                              </span>
-                              <div class="feature-card-text">
-                                  <strong>Individual • Pair • Team Events</strong>
-                                  <span>Highly inclusive competitive structures</span>
-                              </div>
-                          </div>
-                      </div>
-                      
-                      <div style="margin-top: 2rem;">
-                          <a href="page.php?section=about&slug=about-boccia" class="btn btn-hero-primary" style="padding: 0.75rem 2rem; font-weight: 700; border-radius: 999px;">Learn About Boccia &rarr;</a>
-                      </div>
+                    </p>
+                    
+                    <!-- Structured Bordered Information Rows -->
+                    <div class="structured-info-rows">
+                        <div class="info-row">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                            </span>
+                            <div class="info-text">
+                                <strong>Official Paralympic Sport</strong>
+                                <span>Recognized by World Boccia since 1984.</span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                            </span>
+                            <div class="info-text">
+                                <strong>Precision Ball Sport</strong>
+                                <span>Strategy, concentration, and accuracy.</span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+                            </span>
+                            <div class="info-text">
+                                <strong>Indoor Competition</strong>
+                                <span>Played on flat, smooth indoor courts.</span>
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            </span>
+                            <div class="info-text">
+                                <strong>Individual • Pair • Team Events</strong>
+                                <span>Highly inclusive competitive structures.</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <a href="page.php?section=about&slug=about-boccia" class="btn btn-bsfi-navy">Learn About Boccia &rarr;</a>
+                    </div>
                 </div>
             </div>
             
@@ -336,109 +336,70 @@ try {
     <div class="section-dark-overlay"></div>
     <div class="container section-content-relative text-center">
         <span class="section-sub-label">ATHLETE ELIGIBILITY</span>
-        <h2 class="section-main-heading text-center" style="margin-bottom: 1.5rem; color: #ffffff;">Who Can Participate?</h2>
-        <p class="section-desc-para mx-auto" style="max-width: 680px; margin-bottom: 3.5rem;">
+        <h2 class="section-main-heading text-center" style="margin-bottom: 1.25rem; color: #ffffff;">Who Can Participate?</h2>
+        <p class="section-desc-para mx-auto" style="max-width: 680px; margin-bottom: 3rem;">
             Athletes who meet the official World Boccia classification criteria may participate in national and international Boccia competitions through the Boccia Sports Federation of India.
         </p>
         
-        <!-- 5 Glassmorphism Cards -->
-        <div class="eligibility-grid">
-            <div class="eligibility-card">
-                <span class="eligibility-icon">
+        <!-- 5 Lightweight Horizontal Information Panels -->
+        <div class="eligibility-flex-panels">
+            <div class="eligibility-panel">
+                <span class="panel-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line><line x1="19.07" y1="4.93" x2="14.83" y2="9.17"></line><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line><line x1="9.17" y1="14.83" x2="4.93" y2="19.07"></line></svg>
                 </span>
-                <h4>World Boccia Classification</h4>
-                <p>Learn about the BC1–BC4 sport classes and eligibility.</p>
+                <div class="panel-content">
+                    <h4>Classification</h4>
+                    <p>BC1–BC4 Sport Classes</p>
+                </div>
             </div>
-            <div class="eligibility-card">
-                <span class="eligibility-icon">
+            <div class="eligibility-panel">
+                <span class="panel-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
                 </span>
-                <h4>Medical Eligibility</h4>
-                <p>Understand the functional eligibility requirements.</p>
+                <div class="panel-content">
+                    <h4>Medical Eligibility</h4>
+                    <p>Functional Assessment</p>
+                </div>
             </div>
-            <div class="eligibility-card">
-                <span class="eligibility-icon">
+            <div class="eligibility-panel">
+                <span class="panel-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 </span>
-                <h4>Athlete Assessment</h4>
-                <p>Evaluation by certified classifiers.</p>
+                <div class="panel-content">
+                    <h4>Athlete Assessment</h4>
+                    <p>Evaluation by Certified Classifiers</p>
+                </div>
             </div>
-            <div class="eligibility-card">
-                <span class="eligibility-icon">
+            <div class="eligibility-panel">
+                <span class="panel-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 </span>
-                <h4>State Association Guidance</h4>
-                <p>Receive support from your official state association.</p>
+                <div class="panel-content">
+                    <h4>State Association Guidance</h4>
+                    <p>Support from Your State Association</p>
+                </div>
             </div>
-            <div class="eligibility-card">
-                <span class="eligibility-icon">
+            <div class="eligibility-panel">
+                <span class="panel-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
                 </span>
-                <h4>Competition Pathway</h4>
-                <p>Progress from state competitions to national and international representation.</p>
+                <div class="panel-content">
+                    <h4>Competition Pathway</h4>
+                    <p>State &rarr; National &rarr; International</p>
+                </div>
             </div>
         </div>
         
-        <div style="margin-top: 3.5rem;">
-            <a href="page.php?section=get-involved&slug=classification" class="btn btn-hero-primary" style="padding: 0.75rem 2.5rem; font-weight: 700; border-radius: 999px;">Check Eligibility &rarr;</a>
+        <div style="margin-top: 3rem;">
+            <a href="page.php?section=get-involved&slug=classification" class="btn btn-bsfi-outline-light">Check Eligibility &rarr;</a>
         </div>
     </div>
 </section>
 
 <!-- ═══════════════════════════════════════════
-     SECTION 4: Become a Boccia Athlete
+     SECTION 4: Official State Associations (Map)
 ════════════════════════════════════════════ -->
-<section id="become-athlete" class="become-athlete-section">
-    <div class="container text-center">
-        <span class="section-sub-label">JOIN THE MOVEMENT</span>
-        <h2 class="section-main-heading text-center" style="margin-bottom: 1rem; color: #081B4B;">Become a Boccia Athlete</h2>
-        <p class="section-desc-para mx-auto" style="max-width: 600px; margin-bottom: 4rem; color: rgba(8, 27, 75, 0.75);">
-            Follow the official registration pathway to become part of India's national Boccia community.
-        </p>
-        
-        <!-- Connected Roadmap -->
-        <div class="roadmap-timeline-wrapper">
-            <div class="roadmap-line-connector"></div>
-            <div class="roadmap-steps-container">
-                <div class="roadmap-step-card">
-                    <div class="step-badge">01</div>
-                    <h4>Register Online</h4>
-                    <p>Create your official BSFI athlete profile.</p>
-                </div>
-                <div class="roadmap-step-card">
-                    <div class="step-badge">02</div>
-                    <h4>Submit Documents</h4>
-                    <p>Upload identity and required medical documents.</p>
-                </div>
-                <div class="roadmap-step-card">
-                    <div class="step-badge">03</div>
-                    <h4>Medical Classification</h4>
-                    <p>Complete assessment with certified classifiers.</p>
-                </div>
-                <div class="roadmap-step-card">
-                    <div class="step-badge">04</div>
-                    <h4>State Association Review</h4>
-                    <p>Verification by your official state association.</p>
-                </div>
-                <div class="roadmap-step-card">
-                    <div class="step-badge">05</div>
-                    <h4>National Registration</h4>
-                    <p>Receive your official BSFI athlete registration.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div style="margin-top: 4rem;">
-            <a href="get-involved/membership.php" class="btn btn-hero-primary" style="padding: 0.85rem 3rem; font-weight: 700; border-radius: 999px; background: #081B4B; color: #FAF7F0;">Register as an Athlete &rarr;</a>
-        </div>
-    </div>
-</section>
-
-
 <div class="map-stats-bg-wrapper">
-
-<!-- India Participation Map Section -->
 <section id="map" class="map-section">
     <div class="container">
         <div class="row align-items-center g-5">
@@ -449,7 +410,7 @@ try {
                     <!-- Green accent bar at top -->
                     <div class="map-card-accent-bar"></div>
 
-                    <!-- SVG Map (no extra headings inside the card) -->
+                    <!-- SVG Map -->
                     <?php include __DIR__ . '/includes/india-map.php'; ?>
                 </div>
             </div>
@@ -468,7 +429,7 @@ try {
                         <span class="map-detail-badge">● Recognized by BSFI</span>
                     </div>
 
-                    <!-- Athlete Density Legend — moved here from map card -->
+                    <!-- Athlete Density Legend -->
                     <div class="map-legend-box map-legend-right">
                         <h5>Athlete Density Legend</h5>
                         <div class="legend-row"><span class="legend-badge" style="background:#e05a10;"></span> 0 Athletes</div>
@@ -483,10 +444,61 @@ try {
         </div>
     </div>
 </section>
+</div><!-- /.map-stats-bg-wrapper -->
 
 <!-- ═══════════════════════════════════════════
-     DYNAMIC STATS BAR
+     SECTION 5: Become a Boccia Athlete
 ════════════════════════════════════════════ -->
+<section id="become-athlete" class="become-athlete-section">
+    <div class="container text-center">
+        <span class="section-sub-label">JOIN THE MOVEMENT</span>
+        <h2 class="section-main-heading text-center" style="margin-bottom: 0.75rem; color: #081B4B;">Become a Boccia Athlete</h2>
+        <p class="section-desc-para mx-auto" style="max-width: 600px; margin-bottom: 3.5rem; color: rgba(8, 27, 75, 0.75);">
+            Follow the official registration pathway to become part of India's national Boccia community.
+        </p>
+        
+        <!-- Connected Roadmap -->
+        <div class="roadmap-timeline-wrapper">
+            <div class="roadmap-line-connector"></div>
+            <div class="roadmap-steps-container">
+                <div class="roadmap-step-card">
+                    <div class="step-badge">01</div>
+                    <h4>Register Online</h4>
+                    <p>Create your official BSFI profile.</p>
+                </div>
+                <div class="roadmap-step-card">
+                    <div class="step-badge">02</div>
+                    <h4>Submit Documents</h4>
+                    <p>Upload identity & medicals.</p>
+                </div>
+                <div class="roadmap-step-card">
+                    <div class="step-badge">03</div>
+                    <h4>Classification</h4>
+                    <p>Complete certified assessment.</p>
+                </div>
+                <div class="roadmap-step-card">
+                    <div class="step-badge">04</div>
+                    <h4>State Review</h4>
+                    <p>Verification by state association.</p>
+                </div>
+                <div class="roadmap-step-card">
+                    <div class="step-badge">05</div>
+                    <h4>National Registration</h4>
+                    <p>Receive your official BSFI registration.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 3.5rem;">
+            <a href="get-involved/membership.php" class="btn btn-bsfi-green">Register as an Athlete &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 6: BSFI At a Glance (Stats Bar)
+════════════════════════════════════════════ -->
+<div class="map-stats-bg-wrapper">
 <section class="stats-bar-section" id="stats-bar">
     <div class="container">
         <p class="stats-bar-eyebrow">BSFI At a Glance</p>
@@ -524,8 +536,7 @@ try {
         </div>
     </div>
 </section>
-
-</div><!-- /.map-stats-bg-wrapper -->
+</div>
 
 <!-- National Schedules Section -->
 <section id="schedules" class="schedules-section" style="padding: 6rem 0; background: url('bg_schedule.webp') center/cover no-repeat;">

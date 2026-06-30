@@ -3538,7 +3538,7 @@ body {
 ════════════════════════════════════════════ */
 .what-is-boccia-section {
     position: relative;
-    padding: 6rem 0;
+    padding: 4.5rem 0; /* Reduced padding for cleaner rhythm */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -3547,7 +3547,7 @@ body {
 .section-dark-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(8, 27, 75, 0.45) 0%, rgba(8, 27, 75, 0.5) 100%);
+    background: rgba(8, 27, 75, 0.25); /* Lightened overlay to 25% navy */
     z-index: 1;
 }
 .section-content-relative {
@@ -3556,7 +3556,7 @@ body {
 }
 .section-sub-label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 14px; /* Exact design scale */
     font-weight: 700;
     color: #24C27A;
     letter-spacing: 0.12em;
@@ -3565,25 +3565,25 @@ body {
 }
 .section-main-heading {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 2.6rem);
+    font-size: clamp(2rem, 3vw, 50px); /* Heading scale: 48-52px */
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
+    line-height: 1.25;
+    margin-bottom: 1.25rem;
 }
 .section-desc-para {
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-    line-height: 1.65;
-    color: rgba(250, 247, 240, 0.85);
-    margin-bottom: 2.25rem;
+    font-size: 18px; /* Paragraph scale */
+    line-height: 1.6;
+    color: rgba(250, 247, 240, 0.9);
+    margin-bottom: 2rem;
 }
 
 /* Premium Media Card (Left side video card mockup) */
 .premium-media-card {
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     cursor: pointer;
     position: relative;
     transform: translateZ(0);
@@ -3605,74 +3605,126 @@ body {
 .play-btn-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(8, 27, 75, 0.2);
+    background: rgba(8, 27, 75, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background 0.3s ease;
 }
 .play-icon-svg {
-    width: 68px;
-    height: 68px;
+    width: 56px;
+    height: 56px;
     color: #FAF7F0;
     background: #24C27A;
-    padding: 20px;
+    padding: 16px;
     border-radius: 50%;
-    box-shadow: 0 10px 30px rgba(36, 194, 122, 0.45);
+    box-shadow: 0 8px 24px rgba(36, 194, 122, 0.35);
     will-change: transform;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease, color 0.3s ease;
 }
 .premium-media-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 35px 75px rgba(0, 0, 0, 0.45);
+    transform: translateY(-4px);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
 }
 .premium-media-card:hover .media-thumb-img {
-    transform: scale(1.04);
+    transform: scale(1.03);
 }
 .premium-media-card:hover .play-icon-svg {
-    transform: scale(1.12);
+    transform: scale(1.1);
     background-color: #FAF7F0;
     color: #081B4B;
 }
 
-/* Feature grid items */
-.feature-grid-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
+/* Structured Bordered Info Rows (What is Boccia) */
+.structured-info-rows {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
-.feature-card-item {
+.info-row {
     display: flex;
-    gap: 1.1rem;
-    align-items: flex-start;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
-.feature-icon-box {
-    width: 44px;
-    height: 44px;
-    background: rgba(36, 194, 122, 0.12);
-    border-radius: 50%;
+.info-icon {
+    width: 32px;
+    height: 32px;
+    color: #24C27A;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #24C27A;
     flex-shrink: 0;
 }
-.feature-icon-box svg {
-    width: 20px;
-    height: 20px;
+.info-icon svg {
+    width: 24px;
+    height: 24px;
 }
-.feature-card-text strong {
-    display: block;
-    font-size: 0.95rem;
+.info-text {
+    display: flex;
+    flex-direction: column;
+}
+.info-text strong {
+    font-size: 1.05rem;
     color: #ffffff;
-    margin-bottom: 0.3rem;
     font-weight: 600;
 }
-.feature-card-text span {
-    font-size: 0.82rem;
-    color: rgba(250, 247, 240, 0.65);
-    line-height: 1.4;
+.info-text span {
+    font-size: 0.85rem;
+    color: rgba(250, 247, 240, 0.7);
+    margin-top: 0.15rem;
+}
+
+/* Alternate Button Styles */
+.btn-bsfi-navy {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    background: #081B4B;
+    color: #FAF7F0;
+    border: 2px solid #081B4B;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.btn-bsfi-navy:hover {
+    background: transparent;
+    color: #FAF7F0;
+    border-color: #FAF7F0;
+}
+
+.btn-bsfi-outline-light {
+    display: inline-block;
+    padding: 0.75rem 2.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    background: transparent;
+    color: #FAF7F0;
+    border: 2px solid #FAF7F0;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.btn-bsfi-outline-light:hover {
+    background: #FAF7F0;
+    color: #081B4B;
+    border-color: #FAF7F0;
+}
+
+.btn-bsfi-green {
+    display: inline-block;
+    padding: 0.85rem 2.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    background: #24C27A;
+    color: #0B1B3D;
+    border: 2px solid #24C27A;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.btn-bsfi-green:hover {
+    background: #081B4B;
+    color: #FAF7F0;
+    border-color: #081B4B;
 }
 
 /* ═══════════════════════════════════════════
@@ -3680,93 +3732,84 @@ body {
 ════════════════════════════════════════════ */
 .who-can-participate-section {
     position: relative;
-    padding: 6rem 0;
+    padding: 4.5rem 0; /* Reduced padding spacing */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
 }
-.eligibility-grid {
+.eligibility-flex-panels {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1.25rem;
-    text-align: left;
-    margin-top: 3.5rem;
+    gap: 1rem;
+    margin-top: 2.5rem;
 }
-.eligibility-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+.eligibility-panel {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
-    padding: 2rem 1.5rem;
+    border-radius: 18px;
+    padding: 1.25rem;
     display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+    align-items: center;
+    gap: 0.85rem;
+    text-align: left;
     transform: translateZ(0);
     will-change: transform;
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.eligibility-icon {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
+.panel-icon {
+    width: 28px;
+    height: 28px;
+    color: #24C27A;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #24C27A;
-    flex-shrink: 0;
-    will-change: transform;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease, color 0.3s ease;
 }
-.eligibility-icon svg {
-    width: 22px;
-    height: 22px;
+.panel-icon svg {
+    width: 24px;
+    height: 24px;
 }
-.eligibility-card h4 {
-    font-size: 1.05rem;
+.panel-content h4 {
+    font-size: 0.95rem; /* Card titles: ~24px equivalent proportion */
     font-weight: 700;
     color: #ffffff;
     margin: 0;
-    line-height: 1.35;
+    line-height: 1.25;
 }
-.eligibility-card p {
-    font-size: 0.85rem;
+.panel-content p {
+    font-size: 0.78rem; /* Card description */
     color: rgba(250, 247, 240, 0.65);
     margin: 0;
-    line-height: 1.5;
+    margin-top: 0.15rem;
 }
-.eligibility-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(36, 194, 122, 0.5);
-    box-shadow: 0 20px 45px rgba(36, 194, 122, 0.12);
-}
-.eligibility-card:hover .eligibility-icon {
-    transform: scale(1.1);
-    background-color: #24C27A;
-    color: #081B4B;
+.eligibility-panel:hover {
+    transform: translateY(-4px);
+    border-color: rgba(36, 194, 122, 0.45);
+    box-shadow: 0 12px 28px rgba(36, 194, 122, 0.1);
 }
 
 /* ═══════════════════════════════════════════
-   SECTION 4: Become a Boccia Athlete
+   SECTION 5: Become a Boccia Athlete
 ════════════════════════════════════════════ */
 .become-athlete-section {
     background: #FAF7F0;
-    padding: 6.5rem 0;
+    padding: 4.5rem 0; /* Reduced padding spacing */
     position: relative;
     overflow: hidden;
 }
 .roadmap-timeline-wrapper {
     position: relative;
-    margin-top: 4.5rem;
+    margin-top: 3.5rem;
     width: 100%;
 }
 .roadmap-line-connector {
     position: absolute;
-    top: 44px;
-    left: 8%;
-    right: 8%;
+    top: 40px; /* Aligns with step badge centers */
+    left: 10%;
+    right: 10%;
     height: 2px;
     background: linear-gradient(90deg, rgba(8, 27, 75, 0.03) 0%, rgba(8, 27, 75, 0.18) 50%, rgba(8, 27, 75, 0.03) 100%);
     z-index: 1;
@@ -3774,64 +3817,68 @@ body {
 .roadmap-steps-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1.5rem;
+    gap: 1.25rem;
     position: relative;
     z-index: 2;
 }
 .roadmap-step-card {
     background: #ffffff;
-    border-radius: 24px;
-    padding: 2.25rem 1.5rem;
-    box-shadow: 0 12px 35px rgba(8, 27, 75, 0.03);
+    border-radius: 20px;
+    width: 220px;   /* Constrained dimensions to 220x220px */
+    height: 220px;
+    margin: 0 auto; /* Center alignment within column */
+    padding: 1.5rem 1rem;
+    box-shadow: 0 8px 24px rgba(8, 27, 75, 0.02);
     border: 1px solid rgba(8, 27, 75, 0.05);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.9rem;
+    justify-content: center;
+    gap: 0.6rem;
     transform: translateZ(0);
     will-change: transform;
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
 }
 .step-badge {
-    width: 52px;
-    height: 52px;
+    width: 44px; /* Scaled down steps */
+    height: 44px;
     background: #081B4B;
     border-radius: 50%;
     color: #FAF7F0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 700;
     border: 4px solid #FAF7F0;
-    box-shadow: 0 5px 12px rgba(8, 27, 75, 0.12);
+    box-shadow: 0 4px 8px rgba(8, 27, 75, 0.1);
 }
 .roadmap-step-card h4 {
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #081B4B;
     margin: 0;
-    line-height: 1.35;
+    line-height: 1.3;
 }
 .roadmap-step-card p {
-    font-size: 0.85rem;
-    color: rgba(8, 27, 75, 0.65);
+    font-size: 0.78rem;
+    color: rgba(8, 27, 75, 0.6);
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 .roadmap-step-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 45px rgba(8, 27, 75, 0.08);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(8, 27, 75, 0.06);
 }
 
 /* ═══════════════════════════════════════════
    RESPONSIVE LAYOUTS
 ════════════════════════════════════════════ */
 @media (max-width: 991px) {
-    .eligibility-grid {
+    .eligibility-flex-panels {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.25rem;
+        gap: 1rem;
     }
     .roadmap-steps-container {
         grid-template-columns: repeat(2, 1fr);
@@ -3845,25 +3892,25 @@ body {
 @media (max-width: 768px) {
     .feature-grid-row {
         grid-template-columns: 1fr;
-        gap: 1.25rem;
-    }
-    .eligibility-grid {
-        grid-template-columns: 1fr;
         gap: 1rem;
+    }
+    .eligibility-flex-panels {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
     }
     .roadmap-steps-container {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 1.25rem;
         position: relative;
     }
     .roadmap-steps-container::before {
         content: '';
         position: absolute;
-        left: 50px; /* Aligns precisely with the center of the 52px step badges */
+        left: 46px; /* Center alignment shift for mobile vertical roadmap */
         top: 2rem;
         bottom: 2rem;
         width: 2px;
-        background: rgba(8, 27, 75, 0.12);
+        background: rgba(8, 27, 75, 0.1);
         z-index: 1;
     }
     .roadmap-step-card {
@@ -3871,8 +3918,10 @@ body {
         text-align: left;
         align-items: center;
         justify-content: flex-start;
-        padding: 1.5rem;
-        gap: 1.25rem;
+        width: 100%;
+        height: auto;
+        padding: 1.25rem 1.5rem;
+        gap: 1rem;
         position: relative;
         z-index: 2;
     }
