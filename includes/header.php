@@ -172,6 +172,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     </script>
 </head>
 <body class="accessibility-target">
+<!-- BSFI V2.5-MOBILE-GRID -->
 <a href="#main-content" class="skip-link">Skip to Main Content</a>
 
 <!-- GSAP Preloader (Local) -->
