@@ -1093,9 +1093,12 @@ body {
    STATS BAR (transparent — inherits wrapper bg)
 ════════════════════════════════════════ */
 .stats-bar-section {
-    padding: 0 0 5rem;
-    background: transparent;
     position: relative;
+    z-index: 10;
+    margin-top: -80px; /* Overlap top section boundary */
+    margin-bottom: -70px; /* Pull bottom section upward */
+    padding: 0;
+    background: transparent;
 }
 
 .stats-bar-eyebrow {
