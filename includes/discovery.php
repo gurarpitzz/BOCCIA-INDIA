@@ -371,8 +371,8 @@ class ContentDiscoveryEngine {
                 'slug' => null,
                 'children' => [
                     ['title' => 'Membership', 'slug' => 'membership', 'section' => 'get-involved'],
-                    ['title' => 'Players Database 2024', 'slug' => 'players-database', 'section' => 'get-involved'],
-                    ['title' => 'Officials Database 2024', 'slug' => 'officials-database', 'section' => 'get-involved']
+                    ['title' => 'Player Database 2026', 'slug' => 'players-database', 'section' => 'get-involved'],
+                    ['title' => 'Officials Database 2026', 'slug' => 'officials-database', 'section' => 'get-involved']
                 ]
             ],
             [
