@@ -150,7 +150,7 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
     </section>
 
     <!-- ══ WHY SUPPORT BOCCIA INDIA ══ -->
-    <section class="support-us-section" id="support-us" style="background: #FAF7F0 url('about%20boccia/hero_bg.webp') right center / contain no-repeat; padding: 2.5rem 0; color: #081B4B; position: relative; min-height: 580px; display: flex; align-items: center;">
+    <section class="support-us-section" id="support-us" style="background: linear-gradient(to right, #FAF7F0 0%, rgba(253, 243, 230, 0.98) 45%, rgba(253, 243, 230, 0.3) 75%, rgba(253, 243, 230, 0) 100%), url('about%20boccia/hero_bg.webp') right center / cover no-repeat; padding: 2.5rem 0; color: #081B4B; position: relative; min-height: 580px; display: flex; align-items: center;">
         <div class="container">
             <div class="row align-items-center">
                 
