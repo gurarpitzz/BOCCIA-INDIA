@@ -1095,8 +1095,8 @@ body {
 .stats-bar-section {
     position: relative;
     z-index: 10;
-    margin-top: -80px; /* Overlap top section boundary */
-    margin-bottom: -70px; /* Pull bottom section upward */
+    margin-top: -30px; /* Reduced negative margin to avoid legend collision */
+    margin-bottom: -40px; /* Spaced out from Join the Movement title */
     padding: 0;
     background: transparent;
 }
@@ -1112,14 +1112,15 @@ body {
 }
 
 .stats-bar-pill {
-    background: #0B1B3D;
+    background: #FAF7F0; /* Clean cream background */
+    border: 1px solid rgba(8, 27, 75, 0.08);
     border-radius: 24px;
     padding: 1.5rem 3rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0;
-    box-shadow: 0 20px 60px rgba(11, 27, 61, 0.35);
+    box-shadow: 0 15px 45px rgba(8, 27, 75, 0.12);
 }
 
 .stat-item {
@@ -1134,7 +1135,7 @@ body {
     font-family: var(--font-heading);
     font-size: clamp(2rem, 3.5vw, 3rem);
     font-weight: 800;
-    color: #FAF7F0;
+    color: #081B4B; /* Dark Navy Blue */
     line-height: 1;
     letter-spacing: -0.02em;
     /* count-up starts invisible, fades in */
@@ -1152,7 +1153,7 @@ body {
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.04em;
-    color: rgba(250, 247, 240, 0.55);
+    color: rgba(8, 27, 75, 0.7); /* Muted Navy Blue */
     text-transform: uppercase;
     text-align: center;
 }
@@ -1160,7 +1161,7 @@ body {
 .stat-divider {
     width: 1px;
     height: 52px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(8, 27, 75, 0.15); /* Dark Navy Divider line */
     flex-shrink: 0;
 }
 
