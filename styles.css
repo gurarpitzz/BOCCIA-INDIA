@@ -4152,7 +4152,8 @@ body {
 .map-eyebrow,
 .gal-eyebrow,
 .schedules-eyebrow,
-.news-eyebrow {
+.news-eyebrow,
+.support-eyebrow {
     font-family: 'Caveat', cursive !important;
     font-size: 1.8rem !important; /* Scale to match the original cursive styling */
     font-weight: 700 !important;
@@ -4243,6 +4244,65 @@ body {
 }
 @media (max-width: 768px) {
     .eligibility-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Support Us Section Layout ── */
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+.support-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background 0.3s ease, border-color 0.3s ease;
+}
+.support-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+.support-card-icon {
+    width: 44px;
+    height: 44px;
+    color: #24C27A;
+    margin: 0 auto 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.support-card-icon svg {
+    width: 32px;
+    height: 32px;
+}
+.support-card h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+.support-card p {
+    font-size: 0.85rem;
+    color: rgba(250, 247, 240, 0.75);
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 1200px) {
+    .support-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .support-grid {
         grid-template-columns: 1fr;
     }
 }
