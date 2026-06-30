@@ -4154,3 +4154,16 @@ body {
     align-items: center !important;
 }
 
+/* ── Responsive Map Details Grid ── */
+.map-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+@media (max-width: 576px) {
+    .map-detail-grid {
+        grid-template-columns: 1fr !important; /* Stacks to 1 column on mobile to prevent bleeding */
+    }
+}
+

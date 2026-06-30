@@ -77,14 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <strong style="color:${statusColor}; font-size:0.95rem;">${statusBadge}</strong>
                                     </div>
                                 </div>
-                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
+                                <div class="map-detail-grid">
                                     <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Contact Person</div>
                                         <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.contact_person}">${data.contact_person}</strong>
                                     </div>
                                     <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Official Email</div>
-                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.email}">${data.email}</strong>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;word-break:break-all;white-space:normal;line-height:1.25;" title="${data.email}">${data.email}</strong>
                                     </div>
                                     <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Contact Number</div>
