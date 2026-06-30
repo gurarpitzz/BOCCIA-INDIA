@@ -4020,12 +4020,12 @@ body {
 .photo-gallery-section::before {
     content: '';
     position: absolute;
-    top: -200px;
-    left: -200px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(224, 90, 16, 0.22) 0%, rgba(250, 247, 240, 0) 70%); /* Orange/Saffron glow */
-    filter: blur(80px);
+    top: -250px;
+    left: -250px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(242, 100, 25, 0.45) 0%, rgba(242, 100, 25, 0.18) 45%, rgba(250, 247, 240, 0) 70%); /* Concentrated Orange/Saffron glow */
+    filter: blur(50px);
     z-index: 1;
     pointer-events: none;
     will-change: transform;
@@ -4034,12 +4034,12 @@ body {
 .photo-gallery-section::after {
     content: '';
     position: absolute;
-    bottom: -250px;
-    right: -200px;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(162, 209, 73, 0.24) 0%, rgba(250, 247, 240, 0) 70%); /* Lime green glow */
-    filter: blur(100px);
+    bottom: -300px;
+    right: -250px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(142, 212, 45, 0.42) 0%, rgba(142, 212, 45, 0.15) 45%, rgba(250, 247, 240, 0) 70%); /* Concentrated Lime green glow */
+    filter: blur(50px);
     z-index: 1;
     pointer-events: none;
     will-change: transform;
