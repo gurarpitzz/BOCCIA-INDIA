@@ -4157,13 +4157,8 @@ body {
 /* ── Responsive Map Details Grid ── */
 .map-detail-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-@media (max-width: 576px) {
-    .map-detail-grid {
-        grid-template-columns: 1fr !important; /* Stacks to 1 column on mobile to prevent bleeding */
-    }
+    grid-template-columns: 1fr; /* Stacks to 1 column globally to prevent layout squeezing and bleeding */
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
 }
 

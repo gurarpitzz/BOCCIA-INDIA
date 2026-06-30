@@ -78,21 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
                                     </div>
                                 </div>
                                 <div class="map-detail-grid">
-                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.8rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Contact Person</div>
-                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.contact_person}">${data.contact_person}</strong>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;word-break:break-word;line-height:1.3;" title="${data.contact_person}">${data.contact_person}</strong>
                                     </div>
-                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.8rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Official Email</div>
-                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;word-break:break-all;white-space:normal;line-height:1.25;" title="${data.email}">${data.email}</strong>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;word-break:break-all;line-height:1.3;" title="${data.email}">${data.email}</strong>
                                     </div>
-                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.8rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Contact Number</div>
-                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.phone}">${data.phone}</strong>
+                                        <strong style="font-size:0.85rem;color:#FAF7F0;display:block;word-break:break-word;line-height:1.3;" title="${data.phone}">${data.phone}</strong>
                                     </div>
-                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.6rem;border-radius:8px;text-align:left;">
+                                    <div style="background:rgba(255,255,255,0.05);padding:0.5rem 0.8rem;border-radius:8px;text-align:left;">
                                         <div style="font-size:0.68rem;opacity:0.6;margin-bottom:0.15rem;">Association Status</div>
-                                        <strong style="font-size:0.85rem;color:${statusColor};display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${data.status}">${data.status}</strong>
+                                        <strong style="font-size:0.85rem;color:${statusColor};display:block;word-break:break-word;line-height:1.3;" title="${data.status}">${data.status}</strong>
                                     </div>
                                 </div>
                                 <span class="map-detail-badge">● Recognized by BSFI</span>
