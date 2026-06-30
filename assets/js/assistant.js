@@ -141,11 +141,19 @@
             transform: translateY(-1px) !important;
         }
         .bsfi-qa-item-icon {
-            font-size: 1.2rem !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
             width: 28px !important;
+            height: 28px !important;
+            border-radius: 8px !important;
+            background: rgba(36, 194, 122, 0.1) !important;
+            color: #24C27A !important;
+            flex-shrink: 0 !important;
+        }
+        .bsfi-qa-item-icon svg {
+            width: 18px !important;
+            height: 18px !important;
         }
         .bsfi-qa-item-title {
             flex-grow: 1 !important;
@@ -167,7 +175,7 @@
         .bsfi-ast-panel {
             position: fixed !important;
             bottom: 95px !important;
-            left: 25px !important; /* Open from bottom-left above the FAB */
+            left: 25px !important;
             width: 360px !important;
             max-width: calc(100vw - 50px) !important;
             max-height: 520px !important;
@@ -410,7 +418,16 @@
 
     let activeViewStack = ['bsfi-ast-main-menu'];
 
-    // 3. Initialize Widgets
+    // 3. Helper to close accessibility panel
+    function closeAccessibilityPanel() {
+        const a11yPanel = document.getElementById('a11y-panel');
+        const a11yToggle = document.getElementById('a11y-toggle');
+        if (a11yPanel && a11yPanel.style.display === 'block' && a11yToggle) {
+            a11yToggle.click();
+        }
+    }
+
+    // 4. Initialize Widgets
     function initQuickAssist() {
         if (document.getElementById('bsfi-quick-assist-fab')) return;
 
@@ -439,12 +456,22 @@
             <div class="bsfi-qa-header">Quick Assist</div>
             <div class="bsfi-qa-items">
                 <button class="bsfi-qa-item" id="bsfi-qa-opt-a11y" role="menuitem">
-                    <span class="bsfi-qa-item-icon">♿</span>
+                    <span class="bsfi-qa-item-icon">
+                        <svg viewBox="0 0 100 100" style="width: 18px; height: 18px; fill: currentColor;">
+                            <circle cx="50" cy="22" r="8"></circle>
+                            <path d="M50 32 v28" stroke="currentColor" stroke-width="8" stroke-linecap="round"></path>
+                            <path d="M25 42 h50" stroke="currentColor" stroke-width="8" stroke-linecap="round"></path>
+                            <path d="M50 60 L35 82" stroke="currentColor" stroke-width="8" stroke-linecap="round"></path>
+                            <path d="M50 60 L65 82" stroke="currentColor" stroke-width="8" stroke-linecap="round"></path>
+                        </svg>
+                    </span>
                     <span class="bsfi-qa-item-title">Accessibility Options</span>
                     <span class="bsfi-qa-item-arrow">&rarr;</span>
                 </button>
                 <button class="bsfi-qa-item" id="bsfi-qa-opt-ast" role="menuitem">
-                    <span class="bsfi-qa-item-icon">💬</span>
+                    <span class="bsfi-qa-item-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </span>
                     <span class="bsfi-qa-item-title">Ask BSFI</span>
                     <span class="bsfi-qa-item-arrow">&rarr;</span>
                 </button>
@@ -634,18 +661,28 @@
             toggleAssistantPanel(false);
         });
 
+        // Trigger Accessibility Option
         document.getElementById('bsfi-qa-opt-a11y').addEventListener('click', function(e) {
             e.stopPropagation();
             togglePopover(false);
+            toggleAssistantPanel(false); // Close assistant panel if open
+
+            const a11yPanel = document.getElementById('a11y-panel');
             const a11yToggle = document.getElementById('a11y-toggle');
             if (a11yToggle) {
-                a11yToggle.click();
+                if (a11yPanel && a11yPanel.style.display === 'block') {
+                    // Already open, do nothing
+                } else {
+                    a11yToggle.click();
+                }
             }
         });
 
+        // Trigger Virtual Assistant Option
         document.getElementById('bsfi-qa-opt-ast').addEventListener('click', function(e) {
             e.stopPropagation();
             togglePopover(false);
+            closeAccessibilityPanel(); // Close accessibility panel if open
             toggleAssistantPanel(true);
         });
 
@@ -676,6 +713,17 @@
                 }
             }
         });
+
+        // Listen for standard accessibility button clicks to close virtual assistant when it's manually opened
+        const a11yToggle = document.getElementById('a11y-toggle');
+        if (a11yToggle) {
+            a11yToggle.addEventListener('click', function() {
+                const a11yPanel = document.getElementById('a11y-panel');
+                if (a11yPanel && a11yPanel.style.display === 'block') {
+                    toggleAssistantPanel(false); // Close assistant if accessibility drawer opens
+                }
+            });
+        }
     }
 
     // Toggle popover state
