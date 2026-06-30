@@ -146,76 +146,88 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
 
             </div>
 
+        </div>
     </section>
 
     <!-- ══ WHY SUPPORT BOCCIA INDIA ══ -->
-    <section class="support-us-section" id="support-us" style="background: #FAF7F0 url('about%20boccia/hero_bg.webp') right center / contain no-repeat; padding: 4rem 0; color: #081B4B; position: relative;">
+    <section class="support-us-section" id="support-us" style="background: #FAF7F0 url('about%20boccia/hero_bg.webp') right center / contain no-repeat; padding: 2.5rem 0; color: #081B4B; position: relative; min-height: 580px; display: flex; align-items: center;">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 
                 <!-- Left Column: Content Cards & CTA -->
-                <div class="col-lg-7 text-start">
+                <div class="col-lg-7 text-start" style="display: flex; flex-direction: column; gap: 0.85rem;">
                     
-                    <div style="display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 0.4rem;">
-                        <span class="support-eyebrow" style="color: var(--accent-saffron);">Why Support Boccia India</span>
-                        <span style="height: 1px; width: 40px; background: var(--accent-saffron);"></span>
+                    <div>
+                        <div style="display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+                            <span class="support-eyebrow" style="color: var(--accent-saffron);">Why Support Boccia India</span>
+                            <span style="height: 1px; width: 30px; background: var(--accent-saffron);"></span>
+                        </div>
+                        <h2 style="font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.2rem); color: #081B4B; margin: 0; font-weight: 800; line-height: 1.2;">Supporting India's Paralympic Future</h2>
                     </div>
                     
-                    <h2 style="font-family: var(--font-heading); font-size: clamp(2rem, 3.5vw, 2.4rem); color: #081B4B; margin-bottom: 1rem; font-weight: 800;">Supporting India's Paralympic Future</h2>
-                    
-                    <p style="font-size: 1.05rem; line-height: 1.6; color: rgba(8, 27, 75, 0.85); margin-bottom: 2rem; font-weight: 500;">
+                    <p style="font-size: 0.95rem; line-height: 1.5; color: rgba(8, 27, 75, 0.85); margin: 0; font-weight: 500;">
                         Every partnership with the Boccia Sports Federation of India helps create opportunities for athletes with severe physical disabilities to train, compete, and proudly represent India at national and international events.
                     </p>
                     
-                    <div class="support-left-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                    <div class="support-left-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin: 0.25rem 0;">
                         <!-- Card 1: Athlete Development -->
-                        <div class="support-card-light" style="padding: 1.25rem;">
-                            <div class="support-card-icon" style="margin: 0 0 0.5rem; justify-content: flex-start;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 26px; height: 26px; color: #24C27A;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <div class="support-card-light" style="padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="support-card-icon" style="margin: 0; color: #24C27A; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
                             </div>
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #081B4B; margin-bottom: 0.35rem; line-height: 1.3;">Athlete Development</h4>
-                            <p style="font-size: 0.8rem; color: rgba(8, 27, 75, 0.8); line-height: 1.4; margin: 0;">Support athlete identification, coaching, training camps, and long-term player development programs across India.</p>
+                            <div>
+                                <h4 style="font-size: 0.92rem; font-weight: 700; color: #081B4B; margin: 0; line-height: 1.2;">Athlete Development</h4>
+                                <p style="font-size: 0.75rem; color: rgba(8, 27, 75, 0.8); line-height: 1.3; margin: 0; margin-top: 0.15rem;">Coaching, camps &amp; player programs</p>
+                            </div>
                         </div>
                         
                         <!-- Card 2: National Competitions -->
-                        <div class="support-card-light" style="padding: 1.25rem;">
-                            <div class="support-card-icon" style="margin: 0 0 0.5rem; justify-content: flex-start;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 26px; height: 26px; color: #24C27A;"><circle cx="12" cy="8" r="7"></circle><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"></path></svg>
+                        <div class="support-card-light" style="padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="support-card-icon" style="margin: 0; color: #24C27A; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><circle cx="12" cy="8" r="7"></circle><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"></path></svg>
                             </div>
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #081B4B; margin-bottom: 0.35rem; line-height: 1.3;">National Competitions</h4>
-                            <p style="font-size: 0.8rem; color: rgba(8, 27, 75, 0.8); line-height: 1.4; margin: 0;">Help organize national championships, ranking events, and competition pathways that prepare athletes for international success.</p>
+                            <div>
+                                <h4 style="font-size: 0.92rem; font-weight: 700; color: #081B4B; margin: 0; line-height: 1.2;">National Competitions</h4>
+                                <p style="font-size: 0.75rem; color: rgba(8, 27, 75, 0.8); line-height: 1.3; margin: 0; margin-top: 0.15rem;">Championships, rankings &amp; pathways</p>
+                            </div>
                         </div>
                         
                         <!-- Card 3: Inclusive Sporting Access -->
-                        <div class="support-card-light" style="padding: 1.25rem;">
-                            <div class="support-card-icon" style="margin: 0 0 0.5rem; justify-content: flex-start;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 26px; height: 26px; color: #24C27A;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        <div class="support-card-light" style="padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="support-card-icon" style="margin: 0; color: #24C27A; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                             </div>
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #081B4B; margin-bottom: 0.35rem; line-height: 1.3;">Inclusive Access</h4>
-                            <p style="font-size: 0.8rem; color: rgba(8, 27, 75, 0.8); line-height: 1.4; margin: 0;">Enable greater access to specialized Boccia equipment, classification services, and inclusive sporting environments.</p>
+                            <div>
+                                <h4 style="font-size: 0.92rem; font-weight: 700; color: #081B4B; margin: 0; line-height: 1.2;">Inclusive Access</h4>
+                                <p style="font-size: 0.75rem; color: rgba(8, 27, 75, 0.8); line-height: 1.3; margin: 0; margin-top: 0.15rem;">Specialized equipment &amp; classification</p>
+                            </div>
                         </div>
                         
                         <!-- Card 4: Growing Boccia Nationwide -->
-                        <div class="support-card-light" style="padding: 1.25rem;">
-                            <div class="support-card-icon" style="margin: 0 0 0.5rem; justify-content: flex-start;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 26px; height: 26px; color: #24C27A;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <div class="support-card-light" style="padding: 0.85rem 1.1rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <div class="support-card-icon" style="margin: 0; color: #24C27A; flex-shrink: 0;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                             </div>
-                            <h4 style="font-size: 1rem; font-weight: 700; color: #081B4B; margin-bottom: 0.35rem; line-height: 1.3;">Growing Nationwide</h4>
-                            <p style="font-size: 0.8rem; color: rgba(8, 27, 75, 0.8); line-height: 1.4; margin: 0;">Strengthen state associations, grassroots awareness initiatives, coach education, and expansion into more regions.</p>
+                            <div>
+                                <h4 style="font-size: 0.92rem; font-weight: 700; color: #081B4B; margin: 0; line-height: 1.2;">Growing Nationwide</h4>
+                                <p style="font-size: 0.75rem; color: rgba(8, 27, 75, 0.8); line-height: 1.3; margin: 0; margin-top: 0.15rem;">State associations &amp; grassroots awareness</p>
+                            </div>
                         </div>
                     </div>
                     
-                    <p style="font-size: 1rem; line-height: 1.5; color: rgba(8, 27, 75, 0.8); margin-bottom: 2rem; font-style: italic;">
-                        Whether you are a corporate organization, CSR partner, educational institution, sports body, or individual supporter, your contribution helps strengthen India's Boccia ecosystem and creates lasting opportunities for athletes to excel.
+                    <p style="font-size: 0.92rem; line-height: 1.45; color: rgba(8, 27, 75, 0.8); margin: 0; font-style: italic;">
+                        Whether you are a corporate organization, CSR partner, educational institution, or individual supporter, your contribution helps strengthen India's Boccia ecosystem and creates opportunities for athletes to excel.
                     </p>
                     
-                    <div class="support-cta-box" style="padding-top: 1.5rem; border-top: 1px solid rgba(8, 27, 75, 0.1);">
-                        <h3 style="font-family: var(--font-heading); font-size: 1.3rem; color: #081B4B; margin-bottom: 0.3rem; font-weight: 700;">Interested in Supporting BSFI?</h3>
-                        <p style="color: rgba(8, 27, 75, 0.7); margin-bottom: 1.25rem; font-size: 0.88rem;">Learn how your organization or institution can contribute to the growth of Boccia in India.</p>
-                        <a href="https://boccia-india-landing.gurarpitzz.com/contact.php" class="btn btn-bsfi-green" style="padding: 0.75rem 2rem; font-size: 0.9rem; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block;">Contact BSFI &rarr;</a>
+                    <div class="support-cta-box" style="padding-top: 1rem; border-top: 1px solid rgba(8, 27, 75, 0.1); display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.25rem;">
+                        <div style="text-align: left;">
+                            <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: #081B4B; margin: 0; font-weight: 700; line-height: 1.2;">Interested in Supporting BSFI?</h3>
+                            <p style="color: rgba(8, 27, 75, 0.7); margin: 0; margin-top: 0.15rem; font-size: 0.78rem; line-height: 1.2;">Learn how your organization can contribute to the growth of Boccia in India.</p>
+                        </div>
+                        <a href="https://boccia-india-landing.gurarpitzz.com/contact.php" class="btn btn-bsfi-green" style="padding: 0.7rem 1.75rem; font-size: 0.85rem; border-radius: 50px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; flex-shrink: 0;">Contact BSFI &rarr;</a>
                     </div>
                     
-                </div>                </div>
+                </div>
                 
                 <!-- Right Column: Intentionally empty to let the background player image show -->
                 <div class="col-lg-5 d-none d-lg-block"></div>
