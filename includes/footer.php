@@ -215,11 +215,7 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
                         </div>
                     </div>
                     
-                    <p style="font-size: 0.92rem; line-height: 1.45; color: rgba(8, 27, 75, 0.8); margin: 0; font-style: italic;">
-                        Whether you are a corporate organization, CSR partner, educational institution, or individual supporter, your contribution helps strengthen India's Boccia ecosystem and creates opportunities for athletes to excel.
-                    </p>
-                    
-                    <div class="support-cta-box" style="padding-top: 1rem; border-top: 1px solid rgba(8, 27, 75, 0.1); display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.25rem;">
+                    <div class="support-cta-box" style="padding-top: 1rem; border-top: 1px solid rgba(8, 27, 75, 0.1); display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.25rem;">
                         <div style="text-align: left;">
                             <h3 style="font-family: var(--font-heading); font-size: 1.15rem; color: #081B4B; margin: 0; font-weight: 700; line-height: 1.2;">Interested in Supporting BSFI?</h3>
                             <p style="color: rgba(8, 27, 75, 0.7); margin: 0; margin-top: 0.15rem; font-size: 0.78rem; line-height: 1.2;">Learn how your organization can contribute to the growth of Boccia in India.</p>
