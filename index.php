@@ -1053,12 +1053,12 @@ try {
             <button class="gal-back-btn" onclick="closeAlbum()">← Back to Albums</button>
         </div>
 
-        <div class="gal-album-detail-header">
-            <h2 id="detailTitle" class="gal-title" style="margin: 0 0 0.5rem; text-align: left;">Album Title</h2>
-            <div class="gal-detail-meta" id="detailMeta">
+        <div class="gal-album-detail-header" style="color: #ffffff; text-align: left; margin-bottom: 2rem;">
+            <h2 id="detailTitle" class="gal-title" style="margin: 0 0 0.5rem; text-align: left; color: #ffffff; font-weight: 800; font-size: clamp(2rem, 4vw, 3rem);">Album Title</h2>
+            <div class="gal-detail-meta" id="detailMeta" style="color: rgba(255, 255, 255, 0.75); font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
                 <!-- Populated via JS -->
             </div>
-            <p id="detailDesc" style="margin-top: 1rem; opacity: 0.8; max-width: 800px; line-height: 1.6;">Album Description</p>
+            <p id="detailDesc" style="margin-top: 1rem; color: rgba(255, 255, 255, 0.9); max-width: 800px; line-height: 1.6; font-size: 1.05rem; font-weight: 400; opacity: 0.95;">Album Description</p>
         </div>
 
         <!-- Masonry Grid for selected album photos -->
