@@ -3532,3 +3532,352 @@ body {
     }
 }
 
+
+/* ═══════════════════════════════════════════
+   SECTION 2: What is Boccia?
+════════════════════════════════════════════ */
+.what-is-boccia-section {
+    position: relative;
+    padding: 6rem 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.section-dark-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 27, 75, 0.45) 0%, rgba(8, 27, 75, 0.5) 100%);
+    z-index: 1;
+}
+.section-content-relative {
+    position: relative;
+    z-index: 2;
+}
+.section-sub-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #24C27A;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+.section-main-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+.section-desc-para {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    line-height: 1.65;
+    color: rgba(250, 247, 240, 0.85);
+    margin-bottom: 2.25rem;
+}
+
+/* Premium Media Card (Left side video card mockup) */
+.premium-media-card {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+.media-thumbnail-wrapper {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+}
+.media-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.play-btn-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 27, 75, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+.play-icon-svg {
+    width: 68px;
+    height: 68px;
+    color: #FAF7F0;
+    background: #24C27A;
+    padding: 20px;
+    border-radius: 50%;
+    box-shadow: 0 10px 30px rgba(36, 194, 122, 0.45);
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease, color 0.3s ease;
+}
+.premium-media-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 35px 75px rgba(0, 0, 0, 0.45);
+}
+.premium-media-card:hover .media-thumb-img {
+    transform: scale(1.04);
+}
+.premium-media-card:hover .play-icon-svg {
+    transform: scale(1.12);
+    background-color: #FAF7F0;
+    color: #081B4B;
+}
+
+/* Feature grid items */
+.feature-grid-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+.feature-card-item {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+}
+.feature-icon-box {
+    width: 44px;
+    height: 44px;
+    background: rgba(36, 194, 122, 0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #24C27A;
+    flex-shrink: 0;
+}
+.feature-icon-box svg {
+    width: 20px;
+    height: 20px;
+}
+.feature-card-text strong {
+    display: block;
+    font-size: 0.95rem;
+    color: #ffffff;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+.feature-card-text span {
+    font-size: 0.82rem;
+    color: rgba(250, 247, 240, 0.65);
+    line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 3: Who Can Participate?
+════════════════════════════════════════════ */
+.who-can-participate-section {
+    position: relative;
+    padding: 6rem 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.eligibility-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    text-align: left;
+    margin-top: 3.5rem;
+}
+.eligibility-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transform: translateZ(0);
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.eligibility-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #24C27A;
+    flex-shrink: 0;
+    will-change: transform;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease, color 0.3s ease;
+}
+.eligibility-icon svg {
+    width: 22px;
+    height: 22px;
+}
+.eligibility-card h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.35;
+}
+.eligibility-card p {
+    font-size: 0.85rem;
+    color: rgba(250, 247, 240, 0.65);
+    margin: 0;
+    line-height: 1.5;
+}
+.eligibility-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(36, 194, 122, 0.5);
+    box-shadow: 0 20px 45px rgba(36, 194, 122, 0.12);
+}
+.eligibility-card:hover .eligibility-icon {
+    transform: scale(1.1);
+    background-color: #24C27A;
+    color: #081B4B;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 4: Become a Boccia Athlete
+════════════════════════════════════════════ */
+.become-athlete-section {
+    background: #FAF7F0;
+    padding: 6.5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+.roadmap-timeline-wrapper {
+    position: relative;
+    margin-top: 4.5rem;
+    width: 100%;
+}
+.roadmap-line-connector {
+    position: absolute;
+    top: 44px;
+    left: 8%;
+    right: 8%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(8, 27, 75, 0.03) 0%, rgba(8, 27, 75, 0.18) 50%, rgba(8, 27, 75, 0.03) 100%);
+    z-index: 1;
+}
+.roadmap-steps-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+.roadmap-step-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 2.25rem 1.5rem;
+    box-shadow: 0 12px 35px rgba(8, 27, 75, 0.03);
+    border: 1px solid rgba(8, 27, 75, 0.05);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    transform: translateZ(0);
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+.step-badge {
+    width: 52px;
+    height: 52px;
+    background: #081B4B;
+    border-radius: 50%;
+    color: #FAF7F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    border: 4px solid #FAF7F0;
+    box-shadow: 0 5px 12px rgba(8, 27, 75, 0.12);
+}
+.roadmap-step-card h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #081B4B;
+    margin: 0;
+    line-height: 1.35;
+}
+.roadmap-step-card p {
+    font-size: 0.85rem;
+    color: rgba(8, 27, 75, 0.65);
+    margin: 0;
+    line-height: 1.5;
+}
+.roadmap-step-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(8, 27, 75, 0.08);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE LAYOUTS
+════════════════════════════════════════════ */
+@media (max-width: 991px) {
+    .eligibility-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+    .roadmap-steps-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+    .roadmap-line-connector {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .feature-grid-row {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    .eligibility-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .roadmap-steps-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        position: relative;
+    }
+    .roadmap-steps-container::before {
+        content: '';
+        position: absolute;
+        left: 50px; /* Aligns precisely with the center of the 52px step badges */
+        top: 2rem;
+        bottom: 2rem;
+        width: 2px;
+        background: rgba(8, 27, 75, 0.12);
+        z-index: 1;
+    }
+    .roadmap-step-card {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1.5rem;
+        gap: 1.25rem;
+        position: relative;
+        z-index: 2;
+    }
+    .step-badge {
+        flex-shrink: 0;
+    }
+}
+
