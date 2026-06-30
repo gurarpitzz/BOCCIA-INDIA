@@ -332,61 +332,75 @@ try {
     <div class="container section-content-relative text-center">
         <span class="section-sub-label">ATHLETE ELIGIBILITY</span>
         <h2 class="section-main-heading text-center" style="margin-bottom: 1.25rem; color: #ffffff;">Who Can Participate?</h2>
-        <p class="section-desc-para mx-auto" style="max-width: 680px; margin-bottom: 3rem;">
-            Athletes who meet the official World Boccia classification criteria may participate in national and international Boccia competitions through the Boccia Sports Federation of India.
+        <p class="section-desc-para mx-auto" style="max-width: 800px; margin-bottom: 3rem; color: rgba(255, 255, 255, 0.85); line-height: 1.6;">
+            To participate in competitive boccia at an international level, an athlete must meet three exact requirements governed by the <a href="https://www.paralympic.org/classification" target="_blank" style="color: #24C27A; font-weight: 600; text-decoration: underline;">International Paralympic Committee (IPC)</a> and <a href="https://www.worldboccia.com" target="_blank" style="color: #24C27A; font-weight: 600; text-decoration: underline;">World Boccia</a>. The player must have an eligible Underlying Health Condition, a specific Impairment Type, and meet the Minimum Impairment Criteria.
         </p>
         
-        <!-- 5 Lightweight Horizontal Information Panels -->
-        <div class="eligibility-flex-panels">
-            <div class="eligibility-panel">
-                <span class="panel-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line><line x1="19.07" y1="4.93" x2="14.83" y2="9.17"></line><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line><line x1="9.17" y1="14.83" x2="4.93" y2="19.07"></line></svg>
-                </span>
-                <div class="panel-content">
-                    <h4>Classification</h4>
-                    <p>BC1–BC4 Sport Classes</p>
+        <div class="eligibility-grid">
+            <!-- Card 1: Underlying Health Conditions -->
+            <div class="eligibility-card">
+                <div class="eligibility-card-header">
+                    <span class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8"></path><path d="M8 12h8"></path></svg>
+                    </span>
+                    <h4>1. Underlying Conditions</h4>
                 </div>
+                <ul class="eligibility-details-list">
+                    <li>Cerebral Palsy</li>
+                    <li>Traumatic Brain Injury or Stroke</li>
+                    <li>Spinal Cord Injury (quadriplegia)</li>
+                    <li>Muscular Dystrophy</li>
+                    <li>Spina Bifida</li>
+                    <li>Severe Amputations or Limb Deficiencies</li>
+                </ul>
             </div>
-            <div class="eligibility-panel">
-                <span class="panel-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-                </span>
-                <div class="panel-content">
-                    <h4>Medical Eligibility</h4>
-                    <p>Functional Assessment</p>
+
+            <!-- Card 2: The Five Eligible Impairment Types -->
+            <div class="eligibility-card">
+                <div class="eligibility-card-header">
+                    <span class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    </span>
+                    <h4>2. Impairment Types</h4>
                 </div>
+                <ul class="eligibility-details-list">
+                    <li><strong>Hypertonia:</strong> Increased muscle tension and stiffness</li>
+                    <li><strong>Ataxia:</strong> Neurological coordination destruction</li>
+                    <li><strong>Athetosis:</strong> Involuntary, slow writhing movements</li>
+                    <li><strong>Impaired Muscle Power:</strong> Permanent force reduction (e.g. spinal injury)</li>
+                    <li><strong>Limb Deficiency:</strong> Absence of bones or joints</li>
+                </ul>
             </div>
-            <div class="eligibility-panel">
-                <span class="panel-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                </span>
-                <div class="panel-content">
-                    <h4>Athlete Assessment</h4>
-                    <p>Evaluation by Certified Classifiers</p>
+
+            <!-- Card 3: Minimum Impairment Criteria (MIC) -->
+            <div class="eligibility-card">
+                <div class="eligibility-card-header">
+                    <span class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6v-6H9v6zM21 21H3v-3h18v3zM12 3v9"></path></svg>
+                    </span>
+                    <h4>3. Minimum Criteria (MIC)</h4>
                 </div>
+                <ul class="eligibility-details-list">
+                    <li><strong>Four-Limb Impact:</strong> Impairment must limit function in all 4 limbs</li>
+                    <li><strong>Trunk/Leg Involvement:</strong> Requires playing from a wheelchair</li>
+                    <li><strong>Upper Limb Limitation:</strong> Visibly reduced capability to hold, grip or propel the ball</li>
+                </ul>
             </div>
-            <div class="eligibility-panel">
-                <span class="panel-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                </span>
-                <div class="panel-content">
-                    <h4>State Association Guidance</h4>
-                    <p>Support from Your State Association</p>
+
+            <!-- Card 4: Administrative Requirements -->
+            <div class="eligibility-card">
+                <div class="eligibility-card-header">
+                    <span class="panel-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    </span>
+                    <h4>4. Entry Protocol</h4>
                 </div>
+                <ul class="eligibility-details-list">
+                    <li><strong>Medical Form (MDF):</strong> Stamped and signed by a licensed doctor</li>
+                    <li><strong>In-Person Evaluation:</strong> Assessed by a certified panel before matches</li>
+                    <li><strong>Passport:</strong> Holds a valid passport of the represented nation</li>
+                </ul>
             </div>
-            <div class="eligibility-panel">
-                <span class="panel-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-                </span>
-                <div class="panel-content">
-                    <h4>Competition Pathway</h4>
-                    <p>State &rarr; National &rarr; International</p>
-                </div>
-            </div>
-        </div>
-        
-        <div style="margin-top: 3rem;">
-            <a href="page.php?section=get-involved&slug=classification" class="btn btn-bsfi-green">Check Eligibility &rarr;</a>
         </div>
     </div>
 </section>
