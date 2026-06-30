@@ -249,79 +249,74 @@ try {
 </script>
 
 <!-- ═══════════════════════════════════════════
-     SECTION 2: What is Boccia?
+     SECTION 2: What is Boccia? (Overview & Origins)
 ════════════════════════════════════════════ -->
 <section id="what-is-boccia" class="what-is-boccia-section" style="background-image: url('news_bg.webp');">
     <div class="section-dark-overlay"></div>
     <div class="container section-content-relative">
         <div class="row align-items-center g-5">
             
-            <!-- Left Column: Premium Media Card (38% width class) -->
-            <div class="col-lg-5 col-md-12">
-                <div class="premium-media-card">
-                    <div class="media-thumbnail-wrapper">
-                        <img src="gallery/WhatsApp Image 2026-06-03 at 09.31.25.jpeg" alt="Boccia Gameplay" class="media-thumb-img">
-                        <div class="play-btn-overlay">
-                            <svg class="play-icon-svg" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                            </svg>
-                        </div>
+            <!-- Left: Interactive Content Tabs -->
+            <div class="col-lg-6 col-md-12">
+                <span class="section-sub-label">--The Sport--</span>
+                <h2 class="section-main-heading">Overview &amp; Origins</h2>
+                
+                <!-- Tab Headers -->
+                <div class="overview-tabs-nav" style="margin-bottom: 1.75rem;">
+                    <button class="overview-tab-btn active" data-tab="overview">Overview</button>
+                    <button class="overview-tab-btn" data-tab="history">History</button>
+                    <button class="overview-tab-btn" data-tab="reach">Global Reach</button>
+                    <button class="overview-tab-btn" data-tab="india">Boccia in India</button>
+                </div>
+                
+                <!-- Tab Contents Container -->
+                <div class="overview-tabs-content">
+                    
+                    <!-- Tab: Overview -->
+                    <div class="overview-tab-pane active" id="tab-overview">
+                        <h4 class="tab-pane-heading" style="color: #24C27A; font-weight: 700; margin-bottom: 1rem; font-size: 1.25rem;">Precision. Strategy. Inclusion.</h4>
+                        <p class="section-desc-para">Boccia is a precision ball sport designed specifically for athletes with severe physical disabilities affecting motor skills. Recognized as one of the most inclusive Paralympic sports, Boccia provides individuals with high support needs an opportunity to compete at local, national, and international levels.</p>
+                        <p class="section-desc-para">Played indoors on a flat court, Boccia involves athletes throwing, kicking, or using an assistive ramp to propel leather balls as close as possible to a target ball known as the "jack." The objective is simple, yet the game demands exceptional skill, planning, and control.</p>
                     </div>
+                    
+                    <!-- Tab: History -->
+                    <div class="overview-tab-pane" id="tab-history">
+                        <h4 class="tab-pane-heading" style="color: #24C27A; font-weight: 700; margin-bottom: 1rem; font-size: 1.25rem;">A Rich Paralympic Legacy</h4>
+                        <p class="section-desc-para">Boccia originated in Europe during the 1970s as a competitive sport for individuals with cerebral palsy. Over time, it evolved to include athletes with a wider range of severe physical disabilities.</p>
+                        <p class="section-desc-para">The sport made its Paralympic debut at the 1984 Paralympic Games and has since grown into a globally recognized discipline governed internationally by World Boccia.</p>
+                    </div>
+                    
+                    <!-- Tab: Reach -->
+                    <div class="overview-tab-pane" id="tab-reach">
+                        <h4 class="tab-pane-heading" style="color: #24C27A; font-weight: 700; margin-bottom: 1rem; font-size: 1.25rem;">Expanding Boundaries Worldwide</h4>
+                        <p class="section-desc-para">Today, Boccia is played in more than 70 countries and continues to expand its reach through grassroots development programs, national championships, and international competitions.</p>
+                        <p class="section-desc-para">As a key component of the Paralympic movement, World Boccia works to bring this highly accessible sport to new regions, establishing training centers, certifying coaches, and supporting local organizations.</p>
+                    </div>
+                    
+                    <!-- Tab: India -->
+                    <div class="overview-tab-pane" id="tab-india">
+                        <h4 class="tab-pane-heading" style="color: #24C27A; font-weight: 700; margin-bottom: 1rem; font-size: 1.25rem;">Empowering Indian Athletes</h4>
+                        <p class="section-desc-para">Boccia has emerged as an important adaptive sport in India, creating opportunities for persons with severe physical disabilities to participate in competitive sports and lead active, empowered lives. Through the efforts of dedicated organizations, coaches, volunteers, and advocates, awareness and participation have steadily increased.</p>
+                        <p class="section-desc-para">Indian athletes have demonstrated remarkable talent and determination, representing the nation in international competitions and contributing to the growth of the sport. Development programs continue to introduce Boccia to new players while promoting accessibility.</p>
+                    </div>
+                    
                 </div>
             </div>
             
-            <!-- Right Column: Info & Features (58% width class) -->
-            <div class="col-lg-7 col-md-12">
-                <div class="branding-content-panel">
-                    <span class="section-sub-label">DISCOVER THE SPORT</span>
-                    <h2 class="section-main-heading">What is Boccia?</h2>
-                    <p class="section-desc-para">
-                        Boccia is a Paralympic precision ball sport designed for athletes with severe physical disabilities. It combines strategy, concentration, and precision, allowing athletes to compete individually, in pairs, or as teams.
-                    </p>
-                    
-                    <!-- Structured Bordered Information Rows -->
-                    <div class="structured-info-rows">
-                        <div class="info-row">
-                            <span class="info-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
-                            </span>
-                            <div class="info-text">
-                                <strong>Official Paralympic Sport</strong>
-                                <span>Recognized by World Boccia since 1984.</span>
+            <!-- Right: Premium Video Player -->
+            <div class="col-lg-6 col-md-12">
+                <div class="overview-video-card">
+                    <div class="overview-video-wrapper" style="border-radius: 20px; overflow: hidden; box-shadow: 0 20px 45px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.08);">
+                        <!-- Custom YouTube Embed wrapper. Loads iframe only on interaction to save load performance -->
+                        <div class="youtube-lazy-load" data-youtube-id="itPWqcx7xBg" style="position: relative; aspect-ratio: 16/9; cursor: pointer;">
+                            <div class="yt-play-btn" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8, 27, 75, 0.15); transition: background 0.3s ease;">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 56px; height: 56px; color: #FAF7F0; background: #24C27A; padding: 16px; border-radius: 50%; box-shadow: 0 8px 24px rgba(36, 194, 122, 0.35); transition: transform 0.3s ease;"><path d="M8 5v14l11-7z"/></svg>
                             </div>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-                            </span>
-                            <div class="info-text">
-                                <strong>Precision Ball Sport</strong>
-                                <span>Strategy, concentration, and accuracy.</span>
-                            </div>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
-                            </span>
-                            <div class="info-text">
-                                <strong>Indoor Competition</strong>
-                                <span>Played on flat, smooth indoor courts.</span>
-                            </div>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                            </span>
-                            <div class="info-text">
-                                <strong>Individual • Pair • Team Events</strong>
-                                <span>Highly inclusive competitive structures.</span>
-                            </div>
+                            <!-- Background image to use as fallback/poster before video loads -->
+                            <img src="https://img.youtube.com/vi/itPWqcx7xBg/hqdefault.jpg" alt="Watch overview video" class="yt-poster" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
                         </div>
                     </div>
-                    
-                    <div style="margin-top: 2rem;">
-                        <a href="page.php?section=about&slug=about-boccia" class="btn btn-bsfi-navy">Learn About Boccia &rarr;</a>
-                    </div>
+                    <span class="video-caption" style="display: block; text-align: center; margin-top: 1rem; font-size: 0.9rem; color: rgba(250, 247, 240, 0.7);">🎥 Official Introduction to Para Boccia</span>
                 </div>
             </div>
             
