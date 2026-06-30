@@ -68,6 +68,85 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
             opacity: 1;
             visibility: visible;
         }
+
+        /* Inline Mobile Header Customizations (Bypass Caching) */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 105px !important;
+            }
+            .top-logo-bar {
+                height: 105px !important;
+                min-height: 105px !important;
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+            }
+            .scrolled .top-logo-bar {
+                margin-top: -105px !important;
+            }
+            .hero-slideshow-wrapper {
+                height: calc(100vh - 105px) !important;
+            }
+            .navbar-row {
+                margin-top: 0 !important;
+            }
+            .header-brand-wrap {
+                display: grid !important;
+                grid-template-columns: 120px 1px 1fr !important;
+                align-items: center !important;
+                gap: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+            .header-logo-link {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                height: 100% !important;
+                width: auto !important;
+            }
+            .tl-bsfi {
+                height: 75px !important;
+                width: auto !important;
+                object-fit: contain !important;
+            }
+            .header-v-sep {
+                display: block !important;
+                width: 1px !important;
+                height: 70% !important;
+                background-color: rgba(8, 27, 75, 0.25) !important;
+                flex-shrink: 0 !important;
+                justify-self: center !important;
+            }
+            .header-right-spacer {
+                display: none !important;
+            }
+            .header-text-wrap {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                flex-grow: 1 !important;
+                text-align: center !important;
+                padding: 0 10px !important;
+            }
+            .header-title-en {
+                font-family: 'Montserrat', sans-serif !important;
+                font-size: 20px !important;
+                font-weight: 600 !important;
+                line-height: 1.1 !important;
+                margin: 0 0 4px 0 !important;
+                text-transform: uppercase !important;
+                text-align: center !important;
+            }
+            .header-title-hi {
+                font-family: 'Noto Serif Devanagari', serif !important;
+                font-size: 13px !important;
+                font-weight: 500 !important;
+                line-height: 1.2 !important;
+                margin: 0 !important;
+                text-align: center !important;
+            }
+        }
     </style>
     <script>
         try {
