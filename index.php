@@ -1187,6 +1187,7 @@ try {
 
 })();
 </script>
+</section>
 
 <!-- Latest News Section -->
 <section id="news" class="news-section" style="padding: 6rem 0; background: var(--warm-surface) url('news_bg.webp') top center / cover fixed no-repeat;">
