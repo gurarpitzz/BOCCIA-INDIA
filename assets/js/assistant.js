@@ -18,11 +18,17 @@
             display: none !important;
         }
 
+        /* Override accessibility panel position to match the right-hand FAB */
+        .a11y-panel {
+            left: auto !important;
+            right: 25px !important;
+        }
+
         /* ── Quick Assist Floating Action Button ── */
         .bsfi-quick-assist-fab {
             position: fixed !important;
             bottom: 25px !important;
-            left: 25px !important;
+            right: 25px !important;
             width: 56px !important;
             height: 56px !important;
             border-radius: 50% !important;
@@ -81,7 +87,7 @@
         .bsfi-quick-assist-popover {
             position: fixed !important;
             bottom: 95px !important;
-            left: 25px !important;
+            right: 25px !important;
             width: 255px !important;
             background: rgba(250, 247, 240, 0.94) !important; /* Cream themed */
             backdrop-filter: blur(16px) !important;
@@ -175,7 +181,7 @@
         .bsfi-ast-panel {
             position: fixed !important;
             bottom: 95px !important;
-            left: 25px !important;
+            right: 25px !important;
             width: 360px !important;
             max-width: calc(100vw - 50px) !important;
             max-height: 520px !important;
@@ -398,11 +404,13 @@
         /* Mobile overrides */
         @media (max-width: 768px) {
             .bsfi-quick-assist-fab {
-                left: 20px !important;
+                left: auto !important;
+                right: 20px !important;
                 bottom: 20px !important;
             }
             .bsfi-quick-assist-popover {
-                left: 20px !important;
+                left: auto !important;
+                right: 20px !important;
                 bottom: 85px !important;
                 width: calc(100vw - 40px) !important;
             }
@@ -410,6 +418,12 @@
                 bottom: 85px !important;
                 left: 20px !important;
                 right: 20px !important;
+                width: calc(100vw - 40px) !important;
+            }
+            .a11y-panel {
+                left: 20px !important;
+                right: 20px !important;
+                bottom: 85px !important;
                 width: calc(100vw - 40px) !important;
             }
         }
