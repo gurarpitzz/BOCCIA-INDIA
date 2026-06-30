@@ -650,11 +650,11 @@ body {
 
 /* Subtitle paragraph below the quote */
 .hero-subtitle {
-    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    font-size: clamp(0.8rem, 1.1vw, 0.9rem);
     color: rgba(255,255,255,0.85);
     line-height: 1.65;
     margin-bottom: 2rem;
-    max-width: 520px;
+    max-width: 720px;
     text-shadow: 0 1px 8px rgba(0,0,0,0.5);
 }
 
