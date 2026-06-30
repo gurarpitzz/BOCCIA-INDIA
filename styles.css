@@ -3733,32 +3733,60 @@ body {
 .who-can-participate-section {
     position: relative;
     padding: 4.5rem 0; /* Reduced padding spacing */
-    background: linear-gradient(135deg, #051336 0%, #0B1B3D 55%, #FAF7F0 115%);
+    background: linear-gradient(135deg, #051336 0%, #081B4B 50%, #0c235c 100%);
     overflow: hidden;
 }
 .who-can-participate-section::before {
     content: '';
     position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, rgba(250, 247, 240, 0.15) 0%, rgba(250, 247, 240, 0) 70%);
-    filter: blur(60px);
+    top: -150px;
+    left: -150px; /* Gradient glow from the top-left */
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(250, 247, 240, 0.16) 0%, rgba(36, 194, 122, 0.08) 50%, rgba(8, 27, 75, 0) 70%);
+    filter: blur(80px);
     z-index: 1;
     pointer-events: none;
+    will-change: transform;
+    animation: aurora-glow-left 25s infinite alternate ease-in-out;
 }
 .who-can-participate-section::after {
     content: '';
     position: absolute;
-    bottom: -150px;
-    left: -150px;
-    width: 450px;
-    height: 450px;
-    background: radial-gradient(circle, rgba(8, 27, 75, 0.6) 0%, rgba(8, 27, 75, 0) 70%);
-    filter: blur(80px);
+    bottom: -200px;
+    right: -150px; /* Gradient glow from bottom-right */
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(36, 194, 122, 0.12) 0%, rgba(250, 247, 240, 0.1) 40%, rgba(8, 27, 75, 0) 70%);
+    filter: blur(100px);
     z-index: 1;
     pointer-events: none;
+    will-change: transform;
+    animation: aurora-glow-right 30s infinite alternate ease-in-out;
+}
+
+@keyframes aurora-glow-left {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(100px, 60px) scale(1.15) rotate(120deg);
+    }
+    100% {
+        transform: translate(-50px, 100px) scale(0.9) rotate(240deg);
+    }
+}
+
+@keyframes aurora-glow-right {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    50% {
+        transform: translate(-120px, -80px) scale(1.25) rotate(-90deg);
+    }
+    100% {
+        transform: translate(60px, -120px) scale(0.85) rotate(-180deg);
+    }
 }
 .eligibility-flex-panels {
     display: grid;
