@@ -4014,59 +4014,57 @@ body {
 .photo-gallery-section {
     position: relative;
     padding: 6rem 0;
-    background: linear-gradient(135deg, #FAF7F0 0%, #faf6ec 40%, rgba(242, 100, 25, 0.03) 75%, rgba(142, 212, 45, 0.03) 100%);
+    background: #FAF7F0; /* Clean cream background base */
     overflow: hidden;
 }
-.photo-gallery-section::before {
-    content: '';
+.gallery-aurora-bg {
     position: absolute;
-    top: -200px;
-    left: -200px;
-    width: 1000px;
-    height: 1000px;
-    background: radial-gradient(circle, rgba(242, 100, 25, 0.55) 0%, rgba(242, 100, 25, 0.2) 45%, rgba(250, 247, 240, 0) 70%); /* Giant prominent Orange glow */
-    filter: blur(70px);
-    z-index: 1;
+    inset: 0;
+    overflow: hidden;
     pointer-events: none;
-    will-change: transform;
-    animation: aurora-gallery-left 35s infinite alternate ease-in-out;
+    z-index: 1;
 }
-.photo-gallery-section::after {
-    content: '';
+.aurora-blob {
     position: absolute;
-    bottom: -300px;
-    right: -200px;
-    width: 1200px;
-    height: 1200px;
-    background: radial-gradient(circle, rgba(142, 212, 45, 0.52) 0%, rgba(142, 212, 45, 0.18) 45%, rgba(250, 247, 240, 0) 70%); /* Giant prominent Lime green glow */
-    filter: blur(80px);
-    z-index: 1;
-    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(60px);
     will-change: transform;
-    animation: aurora-gallery-right 40s infinite alternate ease-in-out;
+    opacity: 0.8;
+}
+/* Orange Blobs: High vibrancy saffron-orange */
+.orange-blob {
+    background: radial-gradient(circle, rgba(242, 100, 25, 0.48) 0%, rgba(242, 100, 25, 0.18) 45%, rgba(250, 247, 240, 0) 70%);
+}
+/* Blue Blobs: Premium royal-navy blue */
+.blue-blob {
+    background: radial-gradient(circle, rgba(8, 27, 75, 0.42) 0%, rgba(8, 27, 75, 0.15) 45%, rgba(250, 247, 240, 0) 70%);
 }
 
-@keyframes aurora-gallery-left {
-    0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
-    50% {
-        transform: translate(250px, 300px) scale(1.2) rotate(120deg);
-    }
-    100% {
-        transform: translate(-100px, 500px) scale(0.9) rotate(240deg);
-    }
-}
+/* Individual positions down the page */
+.blob-1 { top: 5%; left: -100px; width: 450px; height: 450px; animation: float-aurora-1 25s infinite alternate ease-in-out; }
+.blob-2 { top: 22%; right: -150px; width: 550px; height: 550px; animation: float-aurora-2 28s infinite alternate ease-in-out; }
+.blob-3 { top: 45%; left: -200px; width: 600px; height: 600px; animation: float-aurora-3 32s infinite alternate ease-in-out; }
+.blob-4 { top: 68%; right: -100px; width: 500px; height: 500px; animation: float-aurora-1 30s infinite alternate ease-in-out; }
+.blob-5 { top: 88%; left: -150px; width: 520px; height: 520px; animation: float-aurora-2 27s infinite alternate ease-in-out; }
 
-@keyframes aurora-gallery-right {
-    0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-    }
-    50% {
-        transform: translate(-300px, -400px) scale(1.25) rotate(-90deg);
-    }
-    100% {
-        transform: translate(150px, -600px) scale(0.85) rotate(-180deg);
-    }
+.blob-6 { top: 12%; right: 20%; width: 400px; height: 400px; animation: float-aurora-3 26s infinite alternate ease-in-out; }
+.blob-7 { top: 55%; left: 30%; width: 450px; height: 450px; animation: float-aurora-1 34s infinite alternate ease-in-out; }
+.blob-8 { top: 80%; right: 40%; width: 500px; height: 500px; animation: float-aurora-2 29s infinite alternate ease-in-out; }
+
+/* Aurora Float Keyframes */
+@keyframes float-aurora-1 {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(120px, 80px) scale(1.15) rotate(90deg); }
+    100% { transform: translate(-60px, 140px) scale(0.9) rotate(180deg); }
+}
+@keyframes float-aurora-2 {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(-140px, -60px) scale(1.2) rotate(-90deg); }
+    100% { transform: translate(70px, -150px) scale(0.85) rotate(-180deg); }
+}
+@keyframes float-aurora-3 {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(150px, -100px) scale(1.1) rotate(60deg); }
+    100% { transform: translate(-100px, -180px) scale(0.95) rotate(120deg); }
 }
 

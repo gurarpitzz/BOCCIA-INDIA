@@ -626,6 +626,17 @@ try {
 
 <!-- Photo Gallery Section -->
 <section id="photo-gallery" class="photo-gallery-section">
+    <!-- Animated background light field (5 Orange Blobs, 3 Blue Blobs) -->
+    <div class="gallery-aurora-bg">
+        <div class="aurora-blob orange-blob blob-1"></div>
+        <div class="aurora-blob orange-blob blob-2"></div>
+        <div class="aurora-blob orange-blob blob-3"></div>
+        <div class="aurora-blob orange-blob blob-4"></div>
+        <div class="aurora-blob orange-blob blob-5"></div>
+        <div class="aurora-blob blue-blob blob-6"></div>
+        <div class="aurora-blob blue-blob blob-7"></div>
+        <div class="aurora-blob blue-blob blob-8"></div>
+    </div>
 <style>
 /* ── Wide Gallery Container ── */
 .gallery-wide-container {
