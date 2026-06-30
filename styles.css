@@ -4014,7 +4014,7 @@ body {
 .photo-gallery-section {
     position: relative;
     padding: 6rem 0;
-    background: #FAF7F0; /* Clean cream background base */
+    background: #EFE7D5; /* Highly saturated warm cream base */
     overflow: hidden;
     contain: paint; /* Enforce strict painting containment to clip all blurred elements */
 }
@@ -4035,11 +4035,11 @@ body {
 }
 /* Orange Blobs: High vibrancy saffron-orange (Top-focused) */
 .orange-blob {
-    background: radial-gradient(circle, rgba(242, 100, 25, 0.45) 0%, rgba(242, 100, 25, 0.18) 50%, rgba(250, 247, 240, 0) 70%);
+    background: radial-gradient(circle, rgba(242, 100, 25, 0.45) 0%, rgba(242, 100, 25, 0.18) 50%, rgba(239, 231, 213, 0) 70%);
 }
 /* Blue Blobs: Premium royal blue (Bottom-focused) */
 .blue-blob {
-    background: radial-gradient(circle, rgba(0, 140, 255, 0.38) 0%, rgba(0, 140, 255, 0.15) 50%, rgba(250, 247, 240, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 140, 255, 0.38) 0%, rgba(0, 140, 255, 0.15) 50%, rgba(239, 231, 213, 0) 70%);
 }
 
 /* Individual positions (Orange top-half, Blue bottom-half) */
