@@ -309,17 +309,15 @@ try {
             <!-- Right: Premium Video Player -->
             <div class="col-lg-6 col-md-12">
                 <div class="overview-video-card">
-                    <div class="overview-video-wrapper" style="border-radius: 20px; overflow: hidden; box-shadow: 0 20px 45px rgba(8,27,75,0.15); border: 1px solid rgba(8,27,75,0.06);">
-                        <!-- Custom YouTube Embed wrapper. Loads iframe only on interaction to save load performance -->
-                        <div class="youtube-lazy-load" data-youtube-id="itPWqcx7xBg" style="position: relative; aspect-ratio: 16/9; cursor: pointer;">
-                            <div class="yt-play-btn" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8, 27, 75, 0.15); transition: background 0.3s ease;">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 56px; height: 56px; color: #FAF7F0; background: #24C27A; padding: 16px; border-radius: 50%; box-shadow: 0 8px 24px rgba(36, 194, 122, 0.35); transition: transform 0.3s ease;"><path d="M8 5v14l11-7z"/></svg>
+                    <div class="overview-video-wrapper">
+                        <div class="youtube-lazy-load" data-youtube-id="itPWqcx7xBg">
+                            <div class="yt-play-btn">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                             </div>
-                            <!-- Background image to use as fallback/poster before video loads -->
-                            <img src="https://img.youtube.com/vi/itPWqcx7xBg/hqdefault.jpg" alt="Watch overview video" class="yt-poster" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                            <img src="https://img.youtube.com/vi/itPWqcx7xBg/hqdefault.jpg" alt="Watch overview video" class="yt-poster" loading="lazy">
                         </div>
                     </div>
-                    <span class="video-caption" style="display: block; text-align: center; margin-top: 1rem; font-size: 0.9rem; color: rgba(8, 27, 75, 0.7);">🎥 Official Introduction to Para Boccia</span>
+                    <span class="video-caption">🎥 Official Introduction to Para Boccia</span>
                 </div>
             </div>
             
