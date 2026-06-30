@@ -4014,7 +4014,7 @@ body {
 .photo-gallery-section {
     position: relative;
     padding: 6rem 0;
-    background: #EFE7D5; /* Highly saturated warm cream base */
+    background: linear-gradient(135deg, #051336 0%, #081B4B 50%, #0c235c 100%); /* Same base as Become Athlete section */
     overflow: hidden;
     contain: paint; /* Enforce strict painting containment to clip all blurred elements */
 }
@@ -4033,16 +4033,16 @@ body {
     will-change: transform;
     opacity: 0.85;
 }
-/* Orange Blobs: High vibrancy saffron-orange (Top-focused) */
-.orange-blob {
-    background: radial-gradient(circle, rgba(242, 100, 25, 0.45) 0%, rgba(242, 100, 25, 0.18) 50%, rgba(239, 231, 213, 0) 70%);
+/* Green Blobs: Vibrant secondary green (lime-green accent) */
+.green-blob {
+    background: radial-gradient(circle, rgba(36, 194, 122, 0.45) 0%, rgba(36, 194, 122, 0.15) 50%, rgba(5, 19, 54, 0) 70%);
 }
-/* Blue Blobs: Premium royal blue (Bottom-focused) */
+/* Blue Blobs: Premium royal/cyan blue */
 .blue-blob {
-    background: radial-gradient(circle, rgba(0, 140, 255, 0.38) 0%, rgba(0, 140, 255, 0.15) 50%, rgba(239, 231, 213, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 162, 255, 0.45) 0%, rgba(0, 162, 255, 0.15) 50%, rgba(5, 19, 54, 0) 70%);
 }
 
-/* Individual positions (Orange top-half, Blue bottom-half) */
+/* Individual positions (Green blobs, Blue blobs) */
 .blob-1 { top: -200px; left: -100px; width: 850px; height: 850px; animation: float-aurora-1 25s infinite alternate ease-in-out; }
 .blob-2 { top: -50px; right: -200px; width: 950px; height: 950px; animation: float-aurora-2 28s infinite alternate ease-in-out; }
 .blob-3 { top: 10%; left: 20%; width: 800px; height: 800px; animation: float-aurora-3 32s infinite alternate ease-in-out; }
@@ -4052,6 +4052,71 @@ body {
 .blob-6 { bottom: -200px; left: -150px; width: 1000px; height: 1000px; animation: float-aurora-3 26s infinite alternate ease-in-out; }
 .blob-7 { bottom: -100px; right: -250px; width: 1100px; height: 1100px; animation: float-aurora-1 34s infinite alternate ease-in-out; }
 .blob-8 { bottom: 15%; left: 25%; width: 900px; height: 900px; animation: float-aurora-2 29s infinite alternate ease-in-out; }
+
+/* General Text Adjustments for Dark Theme */
+.photo-gallery-section .gal-title {
+    color: #ffffff !important;
+}
+.photo-gallery-section .gal-subtitle {
+    color: rgba(250, 247, 240, 0.75) !important;
+}
+.photo-gallery-section .gal-stats-pill {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: rgba(250, 247, 240, 0.8) !important;
+}
+.photo-gallery-section .gal-section-divider {
+    color: #ffffff !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Category Filter Buttons in Dark Theme */
+.photo-gallery-section .gal-filter-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: rgba(250, 247, 240, 0.8) !important;
+}
+.photo-gallery-section .gal-filter-btn:hover,
+.photo-gallery-section .gal-filter-btn.active {
+    background: #24C27A !important; /* Secondary Green Accent on Hover/Active */
+    color: #051336 !important;
+    border-color: #24C27A !important;
+    box-shadow: 0 4px 15px rgba(36, 194, 122, 0.25) !important;
+}
+
+/* Album Cards in Dark Theme: Premium Glassmorphism */
+.photo-gallery-section .gal-album-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.photo-gallery-section .gal-album-card:hover {
+    border-color: #24C27A !important; /* Highlight border using Brand Green */
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 40px rgba(36, 194, 122, 0.12) !important;
+}
+.photo-gallery-section .gal-album-title {
+    color: #ffffff !important;
+}
+.photo-gallery-section .gal-album-meta {
+    color: rgba(250, 247, 240, 0.5) !important;
+}
+.photo-gallery-section .gal-album-desc {
+    color: rgba(250, 247, 240, 0.7) !important;
+}
+
+/* Detail View Back Button */
+.photo-gallery-section .gal-back-btn {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+}
+.photo-gallery-section .gal-back-btn:hover {
+    background: #24C27A !important;
+    color: #051336 !important;
+    border-color: #24C27A !important;
+}
 
 /* Aurora Float Keyframes */
 @keyframes float-aurora-1 {
