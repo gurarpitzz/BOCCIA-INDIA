@@ -4066,16 +4066,26 @@ body {
 .blob-8 { bottom: 15%; left: 25%; width: 900px; height: 900px; animation: float-aurora-2 29s infinite alternate ease-in-out; }
 
 /* General Text Adjustments for Dark Theme */
+.photo-gallery-section .gal-eyebrow {
+    font-size: 1.05rem !important;
+    letter-spacing: 0.15em !important;
+}
 .photo-gallery-section .gal-title {
     color: #ffffff !important;
+    font-size: clamp(3rem, 6vw, 4.8rem) !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.02em !important;
 }
 .photo-gallery-section .gal-subtitle {
-    color: rgba(250, 247, 240, 0.75) !important;
+    color: rgba(250, 247, 240, 0.85) !important;
+    font-size: 1.25rem !important;
+    max-width: 820px !important;
+    line-height: 1.6 !important;
 }
 .photo-gallery-section .gal-stats-pill {
-    background: rgba(255, 255, 255, 0.04) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    color: rgba(250, 247, 240, 0.8) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    color: #ffffff !important;
 }
 .photo-gallery-section .gal-section-divider {
     color: #ffffff !important;
