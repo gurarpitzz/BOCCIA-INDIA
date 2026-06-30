@@ -1,23 +1,28 @@
 /**
- * assistant.js - BSFI Virtual Assistant (Guided Navigation Panel)
- * Lightweight, self-contained, WCAG 2.2 AA compliant.
+ * assistant.js - BSFI Quick Assist System (WCAG 2.2 AA compliant)
+ * Unifies Accessibility and Guided Virtual Assistant under a single FAB.
  */
 (function() {
     // 1. Detect Path Prefix for Assets
     const pathPrefix = window.location.pathname.includes('/admin/') ? '../' : '';
 
-    // Do not show the assistant on admin pages
+    // Do not show on admin pages
     if (window.location.pathname.includes('/admin/')) return;
 
     // 2. Inject CSS Styles Dynamically
     const styleEl = document.createElement('style');
-    styleEl.id = 'bsfi-assistant-styles';
+    styleEl.id = 'bsfi-quick-assist-styles';
     styleEl.innerHTML = `
-        /* ── Assistant Floating Action Button ── */
-        .bsfi-ast-toggle {
+        /* Hide original accessibility button */
+        #a11y-toggle {
+            display: none !important;
+        }
+
+        /* ── Quick Assist Floating Action Button ── */
+        .bsfi-quick-assist-fab {
             position: fixed !important;
             bottom: 25px !important;
-            right: 25px !important;
+            left: 25px !important;
             width: 56px !important;
             height: 56px !important;
             border-radius: 50% !important;
@@ -25,7 +30,7 @@
             border: 2px solid #ffffff !important;
             cursor: pointer !important;
             z-index: 10000000 !important;
-            box-shadow: 0 4px 15px rgba(8, 27, 75, 0.3) !important;
+            box-shadow: 0 4px 15px rgba(8, 27, 75, 0.35) !important;
             transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease !important;
             display: flex !important;
             align-items: center !important;
@@ -33,27 +38,27 @@
             padding: 0 !important;
             color: #ffffff !important;
         }
-        .bsfi-ast-toggle:hover {
+        .bsfi-quick-assist-fab:hover {
             transform: scale(1.08) !important;
-            box-shadow: 0 6px 20px rgba(8, 27, 75, 0.4) !important;
+            box-shadow: 0 6px 20px rgba(8, 27, 75, 0.45) !important;
         }
         
         /* Subtle Pulse Animation */
-        @keyframes ast-pulse {
-            0%, 100% { box-shadow: 0 4px 15px rgba(8, 27, 75, 0.3); }
+        @keyframes qa-pulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(8, 27, 75, 0.35); }
             50% { box-shadow: 0 4px 25px rgba(36, 194, 122, 0.6); }
         }
-        .bsfi-ast-toggle-pulse {
-            animation: ast-pulse 3s infinite ease-in-out;
+        .bsfi-quick-assist-fab-pulse {
+            animation: qa-pulse 3s infinite ease-in-out;
         }
 
         /* Tooltip */
-        .bsfi-ast-toggle::after {
-            content: "Ask BSFI";
+        .bsfi-quick-assist-fab::after {
+            content: "Quick Assist";
             position: absolute;
             bottom: 125%;
-            right: 50%;
-            transform: translateX(50%) scale(0.8);
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
             background: #081B4B;
             color: #ffffff;
             padding: 6px 12px;
@@ -67,20 +72,106 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             font-family: 'Outfit', sans-serif;
         }
-        .bsfi-ast-toggle:hover::after {
+        .bsfi-quick-assist-fab:hover::after {
             opacity: 1;
-            transform: translateX(50%) scale(1);
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* ── Quick Assist Popover Menu ── */
+        .bsfi-quick-assist-popover {
+            position: fixed !important;
+            bottom: 95px !important;
+            left: 25px !important;
+            width: 255px !important;
+            background: rgba(250, 247, 240, 0.94) !important; /* Cream themed */
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border: 1px solid rgba(8, 27, 75, 0.12) !important;
+            border-radius: 24px !important;
+            box-shadow: 0 15px 35px rgba(8, 27, 75, 0.2) !important;
+            z-index: 10000000 !important;
+            overflow: hidden !important;
+            font-family: 'Outfit', 'Poppins', sans-serif !important;
+            transform: translateY(15px) scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s ease;
+            pointer-events: none;
+            display: none;
+        }
+        .bsfi-quick-assist-popover.active {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: all;
+            display: block;
+        }
+
+        .bsfi-qa-header {
+            padding: 0.85rem 1.25rem 0.5rem !important;
+            font-size: 0.72rem !important;
+            font-weight: 800 !important;
+            color: rgba(8, 27, 75, 0.4) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.08em !important;
+            border-bottom: 1px solid rgba(8, 27, 75, 0.06) !important;
+        }
+
+        .bsfi-qa-items {
+            padding: 0.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.35rem !important;
+        }
+
+        .bsfi-qa-item {
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: 52px !important;
+            padding: 0 0.85rem !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 14px !important;
+            cursor: pointer !important;
+            text-align: left !important;
+            transition: background 0.2s, transform 0.2s !important;
+            gap: 0.75rem !important;
+        }
+        .bsfi-qa-item:hover {
+            background: rgba(8, 27, 75, 0.05) !important;
+            transform: translateY(-1px) !important;
+        }
+        .bsfi-qa-item-icon {
+            font-size: 1.2rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 28px !important;
+        }
+        .bsfi-qa-item-title {
+            flex-grow: 1 !important;
+            font-size: 0.88rem !important;
+            font-weight: 700 !important;
+            color: #081B4B !important;
+        }
+        .bsfi-qa-item-arrow {
+            color: rgba(8, 27, 75, 0.3) !important;
+            font-size: 0.8rem !important;
+            transition: transform 0.2s ease !important;
+        }
+        .bsfi-qa-item:hover .bsfi-qa-item-arrow {
+            transform: translateX(3px) !important;
+            color: #24C27A !important;
         }
 
         /* ── Assistant Panel ── */
         .bsfi-ast-panel {
             position: fixed !important;
             bottom: 95px !important;
-            right: 25px !important;
+            left: 25px !important; /* Open from bottom-left above the FAB */
             width: 360px !important;
             max-width: calc(100vw - 50px) !important;
             max-height: 520px !important;
-            background: #FAF7F0 !important; /* Cream theme */
+            background: #FAF7F0 !important;
             border: 1px solid rgba(8, 27, 75, 0.15) !important;
             border-radius: 28px !important;
             box-shadow: 0 15px 35px rgba(8, 27, 75, 0.15) !important;
@@ -105,7 +196,7 @@
             padding: 1.5rem !important;
             position: relative !important;
             color: #ffffff !important;
-            border-bottom: 3px solid #FF9933 !important; /* Saffron divider line */
+            border-bottom: 3px solid #FF9933 !important;
         }
         .bsfi-ast-header h3 {
             margin: 0 !important;
@@ -286,7 +377,8 @@
         }
         
         /* Focus styles for keyboard accessibility */
-        .bsfi-ast-toggle:focus,
+        .bsfi-quick-assist-fab:focus,
+        .bsfi-qa-item:focus,
         .bsfi-ast-close-btn:focus,
         .bsfi-ast-card:focus,
         .bsfi-ast-back-btn:focus,
@@ -295,40 +387,71 @@
             outline-offset: 2px !important;
         }
 
-        /* Mobile safe-area overrides */
+        /* Mobile overrides */
         @media (max-width: 768px) {
-            .bsfi-ast-toggle {
-                bottom: 95px !important; /* Positioned above bottom navbar if present */
+            .bsfi-quick-assist-fab {
+                left: 20px !important;
+                bottom: 20px !important;
+            }
+            .bsfi-quick-assist-popover {
+                left: 20px !important;
+                bottom: 85px !important;
+                width: calc(100vw - 40px) !important;
             }
             .bsfi-ast-panel {
-                bottom: 165px !important;
-                width: calc(100vw - 40px) !important;
-                right: 20px !important;
+                bottom: 85px !important;
                 left: 20px !important;
+                right: 20px !important;
+                width: calc(100vw - 40px) !important;
             }
         }
     `;
     document.head.appendChild(styleEl);
 
-    // 3. Setup HTML Content Discovery Variables
     let activeViewStack = ['bsfi-ast-main-menu'];
 
-    // 4. Generate & Inject Assistant Elements
-    function initAssistantWidget() {
-        if (document.getElementById('bsfi-ast-toggle-btn')) return;
+    // 3. Initialize Widgets
+    function initQuickAssist() {
+        if (document.getElementById('bsfi-quick-assist-fab')) return;
 
-        // Toggle Button
-        const toggleBtn = document.createElement('button');
-        toggleBtn.id = 'bsfi-ast-toggle-btn';
-        toggleBtn.className = 'bsfi-ast-toggle bsfi-ast-toggle-pulse';
-        toggleBtn.setAttribute('aria-label', 'Open Ask BSFI Virtual Assistant');
-        toggleBtn.setAttribute('aria-haspopup', 'dialog');
-        toggleBtn.setAttribute('aria-expanded', 'false');
-        toggleBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px; height:28px; display:block;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        // Quick Assist FAB
+        const fab = document.createElement('button');
+        fab.id = 'bsfi-quick-assist-fab';
+        fab.className = 'bsfi-quick-assist-fab bsfi-quick-assist-fab-pulse';
+        fab.setAttribute('aria-label', 'Open Quick Assist Menu');
+        fab.setAttribute('aria-haspopup', 'true');
+        fab.setAttribute('aria-expanded', 'false');
+        fab.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px; height:28px; display:block;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+            </svg>
         `;
 
-        // Slide-out Panel
+        // Popover Menu
+        const popover = document.createElement('div');
+        popover.id = 'bsfi-quick-assist-popover';
+        popover.className = 'bsfi-quick-assist-popover';
+        popover.setAttribute('role', 'menu');
+        popover.setAttribute('aria-label', 'Quick Assist Options');
+
+        popover.innerHTML = `
+            <div class="bsfi-qa-header">Quick Assist</div>
+            <div class="bsfi-qa-items">
+                <button class="bsfi-qa-item" id="bsfi-qa-opt-a11y" role="menuitem">
+                    <span class="bsfi-qa-item-icon">♿</span>
+                    <span class="bsfi-qa-item-title">Accessibility Options</span>
+                    <span class="bsfi-qa-item-arrow">&rarr;</span>
+                </button>
+                <button class="bsfi-qa-item" id="bsfi-qa-opt-ast" role="menuitem">
+                    <span class="bsfi-qa-item-icon">💬</span>
+                    <span class="bsfi-qa-item-title">Ask BSFI</span>
+                    <span class="bsfi-qa-item-arrow">&rarr;</span>
+                </button>
+            </div>
+        `;
+
+        // Assistant Panel
         const panel = document.createElement('div');
         panel.id = 'bsfi-ast-panel';
         panel.className = 'bsfi-ast-panel';
@@ -336,7 +459,6 @@
         panel.setAttribute('aria-label', 'BSFI Virtual Assistant Navigation');
         panel.setAttribute('aria-hidden', 'true');
 
-        // Panel inner HTML containing all menus
         panel.innerHTML = `
             <div class="bsfi-ast-header">
                 <h3>Ask BSFI</h3>
@@ -499,65 +621,114 @@
             </div>
         `;
 
-        document.body.appendChild(toggleBtn);
+        document.body.appendChild(fab);
+        document.body.appendChild(popover);
         document.body.appendChild(panel);
 
-        // 5. Setup Action Listeners
-        toggleBtn.addEventListener('click', function(e) {
+        // 4. Attach Event Handlers
+        fab.addEventListener('click', function(e) {
             e.stopPropagation();
-            const isOpen = panel.classList.contains('active');
-            toggleAssistantPanel(!isOpen);
+            const isOpen = popover.classList.contains('active');
+            togglePopover(!isOpen);
+            // Always close assistant panel when toggle clicked
+            toggleAssistantPanel(false);
+        });
+
+        document.getElementById('bsfi-qa-opt-a11y').addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePopover(false);
+            const a11yToggle = document.getElementById('a11y-toggle');
+            if (a11yToggle) {
+                a11yToggle.click();
+            }
+        });
+
+        document.getElementById('bsfi-qa-opt-ast').addEventListener('click', function(e) {
+            e.stopPropagation();
+            togglePopover(false);
+            toggleAssistantPanel(true);
         });
 
         document.getElementById('bsfi-ast-close-btn').addEventListener('click', function() {
             toggleAssistantPanel(false);
         });
 
-        // Close on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && panel.classList.contains('active')) {
+        // Click outside closes popover or panel
+        document.addEventListener('click', function(e) {
+            if (popover.classList.contains('active') && !popover.contains(e.target) && e.target !== fab && !fab.contains(e.target)) {
+                togglePopover(false);
+            }
+            if (panel.classList.contains('active') && !panel.contains(e.target) && e.target !== fab && !fab.contains(e.target)) {
                 toggleAssistantPanel(false);
-                toggleBtn.focus();
             }
         });
 
-        // Click outside closes panel
-        document.addEventListener('click', function(e) {
-            if (panel.classList.contains('active') && !panel.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target)) {
-                toggleAssistantPanel(false);
+        // Escape key closes open menus
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (popover.classList.contains('active')) {
+                    togglePopover(false);
+                    fab.focus();
+                }
+                if (panel.classList.contains('active')) {
+                    toggleAssistantPanel(false);
+                    fab.focus();
+                }
             }
         });
     }
 
-    // Toggle assistant panel class & states
+    // Toggle popover state
+    function togglePopover(open) {
+        const popover = document.getElementById('bsfi-quick-assist-popover');
+        const fab = document.getElementById('bsfi-quick-assist-fab');
+        if (!popover || !fab) return;
+
+        if (open) {
+            popover.style.display = 'block';
+            fab.setAttribute('aria-expanded', 'true');
+            fab.classList.remove('bsfi-quick-assist-fab-pulse');
+            setTimeout(() => {
+                popover.classList.add('active');
+                const firstOpt = popover.querySelector('.bsfi-qa-item');
+                if (firstOpt) firstOpt.focus();
+            }, 10);
+        } else {
+            popover.classList.remove('active');
+            fab.setAttribute('aria-expanded', 'false');
+            fab.classList.add('bsfi-quick-assist-fab-pulse');
+            setTimeout(() => {
+                popover.style.display = 'none';
+            }, 300);
+        }
+    }
+
+    // Toggle assistant panel state
     function toggleAssistantPanel(open) {
         const panel = document.getElementById('bsfi-ast-panel');
-        const toggleBtn = document.getElementById('bsfi-ast-toggle-btn');
-        if (!panel || !toggleBtn) return;
+        const fab = document.getElementById('bsfi-quick-assist-fab');
+        if (!panel || !fab) return;
 
         if (open) {
             panel.style.display = 'flex';
-            toggleBtn.setAttribute('aria-expanded', 'true');
             panel.setAttribute('aria-hidden', 'false');
-            toggleBtn.classList.remove('bsfi-ast-toggle-pulse'); // Stop pulsing when open
+            fab.classList.remove('bsfi-quick-assist-fab-pulse');
             setTimeout(() => {
                 panel.classList.add('active');
-                // Focus on first card
                 const firstCard = panel.querySelector('.bsfi-ast-card');
                 if (firstCard) firstCard.focus();
             }, 10);
         } else {
             panel.classList.remove('active');
-            toggleBtn.setAttribute('aria-expanded', 'false');
             panel.setAttribute('aria-hidden', 'true');
-            toggleBtn.classList.add('bsfi-ast-toggle-pulse');
+            fab.classList.add('bsfi-quick-assist-fab-pulse');
             setTimeout(() => {
                 panel.style.display = 'none';
             }, 350);
         }
     }
 
-    // Navigation inside views
+    // Assistant inner view navigations
     window.openAssistantView = function(viewId) {
         const activeView = document.querySelector('.bsfi-ast-view.active');
         if (activeView) activeView.classList.remove('active');
@@ -566,7 +737,6 @@
         if (nextView) {
             nextView.classList.add('active');
             activeViewStack.push(viewId);
-            // Focus on first item in new view
             const firstItem = nextView.querySelector('button, a');
             if (firstItem) firstItem.focus();
         }
@@ -582,7 +752,6 @@
         const prevView = document.getElementById(prevViewId);
         if (prevView) {
             prevView.classList.add('active');
-            // Focus on first item
             const firstItem = prevView.querySelector('button, a');
             if (firstItem) firstItem.focus();
         }
@@ -597,7 +766,6 @@
                 el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 300);
         } else {
-            // If element is not on current page, redirect to index.php with hash
             window.location.href = pathPrefix + 'index.php' + selector;
         }
     };
@@ -619,10 +787,10 @@
         }, 300);
     };
 
-    // Initializer
+    // Initializer on ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initAssistantWidget);
+        document.addEventListener('DOMContentLoaded', initQuickAssist);
     } else {
-        initAssistantWidget();
+        initQuickAssist();
     }
 })();
