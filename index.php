@@ -328,7 +328,7 @@ try {
 <!-- ═══════════════════════════════════════════
      SECTION 3: Who Can Participate?
 ════════════════════════════════════════════ -->
-<section id="who-can-participate" class="who-can-participate-section" style="background-image: url('about boccia/why_boccia_matter_BG.webp');">
+<section id="who-can-participate" class="who-can-participate-section">
     <div class="section-dark-overlay"></div>
     <div class="container section-content-relative text-center">
         <span class="section-sub-label">ATHLETE ELIGIBILITY</span>

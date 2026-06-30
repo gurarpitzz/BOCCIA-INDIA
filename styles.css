@@ -3733,10 +3733,32 @@ body {
 .who-can-participate-section {
     position: relative;
     padding: 4.5rem 0; /* Reduced padding spacing */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: linear-gradient(135deg, #051336 0%, #0B1B3D 55%, #FAF7F0 115%);
     overflow: hidden;
+}
+.who-can-participate-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(250, 247, 240, 0.15) 0%, rgba(250, 247, 240, 0) 70%);
+    filter: blur(60px);
+    z-index: 1;
+    pointer-events: none;
+}
+.who-can-participate-section::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(8, 27, 75, 0.6) 0%, rgba(8, 27, 75, 0) 70%);
+    filter: blur(80px);
+    z-index: 1;
+    pointer-events: none;
 }
 .eligibility-flex-panels {
     display: grid;
