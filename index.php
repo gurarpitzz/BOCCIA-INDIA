@@ -144,7 +144,7 @@ try {
         <div class="hero-quote-underline animated-fade-item"></div>
 
         <!-- Desktop Subtitle -->
-        <p class="hero-subtitle d-none d-md-block animated-fade-item">Boccia is a Paralympic precision sport for athletes with severe physical disabilities.<br>BSFI develops the sport across India through athlete registration, competitions, coaching, and international representation.</p>
+        <p class="hero-subtitle d-none d-md-block animated-fade-item">Boccia is a Paralympic precision sport for athletes with severe physical disabilities.<br>BSFI develops Boccia across India through athlete registration, coaching, competitions, and international representation.</p>
         <!-- Mobile Subtitle -->
         <p class="hero-subtitle d-block d-md-none animated-fade-item">India's official governing body for Boccia, empowering athletes with severe physical disabilities nationwide.</p>
 
