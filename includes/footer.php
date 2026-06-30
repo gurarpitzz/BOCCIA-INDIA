@@ -341,6 +341,8 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
     <script src="<?php echo $script_path; ?>"></script>
     <!-- Accessibility Script -->
     <script src="<?php echo $relative_prefix; ?>assets/js/accessibility.js"></script>
+    <!-- Virtual Assistant Script -->
+    <script src="<?php echo $relative_prefix; ?>assets/js/assistant.js"></script>
 
 </div> <!-- /.page-wrapper -->
 </body>
