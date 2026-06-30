@@ -3739,11 +3739,11 @@ body {
 .who-can-participate-section::before {
     content: '';
     position: absolute;
-    top: -150px;
-    left: -150px; /* Gradient glow from the top-left */
-    width: 450px;
-    height: 450px;
-    background: radial-gradient(circle, rgba(250, 247, 240, 0.16) 0%, rgba(36, 194, 122, 0.08) 50%, rgba(8, 27, 75, 0) 70%);
+    top: -200px;
+    left: -200px; /* Gradient glow from the top-left */
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(250, 247, 240, 0.45) 0%, rgba(36, 194, 122, 0.25) 50%, rgba(8, 27, 75, 0) 70%);
     filter: blur(80px);
     z-index: 1;
     pointer-events: none;
@@ -3753,11 +3753,11 @@ body {
 .who-can-participate-section::after {
     content: '';
     position: absolute;
-    bottom: -200px;
-    right: -150px; /* Gradient glow from bottom-right */
-    width: 550px;
-    height: 550px;
-    background: radial-gradient(circle, rgba(36, 194, 122, 0.12) 0%, rgba(250, 247, 240, 0.1) 40%, rgba(8, 27, 75, 0) 70%);
+    bottom: -250px;
+    right: -200px; /* Gradient glow from bottom-right */
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(36, 194, 122, 0.35) 0%, rgba(250, 247, 240, 0.25) 40%, rgba(8, 27, 75, 0) 70%);
     filter: blur(100px);
     z-index: 1;
     pointer-events: none;
