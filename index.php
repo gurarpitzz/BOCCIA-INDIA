@@ -722,7 +722,6 @@ try {
 
                         <!-- Right Column: Editorial Text Content -->
                         <div class="profile-content-col">
-                            <div class="profile-meta-header transition-item stagger-1">
                             <div class="profile-meta-header">
                                 <h3 class="athlete-detail-name" id="cardAthleteName"></h3>
                                 <div class="athlete-detail-meta">
@@ -731,9 +730,28 @@ try {
                                 </div>
                                 <div class="card-badges-row" id="cardBadgesRow"></div>
                             </div>
+                            
                             <hr class="card-divider">
+                            
+                            <!-- Story Section -->
                             <div class="card-section">
-                                <h4 class="card-section-title">CURRENT MISSION</h4>
+                                <h4 class="card-section-title">THE STORY</h4>
+                                <blockquote class="detail-story-text" id="cardStory"></blockquote>
+                            </div>
+                            
+                            <hr class="card-divider">
+                            
+                            <!-- Highlights Section -->
+                            <div class="card-section">
+                                <h4 class="card-section-title">CAREER HIGHLIGHTS</h4>
+                                <div class="career-cards-container" id="cardHighlightsContainer"></div>
+                            </div>
+                            
+                            <hr class="card-divider">
+                            
+                            <!-- Mission Section -->
+                            <div class="card-section">
+                                <h4 class="card-section-title">CURRENTLY</h4>
                                 <div class="mission-text-container">
                                     <span class="mission-icon">🎯</span>
                                     <p class="detail-mission-text" id="cardMission"></p>
