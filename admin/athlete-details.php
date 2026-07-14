@@ -248,29 +248,15 @@ $statusList = $statusStmt->fetchAll();
                     <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed #E2E8F0;">
                         <h5 class="fw-bold mb-3 text-secondary" style="font-size: 0.9rem;">Document Registry</h5>
                         <div class="row g-3">
-                            <div class="col-12 col-sm-6">
-                                <div class="p-2 border rounded-3 d-flex align-items-center justify-content-between" style="background:#F8FAFC;">
-                                    <div>
-                                        <i class="fa-solid fa-file-invoice-dollar text-success me-2" style="font-size:1.15rem;"></i>
-                                        <span class="fw-semibold" style="font-size:0.82rem;">Registration Receipt</span>
-                                    </div>
-                                    <?php if (!empty($athlete['receipt_path'])): ?>
-                                        <a href="download-doc.php?file=<?php echo urlencode($athlete['receipt_path']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
-                                    <?php else: ?>
-                                        <span class="text-muted" style="font-size:0.75rem;">None Uploaded</span>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-6">
-                                <div class="p-2 border rounded-3 d-flex align-items-center justify-content-between" style="background:#F8FAFC;">
+                            <div class="col-12">
+                                <div class="p-2 border rounded-3 d-flex align-items-center justify-content-between" style="background:#F8FAFC; max-width: 400px;">
                                     <div>
                                         <i class="fa-solid fa-passport text-primary me-2" style="font-size:1.15rem;"></i>
                                         <span class="fw-semibold" style="font-size:0.82rem;">Passport / Identity File</span>
                                     </div>
                                     <?php if ($isAdmin): ?>
-                                        <?php if (!empty($athlete['passport_file'])): ?>
-                                            <a href="download-doc.php?file=<?php echo urlencode($athlete['passport_file']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
+                                        <?php if (!empty($athlete['receipt_path'])): ?>
+                                            <a href="download-doc.php?file=<?php echo urlencode($athlete['receipt_path']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
                                         <?php else: ?>
                                             <span class="text-muted" style="font-size:0.75rem;">None Uploaded</span>
                                         <?php endif; ?>
