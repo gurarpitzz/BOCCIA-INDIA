@@ -2,6 +2,7 @@
 // get-involved/update-profile.php - Unified Profile Update Request Portal
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../config/app.php';
 
 $message = '';
 $error = '';
@@ -12,6 +13,7 @@ $member_id_input = isset($_POST['member_id_input']) ? trim($_POST['member_id_inp
 $dob = isset($_POST['dob']) ? trim($_POST['dob']) : '';
 
 $matched_id = isset($_POST['matched_id']) ? (int)$_POST['matched_id'] : 0;
+$matched_email = isset($_POST['matched_email']) ? trim($_POST['matched_email']) : '';
 $otp_code = isset($_POST['otp_code']) ? trim($_POST['otp_code']) : '';
 
 $mask_contact = '';
@@ -43,16 +45,55 @@ if (isset($_POST['lookup'])) {
                 $phone = $member_type === 'athlete' ? $matched['mobile'] : $matched['phone'];
                 $email = $matched['email'];
 
-                if (!empty($email) || !empty($phone)) {
+                if (!empty($email)) {
                     $needs_otp = true;
                     $step = 2;
                     
                     // Format mask contact info
-                    if (!empty($phone)) {
-                        $mask_contact = 'Phone: ' . substr($phone, 0, 3) . '******' . substr($phone, -3);
-                    } else {
-                        $mask_contact = 'Email: ' . substr($email, 0, 2) . '******' . strstr($email, '@');
-                    }
+                    $mask_contact = 'Email: ' . substr($email, 0, 2) . '******' . strstr($email, '@');
+                    $matched_email = $email;
+
+                    // Generate real OTP
+                    $otpCode = (string)random_int(100000, 999999);
+                    $otpHash = hash_hmac('sha256', $otpCode, OTP_SECRET);
+
+                    // Delete existing active OTPs for this email
+                    $del = $pdo->prepare("DELETE FROM email_otps WHERE email = ?");
+                    $del->execute([$email]);
+
+                    // Save hashed OTP
+                    $expiresAt = date('Y-m-d H:i:s', time() + 300); // 5 minutes validity
+                    $ins = $pdo->prepare("INSERT INTO email_otps (email, otp_hash, expires_at, ip_address) VALUES (?, ?, ?, ?)");
+                    $ins->execute([$email, $otpHash, $expiresAt, $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1']);
+
+                    // Dispatch via Resend HTTP Post
+                    $htmlBody = "
+                      <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
+                        <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
+                        <p>Hello,</p>
+                        <p>Your 6-digit OTP verification code to update your profile registration details is:</p>
+                        <div style=\"background: #f1f5f9; padding: 15px; font-size: 24px; font-weight: bold; letter-spacing: 4px; text-align: center; color: #FF9933; margin: 20px 0; border-radius: 6px;\">
+                          {$otpCode}
+                        </div>
+                        <p style=\"color: #64748b; font-size: 14px;\">This code is valid for 5 minutes and can only be used once. Please do not share this code with anyone.</p>
+                      </div>
+                    ";
+
+                    $ch = curl_init('https://api.resend.com/emails');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POST, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'Authorization: Bearer ' . RESEND_API_KEY,
+                        'Content-Type: application/json'
+                    ]);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+                        'from' => 'Boccia India <noreply@bocciaindia.com>',
+                        'to' => $email,
+                        'subject' => 'Profile Update Verification Code - BSFI',
+                        'html' => $htmlBody
+                    ]));
+                    curl_exec($ch);
+                    curl_close($ch);
                 } else {
                     // Direct to Step 3 - Manual Admin Review
                     $step = 3;
@@ -62,22 +103,43 @@ if (isset($_POST['lookup'])) {
                 $error = "No active approved registration found matching the entered details.";
             }
         } catch (PDOException $e) {
-            $error = "Lookup failed due to database issues.";
+            $error = "Lookup failed due to database issues: " . $e->getMessage();
         }
     }
 }
 
 // Handle OTP Step 2
 if (isset($_POST['verify_otp'])) {
-    if (empty($otp_code)) {
+    if (empty($otp_code) || empty($matched_email)) {
         $error = "Please enter the verification code sent to your contact info.";
         $step = 2;
     } else {
-        // Simulated OTP: Accept any 6 digit code
-        if (strlen($otp_code) >= 4) {
-            $step = 3;
-        } else {
-            $error = "Invalid verification code. Please try again.";
+        try {
+            // Fetch active OTP
+            $stmt = $pdo->prepare("SELECT * FROM email_otps WHERE email = ? AND verified = 0 AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1");
+            $stmt->execute([$matched_email]);
+            $record = $stmt->fetch();
+
+            if (!$record) {
+                $error = "Invalid or expired verification code.";
+                $step = 2;
+            } else {
+                $hash = hash_hmac('sha256', $otp_code, OTP_SECRET);
+                if ($record['otp_hash'] !== $hash) {
+                    // Increment attempts
+                    $upd = $pdo->prepare("UPDATE email_otps SET attempts = attempts + 1 WHERE id = ?");
+                    $upd->execute([$record['id']]);
+                    $error = "Invalid verification code. Please try again.";
+                    $step = 2;
+                } else {
+                    // Success -> delete OTP records to prevent reuse
+                    $del = $pdo->prepare("DELETE FROM email_otps WHERE email = ?");
+                    $del->execute([$matched_email]);
+                    $step = 3;
+                }
+            }
+        } catch (PDOException $e) {
+            $error = "Verification failed due to database issues.";
             $step = 2;
         }
     }
@@ -271,11 +333,12 @@ include __DIR__ . '/../includes/header.php';
             <!-- STEP 2: OTP OTP OTP -->
             <?php elseif ($step === 2): ?>
                 <div class="alert alert-info border-0 p-3 mb-4 rounded-3 text-start" style="background-color: rgba(59, 130, 246, 0.15); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.3) !important;">
-                    <i class="bi bi-info-circle-fill me-2"></i> A verification code has been simulated and sent to your registered: <strong><?php echo $mask_contact; ?></strong>.
+                    <i class="bi bi-info-circle-fill me-2"></i> A verification code has been sent to your registered: <strong><?php echo $mask_contact; ?></strong>.
                 </div>
                 <form action="update-profile.php" method="POST">
                     <input type="hidden" name="member_type" value="<?php echo htmlspecialchars($member_type); ?>">
                     <input type="hidden" name="matched_id" value="<?php echo $matched_id; ?>">
+                    <input type="hidden" name="matched_email" value="<?php echo htmlspecialchars($matched_email); ?>">
                     <div class="mb-4">
                         <label class="form-label-custom">Enter Verification Code</label>
                         <input type="text" name="otp_code" class="form-control-custom text-center" placeholder="123456" style="font-size: 1.4rem; letter-spacing: 0.2em;" required>
