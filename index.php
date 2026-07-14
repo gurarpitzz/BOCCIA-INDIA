@@ -635,7 +635,7 @@ try {
                         <button class="athlete-beacon node-elite" data-id="jatin_kushwah" style="--x: 68; --y: 18.8; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-jatin_kushwah">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/KITI8395.webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
@@ -833,9 +833,9 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INUP",
             svgCoords: { x: 340, y: 94 },
             photos: [
-                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp",
-                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.20.webp",
-                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.20 (1).webp"
+                "assets/star-players/Jatin Kushwah/KITI8395.webp",
+                "assets/star-players/Jatin Kushwah/WB9_0426.webp",
+                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp"
             ],
             story: "Precision isn't an option in the BC4 class—it is the baseline. My career is defined by placing India's rank on the world map.",
             badges: ["National Champion", "Bahrain Medallist"],
