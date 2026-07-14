@@ -753,7 +753,9 @@ try {
                             <div class="card-section">
                                 <h4 class="card-section-title">CURRENTLY</h4>
                                 <div class="mission-text-container">
-                                    <span class="mission-icon">🎯</span>
+                                    <span class="mission-icon">
+                                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="color: var(--accent-saffron);"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                                    </span>
                                     <p class="detail-mission-text" id="cardMission"></p>
                                 </div>
                             </div>
@@ -766,7 +768,17 @@ try {
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+    // Reusable clean SVG Icons instead of GPT emojis
+    const ICONS = {
+        trophy: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #f4b942;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v3c0 2.44 1.72 4.48 4 4.9V19H5v2h14v-2h-2v-4.1c2.28-.42 4-2.46 4-4.9V7c0-1.1-.9-2-2-2zM5 10V7h2v3H5zm14 0h-2V7h2v3z"/></svg>`,
+        gold: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #f4b942;"><circle cx="12" cy="12" r="10" stroke="#f4b942" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="5"/></svg>`,
+        silver: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #bdc3c7;"><circle cx="12" cy="12" r="10" stroke="#bdc3c7" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="5"/></svg>`,
+        bronze: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #e67e22;"><circle cx="12" cy="12" r="10" stroke="#e67e22" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="5"/></svg>`,
+        india: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #102a63;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`,
+        idea: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #f39c12;"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>`,
+        briefcase: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #34495e;"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>`
+    };
+
     // 1. Unified Athletes State Object (v3.2 Editorial Narratives & Action WebP Arrays)
     const athletes = [
         {
@@ -784,9 +796,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "I discovered Boccia after a life-changing injury. Every tournament since has been proof that resilience can become purpose.",
             badges: ["National Medallist", "Represented India 5x"],
             careerHighlights: [
-                { icon: "🏆", title: "First Indian Gold Medal", sub: "2026 Pairs Gold" },
-                { icon: "🥇", title: "National Champion", sub: "Canberra 2025 Silver" },
-                { icon: "🇮🇳", title: "Represented India x5", sub: "5 International Events" }
+                { icon: ICONS.trophy, title: "First Indian Gold Medal", sub: "2026 Pairs Gold" },
+                { icon: ICONS.gold, title: "National Champion", sub: "Canberra 2025 Silver" },
+                { icon: ICONS.india, title: "Represented India x5", sub: "5 International Events" }
             ],
             currentMission: "Preparing for LA 2028"
         },
@@ -805,9 +817,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "After a life-altering injury, finding Boccia restored my direction. Every single throw on the international court is a step toward building India's BC3 legacy.",
             badges: ["First Int'l Gold Medallist", "National Medallist"],
             careerHighlights: [
-                { icon: "🥇", title: "First Int'l Gold", sub: "Historic First for India" },
-                { icon: "🏆", title: "National Medalist", sub: "8th National Championship 2024" },
-                { icon: "🥉", title: "National Bronze", sub: "7th National Championship 2023" }
+                { icon: ICONS.gold, title: "First Int'l Gold", sub: "Historic First for India" },
+                { icon: ICONS.trophy, title: "National Medalist", sub: "8th National Championship 2024" },
+                { icon: ICONS.bronze, title: "National Bronze", sub: "7th National Championship 2023" }
             ],
             currentMission: "Training for World Championships"
         },
@@ -827,9 +839,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "Precision isn't an option in the BC4 class—it is the baseline. My career is defined by placing India's rank on the world map.",
             badges: ["National Champion", "Bahrain Medallist"],
             careerHighlights: [
-                { icon: "🥇", title: "Double Gold Medalist", sub: "10th National Championship" },
-                { icon: "🏆", title: "World Challenger Silver", sub: "Bahrain 2024 Pairs Silver" },
-                { icon: "🇮🇳", title: "Challenger Bronze", sub: "Bahrain 2024 Individual" }
+                { icon: ICONS.gold, title: "Double Gold Medalist", sub: "10th National Championship" },
+                { icon: ICONS.trophy, title: "World Challenger Silver", sub: "Bahrain 2024 Pairs Silver" },
+                { icon: ICONS.india, title: "Challenger Bronze", sub: "Bahrain 2024 Individual" }
             ],
             currentMission: "Qualifying for World Championships"
         },
@@ -849,9 +861,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "Managing a bank by day and representing India globally by night. My journey shows that focus and determination have no limits.",
             badges: ["World Ranked #30", "Chief Bank Manager"],
             careerHighlights: [
-                { icon: "🏆", title: "National Champion", sub: "10th National Championship 2026" },
-                { icon: "🥇", title: "World Rank #30", sub: "Elite BC4 Female Division" },
-                { icon: "🇮🇳", title: "Chief Bank Manager", sub: "State Bank of India Leader" }
+                { icon: ICONS.trophy, title: "National Champion", sub: "10th National Championship 2026" },
+                { icon: ICONS.gold, title: "World Rank #30", sub: "Elite BC4 Female Division" },
+                { icon: ICONS.india, title: "Chief Bank Manager", sub: "State Bank of India Leader" }
             ],
             currentMission: "Climbing into the Top 20"
         },
@@ -870,9 +882,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "Refining my analytical game for a decade. Consistent national dominance is the cornerstone of my journey as India's ramp flagbearer.",
             badges: ["6x National Champion", "Seoul 2026 Representative"],
             careerHighlights: [
-                { icon: "🏆", title: "6x National Champion", sub: "Consecutive Male BC3 Titles" },
-                { icon: "🥇", title: "World Challenger Gold", sub: "Manama 2024 Champion" },
-                { icon: "🇮🇳", title: "Seoul Representative", sub: "Only Indian Selected for 2026" }
+                { icon: ICONS.trophy, title: "6x National Champion", sub: "Consecutive Male BC3 Titles" },
+                { icon: ICONS.gold, title: "World Challenger Gold", sub: "Manama 2024 Champion" },
+                { icon: ICONS.india, title: "Seoul Representative", sub: "Only Indian Selected for 2026" }
             ],
             currentMission: "Training for World Championships"
         },
@@ -892,9 +904,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "I transformed my childhood challenges into athletic dominance and assistive technology ramps. Designing solutions is my play.",
             badges: ["Zero Project Awardee", "Triple Amputee Innovator"],
             careerHighlights: [
-                { icon: "🥉", title: "Double Bronze Medalist", sub: "Cairo World Challenger 2024" },
-                { icon: "🏆", title: "8x National Medalist", sub: "Individual & Pairs Competitor" },
-                { icon: "💡", title: "Zero Project Award", sub: "Assistive Tech Innovation 2025" }
+                { icon: ICONS.bronze, title: "Double Bronze Medalist", sub: "Cairo World Challenger 2024" },
+                { icon: ICONS.trophy, title: "8x National Medalist", sub: "Individual & Pairs Competitor" },
+                { icon: ICONS.idea, title: "Zero Project Award", sub: "Assistive Tech Innovation 2025" }
             ],
             currentMission: "Building India's Boccia"
         },
@@ -910,9 +922,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "Boccia gave me my voice and confidence during rehabilitation. Safe defensive control is my signature play.",
             badges: ["National Champion", "Telangana Representative"],
             careerHighlights: [
-                { icon: "🏆", title: "National Champion", sub: "10th National Championship 2026" },
-                { icon: "🥇", title: "Mixed Pairs Gold", sub: "8th National Championship 2024" },
-                { icon: "🇮🇳", title: "National Bronze", sub: "7th National Championship 2023" }
+                { icon: ICONS.trophy, title: "National Champion", sub: "10th National Championship 2026" },
+                { icon: ICONS.gold, title: "Mixed Pairs Gold", sub: "8th National Championship 2024" },
+                { icon: ICONS.india, title: "National Bronze", sub: "7th National Championship 2023" }
             ],
             currentMission: "Mentoring the next generation"
         },
@@ -932,9 +944,9 @@ document.addEventListener("DOMContentLoaded", () => {
             story: "Speed and long-range accuracy define my play. Training every day in Delhi, I aim for nothing less than international gold.",
             badges: ["National Gold Medalist", "Asian Youth Para Games"],
             careerHighlights: [
-                { icon: "🥇", title: "National Gold Medalist", sub: "10th National Championship" },
-                { icon: "🏆", title: "Team Gold Medalist", sub: "9th National Championship" },
-                { icon: "🇮🇳", title: "5th Place World Finish", sub: "Kazakhstan World Challenger 2025" }
+                { icon: ICONS.gold, title: "National Gold Medalist", sub: "10th National Championship" },
+                { icon: ICONS.trophy, title: "Team Gold Medalist", sub: "9th National Championship" },
+                { icon: ICONS.india, title: "5th Place World Finish", sub: "Kazakhstan World Challenger 2025" }
             ],
             currentMission: "Preparing for LA 2028"
         }

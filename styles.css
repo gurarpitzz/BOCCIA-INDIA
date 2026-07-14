@@ -4839,9 +4839,18 @@ body {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 .detail-location::before {
-    content: '📍 ';
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%237f8c8d'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .card-badges-row {
@@ -4915,11 +4924,17 @@ body {
     transform: translateX(3px);
 }
 .highlight-icon-wrap {
-    font-size: 1.15rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+.highlight-icon-wrap svg {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 .highlight-info {
     display: flex;
@@ -4948,8 +4963,18 @@ body {
     border-radius: 12px;
 }
 .mission-icon {
-    font-size: 1.2rem;
     animation: target-wiggle 3s infinite ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+.mission-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 @keyframes target-wiggle {
     0%, 100% { transform: rotate(0); }
