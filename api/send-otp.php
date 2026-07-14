@@ -98,8 +98,14 @@ try {
 
         echo json_encode(['success' => 'OTP sent successfully.']);
     } else {
+        // Log failure details
+        $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
+        $log->execute(['Email OTP Failed', "HTTP Code: {$httpCode}, Response: {$result}"]);
+        
         http_response_code(500);
-        echo json_encode(['error' => 'Failed to dispatch email. Please double-check the email address or try again.']);
+        $resObj = json_decode($result, true);
+        $detail = $resObj['message'] ?? $result;
+        echo json_encode(['error' => "Failed to dispatch email (Resend API Error: {$detail}). Please verify domain registration or try again."]);
     }
 } catch (Exception $e) {
     http_response_code(500);
