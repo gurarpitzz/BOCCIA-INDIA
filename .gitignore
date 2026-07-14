@@ -2,3 +2,6 @@ uploads/*
 !uploads/.htaccess
 !uploads/index.php
 /private_uploads/*
+config/local.php
+.env.local
+
