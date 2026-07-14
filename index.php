@@ -619,7 +619,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.webp'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.jpeg'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -631,7 +631,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).webp'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).jpeg'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -643,7 +643,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
@@ -655,7 +655,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).webp'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).jpeg'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
@@ -667,7 +667,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -679,7 +679,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -703,7 +703,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).webp'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).jpeg'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC2</span>
                         </button>
@@ -836,7 +836,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Punjab",
             stateCode: "INPB",
             svgCoords: { x: 60, y: 100 },
-            photo: "assets/star-players/ajeya raj/ajeya1.webp",
+            photo: "assets/star-players/ajeya raj/ajeya1.jpeg",
             quote: "My journey reflects resilience, determination, and a commitment to making a difference in the lives of others, both through my work and my athletic pursuits.",
             badges: ["National Medallist", "Represented India 5x"],
             achievements: [
@@ -856,7 +856,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Himachal Pradesh",
             stateCode: "INHP",
             svgCoords: { x: 150, y: 30 },
-            photo: "assets/star-players/anjali devi/anjali (1).webp",
+            photo: "assets/star-players/anjali devi/anjali (1).jpeg",
             quote: "Following my injury, Boccia gave me a new lease on life. I remain committed to the sport, aiming to win a medal for India at the Paralympics.",
             badges: ["First Int'l Gold Medallist", "National Medallist"],
             achievements: [
@@ -875,7 +875,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Uttar Pradesh",
             stateCode: "INUP",
             svgCoords: { x: 430, y: 60 },
-            photo: "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp",
+            photo: "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg",
             quote: "My goal is to win medals for my country and serve as a source of inspiration for other people with disabilities.",
             badges: ["National Champion", "Bahrain Medallist"],
             achievements: [
@@ -894,7 +894,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Haryana",
             stateCode: "INHR",
             svgCoords: { x: 30, y: 225 },
-            photo: "assets/star-players/pooja gupta/pooja (1).webp",
+            photo: "assets/star-players/pooja gupta/pooja (1).jpeg",
             quote: "Disability is not a limitation; determination is the pathway to excellence. I aim to bring greater recognition to Boccia in India.",
             badges: ["World Ranked #30", "Chief Bank Manager"],
             achievements: [
@@ -913,7 +913,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Delhi",
             stateCode: "INDL",
             svgCoords: { x: 470, y: 225 },
-            photo: "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp",
+            photo: "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg",
             quote: "Boccia demands focus, patience, and analysis—qualities I spent a decade sharpening. Representing India is my ultimate pride.",
             badges: ["6x National Champion", "Seoul 2026 Representative"],
             achievements: [
@@ -932,7 +932,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Uttar Pradesh",
             stateCode: "INUP",
             svgCoords: { x: 70, y: 410 },
-            photo: "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp",
+            photo: "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg",
             quote: "I transformed a childhood electric shock into a journey of art, innovation, and national sports representation.",
             badges: ["Zero Project Awardee", "Triple Amputee Innovator"],
             achievements: [
@@ -970,7 +970,7 @@ document.addEventListener("DOMContentLoaded", () => {
             state: "Delhi",
             stateCode: "INDL",
             svgCoords: { x: 430, y: 400 },
-            photo: "assets/star-players/vyom pawa/vyom (1).webp",
+            photo: "assets/star-players/vyom pawa/vyom (1).jpeg",
             quote: "Boccia is a sport that matches my precision, strategy, and unwavering spirit. I train every day to conquer new heights.",
             badges: ["National Gold Medalist", "Asian Youth Para Games"],
             achievements: [
