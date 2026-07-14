@@ -52,6 +52,40 @@ function sendApprovalEmail($email, $name, $regNo, $type) {
     curl_close($ch);
 }
 
+function sendUpdateApprovalEmail($email, $name, $regNo, $type) {
+    if (empty($email)) return;
+    
+    $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
+    
+    $htmlBody = "
+      <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
+        <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
+        <p>Dear {$name},</p>
+        <p>Your profile details update request for Registration Number <strong>{$regNo}</strong> ({$roleName}) has been approved and applied to your profile record.</p>
+        <p>You can now check your updated profile on the membership verification page.</p>
+        <p style=\"margin-top: 30px;\">Best Regards,<br/>Boccia Sports Federation of India (BSFI)</p>
+      </div>
+    ";
+
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . RESEND_API_KEY,
+        'Content-Type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+        'from' => 'Boccia India <noreply@bocciaindia.com>',
+        'to' => $email,
+        'subject' => 'BSFI Profile Update Approved',
+        'html' => $htmlBody
+    ]));
+    curl_exec($ch);
+    curl_close($ch);
+}
+
 $page_title = "Review Registrations - BSFI Admin";
 $message = '';
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'athletes';
@@ -134,7 +168,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $upReq = $pdo->prepare("UPDATE profile_update_requests SET status = 'approved', reviewed_by = ?, reviewed_at = NOW(), review_notes = ? WHERE id = ?");
                     $upReq->execute([$_SESSION['user_id'], $notes, $requestId]);
 
+                    // Fetch profile info for email notification
+                    $regNo = '';
+                    $name = '';
+                    if ($memberType === 'athlete') {
+                        $stmt = $pdo->prepare("SELECT regn_no, full_name FROM athletes WHERE id = ?");
+                        $stmt->execute([$memberId]);
+                        $mRow = $stmt->fetch();
+                        if ($mRow) {
+                            $regNo = $mRow['regn_no'];
+                            $name = $mRow['full_name'];
+                        }
+                    } else {
+                        $stmt = $pdo->prepare("SELECT official_reg_no, name FROM officials WHERE id = ?");
+                        $stmt->execute([$memberId]);
+                        $mRow = $stmt->fetch();
+                        if ($mRow) {
+                            $regNo = $mRow['official_reg_no'];
+                            $name = $mRow['name'];
+                        }
+                    }
+
                     $pdo->commit();
+
+                    // Send email to newly requested email address
+                    sendUpdateApprovalEmail($req['requested_email'], $name, $regNo, $memberType);
 
                     logAction($pdo, "Approved Profile Update Request", "profile_update_requests", $requestId, "Type: $memberType | ID: $memberId");
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Profile update request approved and applied successfully.</div>";
