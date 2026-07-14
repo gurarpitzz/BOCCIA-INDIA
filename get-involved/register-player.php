@@ -460,7 +460,7 @@ include __DIR__ . '/../includes/header.php';
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label class="form-label-custom">Aadhaar Card Number <span class="text-danger">*</span></label>
-                                <input type="text" name="aadhaar" maxlength="12" class="form-control-custom" required>
+                                <input type="text" name="aadhaar" pattern="\d{12}" title="Aadhaar number must be exactly 12 digits" maxlength="12" minlength="12" class="form-control-custom" required>
                             </div>
                             <div class="col-md-12">
                                 <label class="form-label-custom">Permanent Address <span class="text-danger">*</span></label>

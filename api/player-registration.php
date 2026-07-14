@@ -104,9 +104,15 @@ try {
     $photo = $_FILES['photo_path'] ?? null;
     $doc = $_FILES['receipt_path'] ?? null;
 
-    if (empty($full_name) || empty($gender) || empty($dob) || empty($father_name) || empty($mother_name) || empty($phone) || empty($photo['name']) || empty($doc['name'])) {
+    if (empty($full_name) || empty($gender) || empty($dob) || empty($father_name) || empty($mother_name) || empty($phone) || empty($photo['name']) || empty($doc['name']) || empty($aadhaar)) {
         http_response_code(400);
         echo json_encode(['error' => 'Required registration fields are missing.']);
+        exit();
+    }
+
+    if (!preg_match('/^\d{12}$/', $aadhaar)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Aadhaar number must be exactly 12 digits.']);
         exit();
     }
 
