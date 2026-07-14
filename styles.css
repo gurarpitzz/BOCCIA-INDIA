@@ -4358,7 +4358,7 @@ body {
 .stars-section {
     background-color: var(--cream-bg);
     position: relative;
-    padding: 3.5rem 0;
+    padding: 6rem 0; /* Increased top/bottom padding to give breathing room */
     overflow: hidden;
     color: var(--text-dark);
 }
@@ -4395,7 +4395,7 @@ body {
 /* Header styling */
 .stars-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 4rem; /* Increased margin below headers */
     position: relative;
     z-index: 5;
 }
@@ -4429,7 +4429,7 @@ body {
 .stars-layout {
     position: relative;
     width: 100%;
-    min-height: 540px;
+    min-height: 650px; /* Increased min-height to fit the profile card's height */
     display: flex;
     align-items: center;
     justify-content: flex-start;
