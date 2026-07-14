@@ -1,0 +1,19 @@
+# Disable directory browsing
+Options -Indexes
+
+# Prevent execution of any scripts (PHP, etc.) inside uploads folder
+<FilesMatch "\.(php|phtml|php3|php4|php5|phps|pl|py|cgi|sh|asp|aspx|shtml|jsp|key)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Turn off PHP engine
+<IfModule mod_php5.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
