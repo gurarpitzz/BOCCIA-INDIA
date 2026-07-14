@@ -63,7 +63,7 @@ export default function OfficialRegistration() {
   // Active validation schema based on step index
   const activeSchema = step === 1 ? step1Schema : step === 2 ? step2Schema : step3Schema;
 
-  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue, reset } = useForm({
+  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue, reset } = useForm<any>({
     resolver: zodResolver(activeSchema),
     mode: 'all',
   });
