@@ -1,6 +1,4 @@
 <?php
-header("Location: /registration/register/official");
-exit();
 // get-involved/register-official.php - Safe official/coach membership intake form with split-card layout
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';

@@ -1,6 +1,0 @@
-# Enable rewrite rules
-RewriteEngine On
-
-# Forward all requests under /registration to the local Node.js server running on port 3000
-RewriteCond %{REQUEST_URI} ^/registration [NC]
-RewriteRule ^registration/(.*)$ http://127.0.0.1:3000/registration/$1 [P,L]

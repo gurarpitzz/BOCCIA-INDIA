@@ -1,6 +1,4 @@
 <?php
-header("Location: /registration/register/player");
-exit();
 // get-involved/register-player.php - Safe player membership intake form with split-card layout
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
