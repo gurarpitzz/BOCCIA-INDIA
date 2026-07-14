@@ -794,7 +794,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/ajeya raj/ajeya1.webp",
                 "assets/star-players/ajeya raj/ajeya2.webp"
             ],
-            story: "I discovered Boccia after a life-changing injury. Every tournament since has been proof that resilience can become purpose.",
+            story: "Living with a C4 spinal cord injury, I operate my motorized wheelchair using only my chin and need assistance for daily living — yet I manage operations at Chandigarh Spinal Rehab and am the sole breadwinner of my family. Boccia gave my paralysed body a competitive arena. With 8 national medals and 5 international representations, my vision is a Paralympic medal at LA 2028.",
             badges: ["National Medallist", "Represented India 5x"],
             careerHighlights: [
                 { icon: ICONS.trophy, title: "First Indian Gold Medal", sub: "2026 Pairs Gold" },
@@ -815,7 +815,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/anjali devi/anjali (1).webp",
                 "assets/star-players/anjali devi/anjali (2).webp"
             ],
-            story: "After a life-altering injury, finding Boccia restored my direction. Every single throw on the international court is a step toward building India's BC3 legacy.",
+            story: "In 2018, a car accident left me with a cervical spinal cord injury and permanent wheelchair dependence. Four years of bed rest followed before I discovered Boccia at Chandigarh Spinal Rehab, introduced to it by Ajeya Raj. Within one year of picking up my first ball, I became India's first international Boccia gold medallist. My vision: a Paralympic medal to show every person recovering in a hospital bed that sport is still possible.",
             badges: ["First Int'l Gold Medallist", "National Medallist"],
             careerHighlights: [
                 { icon: ICONS.gold, title: "First Int'l Gold", sub: "Historic First for India" },
@@ -837,7 +837,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/Jatin Kushwah/WB9_0426.webp",
                 "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp"
             ],
-            story: "Precision isn't an option in the BC4 class—it is the baseline. My career is defined by placing India's rank on the world map.",
+            story: "Living with muscular dystrophy, I was introduced to Boccia through the Indian Association of Muscular Dystrophy in Solan. I made my competitive debut at the 7th Nationals in 2023 and haven't left the podium since — winning gold at the 7th, 8th, 9th and 10th National Championships. My international breakthrough came in Bahrain 2024 with a bronze and silver medal. My goal is to win a medal for India at the World Championships and inspire every person with a disability to believe sport is within their reach.",
             badges: ["National Champion", "Bahrain Medallist"],
             careerHighlights: [
                 { icon: ICONS.gold, title: "Double Gold Medalist", sub: "10th National Championship" },
@@ -859,7 +859,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/pooja gupta/pooja (2).webp",
                 "assets/star-players/pooja gupta/WhatsApp Image 2026-07-07 at 19.15.20 (1).webp"
             ],
-            story: "Managing a bank by day and representing India globally by night. My journey shows that focus and determination have no limits.",
+            story: "Born with 100% locomotor disability, I refused to let it define my limits. I qualified UGC NET-JRF, became a Chief Manager at Punjab National Bank, and simultaneously rose to World Ranking #30 in BC4 Boccia — the only Indian ranked in the BC4 women's category. I was the first Boccia player from Haryana to represent India internationally, and my vision is simple: a Paralympic gold medal that I want to dedicate to every girl who was told disability meant she could not achieve.",
             badges: ["World Ranked #30", "Chief Bank Manager"],
             careerHighlights: [
                 { icon: ICONS.trophy, title: "National Champion", sub: "10th National Championship 2026" },
@@ -880,7 +880,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.24.webp",
                 "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp"
             ],
-            story: "Refining my analytical game for a decade. Consistent national dominance is the cornerstone of my journey as India's ramp flagbearer.",
+            story: "Boccia — a precision sport designed for athletes with severe physical disabilities — entered my life in 2017 and matched every quality I had spent a decade building: focus, patience, and an analytical mind. Since my first National Championship gold in 2021, I haven't relinquished my BC3 (Male) crown for six consecutive years. Honoured as Inspirational Sportsman of the Year 2023 and selected as the only Indian athlete for the Seoul 2026 World Championships, my goal is a Paralympic gold that cements India's place on the global Boccia map.",
             badges: ["6x National Champion", "Seoul 2026 Representative"],
             careerHighlights: [
                 { icon: ICONS.trophy, title: "6x National Champion", sub: "Consecutive Male BC3 Titles" },
@@ -902,7 +902,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27 (1).webp",
                 "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp"
             ],
-            story: "I transformed my childhood challenges into athletic dominance and assistive technology ramps. Designing solutions is my play.",
+            story: "A childhood electric shock (11,000V) left me a triple amputee, but it also ignited a fire. I became a national awardee in creative arts, designed a low-cost wheelchair-mounted 3-in-1 assistive device that won the Zero Project International Discovery Award 2025, and then — in just my first competitive year in Boccia — created history as the first Indian BC3 female athlete to win an international medal (two bronzes at Cairo 2024). My vision: walk the ramp of the Paralympics in my wheelchair, medal in hand.",
             badges: ["Zero Project Awardee", "Triple Amputee Innovator"],
             careerHighlights: [
                 { icon: ICONS.bronze, title: "Double Bronze Medalist", sub: "Cairo World Challenger 2024" },
@@ -920,7 +920,7 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INTG",
             svgCoords: { x: 250, y: 380 },
             photos: [],
-            story: "Boccia gave me my voice and confidence during rehabilitation. Safe defensive control is my signature play.",
+            story: "A spinal cord injury in 2018 left me with 90% disability. After years of searching for rehabilitation support in Hyderabad, I travelled to Chandigarh Spinal Rehab in 2022, where I discovered Boccia. With strong determination, I went from a newcomer to a national champion — winning gold (Individual) at the 10th National Championship 2026 and gold (Mixed Pairs) at the 8th Nationals. My vision is to prove that no injury is the end of an athlete's story.",
             badges: ["National Champion", "Telangana Representative"],
             careerHighlights: [
                 { icon: ICONS.trophy, title: "National Champion", sub: "10th National Championship 2026" },
@@ -942,7 +942,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "assets/star-players/vyom pawa/vyom (2).webp",
                 "assets/star-players/vyom pawa/vyom (3).webp"
             ],
-            story: "Speed and long-range accuracy define my play. Training every day in Delhi, I aim for nothing less than international gold.",
+            story: "Living with cerebral palsy, I found in Boccia a sport where my precision and strategic mind could shine. Trained daily by my father, I went from a national bronze medallist in 2024 to representing India at the Asian Youth Para Games in Dubai in December 2025. Now ranked World #73 and Asian #28 in BC2, my vision is a Paralympic podium — and I will earn it one perfectly placed ball at a time.",
             badges: ["National Gold Medalist", "Asian Youth Para Games"],
             careerHighlights: [
                 { icon: ICONS.gold, title: "National Gold Medalist", sub: "10th National Championship" },
