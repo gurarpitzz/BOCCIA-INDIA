@@ -4342,9 +4342,9 @@ body {
     --cream-bg: #FDF8EF;
     --navy-primary: #102A63;
     --navy-secondary: #1A3E7A;
-    --gold-accent: #F2B134;
-    --gold-hover: #FFC94D;
-    --green-accent: #27AE60;
+    --gold-accent: #FF9933; /* Saffron */
+    --gold-hover: #FFAE4D;
+    --green-accent: #138808; /* Tricolor Green */
     --text-dark: #2F3640;
     --text-muted: #6B7280;
     
@@ -4470,7 +4470,7 @@ body {
     position: absolute;
     width: 160px;
     height: 160px;
-    background: radial-gradient(circle, rgba(242, 177, 52, 0.15) 0%, rgba(242, 177, 52, 0) 70%);
+    background: radial-gradient(circle, rgba(255, 153, 51, 0.15) 0%, rgba(19, 136, 8, 0.15) 50%, transparent 70%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
