@@ -4356,7 +4356,10 @@ body {
 }
 
 .stars-section {
-    background-color: var(--cream-bg);
+    background-image: url('our starts bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     padding: 6rem 0; /* Increased top/bottom padding to give breathing room */
     overflow: hidden;
