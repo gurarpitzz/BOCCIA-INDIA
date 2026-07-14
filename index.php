@@ -575,15 +575,15 @@ try {
                         <!-- SVG links web -->
                         <svg class="constellation-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
                             <!-- Background Web Links -->
-                            <line class="constellation-link-path" x1="110" y1="140" x2="160" y2="70" />
-                            <line class="constellation-link-path" x1="110" y1="140" x2="75" y2="230" />
-                            <line class="constellation-link-path" x1="160" y1="70" x2="390" y2="110" />
-                            <line class="constellation-link-path" x1="390" y1="110" x2="375" y2="225" />
-                            <line class="constellation-link-path" x1="75" y1="230" x2="120" y2="380" />
-                            <line class="constellation-link-path" x1="375" y1="225" x2="410" y2="360" />
-                            <line class="constellation-link-path" x1="120" y1="380" x2="220" y2="430" />
-                            <line class="constellation-link-path" x1="220" y1="430" x2="410" y2="360" />
-                            <line class="constellation-link-path" x1="375" y1="225" x2="120" y2="380" />
+                            <line class="constellation-link-path" x1="60" y1="100" x2="150" y2="30" />
+                            <line class="constellation-link-path" x1="60" y1="100" x2="30" y2="225" />
+                            <line class="constellation-link-path" x1="150" y1="30" x2="430" y2="60" />
+                            <line class="constellation-link-path" x1="430" y1="60" x2="470" y2="225" />
+                            <line class="constellation-link-path" x1="30" y1="225" x2="70" y2="410" />
+                            <line class="constellation-link-path" x1="470" y1="225" x2="430" y2="400" />
+                            <line class="constellation-link-path" x1="70" y1="410" x2="240" y2="470" />
+                            <line class="constellation-link-path" x1="240" y1="470" x2="430" y2="400" />
+                            <line class="constellation-link-path" x1="470" y1="225" x2="70" y2="410" />
                             
                             <!-- Dynamic Active Connector Draw Path -->
                             <path id="dynamic-connector" class="constellation-link-path" stroke="#FF9933" stroke-width="2" opacity="0" d="M 0 0 L 0 0" />
@@ -594,7 +594,9 @@ try {
                         <!-- Center piece -->
                         <div class="constellation-center" id="constellationCenter">
                             <div class="constellation-center-glow"></div>
-                            <div class="constellation-center-text"><span style="color: #FF9933;">BOCCIA</span><br><span style="color: #138808;">INDIA</span></div>
+                            <div class="constellation-center-logo">
+                                <img src="boccia-india-logo.webp" alt="Boccia India Logo" style="width: 70px; height: auto; display: block; margin: 0 auto 5px;">
+                            </div>
                             <div class="constellation-center-sub">National Team</div>
                         </div>
 
@@ -611,79 +613,79 @@ try {
 
                         <!-- Athlete beacons -->
                         <!-- 1. Ajeya Raj -->
-                        <button class="athlete-beacon" data-id="ajeya_raj" style="--x: 22; --y: 28; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: -28; --target-y: -22;">
+                        <button class="athlete-beacon" data-id="ajeya_raj" style="--x: 12; --y: 20; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: -38; --target-y: -30;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.jpeg'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.webp'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 2. Anjali Devi -->
-                        <button class="athlete-beacon" data-id="anjali_devi" style="--x: 32; --y: 14; --depth-scale: 0.9; --depth-opacity: 0.85; --depth-blur: 0.5px; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3); --target-x: -18; --target-y: -36;">
+                        <button class="athlete-beacon" data-id="anjali_devi" style="--x: 30; --y: 6; --depth-scale: 0.9; --depth-opacity: 0.85; --depth-blur: 0.5px; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3); --target-x: -20; --target-y: -44;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).jpeg'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).webp'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 3. Jatin Kushwah -->
-                        <button class="athlete-beacon" data-id="jatin_kushwah" style="--x: 78; --y: 22; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4); --target-x: 28; --target-y: -28;">
+                        <button class="athlete-beacon" data-id="jatin_kushwah" style="--x: 86; --y: 12; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4); --target-x: 36; --target-y: -38;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
 
                         <!-- 4. Pooja Gupta -->
-                        <button class="athlete-beacon" data-id="pooja_gupta" style="--x: 15; --y: 46; --depth-scale: 0.85; --depth-opacity: 0.8; --depth-blur: 0.8px; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4); --target-x: -35; --target-y: -4;">
+                        <button class="athlete-beacon" data-id="pooja_gupta" style="--x: 6; --y: 45; --depth-scale: 0.85; --depth-opacity: 0.8; --depth-blur: 0.8px; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4); --target-x: -44; --target-y: -5;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).jpeg'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).webp'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
 
                         <!-- 5. Sachin Chamaria -->
-                        <button class="athlete-beacon" data-id="sachin_chamaria" style="--x: 75; --y: 45; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: 25; --target-y: -5;">
+                        <button class="athlete-beacon" data-id="sachin_chamaria" style="--x: 94; --y: 45; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: 44; --target-y: -5;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 6. Sarita -->
-                        <button class="athlete-beacon" data-id="sarita" style="--x: 24; --y: 76; --depth-scale: 0.95; --depth-opacity: 0.9; --depth-blur: 0.3px; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3); --target-x: -26; --target-y: 26;">
+                        <button class="athlete-beacon" data-id="sarita" style="--x: 14; --y: 82; --depth-scale: 0.95; --depth-opacity: 0.9; --depth-blur: 0.3px; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3); --target-x: -36; --target-y: 32;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 7. Usha Kiran -->
-                        <button class="athlete-beacon" data-id="usha_kiran" style="--x: 44; --y: 86; --depth-scale: 0.85; --depth-opacity: 0.8; --depth-blur: 0.8px; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3); --target-x: -6; --target-y: 36;">
+                        <button class="athlete-beacon" data-id="usha_kiran" style="--x: 48; --y: 94; --depth-scale: 0.85; --depth-opacity: 0.8; --depth-blur: 0.8px; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3); --target-x: -2 --target-y: 44;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
@@ -695,13 +697,13 @@ try {
                         </button>
 
                         <!-- 8. Vyom Pawa -->
-                        <button class="athlete-beacon" data-id="vyom_pawa" style="--x: 82; --y: 72; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2); --target-x: 32; --target-y: 22;">
+                        <button class="athlete-beacon" data-id="vyom_pawa" style="--x: 86; --y: 80; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2); --target-x: 36; --target-y: 30;">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-sparkle-frame">
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).jpeg'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).webp'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC2</span>
                         </button>
@@ -833,8 +835,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Punjab",
             stateCode: "INPB",
-            svgCoords: { x: 110, y: 140 },
-            photo: "assets/star-players/ajeya raj/ajeya1.jpeg",
+            svgCoords: { x: 60, y: 100 },
+            photo: "assets/star-players/ajeya raj/ajeya1.webp",
             quote: "My journey reflects resilience, determination, and a commitment to making a difference in the lives of others, both through my work and my athletic pursuits.",
             badges: ["National Medallist", "Represented India 5x"],
             achievements: [
@@ -853,8 +855,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Himachal Pradesh",
             stateCode: "INHP",
-            svgCoords: { x: 160, y: 70 },
-            photo: "assets/star-players/anjali devi/anjali (1).jpeg",
+            svgCoords: { x: 150, y: 30 },
+            photo: "assets/star-players/anjali devi/anjali (1).webp",
             quote: "Following my injury, Boccia gave me a new lease on life. I remain committed to the sport, aiming to win a medal for India at the Paralympics.",
             badges: ["First Int'l Gold Medallist", "National Medallist"],
             achievements: [
@@ -872,8 +874,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#8E44AD",
             state: "Uttar Pradesh",
             stateCode: "INUP",
-            svgCoords: { x: 390, y: 110 },
-            photo: "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg",
+            svgCoords: { x: 430, y: 60 },
+            photo: "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp",
             quote: "My goal is to win medals for my country and serve as a source of inspiration for other people with disabilities.",
             badges: ["National Champion", "Bahrain Medallist"],
             achievements: [
@@ -891,8 +893,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#8E44AD",
             state: "Haryana",
             stateCode: "INHR",
-            svgCoords: { x: 75, y: 230 },
-            photo: "assets/star-players/pooja gupta/pooja (1).jpeg",
+            svgCoords: { x: 30, y: 225 },
+            photo: "assets/star-players/pooja gupta/pooja (1).webp",
             quote: "Disability is not a limitation; determination is the pathway to excellence. I aim to bring greater recognition to Boccia in India.",
             badges: ["World Ranked #30", "Chief Bank Manager"],
             achievements: [
@@ -910,8 +912,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Delhi",
             stateCode: "INDL",
-            svgCoords: { x: 375, y: 225 },
-            photo: "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg",
+            svgCoords: { x: 470, y: 225 },
+            photo: "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp",
             quote: "Boccia demands focus, patience, and analysis—qualities I spent a decade sharpening. Representing India is my ultimate pride.",
             badges: ["6x National Champion", "Seoul 2026 Representative"],
             achievements: [
@@ -929,8 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Uttar Pradesh",
             stateCode: "INUP",
-            svgCoords: { x: 120, y: 380 },
-            photo: "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg",
+            svgCoords: { x: 70, y: 410 },
+            photo: "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp",
             quote: "I transformed a childhood electric shock into a journey of art, innovation, and national sports representation.",
             badges: ["Zero Project Awardee", "Triple Amputee Innovator"],
             achievements: [
@@ -948,8 +950,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Telangana",
             stateCode: "INTG",
-            svgCoords: { x: 220, y: 430 },
-            photo: "", // Empty to trigger fallback avatar
+            svgCoords: { x: 240, y: 470 },
+            photo: "",
             quote: "Despite physical challenges, I found Boccia in rehabilitation. It gave me strength, confidence, and a sense of purpose.",
             badges: ["National Champion", "Telangana Representative"],
             achievements: [
@@ -967,8 +969,8 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#27AE60",
             state: "Delhi",
             stateCode: "INDL",
-            svgCoords: { x: 410, y: 360 },
-            photo: "assets/star-players/vyom pawa/vyom (1).jpeg",
+            svgCoords: { x: 430, y: 400 },
+            photo: "assets/star-players/vyom pawa/vyom (1).webp",
             quote: "Boccia is a sport that matches my precision, strategy, and unwavering spirit. I train every day to conquer new heights.",
             badges: ["National Gold Medalist", "Asian Youth Para Games"],
             achievements: [

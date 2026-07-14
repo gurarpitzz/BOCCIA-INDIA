@@ -4440,7 +4440,7 @@ body {
     position: relative;
     aspect-ratio: 1 / 1;
     width: 100%;
-    max-width: 420px;
+    max-width: 500px;
     margin: 0 auto;
     cursor: default;
 }
