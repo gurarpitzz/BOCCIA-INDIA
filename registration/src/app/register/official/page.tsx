@@ -63,10 +63,11 @@ export default function OfficialRegistration() {
   // Active validation schema based on step index
   const activeSchema = step === 1 ? step1Schema : step === 2 ? step2Schema : step3Schema;
 
-  const { register, handleSubmit, formState: { errors }, watch, trigger, setValue, reset } = useForm<any>({
+  const { register, handleSubmit, formState, watch, trigger, setValue, reset } = useForm<any>({
     resolver: zodResolver(activeSchema),
     mode: 'all',
   });
+  const errors: any = formState.errors;
 
   const emailVal = watch('email');
   const watchedFields = watch();
