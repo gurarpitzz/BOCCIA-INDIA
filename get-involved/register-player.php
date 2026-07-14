@@ -271,7 +271,7 @@ include __DIR__ . '/../includes/header.php';
                     <div>
                         <img src="../boccia-india-logo.webp" alt="BSFI Logo" class="form-logo-img">
                     </div>
-                    <h2 class="form-title-text" id="wizard-title-label">Player Registration Wizard</h2>
+                    <h2 class="form-title-text" id="wizard-title-label">Player Registration</h2>
                 </div>
 
                 <!-- Step progress indicator -->
