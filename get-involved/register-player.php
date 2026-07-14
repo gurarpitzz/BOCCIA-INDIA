@@ -397,8 +397,6 @@ include __DIR__ . '/../includes/header.php';
                                     <option value="BC2">BC2</option>
                                     <option value="BC3">BC3</option>
                                     <option value="BC4">BC4</option>
-                                    <option value="BC5">BC5</option>
-                                    <option value="NE (Non-Eligible)">NE (Non-Eligible)</option>
                                 </select>
                             </div>
                             <div class="col-md-12">
