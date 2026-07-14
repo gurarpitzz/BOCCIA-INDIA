@@ -768,6 +768,7 @@ try {
 </section>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
     // Reusable clean SVG Icons instead of GPT emojis
     const ICONS = {
         trophy: `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="color: #f4b942;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v3c0 2.44 1.72 4.48 4 4.9V19H5v2h14v-2h-2v-4.1c2.28-.42 4-2.46 4-4.9V7c0-1.1-.9-2-2-2zM5 10V7h2v3H5zm14 0h-2V7h2v3z"/></svg>`,
