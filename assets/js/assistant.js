@@ -519,7 +519,7 @@
                         </div>
                         <div class="bsfi-ast-card-content">
                             <h4>Become an Athlete / Official</h4>
-                            <p>Register online, criteria &amp; classification.</p>
+                            <p>Register online today.</p>
                         </div>
                         <span class="bsfi-ast-arrow">&rarr;</span>
                     </button>
@@ -613,12 +613,10 @@
                 <div class="bsfi-ast-view" id="bsfi-ast-menu-register">
                     <button class="bsfi-ast-back-btn" onclick="backAssistantView()">&larr; Back to Main Options</button>
                     <h5 class="bsfi-ast-menu-title">Become an Athlete / Official</h5>
-                    <p class="bsfi-ast-menu-desc">Select a registration option or view criteria guidelines.</p>
+                    <p class="bsfi-ast-menu-desc">Select a registration option below.</p>
                     
                     <a href="${pathPrefix}get-involved/register-player.php" class="bsfi-ast-btn">Register as Athlete <span>&rarr;</span></a>
                     <a href="${pathPrefix}get-involved/register-official.php" class="bsfi-ast-btn">Register as Official <span>&rarr;</span></a>
-                    <button onclick="closeAssistantAndScroll('#who-can-participate')" class="bsfi-ast-btn">Eligibility Criteria <span>&rarr;</span></button>
-                    <button onclick="closeAssistantAndRedirect('${pathPrefix}page.php?section=sport&slug=classification')" class="bsfi-ast-btn">Classification Process <span>&rarr;</span></button>
                 </div>
 
                 <!-- ════ SUBMENU: LEARN ════ -->
