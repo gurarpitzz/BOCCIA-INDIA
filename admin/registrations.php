@@ -3,11 +3,53 @@
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
+require_once __DIR__ . '/../config/app.php';
 
 // Restricted to admin & editor for processing actions
 requireLogin();
 if (!in_array($_SESSION['role'], ['admin', 'editor'])) {
     checkRole(['admin', 'editor']); // triggers access denied screen
+}
+
+function sendApprovalEmail($email, $name, $regNo, $type) {
+    if (empty($email)) return;
+    
+    $subject = $type === 'athlete' ? 'BSFI Athlete Registration Approved' : 'BSFI Official Registration Approved';
+    $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
+    
+    $htmlBody = "
+      <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
+        <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
+        <p>Dear {$name},</p>
+        <p>We are pleased to inform you that your registration application as an <strong>{$roleName}</strong> has been approved by the BSFI federation administration.</p>
+        <p>Here are your registration details:</p>
+        <div style=\"background: #f1f5f9; padding: 15px; margin: 20px 0; border-radius: 6px; font-size: 16px;\">
+          <strong>Registration Number:</strong> {$regNo}<br/>
+          <strong>Name:</strong> {$name}<br/>
+          <strong>Status:</strong> Approved
+        </div>
+        <p>You can now verify your active membership on our website at any time using your registration number.</p>
+        <p style=\"margin-top: 30px;\">Best Regards,<br/>Boccia Sports Federation of India (BSFI)</p>
+      </div>
+    ";
+
+    $ch = curl_init('https://api.resend.com/emails');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . RESEND_API_KEY,
+        'Content-Type: application/json'
+    ]);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+        'from' => 'Boccia India <noreply@bocciaindia.com>',
+        'to' => $email,
+        'subject' => $subject,
+        'html' => $htmlBody
+    ]));
+    curl_exec($ch);
+    curl_close($ch);
 }
 
 $page_title = "Review Registrations - BSFI Admin";
@@ -154,6 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $hist->execute([$existingId, $existing['status'], $_SESSION['user_id'], "Linked and approved from application ID: $applicationId"]);
 
                     logAction($pdo, "Linked & Approved Athlete Application", "athletes", $existingId, "Name: {$app['full_name']} | REGN_NO: {$existing['regn_no']}");
+                    sendApprovalEmail($app['email'], $app['full_name'], $existing['regn_no'], 'athlete');
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application linked to existing Athlete <strong>" . htmlspecialchars($existing['regn_no']) . "</strong> and approved successfully.</div>";
                 } elseif ($action === 'approve_new') {
                     $pdo->beginTransaction();
@@ -217,6 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $pdo->commit();
 
                     logAction($pdo, "Approved New Athlete Application", "athletes", $newAthleteId, "Name: {$app['full_name']} | Generated REGN_NO: $regnNo");
+                    sendApprovalEmail($app['email'], $app['full_name'], $regnNo, 'athlete');
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application approved successfully! Athlete REGN_NO: <strong>$regnNo</strong></div>";
                 }
             } elseif ($type === 'official') {
@@ -264,6 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $upApp->execute([$existingId, $applicationId]);
 
                     logAction($pdo, "Linked & Approved Official Application", "officials", $existingId, "Name: {$app['full_name']} | Official ID: {$existing['official_reg_no']}");
+                    sendApprovalEmail($app['email'], $app['full_name'], $existing['official_reg_no'], 'official');
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application linked to existing Official <strong>" . htmlspecialchars($existing['official_reg_no']) . "</strong> and approved successfully.</div>";
                 } elseif ($action === 'approve_new') {
                     $pdo->beginTransaction();
@@ -303,6 +348,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $pdo->commit();
 
                     logAction($pdo, "Approved New Official Application", "officials", $newOfficialId, "Name: {$app['full_name']} | Generated ID: $officialId");
+                    sendApprovalEmail($app['email'], $app['full_name'], $officialId, 'official');
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application approved successfully! Official ID: <strong>$officialId</strong></div>";
                 }
             }
