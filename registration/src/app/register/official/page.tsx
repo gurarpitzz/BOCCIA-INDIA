@@ -21,7 +21,7 @@ const statesList = [
 // Zod schemas per step
 const step1Schema = z.object({
   full_name: z.string().min(2, 'Name must be at least 2 characters'),
-  role: z.enum(["Coach", "Sport Assistant", "Classifier", "Technical Official", "Referee", "Volunteer"], {
+  role: z.enum(["Coach", "Sport Assistant", "Classifier", "Technical Official", "Referee", "Volunteer"] as const, {
     errorMap: () => ({ message: 'Please select a registration role' })
   }),
   gender: z.enum(['Male', 'Female', 'Other'], { errorMap: () => ({ message: 'Please select gender' }) }),
