@@ -595,9 +595,15 @@ try {
                         <div class="constellation-center" id="constellationCenter">
                             <div class="constellation-center-glow"></div>
                             <div class="constellation-center-logo">
-                                <img src="boccia-india-logo.webp" alt="Boccia India Logo" style="width: 70px; height: auto; display: block; margin: 0 auto 5px;">
+                                <img src="boccia-india-logo.webp" alt="Boccia India Logo" style="width: 60px; height: auto; display: block; margin: 0 auto 5px;">
                             </div>
                             <div class="constellation-center-sub">National Team</div>
+                            <div class="constellation-center-stats" id="centerStatsView">
+                                <div class="center-stat-row"><strong>10</strong> Athletes</div>
+                                <div class="center-stat-row"><strong>6</strong> States represented</div>
+                                <div class="center-stat-row"><strong>14</strong> Int'l Medals</div>
+                                <div class="center-stat-instruction">Select an athlete</div>
+                            </div>
                         </div>
 
                         <?php
@@ -711,111 +717,82 @@ try {
                     </div>
                 </div>
 
-                <!-- RIGHT: Profile Card -->
-                <div class="athlete-card-container">
-                    <div class="athlete-profile-card card-empty-state" id="athleteProfileCard">
+                <!-- RIGHT: Floating Profile Card Overlay -->
+                <div class="athlete-floating-card card-empty-state" id="athleteProfileCard">
+                    
+                    <!-- Dynamic India Map Overlay -->
+                    <div class="india-map-overlay" id="cardMapOverlay">
+                        <?php 
+                        if (file_exists(__DIR__ . '/india svg.svg')) {
+                            $raw_svg = file_get_contents(__DIR__ . '/india svg.svg');
+                            $svg_clean = preg_replace('/<\?xml.*?\?>/s', '', $raw_svg);
+                            $svg_clean = preg_replace('/<!--.*?-->/s', '', $svg_clean);
+                            echo $svg_clean;
+                        }
+                        ?>
+                    </div>
+
+                    <!-- Empty State View initially -->
+                    <div id="cardEmptyStateView">
+                        <div class="empty-state-stars">✦</div>
+                        <h3 class="empty-state-title">Discover India's Finest Players</h3>
+                        <p class="empty-state-subtitle">Select an athlete beacon on the map or wait to begin the showcase.</p>
+                    </div>
+
+                    <!-- Main Profile Structure (New v2.0 Identity ➔ Story ➔ Career ➔ Mission) -->
+                    <div id="cardMainProfileView" style="display: none; width: 100%; height: 100%; flex-direction: column; position: relative; z-index: 2;">
                         
-                        <!-- Dynamic India Map Overlay -->
-                        <div class="india-map-overlay" id="cardMapOverlay">
-                            <?php 
-                            if (file_exists(__DIR__ . '/india svg.svg')) {
-                                $raw_svg = file_get_contents(__DIR__ . '/india svg.svg');
-                                $svg_clean = preg_replace('/<\?xml.*?\?>/s', '', $raw_svg);
-                                $svg_clean = preg_replace('/<!--.*?-->/s', '', $svg_clean);
-                                echo $svg_clean;
-                            }
-                            ?>
-                        </div>
-
-                        <!-- Empty State View initially -->
-                        <div id="cardEmptyStateView">
-                            <div class="empty-state-stars">✦</div>
-                            <h3 class="empty-state-title">Discover India's Finest Players</h3>
-                            <p class="empty-state-subtitle">Select an athlete beacon on the map or wait to begin the showcase.</p>
-                        </div>
-
-                        <!-- Main Profile Structure (Swapped values, fixed DOM structure) -->
-                        <div id="cardMainProfileView" style="display: none; width: 100%; height: 100%; grid-template-columns: 42% 58%; gap: 2.5rem; position: relative; z-index: 2;">
+                        <!-- Top Header (Photo Left, Name Right) -->
+                        <div class="card-header-row transition-item stagger-1">
+                            <div class="portrait-frame-container" id="cardPortraitFrame">
+                                <div class="card-portrait-background"></div>
+                                <div id="avatarFallback" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(255, 153, 51, 0.15) 0%, rgba(19, 136, 8, 0.15) 100%); color: var(--navy-primary); border-radius: 16px;">
+                                    <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                                </div>
+                                <img id="cardProfileImg" src="" alt="Athlete Portrait" class="card-portrait-img">
+                            </div>
                             
-                            <!-- Left: Image & Badge -->
-                            <div class="card-left-col">
-                                <div class="portrait-frame-container">
-                                    <div class="card-portrait-background"></div>
-                                    <!-- Fallback avatar icon for missing images -->
-                                    <div id="avatarFallback" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(255, 153, 51, 0.15) 0%, rgba(19, 136, 8, 0.15) 100%); color: var(--navy-primary);">
-                                        <svg viewBox="0 0 24 24" width="80" height="80" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                                    </div>
-                                    <img id="cardProfileImg" src="" alt="Athlete Portrait" class="card-portrait-img">
+                            <div class="card-identity-text">
+                                <h3 class="athlete-detail-name" id="cardAthleteName"></h3>
+                                <div class="athlete-detail-meta">
+                                    <span class="detail-class-badge" id="cardClassBadge"></span>
+                                    <span class="detail-location" id="cardLocation"></span>
+                                </div>
+                                <div class="card-badges-row" id="cardBadgesRow">
+                                    <!-- Badges injected here -->
                                 </div>
                             </div>
-
-                            <!-- Right: Structured Text content -->
-                            <div class="card-right-col">
-                                <div>
-                                    <span class="card-selected-badge transition-item stagger-1" id="cardClassificationBadge">Selected Athlete</span>
-                                    <h3 class="athlete-detail-name transition-item stagger-2" id="cardAthleteName"></h3>
-                                    
-                                    <div class="athlete-detail-meta transition-item stagger-3">
-                                        <span class="detail-class-badge" id="cardClassBadge"></span>
-                                        <span class="detail-location" id="cardLocation"></span>
-                                    </div>
-
-                                    <div class="card-badges-row transition-item stagger-3" id="cardBadgesRow">
-                                        <!-- badges injected here -->
-                                    </div>
-
-                                    <div class="detail-quote-box transition-item stagger-4">
-                                        <span class="quote-backdrop-mark open-mark">“</span>
-                                        <p class="detail-quote-text" id="cardQuote"></p>
-                                        <span class="quote-backdrop-mark close-mark">”</span>
-                                    </div>
-
-                                    <div class="detail-skills-box transition-item stagger-5">
-                                        <!-- Precision -->
-                                        <div class="skill-bar-row">
-                                            <div class="skill-bar-header">
-                                                <span>Precision</span>
-                                                <span id="skillValPrecision">0%</span>
-                                            </div>
-                                            <div class="skill-bar-track">
-                                                <div class="skill-bar-fill" id="skillFillPrecision"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Control -->
-                                        <div class="skill-bar-row">
-                                            <div class="skill-bar-header">
-                                                <span>Control</span>
-                                                <span id="skillValControl">0%</span>
-                                            </div>
-                                            <div class="skill-bar-track">
-                                                <div class="skill-bar-fill" id="skillFillControl"></div>
-                                            </div>
-                                        </div>
-                                        <!-- Decision Making -->
-                                        <div class="skill-bar-row">
-                                            <div class="skill-bar-header">
-                                                <span>Decision Making</span>
-                                                <span id="skillValDecision">0%</span>
-                                            </div>
-                                            <div class="skill-bar-track">
-                                                <div class="skill-bar-fill" id="skillFillDecision"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="detail-style-box transition-item stagger-5">
-                                        <span>Playing Style:</span>
-                                        <span class="detail-style-value" id="cardPlayingStyle"></span>
-                                    </div>
-
-                                    <h4 class="detail-achievements-title transition-item stagger-6">Major Achievements</h4>
-                                    <ul class="detail-achievements-list transition-item stagger-6" id="cardAchievementsList">
-                                        <!-- list elements injected here -->
-                                    </ul>
-                                </div>
-                            </div>
-
                         </div>
+
+                        <hr class="card-divider transition-item stagger-2">
+
+                        <!-- The Story Section -->
+                        <div class="card-section transition-item stagger-2">
+                            <h4 class="card-section-title">THE STORY</h4>
+                            <p class="detail-story-text" id="cardStory"></p>
+                        </div>
+
+                        <hr class="card-divider transition-item stagger-3">
+
+                        <!-- Career Highlights Section -->
+                        <div class="card-section transition-item stagger-3">
+                            <h4 class="card-section-title">CAREER HIGHLIGHTS</h4>
+                            <div class="career-cards-container" id="cardHighlightsContainer">
+                                <!-- Dynamic highlight cards injected here -->
+                            </div>
+                        </div>
+
+                        <hr class="card-divider transition-item stagger-4">
+
+                        <!-- Current Mission Section -->
+                        <div class="card-section transition-item stagger-4">
+                            <h4 class="card-section-title">CURRENT MISSION</h4>
+                            <div class="mission-text-container">
+                                <span class="mission-icon">🎯</span>
+                                <p class="detail-mission-text" id="cardMission"></p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -837,16 +814,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INPB",
             svgCoords: { x: 60, y: 100 },
             photo: "assets/star-players/ajeya raj/ajeya1.jpeg",
-            quote: "My journey reflects resilience, determination, and a commitment to making a difference in the lives of others, both through my work and my athletic pursuits.",
+            story: "Following a spinal injury, Ajeya discovered Boccia as a second chance. Today he proudly represents India while inspiring future para-athletes through every competition.",
             badges: ["National Medallist", "Represented India 5x"],
-            achievements: [
-                "🥇 Gold – 10th National Championship, 2026 (Pair)",
-                "🥈 Silver – 10th National Championship, 2026 (Individual)",
-                "🥉 Bronze – World Boccia Challenger, Bahrain, 2024 (Individual)",
-                "🥈 Silver – World Boccia Challenger, Canberra, 2025 (Pair)"
+            careerHighlights: [
+                { icon: "🏆", title: "National Champion", sub: "2026 Pairs Gold" },
+                { icon: "🥈", title: "World Challenger", sub: "Canberra 2025 Silver" },
+                { icon: "🇮🇳", title: "Represented India", sub: "5 International Events" }
             ],
-            skills: { precision: 95, control: 90, decision: 93 },
-            playingStyle: "◈ Ramp Specialist"
+            currentMission: "Preparing for the Los Angeles 2028 Paralympics"
         },
         {
             id: "anjali_devi",
@@ -857,15 +832,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INHP",
             svgCoords: { x: 150, y: 30 },
             photo: "assets/star-players/anjali devi/anjali (1).jpeg",
-            quote: "Following my injury, Boccia gave me a new lease on life. I remain committed to the sport, aiming to win a medal for India at the Paralympics.",
+            story: "Anjali found new direction and purpose through Boccia after a life-altering injury. Her quick rise on the international circuit has established her as a pillar of India's BC3 pairs strategy.",
             badges: ["First Int'l Gold Medallist", "National Medallist"],
-            achievements: [
-                "🥇 First-ever International Gold Medalist in Boccia for India",
-                "🥈 Silver Medal – 8th Boccia National Championship, 2024",
-                "🥉 Bronze Medal – 7th Boccia National Championship, 2023"
+            careerHighlights: [
+                { icon: "🥇", title: "First Int'l Gold", sub: "Historic First for India" },
+                { icon: "🏆", title: "National Medalist", sub: "8th National Championship 2024" },
+                { icon: "🥉", title: "National Bronze", sub: "7th National Championship 2023" }
             ],
-            skills: { precision: 98, control: 94, decision: 91 },
-            playingStyle: "◎ Jack Ball Expert"
+            currentMission: "Training for the upcoming World Boccia Championships"
         },
         {
             id: "jatin_kushwah",
@@ -876,15 +850,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INUP",
             svgCoords: { x: 430, y: 60 },
             photo: "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg",
-            quote: "My goal is to win medals for my country and serve as a source of inspiration for other people with disabilities.",
+            story: "Jatin channels absolute precision into the BC4 class. Driven by the goal of elevating India's global rank, he demonstrates world-class tactical capability on every throw.",
             badges: ["National Champion", "Bahrain Medallist"],
-            achievements: [
-                "🥇 Gold Medallist – 10th National Championship (Individual & Pairs)",
-                "🥈 Silver Medal – Bahrain World Boccia Challenger, 2024 (Pairs)",
-                "🥉 Bronze Medal – Bahrain World Boccia Challenger, 2024 (Individual)"
+            careerHighlights: [
+                { icon: "🥇", title: "Double Gold Medalist", sub: "10th National Championship" },
+                { icon: "🥈", title: "World Challenger", sub: "Bahrain 2024 Pairs Silver" },
+                { icon: "🥉", title: "Challenger Bronze", sub: "Bahrain 2024 Individual" }
             ],
-            skills: { precision: 92, control: 88, decision: 90 },
-            playingStyle: "🎯 Tactical Placement"
+            currentMission: "Securing qualification for upcoming Asian Para Games"
         },
         {
             id: "pooja_gupta",
@@ -895,15 +868,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INHR",
             svgCoords: { x: 30, y: 225 },
             photo: "assets/star-players/pooja gupta/pooja (1).jpeg",
-            quote: "Disability is not a limitation; determination is the pathway to excellence. I aim to bring greater recognition to Boccia in India.",
+            story: "Balancing a senior banking career with elite sports representation, Pooja shows that focus and determination are limitless. Her strategic play ranks her among the world's best.",
             badges: ["World Ranked #30", "Chief Bank Manager"],
-            achievements: [
-                "🥇 Gold Medal – 10th National Championship, 2026",
-                "🏆 Ranked #30 in World Boccia Female Rankings (BC4)",
-                "💼 Chief Manager at State Bank of India"
+            careerHighlights: [
+                { icon: "🥇", title: "National Champion", sub: "10th National Championship 2026" },
+                { icon: "🏆", title: "World Rank #30", sub: "Elite BC4 Female Division" },
+                { icon: "💼", title: "Chief Bank Manager", sub: "State Bank of India Leader" }
             ],
-            skills: { precision: 91, control: 90, decision: 94 },
-            playingStyle: "⬡ Strategic Aggression"
+            currentMission: "Climbing into the Top 20 World Boccia Rankings"
         },
         {
             id: "sachin_chamaria",
@@ -914,15 +886,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INDL",
             svgCoords: { x: 470, y: 225 },
             photo: "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg",
-            quote: "Boccia demands focus, patience, and analysis—qualities I spent a decade sharpening. Representing India is my ultimate pride.",
+            story: "A dominant force in the BC3 class, Sachin has spent a decade refining his analytical game. His consistent national supremacy makes him the flagbearer for Indian ramp sports.",
             badges: ["6x National Champion", "Seoul 2026 Representative"],
-            achievements: [
-                "🥇 6 Consecutive Years National Champion (BC3 Male)",
-                "🥇 Gold Medal – Manama 2024 World Boccia Challenger, Bahrain",
-                "🏆 Only Indian selected for Seoul 2026 World Championships"
+            careerHighlights: [
+                { icon: "🏆", title: "6x National Champion", sub: "Consecutive Male BC3 Titles" },
+                { icon: "🥇", title: "World Challenger Gold", sub: "Manama 2024 Champion" },
+                { icon: "🇮🇳", title: "Seoul Representative", sub: "Only Indian Selected for 2026" }
             ],
-            skills: { precision: 99, control: 97, decision: 95 },
-            playingStyle: "◈ Ramp Specialist"
+            currentMission: "Securing a historic podium finish at the Seoul World Championships"
         },
         {
             id: "sarita",
@@ -933,15 +904,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INUP",
             svgCoords: { x: 70, y: 410 },
             photo: "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg",
-            quote: "I transformed a childhood electric shock into a journey of art, innovation, and national sports representation.",
+            story: "Sarita transformed childhood trauma into athletic excellence and assistive technology design. She plays and creates solutions with the same visionary passion.",
             badges: ["Zero Project Awardee", "Triple Amputee Innovator"],
-            achievements: [
-                "🥉 Double Bronze Medallist – Cairo 2024 World Boccia Challenger",
-                "🥈 8x National Medalist (Individual & Pair)",
-                "💡 Zero Project Discovery Award 2025 (Assistive Technology)"
+            careerHighlights: [
+                { icon: "🥉", title: "Double Bronze", sub: "Cairo World Challenger 2024" },
+                { icon: "🏆", title: "8x National Medalist", sub: "Individual & Pairs Competitor" },
+                { icon: "💡", title: "Discovery Award", sub: "Zero Project Assistive Tech 2025" }
             ],
-            skills: { precision: 96, control: 95, decision: 94 },
-            playingStyle: "◉ Precision Builder"
+            currentMission: "Mentoring new athletes and testing innovative ramp designs"
         },
         {
             id: "usha_kiran",
@@ -952,15 +922,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INTG",
             svgCoords: { x: 240, y: 470 },
             photo: "",
-            quote: "Despite physical challenges, I found Boccia in rehabilitation. It gave me strength, confidence, and a sense of purpose.",
+            story: "Discovering Boccia during rehabilitation, Usha found confidence and a voice. Her defensive control and tactical patience make her a core member of the national squad.",
             badges: ["National Champion", "Telangana Representative"],
-            achievements: [
-                "🥇 1st Place (Gold) – 10th Boccia National Championship, 2026",
-                "🥇 1st Place – 8th Boccia National Championship, 2024 (Mixed Pair)",
-                "🥉 3rd Place – 7th Boccia National Championship, 2023"
+            careerHighlights: [
+                { icon: "🥇", title: "National Champion", sub: "10th National Championship 2026" },
+                { icon: "🏆", title: "Mixed Pairs Gold", sub: "8th National Championship 2024" },
+                { icon: "🥉", title: "National Bronze", sub: "7th National Championship 2023" }
             ],
-            skills: { precision: 93, control: 90, decision: 88 },
-            playingStyle: "⬤ Defensive Control"
+            currentMission: "Perfecting tactical defensive play for the national selection trials"
         },
         {
             id: "vyom_pawa",
@@ -971,15 +940,14 @@ document.addEventListener("DOMContentLoaded", () => {
             stateCode: "INDL",
             svgCoords: { x: 430, y: 400 },
             photo: "assets/star-players/vyom pawa/vyom (1).jpeg",
-            quote: "Boccia is a sport that matches my precision, strategy, and unwavering spirit. I train every day to conquer new heights.",
+            story: "Vyom brings energy, speed, and sharp long-range execution to the BC2 category. Training daily in Delhi, he is dedicated to bringing home India's next major para-sports honor.",
             badges: ["National Gold Medalist", "Asian Youth Para Games"],
-            achievements: [
-                "🥇 Gold Medal – 10th National Boccia Championship, Ahmedabad",
-                "🥇 Gold Medal – 9th National Boccia Championship, Vizag (Team)",
-                "🏆 5th Position – Kazakhstan World Boccia Challenger, 2025"
+            careerHighlights: [
+                { icon: "🥇", title: "National Gold", sub: "10th National Championship" },
+                { icon: "🏆", title: "Team Gold", sub: "9th National Championship" },
+                { icon: "⚡", title: "5th Place Finish", sub: "Kazakhstan World Challenger 2025" }
             ],
-            skills: { precision: 90, control: 93, decision: 92 },
-            playingStyle: "✦ Long Range Accuracy"
+            currentMission: "Qualifying for the Asian Youth Para Games"
         }
     ];
 
@@ -997,22 +965,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fixed Card Swap Elements
     const cardProfileImg = document.getElementById("cardProfileImg");
     const avatarFallback = document.getElementById("avatarFallback");
-    const cardClassificationBadge = document.getElementById("cardClassificationBadge");
     const cardAthleteName = document.getElementById("cardAthleteName");
     const cardClassBadge = document.getElementById("cardClassBadge");
     const cardLocation = document.getElementById("cardLocation");
     const cardBadgesRow = document.getElementById("cardBadgesRow");
-    const cardQuote = document.getElementById("cardQuote");
     
-    const skillValPrecision = document.getElementById("skillValPrecision");
-    const skillFillPrecision = document.getElementById("skillFillPrecision");
-    const skillValControl = document.getElementById("skillValControl");
-    const skillFillControl = document.getElementById("skillFillControl");
-    const skillValDecision = document.getElementById("skillValDecision");
-    const skillFillDecision = document.getElementById("skillFillDecision");
-    
-    const cardPlayingStyle = document.getElementById("cardPlayingStyle");
-    const cardAchievementsList = document.getElementById("cardAchievementsList");
+    const cardStory = document.getElementById("cardStory");
+    const cardHighlightsContainer = document.getElementById("cardHighlightsContainer");
+    const cardMission = document.getElementById("cardMission");
     const cardMapOverlay = document.getElementById("cardMapOverlay");
     
     const dynamicConnector = document.getElementById("dynamic-connector");
@@ -1048,19 +1008,126 @@ document.addEventListener("DOMContentLoaded", () => {
         return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
     }
 
+    // Interactive Docking Animation
+    function performDockingAnimation(activeBeacon, callback) {
+        if (!activeBeacon || window.innerWidth <= 992) {
+            callback();
+            return;
+        }
+
+        const sourceImgWrap = activeBeacon.querySelector(".beacon-portrait-wrap");
+        const targetFrame = document.getElementById("cardPortraitFrame");
+        
+        if (!sourceImgWrap || !targetFrame) {
+            callback();
+            return;
+        }
+
+        // Get bounds
+        const srcRect = sourceImgWrap.getBoundingClientRect();
+        const destRect = targetFrame.getBoundingClientRect();
+
+        // Create clone
+        const clone = document.createElement("div");
+        clone.className = "beacon-docking-clone";
+        
+        // Match style
+        clone.style.position = "fixed";
+        clone.style.top = `${srcRect.top}px`;
+        clone.style.left = `${srcRect.left}px`;
+        clone.style.width = `${srcRect.width}px`;
+        clone.style.height = `${srcRect.height}px`;
+        clone.style.borderRadius = "50%";
+        clone.style.zIndex = "99999";
+        clone.style.pointerEvents = "none";
+        clone.style.boxShadow = "0 8px 30px rgba(255, 153, 51, 0.4)";
+        clone.style.transition = "all 0.75s cubic-bezier(0.16, 1, 0.3, 1)";
+        
+        // Copy the inner image or text
+        const innerImg = sourceImgWrap.querySelector("img");
+        if (innerImg && innerImg.style.display !== "none") {
+            const cloneImg = document.createElement("img");
+            cloneImg.src = innerImg.src;
+            cloneImg.style.width = "100%";
+            cloneImg.style.height = "100%";
+            cloneImg.style.objectFit = "cover";
+            cloneImg.style.borderRadius = "50%";
+            cloneImg.style.transition = "border-radius 0.75s cubic-bezier(0.16, 1, 0.3, 1)";
+            clone.appendChild(cloneImg);
+        } else {
+            const innerText = sourceImgWrap.textContent.trim();
+            if (innerText) {
+                const cloneText = document.createElement("div");
+                cloneText.textContent = innerText;
+                cloneText.style.width = "100%";
+                cloneText.style.height = "100%";
+                cloneText.style.display = "flex";
+                cloneText.style.alignItems = "center";
+                cloneText.style.justifyContent = "center";
+                cloneText.style.background = "linear-gradient(135deg, #FF9933 0%, #138808 100%)";
+                cloneText.style.color = "#fff";
+                cloneText.style.fontWeight = "800";
+                cloneText.style.fontSize = "0.75rem";
+                cloneText.style.borderRadius = "50%";
+                cloneText.style.transition = "border-radius 0.75s cubic-bezier(0.16, 1, 0.3, 1)";
+                clone.appendChild(cloneText);
+            }
+        }
+
+        document.body.appendChild(clone);
+
+        // Hide target frame initially for docking swap
+        targetFrame.style.opacity = "0";
+        targetFrame.style.transform = "scale(0.85)";
+        targetFrame.style.transition = "opacity 0.4s ease, transform 0.4s ease";
+
+        // Force reflow
+        clone.getBoundingClientRect();
+
+        // Animate to destination bounds
+        clone.style.top = `${destRect.top}px`;
+        clone.style.left = `${destRect.left}px`;
+        clone.style.width = `${destRect.width}px`;
+        clone.style.height = `${destRect.height}px`;
+        clone.style.borderRadius = "16px";
+        
+        const cloneChild = clone.firstElementChild;
+        if (cloneChild) {
+            cloneChild.style.borderRadius = "16px";
+        }
+
+        setTimeout(() => {
+            // Populate data in background
+            callback();
+            
+            // Show target frame with transition
+            targetFrame.style.opacity = "1";
+            targetFrame.style.transform = "scale(1)";
+            
+            // Fade out and remove clone
+            clone.style.opacity = "0";
+            setTimeout(() => {
+                clone.remove();
+            }, 300);
+        }, 750);
+    }
+
     // 3. Selection Swapper Controller
     function selectAthlete(index, triggeredByShowcase = false) {
         if (index === activeAthleteIndex) return;
-        activeAthleteIndex = index;
         
         const athlete = athletes[index];
+        const activeBeacon = document.querySelector(`.athlete-beacon[data-id="${athlete.id}"]`);
         
         // Remove active class from all beacons
         beacons.forEach(b => b.classList.remove("active"));
         constellationContainer.classList.add("has-active-beacon");
         
-        // Highlight selected beacon
-        const activeBeacon = document.querySelector(`.athlete-beacon[data-id="${athlete.id}"]`);
+        // Dissolve centerpiece
+        if (constellationCenter) {
+            constellationCenter.classList.add("center-selected");
+        }
+
         if (activeBeacon) {
             activeBeacon.classList.add("active");
         }
@@ -1068,17 +1135,18 @@ document.addEventListener("DOMContentLoaded", () => {
         // Draw dynamic connector path
         animateConnector(athlete.svgCoords.x, athlete.svgCoords.y, athlete.accentColor);
 
-        // Hide Empty State and Reveal main layout with animation trigger reset
+        // Reset transition styles
         card.classList.remove("active-transition");
-        cardEmptyState.style.display = "none";
-        cardMainProfile.style.display = "grid";
-        
-        // Apply Accent Color CSS Variable to Card
-        card.style.setProperty("--class-color", athlete.accentColor);
 
-        // Update Text & DOM Values
-        setTimeout(() => {
-            // Profile Portrait Fallback check
+        // Populate card contents
+        const populateData = () => {
+            activeAthleteIndex = index;
+            cardEmptyState.style.display = "none";
+            cardMainProfile.style.display = "flex";
+            
+            // Apply Accent Color CSS Variable to Card
+            card.style.setProperty("--class-color", athlete.accentColor);
+
             if (athlete.photo) {
                 cardProfileImg.src = getCleanImgUrl(athlete.photo);
                 cardProfileImg.style.display = "block";
@@ -1088,7 +1156,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 avatarFallback.style.display = "flex";
             }
             
-            cardClassificationBadge.textContent = `${athlete.classification} Selected`;
             cardAthleteName.textContent = athlete.name;
             cardClassBadge.textContent = athlete.classification;
             cardLocation.textContent = `${athlete.state}, India`;
@@ -1096,31 +1163,36 @@ document.addEventListener("DOMContentLoaded", () => {
             // Build Badges
             cardBadgesRow.innerHTML = athlete.badges.map(b => `<span class="meta-pill pill-gold">${b}</span>`).join("");
             
-            cardQuote.textContent = athlete.quote;
-            cardPlayingStyle.textContent = athlete.playingStyle;
+            // Story & Mission
+            cardStory.textContent = athlete.story;
+            cardMission.textContent = athlete.currentMission;
             
-            // Build Achievements
-            cardAchievementsList.innerHTML = athlete.achievements.map(a => `<li>${a}</li>`).join("");
+            // Build Highlight Cards
+            if (cardHighlightsContainer) {
+                cardHighlightsContainer.innerHTML = athlete.careerHighlights.map(h => `
+                    <div class="career-highlight-card">
+                        <div class="highlight-icon-wrap">${h.icon}</div>
+                        <div class="highlight-info">
+                            <div class="highlight-title">${h.title}</div>
+                            <div class="highlight-sub">${h.sub}</div>
+                        </div>
+                    </div>
+                `).join("");
+            }
 
             // Highlight Home State in the India Map SVG Overlay
             highlightStateInOverlay(athlete.stateCode);
 
             // Trigger card entrance transition
             card.classList.add("active-transition");
-            
-            // Trigger Skills Expansion
-            setTimeout(() => {
-                skillValPrecision.textContent = `${athlete.skills.precision}%`;
-                skillFillPrecision.style.width = `${athlete.skills.precision}%`;
-                
-                skillValControl.textContent = `${athlete.skills.control}%`;
-                skillFillControl.style.width = `${athlete.skills.control}%`;
-                
-                skillValDecision.textContent = `${athlete.skills.decision}%`;
-                skillFillDecision.style.width = `${athlete.skills.decision}%`;
-            }, 50);
+        };
 
-        }, 150);
+        if (triggeredByShowcase || window.innerWidth <= 992) {
+            populateData();
+        } else {
+            // Trigger cinematic node docking animation
+            performDockingAnimation(activeBeacon, populateData);
+        }
     }
 
     // Dynamic SVG line connector

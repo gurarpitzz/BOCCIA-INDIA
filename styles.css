@@ -4427,12 +4427,12 @@ body {
 
 /* Layout columns */
 .stars-layout {
-    display: grid;
-    grid-template-columns: 46% 54%;
-    gap: 2rem;
-    align-items: center;
     position: relative;
-    z-index: 5;
+    width: 100%;
+    min-height: 540px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 /* Left side: Constellation */
@@ -4441,8 +4441,9 @@ body {
     aspect-ratio: 1 / 1;
     width: 100%;
     max-width: 500px;
-    margin: 0 auto;
+    margin-left: 2%;
     cursor: default;
+    z-index: 5;
 }
 
 /* Parallax Layer */
@@ -4464,13 +4465,20 @@ body {
     z-index: 3;
     pointer-events: auto;
     cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+.constellation-center.center-selected {
+    opacity: 0.05;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: blur(2px);
+    pointer-events: none;
+}
+
 .constellation-center-glow {
     position: absolute;
-    width: 160px;
-    height: 160px;
-    background: radial-gradient(circle, rgba(255, 153, 51, 0.15) 0%, rgba(19, 136, 8, 0.15) 50%, transparent 70%);
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255, 153, 51, 0.18) 0%, rgba(19, 136, 8, 0.18) 50%, transparent 70%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -4482,22 +4490,39 @@ body {
     0%, 100% { transform: translate(-50%, -50%) scale(0.96); opacity: 0.8; }
     50% { transform: translate(-50%, -50%) scale(1.04); opacity: 1.2; }
 }
-.constellation-center-text {
-    font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: 1.75rem;
-    color: var(--navy-primary);
-    line-height: 1.1;
-    letter-spacing: 0.05em;
-    margin-bottom: 2px;
-}
+
 .constellation-center-sub {
     font-family: var(--font-body);
     font-weight: 600;
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
+    color: var(--navy-primary);
+}
+.constellation-center-stats {
+    margin-top: 10px;
+    font-size: 0.72rem;
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    opacity: 0.85;
+}
+.constellation-center-stats strong {
     color: var(--gold-accent);
+}
+.center-stat-instruction {
+    font-family: var(--font-body);
+    font-style: italic;
+    margin-top: 8px;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    animation: pulse-instruct 2s infinite ease-in-out;
+}
+@keyframes pulse-instruct {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 /* Gravity pull animation class */
@@ -4515,7 +4540,7 @@ body {
 }
 .constellation-link-path {
     fill: none;
-    stroke: rgba(242, 177, 52, 0.15);
+    stroke: rgba(242, 177, 52, 0.12);
     stroke-width: 1.5;
     stroke-linecap: round;
     transition: stroke 0.4s ease, stroke-width 0.4s ease;
@@ -4669,37 +4694,42 @@ body {
     filter: blur(1.5px) !important;
 }
 
-/* Right side: Profile Card */
-.athlete-card-container {
-    width: 100%;
-}
-.athlete-profile-card {
+/* Dynamic Fixed Docking Clone */
+.beacon-docking-clone {
     background: #ffffff;
-    border-radius: 28px;
-    box-shadow: 0 15px 45px rgba(16, 42, 99, 0.05);
-    padding: 2rem;
-    position: relative;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border: 2px solid var(--class-color, #FF9933);
     overflow: hidden;
-    display: grid;
-    grid-template-columns: 42% 58%;
-    gap: 2rem;
-    min-height: 480px;
-    border: 1px solid rgba(16, 42, 99, 0.04);
-    animation: card-float 12s ease-in-out infinite;
 }
-@keyframes card-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+
+/* RIGHT: Floating Museum Profile Card Overlay */
+.athlete-floating-card {
+    position: absolute;
+    right: 4%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 390px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 153, 51, 0.12);
+    border-top: 4px solid var(--class-color, #FF9933);
+    border-radius: 20px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
+    padding: 1.75rem;
+    z-index: 10;
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
 }
 
 /* Empty State / Welcome View */
-.athlete-profile-card.card-empty-state {
+.athlete-floating-card.card-empty-state {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 3rem 2rem;
     min-height: 480px;
 }
 .empty-state-stars {
@@ -4710,22 +4740,23 @@ body {
 .empty-state-title {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     color: var(--navy-primary);
     margin-bottom: 0.75rem;
 }
 .empty-state-subtitle {
     font-family: var(--font-body);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    max-width: 320px;
+    max-width: 300px;
+    line-height: 1.5;
 }
 
 /* India Outline Overlay behind Portrait */
 .india-map-overlay {
     position: absolute;
-    top: 5%; left: 5%; width: 45%; height: 90%;
-    opacity: 0.04;
+    top: 10%; left: 5%; width: 90%; height: 80%;
+    opacity: 0.02;
     pointer-events: none;
     z-index: 1;
     transition: opacity 0.5s ease;
@@ -4746,46 +4777,31 @@ body {
     stroke: var(--class-color);
 }
 
-/* Card columns styling */
-.card-left-col {
-    position: relative;
-    z-index: 2;
+/* Card Header (Photo Left, Name Right) */
+.card-header-row {
     display: flex;
-    flex-direction: column;
+    gap: 1.25rem;
     align-items: center;
-    justify-content: center;
-}
-.card-right-col {
     position: relative;
     z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .portrait-frame-container {
-    width: 100%;
-    aspect-ratio: 1 / 1.15;
-    border-radius: 20px;
+    width: 90px;
+    height: 90px;
+    border-radius: 16px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 10px 30px rgba(16, 42, 99, 0.1);
+    box-shadow: 0 8px 24px rgba(16, 42, 99, 0.1);
+    flex-shrink: 0;
+    border: 2px solid var(--class-color, #FF9933);
 }
 
-/* Dynamic tricolor artistic strokes background */
 .card-portrait-background {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(135deg, rgba(255, 153, 51, 0.08) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(19, 136, 8, 0.08) 100%);
     z-index: 1;
-}
-.card-portrait-background::before {
-    content: '';
-    position: absolute;
-    width: 120%; height: 120%;
-    top: -10%; left: -10%;
-    background: radial-gradient(circle, rgba(244,185,66,0.12) 0%, transparent 60%);
-    animation: aura-breathe 10s ease-in-out infinite;
 }
 
 .card-portrait-img {
@@ -4793,70 +4809,59 @@ body {
     object-fit: cover;
     position: relative;
     z-index: 2;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Metadata components */
-.card-selected-badge {
-    align-self: flex-start;
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    color: #ffffff;
-    background-color: var(--class-color);
-    padding: 5px 12px;
-    border-radius: 999px;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+.card-identity-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
 .athlete-detail-name {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     color: var(--navy-primary);
-    line-height: 1.15;
+    line-height: 1.2;
     margin-bottom: 0.25rem;
 }
 .athlete-detail-meta {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 .detail-class-badge {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 0.75rem;
-    padding: 3px 10px;
-    border-radius: 6px;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 5px;
     color: #ffffff;
     background-color: var(--class-color);
 }
 .detail-location {
     font-family: var(--font-body);
-    font-size: 0.88rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: var(--text-muted);
 }
 .detail-location::before {
     content: '📍 ';
 }
 
-/* National Team badges */
+/* Badges row */
 .card-badges-row {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
 }
 .meta-pill {
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: 0.7rem;
-    padding: 4px 11px;
+    font-size: 0.62rem;
+    padding: 2.5px 8px;
     border-radius: 999px;
     border: 1px solid rgba(16, 42, 99, 0.1);
 }
@@ -4865,226 +4870,155 @@ body {
     border-color: rgba(242, 177, 52, 0.3);
     color: #b27a0b;
 }
-.meta-pill.pill-green {
-    background-color: rgba(39, 174, 96, 0.06);
-    border-color: rgba(39, 174, 96, 0.3);
-    color: #1e7e43;
+
+.card-divider {
+    border: none;
+    border-top: 1px solid rgba(16, 42, 99, 0.06);
+    margin: 1rem 0;
+    position: relative;
+    z-index: 2;
 }
 
-/* Quote container */
-.detail-quote-box {
-    background-color: rgba(16, 42, 99, 0.02);
-    border-radius: 18px;
-    padding: 0.85rem 1.25rem;
-    margin-bottom: 0.85rem;
+/* Sections */
+.card-section {
     position: relative;
-    border: 1px solid rgba(16, 42, 99, 0.02);
+    z-index: 2;
+    text-align: left;
 }
-.quote-backdrop-mark {
-    position: absolute;
-    font-size: 5rem;
+.card-section-title {
     font-family: var(--font-heading);
-    font-weight: 900;
-    color: var(--navy-primary);
-    opacity: 0.06;
-    line-height: 1;
-    pointer-events: none;
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
 }
-.quote-backdrop-mark.open-mark {
-    top: -5px; left: 8px;
-}
-.quote-backdrop-mark.close-mark {
-    bottom: -35px; right: 12px;
-}
-.detail-quote-text {
+.detail-story-text {
     font-family: var(--font-body);
-    font-style: italic;
-    font-weight: 500;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.85rem;
+    line-height: 1.5;
     color: var(--text-dark);
-    position: relative;
-    z-index: 1;
     margin: 0;
 }
 
-/* Skill bars */
-.detail-skills-box {
-    margin-bottom: 0.85rem;
-}
-.skill-bar-row {
-    margin-bottom: 0.75rem;
-}
-.skill-bar-header {
+/* Career Highlight Box structure */
+.career-cards-container {
     display: flex;
-    justify-content: space-between;
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 4px;
+    flex-direction: column;
+    gap: 0.5rem;
 }
-.skill-bar-track {
-    width: 100%;
-    height: 4px;
-    background-color: rgba(16, 42, 99, 0.06);
-    border-radius: 2px;
-    overflow: hidden;
+.career-highlight-card {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    background: rgba(16, 42, 99, 0.02);
+    border: 1px solid rgba(16, 42, 99, 0.04);
+    border-left: 3.5px solid var(--class-color);
+    padding: 0.5rem 0.75rem;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
 }
-.skill-bar-fill {
-    height: 100%;
-    border-radius: 2px;
-    background-color: var(--class-color);
-    width: 0%;
-    transition: width 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+.career-highlight-card:hover {
+    transform: translateX(3px);
 }
-
-/* Playing style */
-.detail-style-box {
+.highlight-icon-wrap {
+    font-size: 1.15rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.highlight-info {
+    display: flex;
+    flex-direction: column;
+}
+.highlight-title {
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--navy-primary);
-    margin-bottom: 0.85rem;
 }
-.detail-style-value {
-    font-weight: 500;
-    color: var(--text-dark);
-    background-color: rgba(16, 42, 99, 0.04);
-    padding: 3px 10px;
-    border-radius: 8px;
-    font-size: 0.82rem;
+.highlight-sub {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    color: var(--text-muted);
 }
 
-/* Achievements */
-.detail-achievements-title {
-    font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--navy-primary);
-    margin-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(16, 42, 99, 0.06);
-    padding-bottom: 4px;
+/* Current Mission */
+.mission-text-container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(255, 153, 51, 0.03) 0%, rgba(19, 136, 8, 0.03) 100%);
+    border: 1px dashed rgba(255, 153, 51, 0.2);
+    padding: 0.6rem 0.85rem;
+    border-radius: 12px;
 }
-.detail-achievements-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.25rem 0;
+.mission-icon {
+    font-size: 1.2rem;
+    animation: target-wiggle 3s infinite ease-in-out;
 }
-.detail-achievements-list li {
+@keyframes target-wiggle {
+    0%, 100% { transform: rotate(0); }
+    50% { transform: rotate(15deg) scale(1.1); }
+}
+.detail-mission-text {
     font-family: var(--font-body);
     font-size: 0.82rem;
-    font-weight: 500;
-    line-height: 1.5;
-    padding: 3px 0;
-    color: var(--text-dark);
-    border-bottom: 1px dashed rgba(16, 42, 99, 0.04);
-}
-.detail-achievements-list li:last-child {
-    border-bottom: none;
-}
-
-/* Button CTA */
-.btn-stars-cta {
-    align-self: flex-start;
-    background-color: var(--navy-primary);
-    color: #ffffff !important;
-    padding: 0.6rem 1.5rem !important;
-    font-size: 0.82rem !important;
-    border-radius: 999px !important;
-    font-weight: 600 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
-    text-decoration: none !important;
-    transition: background-color 0.2s ease, transform 0.2s ease !important;
-    border: none !important;
-    box-shadow: 0 5px 15px rgba(16, 42, 99, 0.15);
-}
-.btn-stars-cta:hover {
-    background-color: var(--navy-secondary);
-    transform: translateX(3px);
+    font-weight: 700;
+    color: var(--navy-primary);
+    margin: 0;
 }
 
 /* Animation triggers (sequential fade & slide-in) */
 .transition-item {
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.athlete-profile-card.active-transition .transition-item {
+.athlete-floating-card.active-transition .transition-item {
     opacity: 1;
     transform: translateY(0);
 }
 /* Stagger delays */
-.athlete-profile-card.active-transition .stagger-1 { transition-delay: 0.05s; }
-.athlete-profile-card.active-transition .stagger-2 { transition-delay: 0.12s; }
-.athlete-profile-card.active-transition .stagger-3 { transition-delay: 0.18s; }
-.athlete-profile-card.active-transition .stagger-4 { transition-delay: 0.25s; }
-.athlete-profile-card.active-transition .stagger-5 { transition-delay: 0.32s; }
-.athlete-profile-card.active-transition .stagger-6 { transition-delay: 0.38s; }
-.athlete-profile-card.active-transition .stagger-7 { transition-delay: 0.45s; }
-
-.portrait-frame-container .card-portrait-img {
-    transform: scale(1.05);
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.athlete-profile-card.active-transition .card-portrait-img {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Reveal Entrance on Viewport Enter */
-.stars-reveal-wrapper {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.stars-reveal-wrapper.revealed {
-    opacity: 1;
-    transform: translateY(0);
-}
+.athlete-floating-card.active-transition .stagger-1 { transition-delay: 0.05s; }
+.athlete-floating-card.active-transition .stagger-2 { transition-delay: 0.12s; }
+.athlete-floating-card.active-transition .stagger-3 { transition-delay: 0.2s; }
+.athlete-floating-card.active-transition .stagger-4 { transition-delay: 0.28s; }
 
 /* ──────────────────────────────────────────────────
    RESPONSIVE LAYOUTS
    ────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
     .stars-layout {
-        grid-template-columns: 1fr;
-        gap: 3.5rem;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        min-height: auto;
+        gap: 2rem;
     }
+    
     .constellation-wrapper {
+        margin-left: 0;
         max-width: 440px;
     }
-    .athlete-profile-card {
-        min-height: auto;
+    
+    .athlete-floating-card {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none !important;
+        width: 100%;
+        max-width: 480px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        margin: 0 auto;
     }
 }
 
 @media (max-width: 768px) {
     .stars-section {
-        padding: 5rem 0;
-    }
-    .stars-layout {
-        gap: 2.5rem;
-    }
-    .athlete-profile-card {
-        grid-template-columns: 1fr;
-        padding: 2.5rem;
-        gap: 2rem;
-    }
-    .card-left-col {
-        max-width: 260px;
-        margin: 0 auto;
-    }
-    .india-map-overlay {
-        display: none; /* Hide map on mobile to keep structure clean */
+        padding: 4rem 0;
     }
     
     /* Mobile Constellation Structure: Horizontally wrapped list grid */
