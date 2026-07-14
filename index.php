@@ -559,7 +559,7 @@ try {
     </div>
 <div class="container">
         <div class="stars-header">
-            <span class="stars-eyebrow">⭐ OUR STARS ⭐</span>
+            <span class="stars-eyebrow">--OUR STARS--</span>
             <h2 class="stars-title">Meet the Athletes Inspiring a Nation</h2>
             <p class="stars-subtitle">Representing India with Precision, Passion, and Pride.</p>
         </div>

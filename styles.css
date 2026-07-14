@@ -4400,13 +4400,13 @@ body {
     z-index: 5;
 }
 .stars-eyebrow {
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
+    font-family: 'Caveat', cursive !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    text-transform: none !important;
+    letter-spacing: 0.02em !important;
+    display: inline-flex !important;
     color: var(--gold-accent);
-    text-transform: uppercase;
-    display: inline-block;
     margin-bottom: 0.75rem;
 }
 .stars-title {
@@ -5055,56 +5055,89 @@ body {
         padding: 4rem 0;
     }
     
-    /* Mobile Constellation Structure: Horizontally wrapped list grid */
+    /* Keep absolute constellation graphics on mobile, scaled down */
     .constellation-wrapper {
-        aspect-ratio: auto;
-        height: auto;
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5rem;
+        position: relative;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto 2.5rem auto;
+        cursor: default;
+        z-index: 5;
+        background: transparent;
+        padding: 0;
+        display: block !important;
     }
     .constellation-parallax-layer {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.25rem 1rem;
-        height: auto;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: 100%;
+        height: 100%;
+        display: block !important;
         transform: none !important; /* Disable parallax on mobile */
     }
     .constellation-svg {
-        display: none; /* Hide SVG lines on mobile */
+        display: block !important; /* Show connecting SVG lines on mobile */
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
     }
     .constellation-center {
-        position: relative;
-        top: auto; left: auto;
-        transform: none !important;
-        margin: 0 auto 1.5rem auto;
-        width: 140px;
-        height: 140px;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) !important;
+        margin: 0;
+        width: 96px;
+        height: 96px;
+        border-width: 3px;
         border-radius: 50%;
-        order: -1;
         flex-shrink: 0;
+        z-index: 10;
+    }
+    .constellation-center-logo img {
+        width: 38px !important;
+        margin-bottom: 2px !important;
+    }
+    .constellation-center-sub {
+        font-size: 0.65rem !important;
+        line-height: 1.1;
+    }
+    .constellation-center-stats {
+        display: none !important; /* Hide prompt text to save space */
     }
     .constellation-center-glow {
         display: none;
     }
     
     .athlete-beacon {
-        position: relative;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        width: 54px;
-        height: 54px;
+        position: absolute;
+        left: calc(var(--x) * 1%) !important;
+        top: calc(var(--y) * 1%) !important;
+        transform: translate(-50%, -50%) !important;
         flex-shrink: 0;
     }
+    .athlete-beacon.node-elite {
+        width: 50px;
+        height: 50px;
+    }
+    .athlete-beacon.node-national {
+        width: 44px;
+        height: 44px;
+    }
+    .athlete-beacon.node-junior {
+        width: 38px;
+        height: 38px;
+    }
     .athlete-beacon:hover, .athlete-beacon.active {
-        transform: scale(1.1) !important;
+        transform: translate(-50%, -50%) scale(1.1) !important;
     }
     .beacon-pulse {
         display: none; /* Disable pulse loops on mobile */
+    }
+    .beacon-badge {
+        font-size: 0.52rem !important;
+        padding: 1px 4.5px !important;
+        bottom: -5px !important;
     }
 }
 
