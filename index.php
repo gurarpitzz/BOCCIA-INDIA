@@ -598,6 +598,17 @@ try {
                             <div class="constellation-center-sub">National Team</div>
                         </div>
 
+                        <?php
+                        if (!function_exists('cleanStarPlayerUrl')) {
+                            function cleanStarPlayerUrl($path) {
+                                if (empty($path)) return '';
+                                $parts = explode('/', $path);
+                                $encoded = array_map('rawurlencode', $parts);
+                                return implode('/', $encoded);
+                            }
+                        }
+                        ?>
+
                         <!-- Athlete beacons -->
                         <!-- 1. Ajeya Raj -->
                         <button class="athlete-beacon" data-id="ajeya_raj" style="--x: 22; --y: 28; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: -28; --target-y: -22;">
@@ -606,7 +617,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/ajeya raj/ajeya1.jpeg" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/ajeya raj/ajeya1.jpeg'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -618,7 +629,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/anjali devi/anjali (1).jpeg" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/anjali devi/anjali (1).jpeg'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -630,7 +641,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
@@ -642,7 +653,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/pooja gupta/pooja (1).jpeg" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/pooja gupta/pooja (1).jpeg'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
@@ -654,7 +665,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -666,7 +677,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg" alt="Sarita" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
@@ -690,7 +701,7 @@ try {
                                 <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
                             </div>
                             <div class="beacon-portrait-wrap">
-                                <img src="star players-20260714T053810Z-1-001/star players/vyom pawa/vyom (1).jpeg" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
+                                <img src="<?php echo cleanStarPlayerUrl('star players-20260714T053810Z-1-001/star players/vyom pawa/vyom (1).jpeg'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC2</span>
                         </button>
@@ -1031,6 +1042,12 @@ document.addEventListener("DOMContentLoaded", () => {
     
     observer.observe(document.getElementById("boccia-stars"));
 
+    // JS Image URL cleaning helper
+    function getCleanImgUrl(path) {
+        if (!path) return '';
+        return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    }
+
     // 3. Selection Swapper Controller
     function selectAthlete(index, triggeredByShowcase = false) {
         if (index === activeAthleteIndex) return;
@@ -1063,7 +1080,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             // Profile Portrait Fallback check
             if (athlete.photo) {
-                cardProfileImg.src = athlete.photo;
+                cardProfileImg.src = getCleanImgUrl(athlete.photo);
                 cardProfileImg.style.display = "block";
                 avatarFallback.style.display = "none";
             } else {

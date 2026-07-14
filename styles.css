@@ -4358,7 +4358,7 @@ body {
 .stars-section {
     background-color: var(--cream-bg);
     position: relative;
-    padding: 7rem 0;
+    padding: 3.5rem 0;
     overflow: hidden;
     color: var(--text-dark);
 }
@@ -4395,7 +4395,7 @@ body {
 /* Header styling */
 .stars-header {
     text-align: center;
-    margin-bottom: 5rem;
+    margin-bottom: 2.5rem;
     position: relative;
     z-index: 5;
 }
@@ -4440,7 +4440,7 @@ body {
     position: relative;
     aspect-ratio: 1 / 1;
     width: 100%;
-    max-width: 520px;
+    max-width: 420px;
     margin: 0 auto;
     cursor: default;
 }
@@ -4677,13 +4677,13 @@ body {
     background: #ffffff;
     border-radius: 28px;
     box-shadow: 0 15px 45px rgba(16, 42, 99, 0.05);
-    padding: 3rem;
+    padding: 2rem;
     position: relative;
     overflow: hidden;
     display: grid;
     grid-template-columns: 42% 58%;
-    gap: 2.5rem;
-    min-height: 580px;
+    gap: 2rem;
+    min-height: 480px;
     border: 1px solid rgba(16, 42, 99, 0.04);
     animation: card-float 12s ease-in-out infinite;
 }
@@ -4699,8 +4699,8 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 4rem 3rem;
-    min-height: 580px;
+    padding: 3rem 2rem;
+    min-height: 480px;
 }
 .empty-state-stars {
     font-size: 2.5rem;
@@ -4814,7 +4814,7 @@ body {
 .athlete-detail-name {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 2.2rem;
+    font-size: 1.75rem;
     color: var(--navy-primary);
     line-height: 1.15;
     margin-bottom: 0.25rem;
@@ -4849,7 +4849,7 @@ body {
 .card-badges-row {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
     flex-wrap: wrap;
 }
 .meta-pill {
@@ -4875,8 +4875,8 @@ body {
 .detail-quote-box {
     background-color: rgba(16, 42, 99, 0.02);
     border-radius: 18px;
-    padding: 1.25rem 1.75rem;
-    margin-bottom: 1.75rem;
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 0.85rem;
     position: relative;
     border: 1px solid rgba(16, 42, 99, 0.02);
 }
@@ -4910,7 +4910,7 @@ body {
 
 /* Skill bars */
 .detail-skills-box {
-    margin-bottom: 1.75rem;
+    margin-bottom: 0.85rem;
 }
 .skill-bar-row {
     margin-bottom: 0.75rem;
@@ -4948,7 +4948,7 @@ body {
     font-size: 0.9rem;
     font-weight: 700;
     color: var(--navy-primary);
-    margin-bottom: 1.75rem;
+    margin-bottom: 0.85rem;
 }
 .detail-style-value {
     font-weight: 500;
@@ -4974,14 +4974,14 @@ body {
 .detail-achievements-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 2rem 0;
+    margin: 0 0 1.25rem 0;
 }
 .detail-achievements-list li {
     font-family: var(--font-body);
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     font-weight: 500;
     line-height: 1.5;
-    padding: 5px 0;
+    padding: 3px 0;
     color: var(--text-dark);
     border-bottom: 1px dashed rgba(16, 42, 99, 0.04);
 }
@@ -4994,8 +4994,8 @@ body {
     align-self: flex-start;
     background-color: var(--navy-primary);
     color: #ffffff !important;
-    padding: 0.75rem 2rem !important;
-    font-size: 0.88rem !important;
+    padding: 0.6rem 1.5rem !important;
+    font-size: 0.82rem !important;
     border-radius: 999px !important;
     font-weight: 600 !important;
     display: inline-flex !important;
