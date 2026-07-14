@@ -5019,6 +5019,7 @@ body {
     .constellation-wrapper {
         margin-left: 0;
         max-width: 440px;
+        width: 100%;
     }
     
     .athlete-floating-card {
@@ -5030,6 +5031,22 @@ body {
         max-width: 480px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         margin: 0 auto;
+    }
+
+    /* Stack details card split-columns vertically on mobile/tablet */
+    #cardMainProfileView {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+    
+    .film-reel-col {
+        width: 100% !important;
+        height: 280px !important;
+    }
+    
+    .profile-content-col {
+        width: 100% !important;
+        padding: 1.5rem !important;
     }
 }
 
@@ -5063,9 +5080,12 @@ body {
         position: relative;
         top: auto; left: auto;
         transform: none !important;
-        margin-bottom: 0.5rem;
-        width: 100%;
+        margin: 0 auto 1.5rem auto;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
         order: -1;
+        flex-shrink: 0;
     }
     .constellation-center-glow {
         display: none;
