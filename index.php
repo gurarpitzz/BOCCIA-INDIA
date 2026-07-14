@@ -557,8 +557,7 @@ try {
         <div class="bg-sparkle" style="top: 75%; left: 12%; --pulse-delay: 5s;">✦</div>
         <div class="bg-sparkle" style="top: 85%; left: 82%; --pulse-delay: 7s;">✦</div>
     </div>
-
-    <div class="container">
+<div class="container">
         <div class="stars-header">
             <span class="stars-eyebrow">⭐ OUR STARS ⭐</span>
             <h2 class="stars-title">Meet the Athletes Inspiring a Nation</h2>
@@ -574,24 +573,23 @@ try {
                         
                         <!-- SVG links web -->
                         <svg class="constellation-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Background Web Links -->
-                            <line class="constellation-link-path" x1="60" y1="100" x2="150" y2="30" />
-                            <line class="constellation-link-path" x1="60" y1="100" x2="30" y2="225" />
-                            <line class="constellation-link-path" x1="150" y1="30" x2="430" y2="60" />
-                            <line class="constellation-link-path" x1="430" y1="60" x2="470" y2="225" />
-                            <line class="constellation-link-path" x1="30" y1="225" x2="70" y2="410" />
-                            <line class="constellation-link-path" x1="470" y1="225" x2="430" y2="400" />
-                            <line class="constellation-link-path" x1="70" y1="410" x2="240" y2="470" />
-                            <line class="constellation-link-path" x1="240" y1="470" x2="430" y2="400" />
-                            <line class="constellation-link-path" x1="470" y1="225" x2="70" y2="410" />
+                            <!-- Direct Jack-to-Athlete Connector Lines -->
+                            <line class="constellation-link-path" data-athlete-id="ajeya_raj" x1="250" y1="250" x2="70" y2="250" />
+                            <line class="constellation-link-path" data-athlete-id="anjali_devi" x1="250" y1="250" x2="250" y2="120" />
+                            <line class="constellation-link-path" data-athlete-id="jatin_kushwah" x1="250" y1="250" x2="340" y2="94" />
+                            <line class="constellation-link-path" data-athlete-id="pooja_gupta" x1="250" y1="250" x2="160" y2="94" />
+                            <line class="constellation-link-path" data-athlete-id="sachin_chamaria" x1="250" y1="250" x2="430" y2="250" />
+                            <line class="constellation-link-path" data-athlete-id="sarita" x1="250" y1="250" x2="160" y2="340" />
+                            <line class="constellation-link-path" data-athlete-id="usha_kiran" x1="250" y1="250" x2="250" y2="380" />
+                            <line class="constellation-link-path" data-athlete-id="vyom_pawa" x1="250" y1="250" x2="340" y2="340" />
                             
                             <!-- Dynamic Active Connector Draw Path -->
-                            <path id="dynamic-connector" class="constellation-link-path" stroke="#FF9933" stroke-width="2" opacity="0" d="M 0 0 L 0 0" />
+                            <path id="dynamic-connector" class="constellation-link-path" stroke="#FF9933" stroke-width="2" opacity="0" d="M 250 250 L 250 250" />
                             <!-- Active Connector Travel Spark Path -->
-                            <path id="dynamic-travel" class="constellation-travel-path" stroke="#138808" stroke-width="3" d="M 0 0 L 0 0" />
+                            <path id="dynamic-travel" class="constellation-travel-path" stroke="#138808" stroke-width="3" d="M 250 250 L 250 250" />
                         </svg>
 
-                        <!-- Center piece -->
+                        <!-- Center piece (The Jack Ball) -->
                         <div class="constellation-center" id="constellationCenter">
                             <div class="constellation-center-glow"></div>
                             <div class="constellation-center-logo">
@@ -599,10 +597,7 @@ try {
                             </div>
                             <div class="constellation-center-sub">National Team</div>
                             <div class="constellation-center-stats" id="centerStatsView">
-                                <div class="center-stat-row"><strong>10</strong> Athletes</div>
-                                <div class="center-stat-row"><strong>6</strong> States represented</div>
-                                <div class="center-stat-row"><strong>14</strong> Int'l Medals</div>
-                                <div class="center-stat-instruction">Select an athlete</div>
+                                <div class="center-stat-instruction">Select an Athlete</div>
                             </div>
                         </div>
 
@@ -617,99 +612,75 @@ try {
                         }
                         ?>
 
-                        <!-- Athlete beacons -->
+                        <!-- Athlete beacons (Hierarchical Sizing & clean borders) -->
                         <!-- 1. Ajeya Raj -->
-                        <button class="athlete-beacon" data-id="ajeya_raj" style="--x: 12; --y: 20; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: -38; --target-y: -30;">
+                        <button class="athlete-beacon node-elite" data-id="ajeya_raj" style="--x: 14; --y: 50; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.jpeg'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-ajeya_raj">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.webp'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 2. Anjali Devi -->
-                        <button class="athlete-beacon" data-id="anjali_devi" style="--x: 30; --y: 6; --depth-scale: 0.9; --depth-opacity: 0.85; --depth-blur: 0.5px; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3); --target-x: -20; --target-y: -44;">
+                        <button class="athlete-beacon node-national" data-id="anjali_devi" style="--x: 50; --y: 24; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).jpeg'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-anjali_devi">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).webp'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 3. Jatin Kushwah -->
-                        <button class="athlete-beacon" data-id="jatin_kushwah" style="--x: 86; --y: 12; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4); --target-x: 36; --target-y: -38;">
+                        <button class="athlete-beacon node-elite" data-id="jatin_kushwah" style="--x: 68; --y: 18.8; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-jatin_kushwah">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
 
                         <!-- 4. Pooja Gupta -->
-                        <button class="athlete-beacon" data-id="pooja_gupta" style="--x: 6; --y: 45; --depth-scale: 0.85; --depth-opacity: 0.8; --depth-blur: 0.8px; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4); --target-x: -44; --target-y: -5;">
+                        <button class="athlete-beacon node-elite" data-id="pooja_gupta" style="--x: 32; --y: 18.8; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).jpeg'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-pooja_gupta">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).webp'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC4</span>
                         </button>
 
                         <!-- 5. Sachin Chamaria -->
-                        <button class="athlete-beacon" data-id="sachin_chamaria" style="--x: 94; --y: 45; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3); --target-x: 44; --target-y: -5;">
+                        <button class="athlete-beacon node-elite" data-id="sachin_chamaria" style="--x: 86; --y: 50; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-sachin_chamaria">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 6. Sarita -->
-                        <button class="athlete-beacon" data-id="sarita" style="--x: 14; --y: 82; --depth-scale: 0.95; --depth-opacity: 0.9; --depth-blur: 0.3px; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3); --target-x: -36; --target-y: 32;">
+                        <button class="athlete-beacon node-national" data-id="sarita" style="--x: 32; --y: 68; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-sarita">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 7. Usha Kiran -->
-                        <button class="athlete-beacon" data-id="usha_kiran" style="--x: 48; --y: 94; --depth-scale: 0.85; --depth-opacity: 0.8; --depth-blur: 0.8px; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3); --target-x: -2 --target-y: 44;">
+                        <button class="athlete-beacon node-junior" data-id="usha_kiran" style="--x: 50; --y: 76; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-usha_kiran">
                                 <span class="beacon-portrait-img" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #FF9933 0%, #138808 100%); color: #fff; font-weight: 800; font-size: 0.75rem;">UK</span>
                             </div>
                             <span class="beacon-badge">BC3</span>
                         </button>
 
                         <!-- 8. Vyom Pawa -->
-                        <button class="athlete-beacon" data-id="vyom_pawa" style="--x: 86; --y: 80; --depth-scale: 1.0; --depth-opacity: 1.0; --depth-blur: 0px; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2); --target-x: 36; --target-y: 30;">
+                        <button class="athlete-beacon node-national" data-id="vyom_pawa" style="--x: 68; --y: 68; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2);">
                             <div class="beacon-pulse"></div>
-                            <div class="beacon-sparkle-frame">
-                                <svg viewBox="0 0 24 24"><path d="M12 0l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/></svg>
-                            </div>
-                            <div class="beacon-portrait-wrap">
-                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).jpeg'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
+                            <div class="beacon-portrait-wrap" id="beacon-wrap-vyom_pawa">
+                                <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).webp'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
                             </div>
                             <span class="beacon-badge">BC2</span>
                         </button>
@@ -717,7 +688,7 @@ try {
                     </div>
                 </div>
 
-                <!-- RIGHT: Floating Profile Card Overlay -->
+                <!-- RIGHT: Floating Profile Card Overlay (Clean Editorial 900px structure) -->
                 <div class="athlete-floating-card card-empty-state" id="athleteProfileCard">
                     
                     <!-- Dynamic India Map Overlay -->
@@ -739,63 +710,38 @@ try {
                         <p class="empty-state-subtitle">Select an athlete beacon on the map or wait to begin the showcase.</p>
                     </div>
 
-                    <!-- Main Profile Structure (New v2.0 Identity ➔ Story ➔ Career ➔ Mission) -->
-                    <div id="cardMainProfileView" style="display: none; width: 100%; height: 100%; flex-direction: column; position: relative; z-index: 2;">
+                    <!-- Main Profile Structure (Split Columns: Bleeding Filmstrip / Editorial Content) -->
+                    <div id="cardMainProfileView" style="display: none; width: 100%; height: 100%; flex-direction: row; position: relative; z-index: 2;">
                         
-                        <!-- Top Header (Photo Left, Name Right) -->
-                        <div class="card-header-row transition-item stagger-1">
-                            <div class="portrait-frame-container" id="cardPortraitFrame">
-                                <div class="card-portrait-background"></div>
-                                <div id="avatarFallback" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(255, 153, 51, 0.15) 0%, rgba(19, 136, 8, 0.15) 100%); color: var(--navy-primary); border-radius: 16px;">
-                                    <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
-                                </div>
-                                <img id="cardProfileImg" src="" alt="Athlete Portrait" class="card-portrait-img">
+                        <!-- Left Column: Bleeding Film Strip vertical loop -->
+                        <div class="film-reel-col" id="cardPortraitFrame">
+                            <div class="vertical-film-strip" id="cardFilmStrip">
+                                <!-- Slides injected via JavaScript -->
                             </div>
-                            
-                            <div class="card-identity-text">
+                        </div>
+
+                        <!-- Right Column: Editorial Text Content -->
+                        <div class="profile-content-col">
+                            <div class="profile-meta-header transition-item stagger-1">
+                            <div class="profile-meta-header">
                                 <h3 class="athlete-detail-name" id="cardAthleteName"></h3>
                                 <div class="athlete-detail-meta">
                                     <span class="detail-class-badge" id="cardClassBadge"></span>
                                     <span class="detail-location" id="cardLocation"></span>
                                 </div>
-                                <div class="card-badges-row" id="cardBadgesRow">
-                                    <!-- Badges injected here -->
+                                <div class="card-badges-row" id="cardBadgesRow"></div>
+                            </div>
+                            <hr class="card-divider">
+                            <div class="card-section">
+                                <h4 class="card-section-title">CURRENT MISSION</h4>
+                                <div class="mission-text-container">
+                                    <span class="mission-icon">🎯</span>
+                                    <p class="detail-mission-text" id="cardMission"></p>
                                 </div>
                             </div>
                         </div>
-
-                        <hr class="card-divider transition-item stagger-2">
-
-                        <!-- The Story Section -->
-                        <div class="card-section transition-item stagger-2">
-                            <h4 class="card-section-title">THE STORY</h4>
-                            <p class="detail-story-text" id="cardStory"></p>
-                        </div>
-
-                        <hr class="card-divider transition-item stagger-3">
-
-                        <!-- Career Highlights Section -->
-                        <div class="card-section transition-item stagger-3">
-                            <h4 class="card-section-title">CAREER HIGHLIGHTS</h4>
-                            <div class="career-cards-container" id="cardHighlightsContainer">
-                                <!-- Dynamic highlight cards injected here -->
-                            </div>
-                        </div>
-
-                        <hr class="card-divider transition-item stagger-4">
-
-                        <!-- Current Mission Section -->
-                        <div class="card-section transition-item stagger-4">
-                            <h4 class="card-section-title">CURRENT MISSION</h4>
-                            <div class="mission-text-container">
-                                <span class="mission-icon">🎯</span>
-                                <p class="detail-mission-text" id="cardMission"></p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -803,7 +749,7 @@ try {
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Unified Athletes State Object
+    // 1. Unified Athletes State Object (v3.2 Editorial Narratives & Action WebP Arrays)
     const athletes = [
         {
             id: "ajeya_raj",
@@ -812,16 +758,19 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Punjab",
             stateCode: "INPB",
-            svgCoords: { x: 60, y: 100 },
-            photo: "assets/star-players/ajeya raj/ajeya1.jpeg",
-            story: "Following a spinal injury, Ajeya discovered Boccia as a second chance. Today he proudly represents India while inspiring future para-athletes through every competition.",
+            svgCoords: { x: 70, y: 250 },
+            photos: [
+                "assets/star-players/ajeya raj/ajeya1.webp",
+                "assets/star-players/ajeya raj/ajeya2.webp"
+            ],
+            story: "I discovered Boccia after a life-changing injury. Every tournament since has been proof that resilience can become purpose.",
             badges: ["National Medallist", "Represented India 5x"],
             careerHighlights: [
-                { icon: "🏆", title: "National Champion", sub: "2026 Pairs Gold" },
-                { icon: "🥈", title: "World Challenger", sub: "Canberra 2025 Silver" },
-                { icon: "🇮🇳", title: "Represented India", sub: "5 International Events" }
+                { icon: "🏆", title: "First Indian Gold Medal", sub: "2026 Pairs Gold" },
+                { icon: "🥇", title: "National Champion", sub: "Canberra 2025 Silver" },
+                { icon: "🇮🇳", title: "Represented India x5", sub: "5 International Events" }
             ],
-            currentMission: "Preparing for the Los Angeles 2028 Paralympics"
+            currentMission: "Preparing for LA 2028"
         },
         {
             id: "anjali_devi",
@@ -830,16 +779,19 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Himachal Pradesh",
             stateCode: "INHP",
-            svgCoords: { x: 150, y: 30 },
-            photo: "assets/star-players/anjali devi/anjali (1).jpeg",
-            story: "Anjali found new direction and purpose through Boccia after a life-altering injury. Her quick rise on the international circuit has established her as a pillar of India's BC3 pairs strategy.",
+            svgCoords: { x: 250, y: 120 },
+            photos: [
+                "assets/star-players/anjali devi/anjali (1).webp",
+                "assets/star-players/anjali devi/anjali (2).webp"
+            ],
+            story: "After a life-altering injury, finding Boccia restored my direction. Every single throw on the international court is a step toward building India's BC3 legacy.",
             badges: ["First Int'l Gold Medallist", "National Medallist"],
             careerHighlights: [
                 { icon: "🥇", title: "First Int'l Gold", sub: "Historic First for India" },
                 { icon: "🏆", title: "National Medalist", sub: "8th National Championship 2024" },
                 { icon: "🥉", title: "National Bronze", sub: "7th National Championship 2023" }
             ],
-            currentMission: "Training for the upcoming World Boccia Championships"
+            currentMission: "Training for World Championships"
         },
         {
             id: "jatin_kushwah",
@@ -848,16 +800,20 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#8E44AD",
             state: "Uttar Pradesh",
             stateCode: "INUP",
-            svgCoords: { x: 430, y: 60 },
-            photo: "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).jpeg",
-            story: "Jatin channels absolute precision into the BC4 class. Driven by the goal of elevating India's global rank, he demonstrates world-class tactical capability on every throw.",
+            svgCoords: { x: 340, y: 94 },
+            photos: [
+                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.27 (2).webp",
+                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.20.webp",
+                "assets/star-players/Jatin Kushwah/WhatsApp Image 2026-07-07 at 19.15.20 (1).webp"
+            ],
+            story: "Precision isn't an option in the BC4 class—it is the baseline. My career is defined by placing India's rank on the world map.",
             badges: ["National Champion", "Bahrain Medallist"],
             careerHighlights: [
                 { icon: "🥇", title: "Double Gold Medalist", sub: "10th National Championship" },
-                { icon: "🥈", title: "World Challenger", sub: "Bahrain 2024 Pairs Silver" },
-                { icon: "🥉", title: "Challenger Bronze", sub: "Bahrain 2024 Individual" }
+                { icon: "🏆", title: "World Challenger Silver", sub: "Bahrain 2024 Pairs Silver" },
+                { icon: "🇮🇳", title: "Challenger Bronze", sub: "Bahrain 2024 Individual" }
             ],
-            currentMission: "Securing qualification for upcoming Asian Para Games"
+            currentMission: "Qualifying for World Championships"
         },
         {
             id: "pooja_gupta",
@@ -866,16 +822,20 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#8E44AD",
             state: "Haryana",
             stateCode: "INHR",
-            svgCoords: { x: 30, y: 225 },
-            photo: "assets/star-players/pooja gupta/pooja (1).jpeg",
-            story: "Balancing a senior banking career with elite sports representation, Pooja shows that focus and determination are limitless. Her strategic play ranks her among the world's best.",
+            svgCoords: { x: 160, y: 94 },
+            photos: [
+                "assets/star-players/pooja gupta/pooja (1).webp",
+                "assets/star-players/pooja gupta/pooja (2).webp",
+                "assets/star-players/pooja gupta/WhatsApp Image 2026-07-07 at 19.15.20 (1).webp"
+            ],
+            story: "Managing a bank by day and representing India globally by night. My journey shows that focus and determination have no limits.",
             badges: ["World Ranked #30", "Chief Bank Manager"],
             careerHighlights: [
-                { icon: "🥇", title: "National Champion", sub: "10th National Championship 2026" },
-                { icon: "🏆", title: "World Rank #30", sub: "Elite BC4 Female Division" },
-                { icon: "💼", title: "Chief Bank Manager", sub: "State Bank of India Leader" }
+                { icon: "🏆", title: "National Champion", sub: "10th National Championship 2026" },
+                { icon: "🥇", title: "World Rank #30", sub: "Elite BC4 Female Division" },
+                { icon: "🇮🇳", title: "Chief Bank Manager", sub: "State Bank of India Leader" }
             ],
-            currentMission: "Climbing into the Top 20 World Boccia Rankings"
+            currentMission: "Climbing into the Top 20"
         },
         {
             id: "sachin_chamaria",
@@ -884,16 +844,19 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Delhi",
             stateCode: "INDL",
-            svgCoords: { x: 470, y: 225 },
-            photo: "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).jpeg",
-            story: "A dominant force in the BC3 class, Sachin has spent a decade refining his analytical game. His consistent national supremacy makes him the flagbearer for Indian ramp sports.",
+            svgCoords: { x: 430, y: 250 },
+            photos: [
+                "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.24.webp",
+                "assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp"
+            ],
+            story: "Refining my analytical game for a decade. Consistent national dominance is the cornerstone of my journey as India's ramp flagbearer.",
             badges: ["6x National Champion", "Seoul 2026 Representative"],
             careerHighlights: [
                 { icon: "🏆", title: "6x National Champion", sub: "Consecutive Male BC3 Titles" },
                 { icon: "🥇", title: "World Challenger Gold", sub: "Manama 2024 Champion" },
                 { icon: "🇮🇳", title: "Seoul Representative", sub: "Only Indian Selected for 2026" }
             ],
-            currentMission: "Securing a historic podium finish at the Seoul World Championships"
+            currentMission: "Training for World Championships"
         },
         {
             id: "sarita",
@@ -902,16 +865,20 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Uttar Pradesh",
             stateCode: "INUP",
-            svgCoords: { x: 70, y: 410 },
-            photo: "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.jpeg",
-            story: "Sarita transformed childhood trauma into athletic excellence and assistive technology design. She plays and creates solutions with the same visionary passion.",
+            svgCoords: { x: 160, y: 340 },
+            photos: [
+                "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.23.webp",
+                "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27 (1).webp",
+                "assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp"
+            ],
+            story: "I transformed my childhood challenges into athletic dominance and assistive technology ramps. Designing solutions is my play.",
             badges: ["Zero Project Awardee", "Triple Amputee Innovator"],
             careerHighlights: [
-                { icon: "🥉", title: "Double Bronze", sub: "Cairo World Challenger 2024" },
+                { icon: "🥉", title: "Double Bronze Medalist", sub: "Cairo World Challenger 2024" },
                 { icon: "🏆", title: "8x National Medalist", sub: "Individual & Pairs Competitor" },
-                { icon: "💡", title: "Discovery Award", sub: "Zero Project Assistive Tech 2025" }
+                { icon: "💡", title: "Zero Project Award", sub: "Assistive Tech Innovation 2025" }
             ],
-            currentMission: "Mentoring new athletes and testing innovative ramp designs"
+            currentMission: "Building India's Boccia"
         },
         {
             id: "usha_kiran",
@@ -920,16 +887,16 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#FF9933",
             state: "Telangana",
             stateCode: "INTG",
-            svgCoords: { x: 240, y: 470 },
-            photo: "",
-            story: "Discovering Boccia during rehabilitation, Usha found confidence and a voice. Her defensive control and tactical patience make her a core member of the national squad.",
+            svgCoords: { x: 250, y: 380 },
+            photos: [],
+            story: "Boccia gave me my voice and confidence during rehabilitation. Safe defensive control is my signature play.",
             badges: ["National Champion", "Telangana Representative"],
             careerHighlights: [
-                { icon: "🥇", title: "National Champion", sub: "10th National Championship 2026" },
-                { icon: "🏆", title: "Mixed Pairs Gold", sub: "8th National Championship 2024" },
-                { icon: "🥉", title: "National Bronze", sub: "7th National Championship 2023" }
+                { icon: "🏆", title: "National Champion", sub: "10th National Championship 2026" },
+                { icon: "🥇", title: "Mixed Pairs Gold", sub: "8th National Championship 2024" },
+                { icon: "🇮🇳", title: "National Bronze", sub: "7th National Championship 2023" }
             ],
-            currentMission: "Perfecting tactical defensive play for the national selection trials"
+            currentMission: "Mentoring the next generation"
         },
         {
             id: "vyom_pawa",
@@ -938,16 +905,20 @@ document.addEventListener("DOMContentLoaded", () => {
             accentColor: "#27AE60",
             state: "Delhi",
             stateCode: "INDL",
-            svgCoords: { x: 430, y: 400 },
-            photo: "assets/star-players/vyom pawa/vyom (1).jpeg",
-            story: "Vyom brings energy, speed, and sharp long-range execution to the BC2 category. Training daily in Delhi, he is dedicated to bringing home India's next major para-sports honor.",
+            svgCoords: { x: 340, y: 340 },
+            photos: [
+                "assets/star-players/vyom pawa/vyom (1).webp",
+                "assets/star-players/vyom pawa/vyom (2).webp",
+                "assets/star-players/vyom pawa/vyom (3).webp"
+            ],
+            story: "Speed and long-range accuracy define my play. Training every day in Delhi, I aim for nothing less than international gold.",
             badges: ["National Gold Medalist", "Asian Youth Para Games"],
             careerHighlights: [
-                { icon: "🥇", title: "National Gold", sub: "10th National Championship" },
-                { icon: "🏆", title: "Team Gold", sub: "9th National Championship" },
-                { icon: "⚡", title: "5th Place Finish", sub: "Kazakhstan World Challenger 2025" }
+                { icon: "🥇", title: "National Gold Medalist", sub: "10th National Championship" },
+                { icon: "🏆", title: "Team Gold Medalist", sub: "9th National Championship" },
+                { icon: "🇮🇳", title: "5th Place World Finish", sub: "Kazakhstan World Challenger 2025" }
             ],
-            currentMission: "Qualifying for the Asian Youth Para Games"
+            currentMission: "Preparing for LA 2028"
         }
     ];
 
@@ -957,25 +928,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const constellationContainer = document.getElementById("constellationContainer");
     const constellationCenter = document.getElementById("constellationCenter");
     const beacons = document.querySelectorAll(".athlete-beacon");
-    
     const card = document.getElementById("athleteProfileCard");
     const cardEmptyState = document.getElementById("cardEmptyStateView");
     const cardMainProfile = document.getElementById("cardMainProfileView");
     
     // Fixed Card Swap Elements
-    const cardProfileImg = document.getElementById("cardProfileImg");
-    const avatarFallback = document.getElementById("avatarFallback");
     const cardAthleteName = document.getElementById("cardAthleteName");
     const cardClassBadge = document.getElementById("cardClassBadge");
     const cardLocation = document.getElementById("cardLocation");
     const cardBadgesRow = document.getElementById("cardBadgesRow");
-    
     const cardStory = document.getElementById("cardStory");
     const cardHighlightsContainer = document.getElementById("cardHighlightsContainer");
     const cardMission = document.getElementById("cardMission");
     const cardMapOverlay = document.getElementById("cardMapOverlay");
-    
-    const dynamicConnector = document.getElementById("dynamic-connector");
     const dynamicTravel = document.getElementById("dynamic-travel");
 
     // State Variables
@@ -983,18 +948,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let showcaseTimer = null;
     let showcaseStopped = false;
     let isMouseOverSection = false;
+    let filmReelTimer = null;
 
     // 2. Cinematic Entrance on Viewport Enter
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 revealWrapper.classList.add("revealed");
-                // Launch Idle Showcase after delay
-                setTimeout(() => {
-                    if (!showcaseStopped && activeAthleteIndex === -1) {
-                        startShowcase();
-                    }
-                }, 1500);
+                setTimeout(() => { if (!showcaseStopped && activeAthleteIndex === -1) startShowcase(); }, 1500);
                 observer.unobserve(entry.target);
             }
         });
@@ -1002,36 +963,21 @@ document.addEventListener("DOMContentLoaded", () => {
     
     observer.observe(document.getElementById("boccia-stars"));
 
-    // JS Image URL cleaning helper
     function getCleanImgUrl(path) {
         if (!path) return '';
         return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
     }
 
-    // Interactive Docking Animation
+    // Interactive Fly-and-Morph Docking Animation
     function performDockingAnimation(activeBeacon, callback) {
-        if (!activeBeacon || window.innerWidth <= 992) {
-            callback();
-            return;
-        }
-
+        if (!activeBeacon || window.innerWidth <= 992) { callback(); return; }
         const sourceImgWrap = activeBeacon.querySelector(".beacon-portrait-wrap");
         const targetFrame = document.getElementById("cardPortraitFrame");
-        
-        if (!sourceImgWrap || !targetFrame) {
-            callback();
-            return;
-        }
-
-        // Get bounds
+        if (!sourceImgWrap || !targetFrame) { callback(); return; }
         const srcRect = sourceImgWrap.getBoundingClientRect();
         const destRect = targetFrame.getBoundingClientRect();
-
-        // Create clone
         const clone = document.createElement("div");
         clone.className = "beacon-docking-clone";
-        
-        // Match style
         clone.style.position = "fixed";
         clone.style.top = `${srcRect.top}px`;
         clone.style.left = `${srcRect.left}px`;
@@ -1041,133 +987,70 @@ document.addEventListener("DOMContentLoaded", () => {
         clone.style.zIndex = "99999";
         clone.style.pointerEvents = "none";
         clone.style.boxShadow = "0 8px 30px rgba(255, 153, 51, 0.4)";
-        clone.style.transition = "all 0.75s cubic-bezier(0.16, 1, 0.3, 1)";
-        
-        // Copy the inner image or text
-        const innerImg = sourceImgWrap.querySelector("img");
-        if (innerImg && innerImg.style.display !== "none") {
-            const cloneImg = document.createElement("img");
-            cloneImg.src = innerImg.src;
-            cloneImg.style.width = "100%";
-            cloneImg.style.height = "100%";
-            cloneImg.style.objectFit = "cover";
-            cloneImg.style.borderRadius = "50%";
-            cloneImg.style.transition = "border-radius 0.75s cubic-bezier(0.16, 1, 0.3, 1)";
-            clone.appendChild(cloneImg);
-        } else {
-            const innerText = sourceImgWrap.textContent.trim();
-            if (innerText) {
-                const cloneText = document.createElement("div");
-                cloneText.textContent = innerText;
-                cloneText.style.width = "100%";
-                cloneText.style.height = "100%";
-                cloneText.style.display = "flex";
-                cloneText.style.alignItems = "center";
-                cloneText.style.justifyContent = "center";
-                cloneText.style.background = "linear-gradient(135deg, #FF9933 0%, #138808 100%)";
-                cloneText.style.color = "#fff";
-                cloneText.style.fontWeight = "800";
-                cloneText.style.fontSize = "0.75rem";
-                cloneText.style.borderRadius = "50%";
-                cloneText.style.transition = "border-radius 0.75s cubic-bezier(0.16, 1, 0.3, 1)";
-                clone.appendChild(cloneText);
-            }
-        }
-
+        clone.style.transition = "all 0.65s cubic-bezier(0.16, 1, 0.3, 1)";
         document.body.appendChild(clone);
-
-        // Hide target frame initially for docking swap
         targetFrame.style.opacity = "0";
         targetFrame.style.transform = "scale(0.85)";
-        targetFrame.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-
-        // Force reflow
+        targetFrame.style.transition = "opacity 0.3s ease, transform 0.3s ease";
         clone.getBoundingClientRect();
-
-        // Animate to destination bounds
         clone.style.top = `${destRect.top}px`;
         clone.style.left = `${destRect.left}px`;
         clone.style.width = `${destRect.width}px`;
         clone.style.height = `${destRect.height}px`;
         clone.style.borderRadius = "16px";
-        
-        const cloneChild = clone.firstElementChild;
-        if (cloneChild) {
-            cloneChild.style.borderRadius = "16px";
-        }
-
         setTimeout(() => {
-            // Populate data in background
             callback();
-            
-            // Show target frame with transition
             targetFrame.style.opacity = "1";
             targetFrame.style.transform = "scale(1)";
-            
-            // Fade out and remove clone
             clone.style.opacity = "0";
-            setTimeout(() => {
-                clone.remove();
-            }, 300);
-        }, 750);
+            setTimeout(() => { clone.remove(); }, 300);
+        }, 650);
     }
 
-    // 3. Selection Swapper Controller
+    function startFilmReelSlideshow(photos, id) {
+        clearInterval(filmReelTimer);
+        const container = document.getElementById("cardFilmStrip");
+        if (!container) return;
+        if (photos && photos.length > 0) {
+            container.innerHTML = photos.map((p, idx) => `
+                <div class="film-strip-slide ${idx === 0 ? 'active' : ''}">
+                    <img src="${getCleanImgUrl(p)}" alt="Action Photo">
+                </div>
+            `).join("");
+        } else {
+            const initials = id.split("_").map(n => n[0].toUpperCase()).join("");
+            container.innerHTML = `<div class="film-strip-slide active"><div class="avatar-fallback-slide">${initials}</div></div>`;
+        }
+        const slides = container.querySelectorAll(".film-strip-slide");
+        if (slides.length <= 1) return;
+        let currentSlideIdx = 0;
+        filmReelTimer = setInterval(() => {
+            slides[currentSlideIdx].classList.remove("active");
+            currentSlideIdx = (currentSlideIdx + 1) % slides.length;
+            slides[currentSlideIdx].classList.add("active");
+        }, 5000);
+    }
+
     function selectAthlete(index, triggeredByShowcase = false) {
         if (index === activeAthleteIndex) return;
-        
         const athlete = athletes[index];
         const activeBeacon = document.querySelector(`.athlete-beacon[data-id="${athlete.id}"]`);
-        
-        // Remove active class from all beacons
         beacons.forEach(b => b.classList.remove("active"));
         constellationContainer.classList.add("has-active-beacon");
-        
-        // Dissolve centerpiece
-        if (constellationCenter) {
-            constellationCenter.classList.add("center-selected");
-        }
-
-        if (activeBeacon) {
-            activeBeacon.classList.add("active");
-        }
-
-        // Draw dynamic connector path
-        animateConnector(athlete.svgCoords.x, athlete.svgCoords.y, athlete.accentColor);
-
-        // Reset transition styles
+        if (activeBeacon) activeBeacon.classList.add("active");
+        animateConnector(athlete.id, athlete.svgCoords.x, athlete.svgCoords.y, athlete.accentColor);
         card.classList.remove("active-transition");
-
-        // Populate card contents
         const populateData = () => {
             activeAthleteIndex = index;
             cardEmptyState.style.display = "none";
             cardMainProfile.style.display = "flex";
-            
-            // Apply Accent Color CSS Variable to Card
             card.style.setProperty("--class-color", athlete.accentColor);
-
-            if (athlete.photo) {
-                cardProfileImg.src = getCleanImgUrl(athlete.photo);
-                cardProfileImg.style.display = "block";
-                avatarFallback.style.display = "none";
-            } else {
-                cardProfileImg.style.display = "none";
-                avatarFallback.style.display = "flex";
-            }
-            
             cardAthleteName.textContent = athlete.name;
             cardClassBadge.textContent = athlete.classification;
             cardLocation.textContent = `${athlete.state}, India`;
-            
-            // Build Badges
             cardBadgesRow.innerHTML = athlete.badges.map(b => `<span class="meta-pill pill-gold">${b}</span>`).join("");
-            
-            // Story & Mission
-            cardStory.textContent = athlete.story;
+            cardStory.textContent = `"${athlete.story}"`;
             cardMission.textContent = athlete.currentMission;
-            
-            // Build Highlight Cards
             if (cardHighlightsContainer) {
                 cardHighlightsContainer.innerHTML = athlete.careerHighlights.map(h => `
                     <div class="career-highlight-card">
@@ -1179,83 +1062,43 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `).join("");
             }
-
-            // Highlight Home State in the India Map SVG Overlay
             highlightStateInOverlay(athlete.stateCode);
-
-            // Trigger card entrance transition
+            startFilmReelSlideshow(athlete.photos, athlete.id);
             card.classList.add("active-transition");
         };
+        if (triggeredByShowcase || window.innerWidth <= 992) populateData();
+        else performDockingAnimation(activeBeacon, populateData);
+    }
 
-        if (triggeredByShowcase || window.innerWidth <= 992) {
-            populateData();
-        } else {
-            // Trigger cinematic node docking animation
-            performDockingAnimation(activeBeacon, populateData);
+    function animateConnector(athleteId, x, y, color) {
+        document.querySelectorAll(".constellation-link-path").forEach(line => line.classList.remove("active"));
+        const activeLine = document.querySelector(`.constellation-link-path[data-athlete-id="${athleteId}"]`);
+        if (activeLine) activeLine.classList.add("active");
+        if (dynamicTravel) {
+            dynamicTravel.setAttribute("d", `M 250 250 L ${x} ${y}`);
+            dynamicTravel.setAttribute("stroke", color);
+            dynamicTravel.classList.remove("animating");
+            dynamicTravel.getBoundingClientRect();
+            dynamicTravel.classList.add("animating");
         }
     }
 
-    // Dynamic SVG line connector
-    function animateConnector(x, y, color) {
-        dynamicConnector.setAttribute("stroke", color);
-        dynamicConnector.setAttribute("d", `M ${x} ${y} L 500 250`);
-        dynamicTravel.setAttribute("d", `M ${x} ${y} L 500 250`);
-
-        const len = dynamicConnector.getTotalLength();
-        dynamicConnector.style.strokeDasharray = len;
-        dynamicConnector.style.strokeDashoffset = len;
-        
-        // Force reflow
-        dynamicConnector.getBoundingClientRect();
-
-        // Animate drawing
-        dynamicConnector.style.transition = "none";
-        dynamicConnector.style.strokeDashoffset = len;
-        dynamicConnector.style.opacity = "1";
-        
-        dynamicConnector.getBoundingClientRect();
-        
-        dynamicConnector.style.transition = "stroke-dashoffset 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease";
-        dynamicConnector.style.strokeDashoffset = "0";
-
-        // Spark pulse travel
-        dynamicTravel.classList.remove("animating");
-        dynamicTravel.getBoundingClientRect();
-        dynamicTravel.classList.add("animating");
-
-        // Fade link out
-        setTimeout(() => {
-            dynamicConnector.style.opacity = "0.1";
-        }, 1200);
-    }
-
-    // Highlight map overlay state
     function highlightStateInOverlay(stateCode) {
         if (!cardMapOverlay) return;
-        const allPaths = cardMapOverlay.querySelectorAll("path");
-        allPaths.forEach(p => {
-            p.classList.remove("active-state");
-            p.style.removeProperty("fill");
-            p.style.removeProperty("stroke");
-        });
-        
+        cardMapOverlay.querySelectorAll("path").forEach(p => p.classList.remove("active-state"));
         const statePath = cardMapOverlay.querySelector(`path[id="${stateCode}"]`);
-        if (statePath) {
-            statePath.classList.add("active-state");
-        }
+        if (statePath) statePath.classList.add("active-state");
     }
 
-    // 4. Idle Showcase loops
     function startShowcase() {
         if (showcaseStopped) return;
         clearInterval(showcaseTimer);
-        
         showcaseTimer = setInterval(() => {
             if (!isMouseOverSection && !showcaseStopped) {
                 let nextIdx = (activeAthleteIndex + 1) % athletes.length;
                 selectAthlete(nextIdx, true);
             }
-        }, 15000); // 15 seconds spec
+        }, 15000);
     }
 
     function stopShowcasePermanently() {
@@ -1263,36 +1106,21 @@ document.addEventListener("DOMContentLoaded", () => {
         clearInterval(showcaseTimer);
     }
 
-    // Pause on hover
-    document.getElementById("boccia-stars").addEventListener("mouseenter", () => {
-        isMouseOverSection = true;
-    });
-    document.getElementById("boccia-stars").addEventListener("mouseleave", () => {
-        isMouseOverSection = false;
-    });
-
-    // 5. Beacons Click events
+    document.getElementById("boccia-stars").addEventListener("mouseenter", () => isMouseOverSection = true);
+    document.getElementById("boccia-stars").addEventListener("mouseleave", () => isMouseOverSection = false);
     beacons.forEach((beacon, idx) => {
         beacon.addEventListener("click", () => {
             stopShowcasePermanently();
             selectAthlete(idx);
         });
     });
-
-    // 6. Gravity Pull Interaction
-    constellationCenter.addEventListener("mouseenter", () => {
-        constellationParallax.classList.add("gravity-active");
-    });
-    constellationCenter.addEventListener("mouseleave", () => {
-        constellationParallax.classList.remove("gravity-active");
-    });
+    constellationCenter.addEventListener("mouseenter", () => constellationParallax.classList.add("gravity-active"));
+    constellationCenter.addEventListener("mouseleave", () => constellationParallax.classList.remove("gravity-active"));
     constellationCenter.addEventListener("click", () => {
         stopShowcasePermanently();
-        // Cycle athletes on clicking center
         let nextIdx = (activeAthleteIndex + 1) % athletes.length;
         selectAthlete(nextIdx);
     });
-
     // 7. Parallax Move Interaction
     constellationContainer.addEventListener("mousemove", (e) => {
         if (window.innerWidth <= 768) return; // Disable parallax on mobile

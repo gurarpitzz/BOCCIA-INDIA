@@ -4336,76 +4336,68 @@ body {
 }
 
 /* ──────────────────────────────────────────────────
-   FLAGSHIP BOCCIA STARS SECTION
+   FLAGSHIP BOCCIA STARS SECTION (v3.2 Premium Editorial)
    ────────────────────────────────────────────────── */
 :root {
-    --cream-bg: #FDF8EF;
+    --cream-bg: #FCF9F3;
     --navy-primary: #102A63;
     --navy-secondary: #1A3E7A;
     --gold-accent: #FF9933; /* Saffron */
     --gold-hover: #FFAE4D;
     --green-accent: #138808; /* Tricolor Green */
-    --text-dark: #2F3640;
-    --text-muted: #6B7280;
+    --text-dark: #1E2530;
+    --text-muted: #626A7A;
     
     /* Classification Colors */
-    --color-bc1: #1E88E5; /* Blue */
-    --color-bc2: #27AE60; /* Green */
-    --color-bc3: #FF9933; /* Orange */
-    --color-bc4: #8E44AD; /* Purple */
+    --color-bc1: #1E88E5;
+    --color-bc2: #27AE60;
+    --color-bc3: #FF9933;
+    --color-bc4: #8E44AD;
 }
 
 .stars-section {
     position: relative;
-    padding: 6rem 0; /* Increased top/bottom padding to give breathing room */
+    padding: 6.5rem 0;
     overflow: hidden;
     color: var(--text-dark);
+    background: var(--cream-bg);
 }
 .stars-section::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url('our starts bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-image: 
+        radial-gradient(rgba(16, 42, 99, 0.015) 1px, transparent 1px),
+        linear-gradient(rgba(16, 42, 99, 0.01) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 42, 99, 0.01) 1px, transparent 1px);
+    background-size: 24px 24px, 80px 80px, 80px 80px;
+    z-index: 0;
+    pointer-events: none;
+}
+.stars-section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+        radial-gradient(circle at 8% 8%, rgba(255, 153, 51, 0.055) 0%, transparent 40%),
+        radial-gradient(circle at 92% 92%, rgba(19, 136, 8, 0.055) 0%, transparent 40%);
     z-index: 0;
     pointer-events: none;
 }
 
-/* Subtle background texture and elements */
 .stars-bg-pattern {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    pointer-events: none;
-    opacity: 0.03;
-    background-image: radial-gradient(var(--navy-primary) 1px, transparent 1px);
-    background-size: 24px 24px;
+    display: none;
 }
 
 /* Background floating sparkles */
 .bg-sparkles-container {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 1;
-}
-.bg-sparkle {
-    position: absolute;
-    color: var(--gold-accent);
-    font-size: 14px;
-    opacity: 0.02;
-    animation: sparkle-drift 10s ease-in-out infinite;
-}
-@keyframes sparkle-drift {
-    0%, 100% { opacity: 0.02; transform: translateY(0) rotate(0deg); }
-    50% { opacity: 0.06; transform: translateY(-15px) rotate(180deg); }
+    display: none;
 }
 
 /* Header styling */
 .stars-header {
     text-align: center;
-    margin-bottom: 4rem; /* Increased margin below headers */
+    margin-bottom: 4.5rem;
     position: relative;
     z-index: 5;
 }
@@ -4439,13 +4431,13 @@ body {
 .stars-layout {
     position: relative;
     width: 100%;
-    min-height: 650px; /* Increased min-height to fit the profile card's height */
+    min-height: 580px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
 
-/* Left side: Constellation */
+/* Left side: Constellation SVG canvas */
 .constellation-wrapper {
     position: relative;
     aspect-ratio: 1 / 1;
@@ -4454,11 +4446,8 @@ body {
     margin-left: 2%;
     cursor: default;
     z-index: 5;
-    background: #ffffff;
-    border: 4px solid var(--navy-primary);
-    border-radius: 28px;
-    box-shadow: 0 24px 50px rgba(16, 42, 99, 0.08);
-    padding: 1.5rem;
+    background: transparent;
+    padding: 0;
 }
 
 /* Parallax Layer */
@@ -4470,82 +4459,62 @@ body {
     transform-style: preserve-3d;
 }
 
-/* Center piece */
+/* Center piece (Jack Ball) */
 .constellation-center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 3;
+    z-index: 6;
     pointer-events: auto;
     cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #ffffff;
+    border: 3.5px solid var(--navy-primary);
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(16, 42, 99, 0.12);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.constellation-center.center-selected {
-    opacity: 0.05;
-    transform: translate(-50%, -50%) scale(0.8);
-    filter: blur(2px);
-    pointer-events: none;
-}
-
-.constellation-center-glow {
-    position: absolute;
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(255, 153, 51, 0.18) 0%, rgba(19, 136, 8, 0.18) 50%, transparent 70%);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 1;
-    animation: aura-breathe 8s ease-in-out infinite;
-}
-@keyframes aura-breathe {
-    0%, 100% { transform: translate(-50%, -50%) scale(0.96); opacity: 0.8; }
-    50% { transform: translate(-50%, -50%) scale(1.04); opacity: 1.2; }
+.constellation-center:hover {
+    transform: translate(-50%, -50%) scale(1.04);
+    box-shadow: 0 14px 40px rgba(16, 42, 99, 0.18);
 }
 
+.constellation-center-logo {
+    display: block;
+    margin-bottom: 2px;
+}
 .constellation-center-sub {
     font-family: var(--font-body);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
     color: var(--navy-primary);
 }
 .constellation-center-stats {
-    margin-top: 10px;
-    font-size: 0.72rem;
-    color: var(--text-dark);
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    opacity: 0.85;
-}
-.constellation-center-stats strong {
-    color: var(--gold-accent);
+    margin-top: 4px;
 }
 .center-stat-instruction {
     font-family: var(--font-body);
-    font-style: italic;
-    margin-top: 8px;
-    font-size: 0.68rem;
+    font-size: 0.62rem;
+    font-weight: 500;
     color: var(--text-muted);
-    letter-spacing: 0.05em;
-    animation: pulse-instruct 2s infinite ease-in-out;
-}
-@keyframes pulse-instruct {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
-/* Gravity pull animation class */
 .constellation-parallax-layer.gravity-active .athlete-beacon {
-    transform: translate(calc(var(--target-x) * 0.95px), calc(var(--target-y) * 0.95px)) scale(0.96) !important;
+    transform: translate(calc(var(--target-x) * 0.4px), calc(var(--target-y) * 0.4px)) scale(0.98) !important;
 }
 
-/* SVG Line Canvas */
+/* SVG Lines */
 .constellation-svg {
     position: absolute;
     top: 0; left: 0;
@@ -4555,83 +4524,78 @@ body {
 }
 .constellation-link-path {
     fill: none;
-    stroke: rgba(242, 177, 52, 0.12);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    transition: stroke 0.4s ease, stroke-width 0.4s ease;
+    stroke: rgba(16, 42, 99, 0.05);
+    stroke-width: 1px;
+    transition: stroke 0.4s ease, stroke-width 0.4s ease, opacity 0.4s ease;
 }
 .constellation-link-path.active {
-    stroke-width: 2px;
+    stroke: rgba(255, 153, 51, 0.25);
+    stroke-width: 1.5px;
 }
-/* Travel animation pulse path */
+
+/* Traveler pulse paths */
 .constellation-travel-path {
     fill: none;
     stroke-linecap: round;
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
     opacity: 0;
 }
 .constellation-travel-path.animating {
-    animation: draw-travel-pulse 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation: draw-travel-pulse 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 @keyframes draw-travel-pulse {
-    0% { stroke-dashoffset: 100; opacity: 1; }
-    90% { stroke-dashoffset: -100; opacity: 1; }
-    100% { stroke-dashoffset: -100; opacity: 0; }
+    0% { stroke-dashoffset: 200; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 0; }
 }
 
-/* Athlete Beacons */
+/* Athlete Beacons - Sizing Hierarchies */
 .athlete-beacon {
     position: absolute;
-    width: 72px; /* Increased beacon size */
-    height: 72px; /* Increased beacon size */
     top: calc(var(--y) * 1%);
     left: calc(var(--x) * 1%);
-    transform: translate(-50%, -50%) scale(var(--depth-scale));
-    opacity: var(--depth-opacity);
-    filter: blur(var(--depth-blur));
+    transform: translate(-50%, -50%);
     z-index: 4;
     cursor: pointer;
     outline: none;
     background: none;
     border: none;
     padding: 0;
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
-                filter 0.4s ease, opacity 0.4s ease, z-index 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), z-index 0.4s ease;
 }
 
-/* Custom individual pulses (Z-depth visual) */
+/* Beacon Sizing Modes */
+.athlete-beacon.node-elite {
+    width: 76px;
+    height: 76px;
+}
+.athlete-beacon.node-national {
+    width: 64px;
+    height: 64px;
+}
+.athlete-beacon.node-junior {
+    width: 52px;
+    height: 52px;
+}
+
 .beacon-pulse {
     position: absolute;
-    top: -6px; left: -6px; right: -6px; bottom: -6px;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
     border-radius: 50%;
-    border: 1.5px solid var(--gold-accent);
+    border: 1px solid var(--gold-accent);
     opacity: 0;
     pointer-events: none;
-    animation: beacon-wave var(--pulse-speed) ease-out infinite;
-    animation-delay: var(--pulse-delay);
+    animation: beacon-wave var(--pulse-speed, 4s) ease-out infinite;
+    animation-delay: var(--pulse-delay, 0s);
 }
 @keyframes beacon-wave {
-    0% { transform: scale(0.9); opacity: 0; }
-    50% { opacity: var(--pulse-opacity); }
-    100% { transform: scale(1.3); opacity: 0; }
+    0% { transform: scale(0.95); opacity: 0; }
+    50% { opacity: var(--pulse-opacity, 0.4); }
+    100% { transform: scale(1.18); opacity: 0; }
 }
 
-/* Sparkling frame behind portrait */
 .beacon-sparkle-frame {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 86px; /* Scaled relative to the larger beacons */
-    height: 86px; /* Scaled relative to the larger beacons */
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.35;
-    transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.beacon-sparkle-frame svg {
-    width: 100%; height: 100%;
-    fill: var(--gold-accent);
+    display: none;
 }
 
 .beacon-portrait-wrap {
@@ -4640,10 +4604,11 @@ body {
     border-radius: 50%;
     padding: 2.5px;
     background: #ffffff;
-    box-shadow: 0 4px 10px rgba(16, 42, 99, 0.12);
+    border: 2px solid rgba(255, 153, 51, 0.2);
+    box-shadow: 0 4px 12px rgba(16, 42, 99, 0.08);
     z-index: 2;
     overflow: visible;
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .beacon-portrait-img {
     width: 100%; height: 100%;
@@ -4655,59 +4620,46 @@ body {
 
 .beacon-badge {
     position: absolute;
-    bottom: -6px;
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 0.65rem;
-    padding: 2px 7px;
-    border-radius: 8px;
+    font-size: 0.6rem;
+    padding: 1.5px 6px;
+    border-radius: 6px;
     color: #ffffff;
     background-color: var(--class-color);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
     z-index: 3;
     pointer-events: none;
 }
 
 /* Hover Beacon State */
 .athlete-beacon:hover, .athlete-beacon:focus-visible {
-    transform: translate(-50%, -52%) scale(calc(var(--depth-scale) * 1.15)) !important;
-    filter: blur(0px) !important;
-    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1.08) !important;
     z-index: 10;
 }
 .athlete-beacon:hover .beacon-portrait-wrap,
 .athlete-beacon:focus-visible .beacon-portrait-wrap {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 18px rgba(16, 42, 99, 0.22);
-}
-.athlete-beacon:hover .beacon-sparkle-frame,
-.athlete-beacon:focus-visible .beacon-sparkle-frame {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) rotate(45deg);
+    border-color: var(--gold-accent);
+    box-shadow: 0 8px 18px rgba(255, 153, 51, 0.25);
 }
 
 /* Selected Beacon State */
 .athlete-beacon.active {
-    transform: translate(-50%, -52%) scale(calc(var(--depth-scale) * 1.15)) !important;
-    filter: blur(0px) !important;
-    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1.08) !important;
     z-index: 10;
 }
 .athlete-beacon.active .beacon-portrait-wrap {
-    transform: translateY(-4px);
-    box-shadow: 0 0 0 3px var(--class-color), 0 8px 24px rgba(16, 42, 99, 0.25);
-}
-.athlete-beacon.active .beacon-sparkle-frame {
-    opacity: 0.85;
-    transform: translate(-50%, -50%) rotate(90deg);
+    border-color: var(--gold-accent);
+    border-width: 3px;
+    box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.15), 0 8px 24px rgba(255, 153, 51, 0.35);
 }
 
 /* Non-hovered dimming */
 .constellation-wrapper.has-active-beacon .athlete-beacon:not(.active):not(:hover) {
-    opacity: 0.3 !important;
-    filter: blur(1.5px) !important;
+    opacity: 0.45 !important;
 }
 
 /* Dynamic Fixed Docking Clone */
@@ -4718,35 +4670,34 @@ body {
     overflow: hidden;
 }
 
-/* RIGHT: Floating Museum Profile Card Overlay */
+/* RIGHT: Floating Museum Profile Card Overlay (Horizontal Split 900px) */
 .athlete-floating-card {
     position: absolute;
-    right: 4%;
+    right: 2%;
     top: 50%;
     transform: translateY(-50%);
-    width: 460px; /* Increased card width horizontally */
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 153, 51, 0.12);
-    border-top: 4px solid var(--class-color, #FF9933);
-    border-radius: 20px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.08);
-    padding: 1.75rem;
+    width: 900px;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(16, 42, 99, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.06);
+    padding: 0;
     z-index: 10;
     transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-/* Empty State / Welcome View */
+/* Empty State View */
 .athlete-floating-card.card-empty-state {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 480px;
+    min-height: 520px;
+    padding: 3rem;
 }
 .empty-state-stars {
     font-size: 2.5rem;
@@ -4756,26 +4707,25 @@ body {
 .empty-state-title {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: var(--navy-primary);
     margin-bottom: 0.75rem;
 }
 .empty-state-subtitle {
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    max-width: 300px;
-    line-height: 1.5;
+    max-width: 320px;
+    line-height: 1.6;
 }
 
 /* India Outline Overlay behind Portrait */
 .india-map-overlay {
     position: absolute;
     top: 10%; left: 5%; width: 90%; height: 80%;
-    opacity: 0.02;
+    opacity: 0.015;
     pointer-events: none;
     z-index: 1;
-    transition: opacity 0.5s ease;
 }
 .india-map-overlay svg {
     width: 100%; height: 100%;
@@ -4784,82 +4734,110 @@ body {
     stroke: var(--navy-primary);
     stroke-width: 1.5;
 }
-.india-map-overlay path {
-    transition: fill 0.6s ease, stroke 0.6s ease;
-}
 .india-map-overlay path.active-state {
     fill: var(--class-color);
-    opacity: 0.6;
+    opacity: 0.55;
     stroke: var(--class-color);
 }
 
-/* Card Header (Photo Left, Name Right) */
-.card-header-row {
-    display: flex;
-    gap: 1.25rem;
-    align-items: center;
+/* Split Columns Structure */
+.film-reel-col {
+    width: 45%;
+    height: 520px;
     position: relative;
-    z-index: 2;
-}
-
-.portrait-frame-container {
-    width: 90px;
-    height: 90px;
-    border-radius: 16px;
     overflow: hidden;
-    position: relative;
-    box-shadow: 0 8px 24px rgba(16, 42, 99, 0.1);
+    background: #0d121c;
     flex-shrink: 0;
-    border: 2px solid var(--class-color, #FF9933);
 }
-
-.card-portrait-background {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, rgba(255, 153, 51, 0.08) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(19, 136, 8, 0.08) 100%);
-    z-index: 1;
-}
-
-.card-portrait-img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    position: relative;
-    z-index: 2;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.card-identity-text {
+.profile-content-col {
+    width: 55%;
+    padding: 2.5rem 3rem;
+    overflow-y: auto;
+    height: 520px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 2;
 }
 
+/* Vertical Filmstrip Slideshow & Ken Burns */
+.vertical-film-strip {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.film-strip-slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    z-index: 1;
+    overflow: hidden;
+}
+.film-strip-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+.film-strip-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 5s ease-in-out;
+    transform: scale(1.0);
+}
+.film-strip-slide.active img {
+    transform: scale(1.06);
+}
+.avatar-fallback-slide {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FF9933 0%, #138808 100%);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 3rem;
+}
+
+/* Card Header elements */
+.profile-meta-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
 .athlete-detail-name {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     color: var(--navy-primary);
-    line-height: 1.2;
-    margin-bottom: 0.25rem;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
 }
 .athlete-detail-meta {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
 }
 .detail-class-badge {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    border-radius: 5px;
+    font-size: 0.72rem;
+    padding: 2.5px 10px;
+    border-radius: 6px;
     color: #ffffff;
     background-color: var(--class-color);
+    letter-spacing: 0.05em;
 }
 .detail-location {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-muted);
 }
@@ -4867,7 +4845,6 @@ body {
     content: '📍 ';
 }
 
-/* Badges row */
 .card-badges-row {
     display: flex;
     gap: 0.4rem;
@@ -4876,21 +4853,21 @@ body {
 .meta-pill {
     font-family: var(--font-body);
     font-weight: 600;
-    font-size: 0.62rem;
-    padding: 2.5px 8px;
+    font-size: 0.65rem;
+    padding: 3px 10px;
     border-radius: 999px;
     border: 1px solid rgba(16, 42, 99, 0.1);
 }
 .meta-pill.pill-gold {
-    background-color: rgba(242, 177, 52, 0.06);
-    border-color: rgba(242, 177, 52, 0.3);
-    color: #b27a0b;
+    background-color: rgba(255, 153, 51, 0.04);
+    border-color: rgba(255, 153, 51, 0.25);
+    color: #c47d07;
 }
 
 .card-divider {
     border: none;
     border-top: 1px solid rgba(16, 42, 99, 0.06);
-    margin: 1rem 0;
+    margin: 1.25rem 0;
     position: relative;
     z-index: 2;
 }
@@ -4904,10 +4881,10 @@ body {
 .card-section-title {
     font-family: var(--font-heading);
     font-weight: 800;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
     color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     text-transform: uppercase;
 }
 .detail-story-text {
