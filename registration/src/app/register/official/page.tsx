@@ -21,10 +21,12 @@ const statesList = [
 // Zod schemas per step
 const step1Schema = z.object({
   full_name: z.string().min(2, 'Name must be at least 2 characters'),
-  role: z.enum(["Coach", "Sport Assistant", "Classifier", "Technical Official", "Referee", "Volunteer"] as const, {
-    errorMap: () => ({ message: 'Please select a registration role' })
+  role: z.string().refine((val) => ["Coach", "Sport Assistant", "Classifier", "Technical Official", "Referee", "Volunteer"].includes(val), {
+    message: 'Please select a registration role'
   }),
-  gender: z.enum(['Male', 'Female', 'Other'], { errorMap: () => ({ message: 'Please select gender' }) }),
+  gender: z.string().refine((val) => ['Male', 'Female', 'Other'].includes(val), {
+    message: 'Please select gender'
+  }),
   dob: z.string().refine((val) => !isNaN(Date.parse(val)), { message: 'Valid Date of Birth is required' }),
   father_name: z.string().min(2, 'Father\'s or Spouse\'s Name must be at least 2 characters'),
   phone: z.string().regex(/^\d{10}$/, 'Phone number must be exactly 10 digits'),

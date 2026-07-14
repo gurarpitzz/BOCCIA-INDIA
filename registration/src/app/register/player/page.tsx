@@ -21,7 +21,9 @@ const statesList = [
 // Zod schemas per step
 const step1Schema = z.object({
   full_name: z.string().min(2, 'Name must be at least 2 characters'),
-  gender: z.enum(['Male', 'Female', 'Other'], { errorMap: () => ({ message: 'Please select a gender' }) }),
+  gender: z.string().refine((val) => ['Male', 'Female', 'Other'].includes(val), {
+    message: 'Please select a gender'
+  }),
   dob: z.string().refine((val) => !isNaN(Date.parse(val)), { message: 'Valid Date of Birth is required' }),
   father_name: z.string().min(2, 'Father\'s Name must be at least 2 characters'),
   mother_name: z.string().min(2, 'Mother\'s Name must be at least 2 characters'),
@@ -34,7 +36,9 @@ const step2Schema = z.object({
   state: z.string().min(1, 'Please select state'),
   impairment_type: z.string().min(1, 'Impairment details are required'),
   classification: z.string().min(1, 'Please select classification category'),
-  wheelchair_status: z.enum(['Yes', 'No'], { errorMap: () => ({ message: 'Please select option' }) }),
+  wheelchair_status: z.string().refine((val) => ['Yes', 'No'].includes(val), {
+    message: 'Please select option'
+  }),
   kit_tshirt: z.string().min(1, 'T-Shirt size is required'),
   kit_tracksuit: z.string().min(1, 'Track Suit size is required'),
   kit_shoe: z.string().min(1, 'Shoe size is required'),
