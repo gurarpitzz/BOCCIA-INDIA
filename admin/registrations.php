@@ -48,8 +48,24 @@ function sendApprovalEmail($email, $name, $regNo, $type) {
         'subject' => $subject,
         'html' => $htmlBody
     ]));
-    curl_exec($ch);
+    $res = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    // Get DB handle from global scope
+    global $pdo;
+    try {
+        if ($httpCode >= 200 && $httpCode < 300) {
+            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
+            $log->execute(['Email Approval Sent', "Approved email sent to: {$email} for {$regNo}"]);
+        } else {
+            error_log("Resend API failed to send approval to {$email}. Code: {$httpCode}, Response: {$res}");
+            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
+            $log->execute(['Email Approval Failed', "HTTP Code: {$httpCode}, Response: {$res}"]);
+        }
+    } catch (\Throwable $t) {
+        error_log("Failed to write email activity log: " . $t->getMessage());
+    }
 }
 
 function sendUpdateApprovalEmail($email, $name, $regNo, $type) {
@@ -82,8 +98,24 @@ function sendUpdateApprovalEmail($email, $name, $regNo, $type) {
         'subject' => 'BSFI Profile Update Approved',
         'html' => $htmlBody
     ]));
-    curl_exec($ch);
+    $res = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    // Get DB handle from global scope
+    global $pdo;
+    try {
+        if ($httpCode >= 200 && $httpCode < 300) {
+            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
+            $log->execute(['Email Update Approved Sent', "Update approved email sent to: {$email} for {$regNo}"]);
+        } else {
+            error_log("Resend API failed to send update approval to {$email}. Code: {$httpCode}, Response: {$res}");
+            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
+            $log->execute(['Email Update Approved Failed', "HTTP Code: {$httpCode}, Response: {$res}"]);
+        }
+    } catch (\Throwable $t) {
+        error_log("Failed to write email activity log: " . $t->getMessage());
+    }
 }
 
 $page_title = "Review Registrations - BSFI Admin";
