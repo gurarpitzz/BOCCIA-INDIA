@@ -13,6 +13,17 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+        // Calculate relative prefix FIRST — used throughout <head>
+        $script_name = $_SERVER['SCRIPT_NAME'];
+        $clean_path = ltrim($script_name, '/');
+        $parts = explode('/', $clean_path);
+        $depth = count($parts) - 1;
+        if ($depth < 0) $depth = 0;
+        $relative_prefix = str_repeat('../', $depth);
+        $css_path  = $relative_prefix . 'styles.css';
+        $logo_path = $relative_prefix;
+    ?>
     <title><?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?></title>
     <meta name="description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia India (BSFI). Affiliated with PCI & World Boccia."; ?>">
     <!-- Open Graph / Facebook / WhatsApp -->
@@ -36,16 +47,6 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@500;600&family=Noto+Serif+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-    <?php
-        $script_name = $_SERVER['SCRIPT_NAME'];
-        $clean_path = ltrim($script_name, '/');
-        $parts = explode('/', $clean_path);
-        $depth = count($parts) - 1;
-        if ($depth < 0) $depth = 0;
-        $relative_prefix = str_repeat('../', $depth);
-        $css_path  = $relative_prefix . 'styles.css';
-        $logo_path = $relative_prefix;
-    ?>
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="<?php echo $relative_prefix; ?>boccia-india-logo.webp">
     <!-- Bootstrap 5.3 (Local) -->
