@@ -1,7 +1,7 @@
 <?php
 // download-doc.php - Secure authenticated document streaming and audit logger
 require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/role-check.php';
 
 // Must be logged in to access administrative documents
 requireLogin();
