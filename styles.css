@@ -4356,14 +4356,22 @@ body {
 }
 
 .stars-section {
-    background-image: url('our starts bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     position: relative;
     padding: 6rem 0; /* Increased top/bottom padding to give breathing room */
     overflow: hidden;
     color: var(--text-dark);
+}
+.stars-section::before {
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px; /* Slight extra margin to prevent blur edge bleeding */
+    background-image: url('our starts bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(5px); /* Mild background blur */
+    z-index: 0;
+    pointer-events: none;
 }
 
 /* Subtle background texture and elements */
