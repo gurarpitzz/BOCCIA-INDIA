@@ -206,6 +206,8 @@ try {
     $ch = curl_init('https://api.resend.com/emails');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Authorization: Bearer ' . RESEND_API_KEY,
         'Content-Type: application/json'
@@ -223,10 +225,10 @@ try {
     unset($_SESSION['verified_email']);
 
     echo json_encode(['success' => true, 'reference_id' => $referenceId]);
-} catch (Exception $e) {
+} catch (Throwable $e) {
     if ($pdo->inTransaction()) {
         $pdo->rollBack();
     }
     http_response_code(500);
-    echo json_encode(['error' => 'Database transaction failed: ' . $e->getMessage()]);
+    echo json_encode(['error' => 'Registration processing failed: ' . $e->getMessage()]);
 }
