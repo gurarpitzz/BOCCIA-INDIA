@@ -11,6 +11,7 @@ $step = 1; // 1: Lookup, 2: OTP Verification, 3: Form Update, 4: Success
 $member_type = isset($_POST['member_type']) ? $_POST['member_type'] : (isset($_GET['type']) ? $_GET['type'] : 'athlete');
 $member_id_input = isset($_POST['member_id_input']) ? trim($_POST['member_id_input']) : (isset($_GET['id']) ? trim($_GET['id']) : '');
 $dob = isset($_POST['dob']) ? trim($_POST['dob']) : '';
+$lookup_email = isset($_POST['lookup_email']) ? strtolower(trim($_POST['lookup_email'])) : '';
 
 $matched_id = isset($_POST['matched_id']) ? (int)$_POST['matched_id'] : 0;
 $matched_email = isset($_POST['matched_email']) ? trim($_POST['matched_email']) : '';
@@ -21,8 +22,8 @@ $needs_otp = false;
 
 // Handle Lookup Step 1
 if (isset($_POST['lookup'])) {
-    if (empty($member_id_input) || empty($dob)) {
-        $error = "Please fill in all identity lookup fields.";
+    if (empty($member_id_input) || empty($dob) || empty($lookup_email)) {
+        $error = "Please fill in all identity lookup fields including your registered email.";
     } else {
         try {
             $matched = null;
@@ -41,11 +42,12 @@ if (isset($_POST['lookup'])) {
             }
 
             if ($matched) {
-                $matched_id = $matched['id'];
-                $phone = $member_type === 'athlete' ? $matched['mobile'] : $matched['phone'];
                 $email = $matched['email'];
-
-                if (!empty($email)) {
+                if (empty($email) || strtolower(trim($email)) !== $lookup_email) {
+                    $error = "The entered email address does not match our records for this profile.";
+                } else {
+                    $matched_id = $matched['id'];
+                    $phone = $member_type === 'athlete' ? $matched['mobile'] : $matched['phone'];
                     $needs_otp = true;
                     $step = 2;
                     
@@ -94,10 +96,6 @@ if (isset($_POST['lookup'])) {
                     ]));
                     curl_exec($ch);
                     curl_close($ch);
-                } else {
-                    // Direct to Step 3 - Manual Admin Review
-                    $step = 3;
-                    $message = "No contact details on file. Your update will require manual admin verification.";
                 }
             } else {
                 $error = "No active approved registration found matching the entered details.";
@@ -326,6 +324,10 @@ include __DIR__ . '/../includes/header.php';
                     <div class="mb-4">
                         <label class="form-label-custom">Date of Birth</label>
                         <input type="date" name="dob" value="<?php echo htmlspecialchars($dob); ?>" class="form-control-custom" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label-custom">Registered Email Address</label>
+                        <input type="email" name="lookup_email" value="<?php echo htmlspecialchars($lookup_email); ?>" class="form-control-custom" placeholder="E.g. athlete@example.com" required>
                     </div>
                     <button type="submit" name="lookup" class="btn-submit-update">Verify Identity</button>
                 </form>
