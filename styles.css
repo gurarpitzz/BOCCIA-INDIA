@@ -4364,12 +4364,11 @@ body {
 .stars-section::before {
     content: '';
     position: absolute;
-    top: -10px; left: -10px; right: -10px; bottom: -10px; /* Slight extra margin to prevent blur edge bleeding */
+    top: 0; left: 0; right: 0; bottom: 0;
     background-image: url('our starts bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: blur(5px); /* Mild background blur */
     z-index: 0;
     pointer-events: none;
 }
