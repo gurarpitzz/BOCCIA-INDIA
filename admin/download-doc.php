@@ -103,7 +103,21 @@ if (ob_get_level()) {
 }
 
 // Stream the document with proper mime headers
-$mime = mime_content_type($realTarget);
+$mime = 'application/octet-stream';
+if (function_exists('mime_content_type')) {
+    $mime = mime_content_type($realTarget);
+} else {
+    $ext = strtolower(pathinfo($realTarget, PATHINFO_EXTENSION));
+    $mimes = [
+        'jpg' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'pdf' => 'application/pdf'
+    ];
+    if (isset($mimes[$ext])) {
+        $mime = $mimes[$ext];
+    }
+}
 header('Content-Type: ' . $mime);
 header('Content-Length: ' . filesize($realTarget));
 header('Content-Disposition: inline; filename="' . basename($realTarget) . '"');
