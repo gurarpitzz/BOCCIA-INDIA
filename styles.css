@@ -4473,8 +4473,8 @@ body {
     background: #ffffff;
     border: 3.5px solid var(--navy-primary);
     border-radius: 50%;
-    width: 130px;
-    height: 130px;
+    width: 144px;
+    height: 144px;
     display: flex;
     flex-direction: column;
     align-items: center;
