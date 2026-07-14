@@ -108,7 +108,7 @@ try {
 
     // Validate Photo
     $photoExt = strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
-    $photoMime = mime_content_type($photo['tmp_name']);
+    $photoMime = function_exists('mime_content_type') ? mime_content_type($photo['tmp_name']) : $photo['type'];
     if (!in_array($photoExt, ['jpg', 'jpeg', 'png']) || !in_array($photoMime, ['image/jpeg', 'image/png'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid passport photo file type (only JPG/PNG allowed).']);
@@ -122,7 +122,7 @@ try {
 
     // Validate Doc
     $docExt = strtolower(pathinfo($doc['name'], PATHINFO_EXTENSION));
-    $docMime = mime_content_type($doc['tmp_name']);
+    $docMime = function_exists('mime_content_type') ? mime_content_type($doc['tmp_name']) : $doc['type'];
     if (!in_array($docExt, ['jpg', 'jpeg', 'png', 'pdf']) || !in_array($docMime, ['image/jpeg', 'image/png', 'application/pdf'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid government ID file type (only JPG/PNG/PDF allowed).']);
@@ -143,16 +143,16 @@ try {
     $dupResult = checkOfficialDuplicate($pdo, $full_name, $dob, $email, $phone, $aadhaar);
     $appUuid = generateUUID();
 
-    // Insert to get the insertId
+    // Insert to get the insertId (using unique appUuid temporarily as reference_id to avoid UNIQUE constraint clashes)
     $stmt = $pdo->prepare("INSERT INTO official_applications (
         application_uuid, reference_id, full_name, role, gender, dob, father_name, 
         state, aadhaar, phone, email, address, pincode, 
         kit_tshirt, kit_tracksuit, kit_shoe, status, existing_official_id, 
         possible_duplicate, duplicate_score
-    ) VALUES (?, 'TEMP', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)");
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?, ?)");
 
     $stmt->execute([
-        $appUuid, $full_name, $role, $gender, $dob, $father_name,
+        $appUuid, $appUuid, $full_name, $role, $gender, $dob, $father_name,
         $state, $aadhaar, $phone, $email, $address, $pincode,
         $kit_tshirt, $kit_tracksuit, $kit_shoe, $dupResult['official_id'],
         $dupResult['is_duplicate'] ? 1 : 0, $dupResult['score']
