@@ -55,19 +55,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         if (empty($discipline) || empty($date_text) || empty($venue)) {
             $message = "<div class='alert alert-danger'>Discipline, Date, and Venue are required.</div>";
         } else {
-            if ($id > 0) {
-                // Update
-                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, sort_order=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=? WHERE id=?");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $id]);
-                logAction($pdo, "Updated Schedule", "schedules", $id);
-                $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
+            // Enforce unique sort_order validation
+            $checkSort = $pdo->prepare("SELECT COUNT(*) FROM schedules WHERE sort_order = ? AND id != ?");
+            $checkSort->execute([$sort_order, $id]);
+            $exists = $checkSort->fetchColumn() > 0;
+
+            if ($exists) {
+                $message = "<div class='alert alert-danger'>A schedule with this Sort Order already exists. Sort Order must be unique.</div>";
             } else {
-                // Insert
-                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, sort_order, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list]);
-                $newId = $pdo->lastInsertId();
-                logAction($pdo, "Added Schedule", "schedules", $newId);
-                $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
+                if ($id > 0) {
+                    // Update
+                    $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, sort_order=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=? WHERE id=?");
+                    $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $id]);
+                    logAction($pdo, "Updated Schedule", "schedules", $id);
+                    $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
+                } else {
+                    // Insert
+                    $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, sort_order, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list]);
+                    $newId = $pdo->lastInsertId();
+                    logAction($pdo, "Added Schedule", "schedules", $newId);
+                    $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
+                }
             }
         }
     }
