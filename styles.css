@@ -4568,16 +4568,16 @@ body {
 
 /* Beacon Sizing Modes */
 .athlete-beacon.node-elite {
-    width: 76px;
-    height: 76px;
+    width: 96px;
+    height: 96px;
 }
 .athlete-beacon.node-national {
-    width: 64px;
-    height: 64px;
+    width: 84px;
+    height: 84px;
 }
 .athlete-beacon.node-junior {
-    width: 52px;
-    height: 52px;
+    width: 72px;
+    height: 72px;
 }
 
 .beacon-pulse {
@@ -4588,7 +4588,7 @@ body {
     pointer-events: none;
     animation: beacon-wave var(--pulse-speed, 4s) ease-out infinite;
     animation-delay: var(--pulse-delay, 0s);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    clip-path: polygon(50% 0%, 63% 38%, 98% 38%, 70% 59%, 81% 94%, 50% 74%, 19% 94%, 30% 59%, 2% 38%, 37% 38%);
 }
 @keyframes beacon-wave {
     0% { transform: scale(0.95); opacity: 0; }
@@ -4609,14 +4609,14 @@ body {
     z-index: 2;
     overflow: visible;
     transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    clip-path: polygon(50% 0%, 63% 38%, 98% 38%, 70% 59%, 81% 94%, 50% 74%, 19% 94%, 30% 59%, 2% 38%, 37% 38%);
 }
 .beacon-portrait-img {
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
     background-color: var(--navy-primary);
-    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    clip-path: polygon(50% 0%, 63% 38%, 98% 38%, 70% 59%, 81% 94%, 50% 74%, 19% 94%, 30% 59%, 2% 38%, 37% 38%);
 }
 
 .beacon-badge {
