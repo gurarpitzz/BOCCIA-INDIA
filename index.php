@@ -627,70 +627,70 @@ try {
                             <div class="beacon-portrait-wrap" id="beacon-wrap-ajeya_raj">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.webp'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC3</span>
+                            <span class="beacon-badge">Ajeya Raj</span>
                         </button>
-
+ 
                         <!-- 2. Anjali Devi -->
                         <button class="athlete-beacon node-national" data-id="anjali_devi" style="--x: 50; --y: 24; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-anjali_devi">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).webp'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC3</span>
+                            <span class="beacon-badge">Anjali Devi</span>
                         </button>
-
+ 
                         <!-- 3. Jatin Kushwah -->
                         <button class="athlete-beacon node-elite" data-id="jatin_kushwah" style="--x: 68; --y: 18.8; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-jatin_kushwah">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/KITI8395.webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC4</span>
+                            <span class="beacon-badge">Jatin Kushwah</span>
                         </button>
-
+ 
                         <!-- 4. Pooja Gupta -->
                         <button class="athlete-beacon node-elite" data-id="pooja_gupta" style="--x: 32; --y: 18.8; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-pooja_gupta">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).webp'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC4</span>
+                            <span class="beacon-badge">Pooja Gupta</span>
                         </button>
-
+ 
                         <!-- 5. Sachin Chamaria -->
                         <button class="athlete-beacon node-elite" data-id="sachin_chamaria" style="--x: 86; --y: 50; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-sachin_chamaria">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC3</span>
+                            <span class="beacon-badge">Sachin Chamaria</span>
                         </button>
-
+ 
                         <!-- 6. Sarita -->
                         <button class="athlete-beacon node-national" data-id="sarita" style="--x: 32; --y: 68; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-sarita">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC3</span>
+                            <span class="beacon-badge">Sarita</span>
                         </button>
-
+ 
                         <!-- 7. Usha Kiran -->
                         <button class="athlete-beacon node-junior" data-id="usha_kiran" style="--x: 50; --y: 76; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-usha_kiran">
                                 <span class="beacon-portrait-img" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #FF9933 0%, #138808 100%); color: #fff; font-weight: 800; font-size: 0.75rem;">UK</span>
                             </div>
-                            <span class="beacon-badge">BC3</span>
+                            <span class="beacon-badge">Usha Kiran</span>
                         </button>
-
+ 
                         <!-- 8. Vyom Pawa -->
                         <button class="athlete-beacon node-national" data-id="vyom_pawa" style="--x: 68; --y: 68; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-vyom_pawa">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).webp'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
                             </div>
-                            <span class="beacon-badge">BC2</span>
+                            <span class="beacon-badge">Vyom Pawa</span>
                         </button>
 
                     </div>

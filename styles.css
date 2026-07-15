@@ -4634,6 +4634,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
     z-index: 3;
     pointer-events: none;
+    white-space: nowrap;
 }
 
 /* Hover Beacon State */
