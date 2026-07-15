@@ -25,7 +25,9 @@ include __DIR__ . '/includes/header.php';
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(248, 245, 239, 0.93) !important;
+        background: rgba(248, 245, 239, 0.90) !important;
+        backdrop-filter: blur(6px) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
         z-index: -1;
     }
 </style>
