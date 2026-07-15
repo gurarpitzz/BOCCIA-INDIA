@@ -174,7 +174,6 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
 </head>
 <body class="accessibility-target">
 <!-- BSFI V2.5-MOBILE-GRID -->
-<a href="#main-content" class="skip-link">Skip to Main Content</a>
 
 <!-- GSAP Preloader (Local) -->
 <script src="<?php echo $relative_prefix; ?>assets/vendor/gsap/gsap.min.js?v=1"></script>

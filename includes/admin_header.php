@@ -60,7 +60,6 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
     </script>
 </head>
 <body class="admin-body">
-<a href="#main-content" class="skip-link">Skip to Main Content</a>
 
 <div class="admin-layout" id="admin-layout-container">
     <script>
