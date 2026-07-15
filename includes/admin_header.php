@@ -121,12 +121,7 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                         <span class="nav-label">Gallery</span>
                     </a>
                 </li>
-                <li>
-                    <a href="events.php" class="<?php echo ($current_file === 'events.php') ? 'active' : ''; ?>">
-                        <i class="fa-solid fa-calendar-days"></i>
-                        <span class="nav-label">Events</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="schedules.php" class="<?php echo ($current_file === 'schedules.php') ? 'active' : ''; ?>">
                         <i class="fa-solid fa-clock"></i>

@@ -54,8 +54,6 @@ $missingContactInfo = $stmt->fetchColumn();
 $stmt = $pdo->query("SELECT COUNT(*) FROM profile_update_requests WHERE status='pending'");
 $pendingProfileUpdates = $stmt->fetchColumn();
 
-$stmt = $pdo->query("SELECT COUNT(*) FROM events");
-$totalEvents = $stmt->fetchColumn();
 
 $stmt = $pdo->query("SELECT COUNT(*) FROM news");
 $totalNews = $stmt->fetchColumn();
@@ -285,17 +283,6 @@ $auditLogs = $stmt->fetchAll();
                                     </div>
                                     <a href="gallery.php" style="font-size:0.82rem; font-weight:700; color:var(--bsfi-green); text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;">
                                         Manage Media <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                </div>
-
-                                <!-- Events -->
-                                <div class="admin-card hoverable" style="margin-bottom:0; padding:1.25rem; min-height:140px; display:flex; flex-direction:column; justify-content:space-between;">
-                                    <div>
-                                        <h5 style="font-size:0.95rem; font-weight:700; color:#081B4B; margin:0 0 0.35rem 0;">Events</h5>
-                                        <p style="font-size:0.8rem; color:#64748b; margin:0;"><?php echo $totalEvents; ?> federation events</p>
-                                    </div>
-                                    <a href="events.php" style="font-size:0.82rem; font-weight:700; color:var(--bsfi-green); text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;">
-                                        Manage Calendar <i class="fa-solid fa-arrow-right"></i>
                                     </a>
                                 </div>
 

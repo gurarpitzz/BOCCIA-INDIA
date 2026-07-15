@@ -9,7 +9,7 @@
         <div class="cta-buttons">
             <a href="get-involved/register-player.php" class="btn cta-btn btn-primary-saffron">Become a Player</a>
             <a href="get-involved/register-official.php" class="btn cta-btn btn-outline-white">Become an Official</a>
-            <a href="competitions/national-events.php" class="btn cta-btn btn-outline-white">Explore Competitions</a>
+            <a href="index.php#boccia-stars" class="btn cta-btn btn-outline-white">Meet Our Stars</a>
         </div>
     </div>
 </section>
