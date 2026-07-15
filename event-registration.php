@@ -494,13 +494,13 @@ foreach ($rows as $row) {
 
     <!-- Error/Success Alerts -->
     <?php if(!empty($error)): ?>
-        <div class="alert alert-danger" style="border-radius: 12px; font-weight: 600; padding: 1rem 1.5rem; margin-bottom: 2rem;">
+        <div class="alert alert-danger" style="border-radius: 12px; font-weight: 600; padding: 1rem 1.5rem; margin-bottom: 2rem; color: #991B1B; background-color: #FEE2E2; border: 1px solid #FCA5A5;">
             <i class="fa-solid fa-triangle-exclamation me-2"></i> <?php echo $error; ?>
         </div>
     <?php endif; ?>
 
     <?php if(!empty($success)): ?>
-        <div class="alert alert-success" style="border-radius: 12px; font-weight: 600; padding: 1rem 1.5rem; margin-bottom: 2rem;">
+        <div class="alert alert-success" style="border-radius: 12px; font-weight: 600; padding: 1rem 1.5rem; margin-bottom: 2rem; color: #065F46; background-color: #D1FAE5; border: 1px solid #A7F3D0;">
             <i class="fa-solid fa-circle-check me-2"></i> <?php echo $success; ?>
         </div>
     <?php endif; ?>
