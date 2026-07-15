@@ -311,7 +311,7 @@ if ($step == 2 && isset($_POST['submit_registration'])) {
             // To do this simply in procedural PHP, we insert first and then construct the number using the last insert ID.
             
             // Collect snapshot details
-            $snapshot_name = $member['name'];
+            $snapshot_name = $member['full_name'];
             $snapshot_regn_no = $_SESSION['member_type'] === 'athlete' ? $member['regn_no'] : $member['official_reg_no'];
             $snapshot_email = $member['email'];
             $snapshot_mobile = $_SESSION['member_type'] === 'athlete' ? $member['mobile'] : $member['phone'];
@@ -558,7 +558,7 @@ foreach ($rows as $row) {
                 <div>
                     <h5 class="fw-bold border-bottom pb-2 mb-3" style="color: #081B4B;"><i class="fa-solid fa-id-card"></i> Member Profile Details (Pre-Filled)</h5>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; background:#f8fafc; padding:1.5rem; border-radius:12px; font-size:0.95rem;">
-                        <div><span class="text-secondary fw-semibold">Name:</span> <strong class="text-dark"><?php echo htmlspecialchars($member['name']); ?></strong></div>
+                        <div><span class="text-secondary fw-semibold">Name:</span> <strong class="text-dark"><?php echo htmlspecialchars($member['full_name']); ?></strong></div>
                         <div><span class="text-secondary fw-semibold">Reg No:</span> <strong class="text-dark"><?php echo htmlspecialchars($_SESSION['member_type'] === 'athlete' ? $member['regn_no'] : $member['official_reg_no']); ?></strong></div>
                         <div><span class="text-secondary fw-semibold">Email:</span> <span class="text-dark"><?php echo htmlspecialchars($member['email']); ?></span></div>
                         <div><span class="text-secondary fw-semibold">Mobile:</span> <span class="text-dark"><?php echo htmlspecialchars($_SESSION['member_type'] === 'athlete' ? $member['mobile'] : $member['phone']); ?></span></div>
