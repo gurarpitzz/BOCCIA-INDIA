@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
             $exists = $checkSort->fetchColumn() > 0;
 
             if ($exists) {
-                $message = "<div class='alert alert-danger'>A schedule with this Sort Order already exists. Sort Order must be unique.</div>";
+                $message = "<div class='alert alert-danger'>This display position is already taken by another event. Please choose a different order number so the events line up correctly on the homepage.</div>";
             } else {
                 if ($id > 0) {
                     // Update
