@@ -17,6 +17,10 @@ include __DIR__ . '/includes/header.php';
         position: relative;
         background: none !important;
     }
+    /* Make the page content wrapper transparent to reveal body background */
+    #page-wrapper {
+        background: transparent !important;
+    }
     /* Blurred background image layer */
     body.accessibility-target::before {
         content: "";
