@@ -58,8 +58,6 @@ $pendingProfileUpdates = $stmt->fetchColumn();
 $stmt = $pdo->query("SELECT COUNT(*) FROM news");
 $totalNews = $stmt->fetchColumn();
 
-$stmt = $pdo->query("SELECT COUNT(*) FROM document_pages");
-$totalDocuments = $stmt->fetchColumn();
 
 $stmt = $pdo->query("SELECT COUNT(*) FROM gallery_images");
 $totalGallery = $stmt->fetchColumn();
@@ -253,16 +251,7 @@ $auditLogs = $stmt->fetchAll();
                             <hr style="margin: 0.5rem 0 1.5rem 0; border-color: rgba(0,0,0,0.06); height:1px; border:none; background:rgba(0,0,0,0.08);">
                             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1.25rem;">
                                 
-                                <!-- Document Pages -->
-                                <div class="admin-card hoverable" style="margin-bottom:0; padding:1.25rem; min-height:140px; display:flex; flex-direction:column; justify-content:space-between;">
-                                    <div>
-                                        <h5 style="font-size:0.95rem; font-weight:700; color:#081B4B; margin:0 0 0.35rem 0;">Document Pages</h5>
-                                        <p style="font-size:0.8rem; color:#64748b; margin:0;"><?php echo $totalDocuments; ?> uploaded files & policies</p>
-                                    </div>
-                                    <a href="document_pages.php" style="font-size:0.82rem; font-weight:700; color:var(--bsfi-green); text-decoration:none; display:inline-flex; align-items:center; gap:0.3rem;">
-                                        Manage Documents <i class="fa-solid fa-arrow-right"></i>
-                                    </a>
-                                </div>
+
 
                                 <!-- News -->
                                 <div class="admin-card hoverable" style="margin-bottom:0; padding:1.25rem; min-height:140px; display:flex; flex-direction:column; justify-content:space-between;">
