@@ -548,6 +548,14 @@ try {
      (Flagship Interactive Hall of Fame)
 ════════════════════════════════════════════ -->
 <section id="boccia-stars" class="stars-section">
+    <!-- SVG Clip Path for rounded 5-pointed star -->
+    <svg width="0" height="0" style="position: absolute; width: 0; height: 0;">
+      <defs>
+        <clipPath id="star-clip-path" clipPathUnits="objectBoundingBox">
+          <path d="M 0.5 0.05 C 0.52 0.12 0.59 0.27 0.65 0.32 C 0.72 0.37 0.88 0.37 0.94 0.4 C 1.0 0.43 0.96 0.52 0.9 0.58 C 0.84 0.64 0.78 0.73 0.79 0.81 C 0.8 0.89 0.85 0.98 0.78 1.0 C 0.71 1.02 0.6 0.9 0.5 0.9 C 0.4 0.9 0.29 1.02 0.22 1.0 C 0.15 0.98 0.2 0.89 0.21 0.81 C 0.22 0.73 0.16 0.64 0.1 0.58 C 0.04 0.52 0.0 0.43 0.06 0.4 C 0.12 0.37 0.28 0.37 0.35 0.32 C 0.41 0.27 0.48 0.12 0.5 0.05 Z" />
+        </clipPath>
+      </defs>
+    </svg>
     <div class="stars-bg-pattern"></div>
     
     <!-- Background sparkles drifting -->
