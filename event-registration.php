@@ -10,7 +10,27 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $page_title = "Event Registration - BSFI Portal";
 include __DIR__ . '/includes/header.php';
+?>
 
+<style>
+    body.accessibility-target {
+        background: url('about%20boccia/overview_bg.webp') no-repeat center center fixed !important;
+        background-size: cover !important;
+    }
+    /* Add a subtle glassmorphism overlay to body to ensure text remains highly legible */
+    body.accessibility-target::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(248, 245, 239, 0.93) !important;
+        z-index: -1;
+    }
+</style>
+
+<?php
 $event_id = isset($_GET['event_id']) ? (int)$_GET['event_id'] : 0;
 
 $stmt = $pdo->prepare("SELECT * FROM schedules WHERE id = ? AND active = 1");
