@@ -1,5 +1,8 @@
 <?php
 // schedules.php - Admin panel to manage National Calendar / Schedules
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
@@ -253,11 +256,9 @@ function openScheduleModal(item) {
         document.getElementById('schedule-fee').value = item.registration_fee || '0.00';
         document.getElementById('schedule-capacity').value = item.max_participants || '';
         
-        if (item.registration_deadline) {
+        if (item.registration_deadline && item.registration_deadline !== '0000-00-00 00:00:00') {
             // Convert MySQL datetime to datetime-local format (YYYY-MM-DDTHH:MM)
-            const d = new Date(item.registration_deadline);
-            const pad = (num) => String(num).padStart(2, '0');
-            const localStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            const localStr = item.registration_deadline.substring(0, 16).replace(' ', 'T');
             document.getElementById('schedule-deadline').value = localStr;
         } else {
             document.getElementById('schedule-deadline').value = '';
