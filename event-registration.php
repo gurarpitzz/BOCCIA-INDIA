@@ -561,7 +561,7 @@ foreach ($rows as $row) {
             <div class="card-header bg-navy text-white py-4" style="background: #081B4B;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
                     <h4 style="font-family: 'Outfit', sans-serif; font-weight: 700; margin: 0;">Step 2: Complete Registration</h4>
-                    <span class="badge bg-light text-navy fw-bold px-3 py-2 text-uppercase"><?php echo htmlspecialchars($_SESSION['member_type']); ?> Verified</span>
+                    <span class="badge bg-success text-white fw-bold px-3 py-2 text-uppercase" style="letter-spacing: 0.5px;"><i class="fa-solid fa-circle-check me-1"></i> <?php echo htmlspecialchars($_SESSION['member_type']); ?> Verified</span>
                 </div>
             </div>
             
