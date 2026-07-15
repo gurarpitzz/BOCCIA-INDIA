@@ -119,6 +119,9 @@ if (isset($_POST['send_otp']) && $step > 0) {
                     curl_exec($ch);
                     curl_close($ch);
 
+                    // Log to cache for easy debugging/local verification
+                    @file_put_contents(__DIR__ . '/cache/otp_debug.log', "[" . date('Y-m-d H:i:s') . "] Email: {$email} | OTP: {$otpCode}\n", FILE_APPEND);
+
                     $matched_email = $email;
                     $success = "A 6-digit verification code has been dispatched to your email: " . htmlspecialchars($email);
                     $step = 1.5; // OTP entry screen
