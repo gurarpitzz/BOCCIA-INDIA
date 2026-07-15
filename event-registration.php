@@ -113,19 +113,14 @@ if (isset($_POST['send_otp']) && $step > 0) {
             if ($matched) {
                 $email = trim($matched['email'] ?? '');
                 
-                // If email is empty (common for legacy profiles 01-99), associate the entered email on the fly
-                if (empty($email)) {
-                    $email = $lookup_email;
-                    if ($member_type === 'official') {
-                        $upEmail = $pdo->prepare("UPDATE officials SET email = ? WHERE id = ?");
-                        $upEmail->execute([$email, $matched['id']]);
-                    } else {
-                        $upEmail = $pdo->prepare("UPDATE athletes SET email = ? WHERE id = ?");
-                        $upEmail->execute([$email, $matched['id']]);
-                    }
-                }
+                // Check if they have an active pending profile update request
+                $pendingStmt = $pdo->prepare("SELECT COUNT(*) FROM profile_update_requests WHERE member_type = ? AND member_id = ? AND status = 'pending'");
+                $pendingStmt->execute([$member_type, $matched['id']]);
+                $hasPendingUpdate = $pendingStmt->fetchColumn() > 0;
 
-                if (strtolower($email) !== $lookup_email) {
+                if (empty($email) || $hasPendingUpdate) {
+                    $error = "<strong>Your federation profile must be completed before you can register for events.</strong> We noticed your profile is either incomplete or currently awaiting approval. Please complete or finish the profile update process first. Once approved by BSFI, you can immediately return and register for this event.<br><a href='get-involved/update-profile.php?type=" . urlencode($member_type) . "&id=" . urlencode($member_id_input) . "' class='btn btn-sm btn-warning mt-2 fw-bold text-dark'><i class='fa-solid fa-pen-to-square'></i> Go to Profile Completion / Verification</a>";
+                } elseif (strtolower($email) !== $lookup_email) {
                     $error = "The entered email address does not match our records for this profile.";
                 } else {
                     // Generate OTP code
@@ -137,7 +132,7 @@ if (isset($_POST['send_otp']) && $step > 0) {
                     $del->execute([$email]);
 
                     // Save hashed OTP
-                    $expiresAt = date('Y-m-d H:i:s', time() + 300); // 5 mins
+                    $expiresAt = date('Y-m-d H:i:s', time() + 600); // 10 mins (OTP validity)
                     $ins = $pdo->prepare("INSERT INTO email_otps (email, otp_hash, expires_at, ip_address) VALUES (?, ?, ?, ?)");
                     $ins->execute([$email, $otpHash, $expiresAt, $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1']);
 

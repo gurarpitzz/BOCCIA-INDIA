@@ -42,8 +42,14 @@ if (isset($_POST['lookup'])) {
             }
 
             if ($matched) {
-                $email = $matched['email'];
-                if (empty($email) || strtolower(trim($email)) !== $lookup_email) {
+                $email = trim($matched['email'] ?? '');
+                
+                // Email claim logic: if no email exists on the legacy profile, treat the entered email as the claimed email
+                if (empty($email)) {
+                    $email = $lookup_email;
+                }
+
+                if (strtolower($email) !== $lookup_email) {
                     $error = "The entered email address does not match our records for this profile.";
                 } else {
                     $matched_id = $matched['id'];
@@ -64,7 +70,7 @@ if (isset($_POST['lookup'])) {
                     $del->execute([$email]);
 
                     // Save hashed OTP
-                    $expiresAt = date('Y-m-d H:i:s', time() + 300); // 5 minutes validity
+                    $expiresAt = date('Y-m-d H:i:s', time() + 600); // 10 minutes validity
                     $ins = $pdo->prepare("INSERT INTO email_otps (email, otp_hash, expires_at, ip_address) VALUES (?, ?, ?, ?)");
                     $ins->execute([$email, $otpHash, $expiresAt, $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1']);
 

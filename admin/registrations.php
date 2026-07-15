@@ -143,6 +143,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     throw new Exception("Profile update request not found.");
                 }
 
+                if ($req['status'] !== 'pending') {
+                    throw new Exception("This profile update request has already been processed (current status: " . $req['status'] . ").");
+                }
+
                 $notes = isset($_POST['review_notes']) ? trim($_POST['review_notes']) : '';
                 $memberId = (int)$req['member_id'];
                 $memberType = $req['member_type'];
@@ -239,6 +243,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     throw new Exception("Athlete application not found.");
                 }
 
+                if ($app['status'] !== 'pending') {
+                    throw new Exception("This application has already been processed (current status: " . $app['status'] . ").");
+                }
+
                 if ($action === 'reject') {
                     $up = $pdo->prepare("UPDATE athlete_applications SET status = 'rejected' WHERE id = ?");
                     $up->execute([$applicationId]);
@@ -291,17 +299,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 } elseif ($action === 'approve_new') {
                     $pdo->beginTransaction();
 
-                    $seqStmt = $pdo->query("SELECT athlete_last_no FROM registration_sequences FOR UPDATE");
-                    $lastNo = (int)$seqStmt->fetchColumn();
-                    
-                    // Sync check: ensure lastNo is at least the MAX(CAST(regn_no AS UNSIGNED)) in athletes table
+                    // Mutex lock to prevent concurrent generation issues
+                    $pdo->query("SELECT athlete_last_no FROM registration_sequences WHERE id = 1 FOR UPDATE");
+
+                    // Determine highest existing sequential registration number (approved live records only)
                     $maxAthStmt = $pdo->query("SELECT MAX(CAST(regn_no AS UNSIGNED)) FROM athletes");
                     $maxAthNo = (int)$maxAthStmt->fetchColumn();
-                    if ($maxAthNo > $lastNo) {
-                        $lastNo = $maxAthNo;
+                    if ($maxAthNo < 99) {
+                        $maxAthNo = 99; // Preserve legacy numbering strategy
                     }
-                    
-                    $nextNo = $lastNo + 1;
+                    $nextNo = $maxAthNo + 1;
 
                     $upSeq = $pdo->prepare("UPDATE registration_sequences SET athlete_last_no = ?");
                     $upSeq->execute([$nextNo]);
@@ -363,6 +370,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     throw new Exception("Official application not found.");
                 }
 
+                if ($app['status'] !== 'pending') {
+                    throw new Exception("This application has already been processed (current status: " . $app['status'] . ").");
+                }
+
                 if ($action === 'reject') {
                     $up = $pdo->prepare("UPDATE official_applications SET status = 'rejected' WHERE id = ?");
                     $up->execute([$applicationId]);
@@ -403,17 +414,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 } elseif ($action === 'approve_new') {
                     $pdo->beginTransaction();
 
-                    $seqStmt = $pdo->query("SELECT official_last_no FROM registration_sequences FOR UPDATE");
-                    $lastNo = (int)$seqStmt->fetchColumn();
-                    
-                    // Sync check: ensure lastNo is at least the MAX of numerical portion of official_reg_no in officials table
+                    // Mutex lock to prevent concurrent generation issues
+                    $pdo->query("SELECT official_last_no FROM registration_sequences WHERE id = 1 FOR UPDATE");
+
+                    // Determine the highest approved live official suffix (ignoring prefix 'OF-', approved live records only)
                     $maxOffStmt = $pdo->query("SELECT MAX(CAST(SUBSTRING(official_reg_no, 4) AS UNSIGNED)) FROM officials WHERE official_reg_no LIKE 'OF-%'");
                     $maxOffNo = (int)$maxOffStmt->fetchColumn();
-                    if ($maxOffNo > $lastNo) {
-                        $lastNo = $maxOffNo;
-                    }
-                    
-                    $nextNo = $lastNo + 1;
+                    $nextNo = $maxOffNo + 1;
 
                     $upSeq = $pdo->prepare("UPDATE registration_sequences SET official_last_no = ?");
                     $upSeq->execute([$nextNo]);
