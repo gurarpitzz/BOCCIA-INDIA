@@ -21,18 +21,15 @@ include __DIR__ . '/includes/header.php';
     #page-wrapper {
         background: transparent !important;
     }
-    /* Blurred background image layer */
     body.accessibility-target::before {
         content: "";
         position: fixed;
-        top: -5px;
-        left: -5px;
-        right: -5px;
-        bottom: -5px;
-        background: url('about%20boccia/overview_bg.webp') no-repeat center center fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('about%20boccia/why_boccia_matter_BG.webp') no-repeat center center fixed !important;
         background-size: cover !important;
-        filter: blur(3px) !important;
-        -webkit-filter: blur(3px) !important;
         z-index: -2;
     }
     /* Readability contrast color overlay layer */
