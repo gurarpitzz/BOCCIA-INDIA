@@ -25,14 +25,14 @@ include __DIR__ . '/includes/header.php';
     body.accessibility-target::before {
         content: "";
         position: fixed;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
         background: url('about%20boccia/overview_bg.webp') no-repeat center center fixed !important;
         background-size: cover !important;
-        filter: blur(8px) !important;
-        -webkit-filter: blur(8px) !important;
+        filter: blur(3px) !important;
+        -webkit-filter: blur(3px) !important;
         z-index: -2;
     }
     /* Readability contrast color overlay layer */
