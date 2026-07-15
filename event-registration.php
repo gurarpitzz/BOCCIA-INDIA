@@ -13,10 +13,24 @@ include __DIR__ . '/includes/header.php';
 
 $event_id = isset($_GET['event_id']) ? (int)$_GET['event_id'] : 0;
 
-// Fetch event details
 $stmt = $pdo->prepare("SELECT * FROM schedules WHERE id = ? AND active = 1");
 $stmt->execute([$event_id]);
 $event = $stmt->fetch();
+
+// Fetch dynamic form fields
+$form_fields = [];
+if ($event) {
+    $ffStmt = $pdo->prepare("SELECT * FROM event_form_fields WHERE schedule_id = ? AND is_active = 1 ORDER BY sort_order ASC, id ASC");
+    $ffStmt->execute([$event['id']]);
+    $form_fields = $ffStmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Fetch centralized bank details
+$bank = [];
+$bankStmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key LIKE 'payment_%'");
+while ($row = $bankStmt->fetch(PDO::FETCH_ASSOC)) {
+    $bank[$row['setting_key']] = $row['setting_value'];
+}
 
 $error = '';
 $success = '';
