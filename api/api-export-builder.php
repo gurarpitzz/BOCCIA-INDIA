@@ -24,8 +24,157 @@ function excelCell($val, $type = 'String') {
 }
 
 // ----------------------------------------------------
-// 1. MASTER EXPORT: Admin Only
+// 0. EVENT PARTICIPANTS EXPORT
 // ----------------------------------------------------
+if ($action === 'event_participants') {
+    $event_id = isset($_GET['event_id']) ? (int)$_GET['event_id'] : 0;
+    $statusFilter = isset($_GET['status']) ? trim($_GET['status']) : '';
+
+    // Verify event
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE id = ?");
+    $stmt->execute([$event_id]);
+    $event = $stmt->fetch();
+    if (!$event) {
+        die("Event not found.");
+    }
+
+    // Fetch dynamic custom fields for this event to generate headers
+    $fStmt = $pdo->prepare("SELECT id, field_label FROM event_form_fields WHERE schedule_id = ? ORDER BY sort_order ASC, id ASC");
+    $fStmt->execute([$event_id]);
+    $customFields = $fStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Build headers
+    $headers = [
+        'Registration ID',
+        'Member Type',
+        'Member Registration ID',
+        'Name',
+        'Email',
+        'Mobile',
+        'State',
+        'DOB',
+        'Gender',
+        'Classification',
+        'Payment Status',
+        'Registration Status',
+        'Transaction Ref',
+        'Receipt Path',
+        'Rejection Remarks',
+        'Created At'
+    ];
+    foreach ($customFields as $cf) {
+        $headers[] = $cf['field_label'];
+    }
+
+    // Fetch registrations
+    $sql = "SELECT * FROM event_registrations WHERE schedule_id = ?";
+    $params = [$event_id];
+    if (!empty($statusFilter)) {
+        $sql .= " AND registration_status = ?";
+        $params[] = $statusFilter;
+    }
+    $sql .= " ORDER BY created_at DESC";
+    $regStmt = $pdo->prepare($sql);
+    $regStmt->execute($params);
+    $registrations = $regStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $filename = 'BSFI_Event_Participants_' . preg_replace('/[^a-zA-Z0-9]/', '_', $event['discipline']) . '_' . date('Y-m-d') . ($format === 'xlsx' ? '.xls' : '.csv');
+
+    if ($format === 'xlsx') {
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename=' . $filename);
+        
+        echo "<?xml version=\"1.0\"?>\n";
+        echo "<?mso-application myexcel?>\n";
+        echo "<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\"\n";
+        echo " xmlns:o=\"urn:schemas-microsoft-com:office:office\"\n";
+        echo " xmlns:x=\"urn:schemas-microsoft-com:office:excel\"\n";
+        echo " xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\">\n";
+        echo " <Worksheet ss:Name=\"Participants\">\n";
+        echo "  <Table>\n";
+        echo "   <Row>\n";
+        foreach ($headers as $h) {
+            echo "    <Cell><Data ss:Type=\"String\">" . htmlspecialchars($h) . "</Data></Cell>\n";
+        }
+        echo "   </Row>\n";
+
+        foreach ($registrations as $reg) {
+            echo "   <Row>\n";
+            $row_data = [
+                $reg['registration_no'],
+                $reg['member_type'],
+                $reg['snapshot_regn_no'],
+                $reg['snapshot_name'],
+                $reg['snapshot_email'],
+                $reg['snapshot_mobile'],
+                $reg['snapshot_state'],
+                $reg['snapshot_dob'],
+                $reg['snapshot_gender'],
+                $reg['snapshot_classification'],
+                $reg['payment_status'],
+                $reg['registration_status'],
+                $reg['transaction_reference'],
+                $reg['payment_receipt_path'],
+                $reg['rejection_remarks'],
+                $reg['created_at']
+            ];
+            // Fetch answers
+            $aStmt = $pdo->prepare("SELECT answer_value FROM event_registration_answers WHERE registration_id = ? AND field_id = ?");
+            foreach ($customFields as $cf) {
+                $aStmt->execute([$reg['id'], $cf['id']]);
+                $row_data[] = $aStmt->fetchColumn() ?: '';
+            }
+
+            foreach ($row_data as $val) {
+                echo excelCell($val);
+            }
+            echo "   </Row>\n";
+        }
+
+        echo "  </Table>\n";
+        echo " </Worksheet>\n";
+        echo "</Workbook>\n";
+        logAction($pdo, "Exported Event Participants Excel spreadsheet", "schedules", $event_id);
+        exit();
+    } else {
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=' . $filename);
+        $output = fopen('php://output', 'w');
+        fputcsv($output, $headers);
+
+        foreach ($registrations as $reg) {
+            $row_data = [
+                $reg['registration_no'],
+                $reg['member_type'],
+                $reg['snapshot_regn_no'],
+                $reg['snapshot_name'],
+                $reg['snapshot_email'],
+                $reg['snapshot_mobile'],
+                $reg['snapshot_state'],
+                $reg['snapshot_dob'],
+                $reg['snapshot_gender'],
+                $reg['snapshot_classification'],
+                $reg['payment_status'],
+                $reg['registration_status'],
+                $reg['transaction_reference'],
+                $reg['payment_receipt_path'],
+                $reg['rejection_remarks'],
+                $reg['created_at']
+            ];
+            // Fetch answers
+            $aStmt = $pdo->prepare("SELECT answer_value FROM event_registration_answers WHERE registration_id = ? AND field_id = ?");
+            foreach ($customFields as $cf) {
+                $aStmt->execute([$reg['id'], $cf['id']]);
+                $row_data[] = $aStmt->fetchColumn() ?: '';
+            }
+            fputcsv($output, $row_data);
+        }
+        fclose($output);
+        logAction($pdo, "Exported Event Participants CSV spreadsheet", "schedules", $event_id);
+        exit();
+    }
+}
+
 if ($action === 'master') {
     if ($role !== 'admin') {
         http_response_code(403);

@@ -497,7 +497,7 @@ body.preloader-active { overflow: hidden !important; }
                                          if ($item['slug'] === 'international-events') {
                                              $link = "https://worldboccia.io/events";
                                          } else {
-                                             $link = $logo_path . "competitions/national-events.php";
+                                             $link = $logo_path . "index.php#schedules";
                                          }
                                     } else {
                                          $link = !empty($item['slug']) ? $logo_path . "page.php?section=" . urlencode($item['section']) . "&slug=" . urlencode($item['slug']) : "#";

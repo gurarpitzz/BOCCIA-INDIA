@@ -137,6 +137,14 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                         <span class="nav-label">Users</span>
                     </a>
                 </li>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                <li>
+                    <a href="federation-settings.php" class="<?php echo ($current_file === 'federation-settings.php') ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-gears"></i>
+                        <span class="nav-label">Federation Settings</span>
+                    </a>
+                </li>
+                <?php endif; ?>
                 <li>
                     <a href="export-center.php" class="<?php echo ($current_file === 'export-center.php') ? 'active' : ''; ?>">
                         <i class="fa-solid fa-file-export"></i>

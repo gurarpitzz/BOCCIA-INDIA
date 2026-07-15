@@ -43,19 +43,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         $sort_order = isset($_POST['sort_order']) ? (int)$_POST['sort_order'] : 0;
         $active = isset($_POST['active']) ? 1 : 0;
 
+        $registration_mode = trim($_POST['registration_mode'] ?? 'external');
+        $registration_fee = (float)($_POST['registration_fee'] ?? 0.00);
+        $registration_deadline = !empty($_POST['registration_deadline']) ? trim($_POST['registration_deadline']) : null;
+        $max_participants = !empty($_POST['max_participants']) ? (int)$_POST['max_participants'] : null;
+        $allow_waiting_list = isset($_POST['allow_waiting_list']) ? 1 : 0;
+
         if (empty($discipline) || empty($date_text) || empty($venue)) {
             $message = "<div class='alert alert-danger'>Discipline, Date, and Venue are required.</div>";
         } else {
             if ($id > 0) {
                 // Update
-                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, sort_order=?, active=? WHERE id=?");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $id]);
+                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, sort_order=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=? WHERE id=?");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $id]);
                 logAction($pdo, "Updated Schedule", "schedules", $id);
                 $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
             } else {
                 // Insert
-                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, sort_order, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active]);
+                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, sort_order, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list]);
                 $newId = $pdo->lastInsertId();
                 logAction($pdo, "Added Schedule", "schedules", $newId);
                 $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
@@ -102,14 +108,23 @@ $schedulesList = $stmt->fetchAll();
                             </div>
                             <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
                             <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
-                            <div style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem; display:flex; gap:1.5rem;">
+                            <div style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem; display:flex; gap:1.5rem; flex-wrap: wrap;">
                                 <span><strong>Sort Order:</strong> <?php echo (int)$item['sort_order']; ?></span>
-                                <?php if($item['registration_link']): ?>
+                                <span><strong>Registration Mode:</strong> <span class="text-capitalize fw-bold"><?php echo htmlspecialchars($item['registration_mode'] ?? 'external'); ?></span></span>
+                                <?php if(($item['registration_mode'] ?? 'external') === 'external' && $item['registration_link']): ?>
                                     <span><strong>URL:</strong> <?php echo htmlspecialchars($item['registration_link']); ?></span>
+                                <?php elseif(($item['registration_mode'] ?? 'external') === 'internal'): ?>
+                                    <span><strong>Fee:</strong> ₹<?php echo number_format($item['registration_fee'], 2); ?></span>
+                                    <?php if($item['max_participants']): ?>
+                                        <span><strong>Capacity:</strong> <?php echo (int)$item['max_participants']; ?></span>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </div>
                         </div>
                         <div style="display:flex; flex-direction:column; gap:0.5rem; justify-content:center;">
+                            <?php if (($item['registration_mode'] ?? 'external') === 'internal'): ?>
+                                <a href="event-manager.php?event_id=<?php echo $item['id']; ?>" class="admin-btn" style="background: #10B981; color: #ffffff; font-weight: 700; text-align: center; text-decoration: none;">Registration Dashboard</a>
+                            <?php endif; ?>
                             <button onclick="openScheduleModal(<?php echo htmlspecialchars(json_encode($item)); ?>)" class="admin-btn admin-btn-primary">Edit Schedule</button>
                             <form action="schedules.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this schedule?');" style="display:block; margin:0;">
                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
@@ -162,8 +177,42 @@ $schedulesList = $stmt->fetchAll();
             </div>
             
             <div class="admin-form-group">
-                <label for="schedule-link">Registration URL (Optional)</label>
+                <label for="schedule-reg-mode">Registration Mode <span style="color:var(--danger)">*</span></label>
+                <select id="schedule-reg-mode" name="registration_mode" class="admin-input" onchange="toggleRegFields()" required>
+                    <option value="disabled">Disabled (No registration)</option>
+                    <option value="external">External Registration URL</option>
+                    <option value="internal">Internal Event Registration Wizard</option>
+                </select>
+            </div>
+
+            <div class="admin-form-group" id="reg-link-wrapper">
+                <label for="schedule-link">Registration URL</label>
                 <input type="url" id="schedule-link" name="registration_link" class="admin-input" placeholder="https://...">
+            </div>
+
+            <!-- Internal registration settings wrapper -->
+            <div id="internal-reg-settings" style="display: none; flex-direction: column; gap: 1.25rem; border-left: 3px solid var(--bsfi-green); padding-left: 1rem; margin-bottom: 0.5rem;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="admin-form-group">
+                        <label for="schedule-fee">Registration Fee (INR) <span style="color:var(--danger)">*</span></label>
+                        <input type="number" id="schedule-fee" name="registration_fee" class="admin-input" step="0.01" value="0.00" min="0">
+                    </div>
+                    <div class="admin-form-group">
+                        <label for="schedule-capacity">Max Participants</label>
+                        <input type="number" id="schedule-capacity" name="max_participants" class="admin-input" placeholder="No limit">
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="admin-form-group">
+                        <label for="schedule-deadline">Registration Deadline</label>
+                        <input type="datetime-local" id="schedule-deadline" name="registration_deadline" class="admin-input">
+                    </div>
+                    <div class="admin-form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 1.5rem;">
+                        <input type="checkbox" id="schedule-waitlist" name="allow_waiting_list" value="1" style="width: 18px; height: 18px; cursor:pointer;">
+                        <label for="schedule-waitlist" style="font-size:0.9rem; font-weight:600; cursor:pointer; margin-bottom:0;">Allow Waiting List</label>
+                    </div>
+                </div>
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:center;">
@@ -199,12 +248,45 @@ function openScheduleModal(item) {
         document.getElementById('schedule-type').value = item.event_type || '';
         document.getElementById('schedule-date').value = item.date_text;
         document.getElementById('schedule-venue').value = item.venue;
+        document.getElementById('schedule-reg-mode').value = item.registration_mode || 'external';
         document.getElementById('schedule-link').value = item.registration_link || '';
+        document.getElementById('schedule-fee').value = item.registration_fee || '0.00';
+        document.getElementById('schedule-capacity').value = item.max_participants || '';
+        
+        if (item.registration_deadline) {
+            // Convert MySQL datetime to datetime-local format (YYYY-MM-DDTHH:MM)
+            const d = new Date(item.registration_deadline);
+            const pad = (num) => String(num).padStart(2, '0');
+            const localStr = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            document.getElementById('schedule-deadline').value = localStr;
+        } else {
+            document.getElementById('schedule-deadline').value = '';
+        }
+        
+        document.getElementById('schedule-waitlist').checked = item.allow_waiting_list == 1;
         document.getElementById('schedule-sort').value = item.sort_order;
         document.getElementById('schedule-active').checked = item.active == 1;
     }
     
+    toggleRegFields();
     modal.style.display = 'flex';
+}
+
+function toggleRegFields() {
+    const mode = document.getElementById('schedule-reg-mode').value;
+    const linkWrapper = document.getElementById('reg-link-wrapper');
+    const internalSettings = document.getElementById('internal-reg-settings');
+    
+    if (mode === 'external') {
+        linkWrapper.style.display = 'block';
+        internalSettings.style.display = 'none';
+    } else if (mode === 'internal') {
+        linkWrapper.style.display = 'none';
+        internalSettings.style.display = 'flex';
+    } else {
+        linkWrapper.style.display = 'none';
+        internalSettings.style.display = 'none';
+    }
 }
 
 function closeScheduleModal() {

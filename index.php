@@ -1330,7 +1330,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <!-- Venue & Action -->
                         <div style="display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;">
                             <span style="font-size: 1.05rem; font-weight: 500; color: #3b4a6b;"><?php echo htmlspecialchars($sched['venue']); ?></span>
-                            <?php if ($sched['registration_link']): ?>
+                            <?php if (($sched['registration_mode'] ?? 'external') === 'internal'): ?>
+                            <a href="event-registration.php?event_id=<?php echo $sched['id']; ?>" style="background: #081B4B; color: #fff; padding: 0.5rem 1.25rem; border-radius: 999px; font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: background 0.2s; flex-shrink: 0;" onmouseover="this.style.background='#FF9933'" onmouseout="this.style.background='#081B4B'">Register</a>
+                            <?php elseif (($sched['registration_mode'] ?? 'external') === 'external' && $sched['registration_link']): ?>
                             <a href="<?php echo htmlspecialchars($sched['registration_link']); ?>" target="_blank" style="background: #081B4B; color: #fff; padding: 0.5rem 1.25rem; border-radius: 999px; font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: background 0.2s; flex-shrink: 0;" onmouseover="this.style.background='#FF9933'" onmouseout="this.style.background='#081B4B'">Register</a>
                             <?php endif; ?>
                         </div>
@@ -1366,7 +1368,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         <span style="display: inline-flex; align-items: center; color: #3b4a6b;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span> <?php echo htmlspecialchars($sched['venue']); ?>
                     </p>
                 </div>
-                <?php if ($sched['registration_link']): ?>
+                <?php if (($sched['registration_mode'] ?? 'external') === 'internal'): ?>
+                <div class="schedule-card-footer">
+                    <a href="event-registration.php?event_id=<?php echo $sched['id']; ?>" class="btn btn-hero-primary" style="width: 100%; text-align: center; padding: 0.75rem; background: #081B4B; border-radius: 999px; color: #ffffff; text-decoration: none; font-weight: bold; display: block;">Register Now</a>
+                </div>
+                <?php elseif (($sched['registration_mode'] ?? 'external') === 'external' && $sched['registration_link']): ?>
                 <div class="schedule-card-footer">
                     <a href="<?php echo htmlspecialchars($sched['registration_link']); ?>" target="_blank" class="btn btn-hero-primary" style="width: 100%; text-align: center; padding: 0.75rem; background: #081B4B; border-radius: 999px; color: #ffffff; text-decoration: none; font-weight: bold; display: block;">Register Now</a>
                 </div>

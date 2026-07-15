@@ -20,6 +20,9 @@ $statesList = $pdo->query("SELECT DISTINCT state FROM (
 // Fetch classifications
 $classificationsList = ['BC1', 'BC2', 'BC3', 'BC4'];
 $rolesList = ['Coach', 'Sport Assistant', 'Classifier', 'Technical Official', 'Referee', 'Volunteer'];
+
+// Fetch schedules configured with internal registration
+$eventsList = $pdo->query("SELECT id, discipline FROM schedules WHERE registration_mode = 'internal' AND active = 1 ORDER BY sort_order ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="admin-wrapper">
@@ -87,28 +90,45 @@ $rolesList = ['Coach', 'Sport Assistant', 'Classifier', 'Technical Official', 'R
                 </div>
             </div>
 
-            <!-- SQL Database Backups Panel -->
+            <!-- Event Participants Export Panel -->
             <div class="col-12 col-md-4">
                 <div class="admin-card h-100" style="display:flex; flex-direction:column; justify-content:space-between;">
                     <div>
-                        <h3 class="admin-card-title" style="color:#081B4B;"><i class="fa-solid fa-database text-warning me-2"></i> SQL Federation Backup</h3>
-                        <p class="admin-card-desc">Execute full federation backup. Generates a complete database script including schema structure and tables: athletes, officials, applications, schedules, gallery, users, settings.</p>
+                        <h3 class="admin-card-title" style="color:#081B4B;"><i class="fa-solid fa-calendar-check text-warning me-2"></i> Event Participants Export</h3>
+                        <p class="admin-card-desc">Download complete participant lists for internal registration events, including custom questions answers and receipt metadata.</p>
                         
-                        <div class="alert alert-danger border-0 p-3 mb-4 rounded-3" style="font-size:0.82rem; background-color: rgba(239, 68, 68, 0.08); color: #7F1D1D;">
-                            <i class="fa-solid fa-shield-halved me-1"></i> Includes staff account credentials (hashed passwords) and activity logs.
-                        </div>
-                    </div>
-                    
-                    <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:1.5rem;">
-                        <?php if ($_SESSION['role'] === 'admin'): ?>
-                            <a href="../api/export.php?type=sql" class="admin-btn admin-btn-warning d-flex align-items-center justify-content-start gap-2 w-100">
-                                <i class="fa-solid fa-download"></i> Download Full SQL Backup
-                            </a>
-                        <?php else: ?>
-                            <button class="admin-btn admin-btn-outline w-100 d-flex align-items-center justify-content-start gap-2" disabled style="opacity:0.6; cursor:not-allowed;">
-                                <i class="fa-solid fa-lock"></i> Backup Download Restricted
-                            </button>
-                        <?php endif; ?>
+                        <form id="event-export-form" action="../api/api-export-builder.php" method="GET" target="_blank" style="margin-top: 1rem;">
+                            <input type="hidden" name="action" value="event_participants">
+                            
+                            <div class="mb-2">
+                                <label for="event_id_export" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.25rem;">Select Event</label>
+                                <select id="event_id_export" name="event_id" class="admin-select" required style="padding: 0.4rem; font-size:0.85rem;">
+                                    <option value="">-- Select Active Event --</option>
+                                    <?php foreach ($eventsList as $ev): ?>
+                                        <option value="<?php echo $ev['id']; ?>"><?php echo htmlspecialchars($ev['discipline']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status_export" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.25rem;">Reg Status</label>
+                                <select id="status_export" name="status" class="admin-select" style="padding: 0.4rem; font-size:0.85rem;">
+                                    <option value="">All Registrations</option>
+                                    <option value="approved">Approved Only</option>
+                                    <option value="pending">Pending Only</option>
+                                    <option value="waiting_list">Waiting List Only</option>
+                                </select>
+                            </div>
+                            
+                            <div style="display:flex; gap:0.5rem;">
+                                <button type="submit" name="format" value="xlsx" class="admin-btn admin-btn-warning btn-sm d-flex align-items-center justify-content-center gap-1 flex-fill" style="font-size:0.8rem; padding: 0.5rem;">
+                                    <i class="fa-solid fa-file-excel"></i> Excel
+                                </button>
+                                <button type="submit" name="format" value="csv" class="admin-btn admin-btn-outline btn-sm d-flex align-items-center justify-content-center gap-1 flex-fill" style="font-size:0.8rem; padding: 0.5rem;">
+                                    <i class="fa-solid fa-file-csv"></i> CSV
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
