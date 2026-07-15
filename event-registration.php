@@ -14,20 +14,32 @@ include __DIR__ . '/includes/header.php';
 
 <style>
     body.accessibility-target {
+        position: relative;
+        background: none !important;
+    }
+    /* Blurred background image layer */
+    body.accessibility-target::before {
+        content: "";
+        position: fixed;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
         background: url('about%20boccia/overview_bg.webp') no-repeat center center fixed !important;
         background-size: cover !important;
+        filter: blur(8px) !important;
+        -webkit-filter: blur(8px) !important;
+        z-index: -2;
     }
-    /* Add a subtle glassmorphism overlay to body to ensure text remains highly legible */
-    body.accessibility-target::before {
+    /* Readability contrast color overlay layer */
+    body.accessibility-target::after {
         content: "";
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(248, 245, 239, 0.90) !important;
-        backdrop-filter: blur(6px) !important;
-        -webkit-backdrop-filter: blur(6px) !important;
+        background: rgba(248, 245, 239, 0.88) !important;
         z-index: -1;
     }
 </style>
