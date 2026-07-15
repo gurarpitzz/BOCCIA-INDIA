@@ -507,7 +507,7 @@ foreach ($rows as $row) {
                 </form>
 
                 <div style="margin-top: 2rem; border-top: 1px solid #e2e8f0; padding-top: 1.5rem; text-align: center;">
-                    <p class="text-secondary m-0">Not a registered federation member yet? <a href="/registration" class="fw-bold" style="color: #FF9933; text-decoration: none;">Apply Here</a></p>
+                    <p class="text-secondary m-0">Not a registered federation member yet? <a href="https://bocciaindia.com/get-involved/membership.php" class="fw-bold" style="color: #FF9933; text-decoration: none;">Apply Here</a></p>
                 </div>
             </div>
         </div>
