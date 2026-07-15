@@ -111,8 +111,21 @@ if (isset($_POST['send_otp']) && $step > 0) {
             }
 
             if ($matched) {
-                $email = $matched['email'];
-                if (empty($email) || strtolower(trim($email)) !== $lookup_email) {
+                $email = trim($matched['email'] ?? '');
+                
+                // If email is empty (common for legacy profiles 01-99), associate the entered email on the fly
+                if (empty($email)) {
+                    $email = $lookup_email;
+                    if ($member_type === 'official') {
+                        $upEmail = $pdo->prepare("UPDATE officials SET email = ? WHERE id = ?");
+                        $upEmail->execute([$email, $matched['id']]);
+                    } else {
+                        $upEmail = $pdo->prepare("UPDATE athletes SET email = ? WHERE id = ?");
+                        $upEmail->execute([$email, $matched['id']]);
+                    }
+                }
+
+                if (strtolower($email) !== $lookup_email) {
                     $error = "The entered email address does not match our records for this profile.";
                 } else {
                     // Generate OTP code
