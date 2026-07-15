@@ -30,17 +30,6 @@ include __DIR__ . '/includes/header.php';
         bottom: 0;
         background: url('about%20boccia/why_boccia_matter_BG.webp') no-repeat center center fixed !important;
         background-size: cover !important;
-        z-index: -2;
-    }
-    /* Readability contrast color overlay layer */
-    body.accessibility-target::after {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(248, 245, 239, 0.88) !important;
         z-index: -1;
     }
 </style>
