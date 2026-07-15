@@ -112,7 +112,7 @@ $schedulesList = $stmt->fetchAll();
                             <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
                             <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
                             <div style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem; display:flex; gap:1.5rem; flex-wrap: wrap;">
-                                <span><strong>Start Date:</strong> <?php echo htmlspecialchars($item['start_date']); ?></span>
+                                <span><strong>Start Date:</strong> <?php echo date('d-m-Y', strtotime($item['start_date'])); ?></span>
                                 <span><strong>Registration Mode:</strong> <span class="text-capitalize fw-bold"><?php echo htmlspecialchars($item['registration_mode'] ?? 'external'); ?></span></span>
                                 <?php if(($item['registration_mode'] ?? 'external') === 'external' && $item['registration_link']): ?>
                                     <span><strong>URL:</strong> <?php echo htmlspecialchars($item['registration_link']); ?></span>
