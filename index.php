@@ -582,14 +582,14 @@ try {
                         <!-- SVG links web -->
                         <svg class="constellation-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
                             <!-- Direct Jack-to-Athlete Connector Lines -->
-                            <line class="constellation-link-path" data-athlete-id="ajeya_raj" x1="250" y1="250" x2="70" y2="250" />
-                            <line class="constellation-link-path" data-athlete-id="anjali_devi" x1="250" y1="250" x2="250" y2="120" />
-                            <line class="constellation-link-path" data-athlete-id="jatin_kushwah" x1="250" y1="250" x2="340" y2="94" />
-                            <line class="constellation-link-path" data-athlete-id="pooja_gupta" x1="250" y1="250" x2="160" y2="94" />
-                            <line class="constellation-link-path" data-athlete-id="sachin_chamaria" x1="250" y1="250" x2="430" y2="250" />
-                            <line class="constellation-link-path" data-athlete-id="sarita" x1="250" y1="250" x2="160" y2="340" />
-                            <line class="constellation-link-path" data-athlete-id="usha_kiran" x1="250" y1="250" x2="250" y2="380" />
-                            <line class="constellation-link-path" data-athlete-id="vyom_pawa" x1="250" y1="250" x2="340" y2="340" />
+                            <line class="constellation-link-path" data-athlete-id="ajeya_raj" x1="250" y1="250" x2="40" y2="250" />
+                            <line class="constellation-link-path" data-athlete-id="anjali_devi" x1="250" y1="250" x2="250" y2="70" />
+                            <line class="constellation-link-path" data-athlete-id="jatin_kushwah" x1="250" y1="250" x2="380" y2="65" />
+                            <line class="constellation-link-path" data-athlete-id="pooja_gupta" x1="250" y1="250" x2="120" y2="65" />
+                            <line class="constellation-link-path" data-athlete-id="sachin_chamaria" x1="250" y1="250" x2="460" y2="250" />
+                            <line class="constellation-link-path" data-athlete-id="sarita" x1="250" y1="250" x2="115" y2="400" />
+                            <line class="constellation-link-path" data-athlete-id="usha_kiran" x1="250" y1="250" x2="250" y2="435" />
+                            <line class="constellation-link-path" data-athlete-id="vyom_pawa" x1="250" y1="250" x2="385" y2="400" />
                             
                             <!-- Dynamic Active Connector Draw Path -->
                             <path id="dynamic-connector" class="constellation-link-path" stroke="#FF9933" stroke-width="2" opacity="0" d="M 250 250 L 250 250" />
@@ -622,7 +622,7 @@ try {
 
                         <!-- Athlete beacons (Hierarchical Sizing & clean borders) -->
                         <!-- 1. Ajeya Raj -->
-                        <button class="athlete-beacon node-elite" data-id="ajeya_raj" style="--x: 14; --y: 50; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
+                        <button class="athlete-beacon node-elite" data-id="ajeya_raj" style="--x: 8; --y: 50; --pulse-speed: 4.3s; --pulse-delay: 0.5s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-ajeya_raj">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/ajeya raj/ajeya1.webp'); ?>" alt="Ajeya Raj" class="beacon-portrait-img" loading="lazy">
@@ -631,7 +631,7 @@ try {
                         </button>
  
                         <!-- 2. Anjali Devi -->
-                        <button class="athlete-beacon node-national" data-id="anjali_devi" style="--x: 50; --y: 24; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3);">
+                        <button class="athlete-beacon node-national" data-id="anjali_devi" style="--x: 50; --y: 14; --pulse-speed: 5.7s; --pulse-delay: 1.2s; --pulse-opacity: 0.35; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-anjali_devi">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/anjali devi/anjali (1).webp'); ?>" alt="Anjali Devi" class="beacon-portrait-img" loading="lazy">
@@ -640,7 +640,7 @@ try {
                         </button>
  
                         <!-- 3. Jatin Kushwah -->
-                        <button class="athlete-beacon node-elite" data-id="jatin_kushwah" style="--x: 68; --y: 18.8; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4);">
+                        <button class="athlete-beacon node-elite" data-id="jatin_kushwah" style="--x: 76; --y: 13; --pulse-speed: 3.9s; --pulse-delay: 0.2s; --pulse-opacity: 0.5; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-jatin_kushwah">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Jatin Kushwah/KITI8395.webp'); ?>" alt="Jatin Kushwah" class="beacon-portrait-img" loading="lazy">
@@ -649,7 +649,7 @@ try {
                         </button>
  
                         <!-- 4. Pooja Gupta -->
-                        <button class="athlete-beacon node-elite" data-id="pooja_gupta" style="--x: 32; --y: 18.8; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4);">
+                        <button class="athlete-beacon node-elite" data-id="pooja_gupta" style="--x: 24; --y: 13; --pulse-speed: 6.1s; --pulse-delay: 2.1s; --pulse-opacity: 0.3; --class-color: var(--color-bc4);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-pooja_gupta">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/pooja gupta/pooja (1).webp'); ?>" alt="Pooja Gupta" class="beacon-portrait-img" loading="lazy">
@@ -658,7 +658,7 @@ try {
                         </button>
  
                         <!-- 5. Sachin Chamaria -->
-                        <button class="athlete-beacon node-elite" data-id="sachin_chamaria" style="--x: 86; --y: 50; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
+                        <button class="athlete-beacon node-elite" data-id="sachin_chamaria" style="--x: 92; --y: 50; --pulse-speed: 4.8s; --pulse-delay: 0.8s; --pulse-opacity: 0.45; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-sachin_chamaria">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/Sachin Chamaria/WhatsApp Image 2026-07-07 at 19.15.28 (1).webp'); ?>" alt="Sachin Chamaria" class="beacon-portrait-img" loading="lazy">
@@ -667,7 +667,7 @@ try {
                         </button>
  
                         <!-- 6. Sarita -->
-                        <button class="athlete-beacon node-national" data-id="sarita" style="--x: 32; --y: 68; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3);">
+                        <button class="athlete-beacon node-national" data-id="sarita" style="--x: 23; --y: 80; --pulse-speed: 5.2s; --pulse-delay: 1.5s; --pulse-opacity: 0.4; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-sarita">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/sarita/WhatsApp Image 2026-07-07 at 19.15.27.webp'); ?>" alt="Sarita" class="beacon-portrait-img" loading="lazy">
@@ -676,7 +676,7 @@ try {
                         </button>
  
                         <!-- 7. Usha Kiran -->
-                        <button class="athlete-beacon node-junior" data-id="usha_kiran" style="--x: 50; --y: 76; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3);">
+                        <button class="athlete-beacon node-junior" data-id="usha_kiran" style="--x: 50; --y: 87; --pulse-speed: 5.9s; --pulse-delay: 2.5s; --pulse-opacity: 0.3; --class-color: var(--color-bc3);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-usha_kiran">
                                 <span class="beacon-portrait-img" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #FF9933 0%, #138808 100%); color: #fff; font-weight: 800; font-size: 0.75rem;">UK</span>
@@ -685,7 +685,7 @@ try {
                         </button>
  
                         <!-- 8. Vyom Pawa -->
-                        <button class="athlete-beacon node-national" data-id="vyom_pawa" style="--x: 68; --y: 68; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2);">
+                        <button class="athlete-beacon node-national" data-id="vyom_pawa" style="--x: 77; --y: 80; --pulse-speed: 4.1s; --pulse-delay: 0.3s; --pulse-opacity: 0.5; --class-color: var(--color-bc2);">
                             <div class="beacon-pulse"></div>
                             <div class="beacon-portrait-wrap" id="beacon-wrap-vyom_pawa">
                                 <img src="<?php echo cleanStarPlayerUrl('assets/star-players/vyom pawa/vyom (1).webp'); ?>" alt="Vyom Pawa" class="beacon-portrait-img" loading="lazy">
