@@ -22,7 +22,7 @@ $classificationsList = ['BC1', 'BC2', 'BC3', 'BC4'];
 $rolesList = ['Coach', 'Sport Assistant', 'Classifier', 'Technical Official', 'Referee', 'Volunteer'];
 
 // Fetch schedules configured with internal registration
-$eventsList = $pdo->query("SELECT id, discipline FROM schedules WHERE registration_mode = 'internal' AND active = 1 ORDER BY sort_order ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
+$eventsList = $pdo->query("SELECT id, discipline FROM schedules WHERE registration_mode = 'internal' AND active = 1 ORDER BY start_date ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="admin-wrapper">

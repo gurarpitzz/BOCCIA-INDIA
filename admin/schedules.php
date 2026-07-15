@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         $date_text = trim($_POST['date_text']);
         $venue = trim($_POST['venue']);
         $registration_link = trim($_POST['registration_link']);
-        $sort_order = isset($_POST['sort_order']) ? (int)$_POST['sort_order'] : 0;
+        $start_date = !empty($_POST['start_date']) ? trim($_POST['start_date']) : date('Y-m-d');
         $active = isset($_POST['active']) ? 1 : 0;
 
         $registration_mode = trim($_POST['registration_mode'] ?? 'external');
@@ -55,35 +55,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         if (empty($discipline) || empty($date_text) || empty($venue)) {
             $message = "<div class='alert alert-danger'>Discipline, Date, and Venue are required.</div>";
         } else {
-            // Enforce unique sort_order validation
-            $checkSort = $pdo->prepare("SELECT COUNT(*) FROM schedules WHERE sort_order = ? AND id != ?");
-            $checkSort->execute([$sort_order, $id]);
-            $exists = $checkSort->fetchColumn() > 0;
-
-            if ($exists) {
-                $message = "<div class='alert alert-danger'>This display position is already taken by another event. Please choose a different order number so the events line up correctly on the homepage.</div>";
+            if ($id > 0) {
+                // Update
+                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=? WHERE id=?");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $id]);
+                logAction($pdo, "Updated Schedule", "schedules", $id);
+                $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
             } else {
-                if ($id > 0) {
-                    // Update
-                    $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, sort_order=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=? WHERE id=?");
-                    $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $id]);
-                    logAction($pdo, "Updated Schedule", "schedules", $id);
-                    $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
-                } else {
-                    // Insert
-                    $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, sort_order, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $sort_order, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list]);
-                    $newId = $pdo->lastInsertId();
-                    logAction($pdo, "Added Schedule", "schedules", $newId);
-                    $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
-                }
+                // Insert
+                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list]);
+                $newId = $pdo->lastInsertId();
+                logAction($pdo, "Added Schedule", "schedules", $newId);
+                $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
             }
         }
     }
 }
 
 // Fetch schedules
-$stmt = $pdo->query("SELECT * FROM schedules ORDER BY sort_order ASC, id DESC");
+$stmt = $pdo->query("SELECT * FROM schedules ORDER BY start_date ASC, id ASC");
 $schedulesList = $stmt->fetchAll();
 ?>
 
@@ -121,7 +112,7 @@ $schedulesList = $stmt->fetchAll();
                             <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Date:</strong> <?php echo htmlspecialchars($item['date_text']); ?></p>
                             <p style="font-size:0.95rem; color:var(--text-secondary); margin-bottom:0.5rem;"><strong>Venue:</strong> <?php echo htmlspecialchars($item['venue']); ?></p>
                             <div style="font-size:0.9rem; color:var(--text-muted); margin-top:0.5rem; display:flex; gap:1.5rem; flex-wrap: wrap;">
-                                <span><strong>Sort Order:</strong> <?php echo (int)$item['sort_order']; ?></span>
+                                <span><strong>Start Date:</strong> <?php echo htmlspecialchars($item['start_date']); ?></span>
                                 <span><strong>Registration Mode:</strong> <span class="text-capitalize fw-bold"><?php echo htmlspecialchars($item['registration_mode'] ?? 'external'); ?></span></span>
                                 <?php if(($item['registration_mode'] ?? 'external') === 'external' && $item['registration_link']): ?>
                                     <span><strong>URL:</strong> <?php echo htmlspecialchars($item['registration_link']); ?></span>
@@ -229,8 +220,8 @@ $schedulesList = $stmt->fetchAll();
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:center;">
                 <div class="admin-form-group">
-                    <label for="schedule-sort">Sort Order</label>
-                    <input type="number" id="schedule-sort" name="sort_order" class="admin-input" value="0" placeholder="1 = First, 2 = Second...">
+                    <label for="schedule-start-date">Event Start Date</label>
+                    <input type="date" id="schedule-start-date" name="start_date" class="admin-input" required>
                 </div>
                 <div class="admin-form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 1.5rem;">
                     <input type="checkbox" id="schedule-active" name="active" value="1" checked style="width: 18px; height: 18px; cursor:pointer;">
@@ -274,7 +265,7 @@ function openScheduleModal(item) {
         }
         
         document.getElementById('schedule-waitlist').checked = item.allow_waiting_list == 1;
-        document.getElementById('schedule-sort').value = item.sort_order;
+        document.getElementById('schedule-start-date').value = item.start_date;
         document.getElementById('schedule-active').checked = item.active == 1;
     }
     
