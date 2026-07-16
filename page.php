@@ -23,36 +23,46 @@ try {
         $canonical_url = "page.php?section=" . urlencode($section) . "&slug=" . urlencode($slug);
         
         include __DIR__ . '/includes/header.php';
-        require_once __DIR__ . '/includes/document_renderer.php';
         
+        // Populate parameters for document-view-page template
+        $doc_title = $docPage['title'];
+        $doc_subtitle = $docPage['subtitle'];
+        $doc_desc = $docPage['description'] ?? '';
+        $pdf_file = $docPage['pdf_file'];
         $heroBg = !empty($docPage['hero_image']) ? $docPage['hero_image'] : 'board/board_bg.webp';
-        ?>
-        <div class="board-page-wrapper">
-            <!-- Hero Section -->
-            <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.92) 0%, rgba(7, 25, 84, 0.82) 35%, rgba(7, 25, 84, 0.55) 55%, rgba(7, 25, 84, 0.15) 75%, transparent 100%), url('<?php echo htmlspecialchars($heroBg); ?>');">
-                <div class="container board-hero-container">
-                    <div class="board-hero-content scroll-reveal">
-                        <span class="board-hero-eyebrow">-- <?php echo htmlspecialchars($docPage['subtitle']); ?> --</span>
-                        <h1 class="board-hero-title"><?php echo htmlspecialchars($docPage['title']); ?></h1>
-                        <?php if (!empty($docPage['description'])): ?>
-                            <p class="board-hero-text">
-                                <?php echo htmlspecialchars($docPage['description']); ?>
-                            </p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </section>
+        
+        // Custom metadata lookups based on slugs
+        if ($slug === 'affiliation-pci') {
+            $doc_date = "National Affiliation";
+            $doc_dept = "Paralympic Committee of India (PCI)";
+            $doc_type = "Recognition Certificate";
+        } elseif ($slug === 'affiliation-world-boccia') {
+            $doc_date = "International Affiliation";
+            $doc_dept = "World Boccia (BISFed)";
+            $doc_type = "Affiliation Certificate";
+        } elseif ($slug === 'selection-policy') {
+            $doc_date = "2026 Season";
+            $doc_dept = "BSFI Selection Committee";
+            $doc_type = "National Selection Policy";
+        } elseif ($slug === 'apg-2026') {
+            $doc_date = "Asian Para Games 2026";
+            $doc_dept = "BSFI Technical Committee";
+            $doc_type = "Qualification Guidelines";
+        } elseif ($slug === 'apg-trials-2026') {
+            $doc_date = "Asian Para Games 2026";
+            $doc_dept = "BSFI Selection Committee";
+            $doc_type = "Selection Trial Schedule";
+        } elseif ($slug === 'tenders') {
+            $doc_date = "Procurement Notice";
+            $doc_dept = "BSFI Finance & Procurement Unit";
+            $doc_type = "Official Tender Notice";
+        } else {
+            $doc_date = "Published";
+            $doc_dept = "Boccia Sports Federation of India";
+            $doc_type = "Official Document";
+        }
 
-            <!-- Document Section -->
-            <section class="board-section">
-                <div class="container">
-                    <div class="scroll-reveal">
-                        <?php echo DocumentRenderer::render($docPage['pdf_file']); ?>
-                    </div>
-                </div>
-            </section>
-        </div>
-        <?php
+        include __DIR__ . '/includes/document-view-page.php';
         include __DIR__ . '/includes/footer.php';
         exit();
     }
@@ -67,6 +77,31 @@ if ($section === 'about' && $slug === 'about-boccia') {
 
 if ($section === 'about' && $slug === 'board') {
     include __DIR__ . '/includes/board-page.php';
+    exit();
+}
+
+if ($section === 'about' && $slug === 'affiliations') {
+    include __DIR__ . '/includes/affiliations-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'disclosures') {
+    include __DIR__ . '/includes/myas-disclosures-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'governance-docs') {
+    include __DIR__ . '/includes/governance-docs-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'financial-management-docs') {
+    include __DIR__ . '/includes/financial-management-docs-page.php';
+    exit();
+}
+
+if ($section === 'myas' && $slug === 'compliance-regulations-docs') {
+    include __DIR__ . '/includes/compliance-regulations-docs-page.php';
     exit();
 }
 

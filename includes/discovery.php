@@ -337,19 +337,24 @@ class ContentDiscoveryEngine {
                 'children' => [
                     ['title' => 'About Boccia', 'slug' => 'about-boccia', 'section' => 'about'],
                     ['title' => 'Board', 'slug' => 'board', 'section' => 'about'],
-                    ['title' => 'Affiliation With PCI', 'slug' => 'affiliation-pci', 'section' => 'about'],
-                    ['title' => 'Affiliation World Boccia', 'slug' => 'affiliation-world-boccia', 'section' => 'about'],
                     [
-                        'title' => 'MYAS Disclosures',
-                        'slug' => 'myas-disclosures',
+                        'title' => 'Affiliations',
+                        'slug' => 'affiliations',
                         'section' => 'about',
                         'children' => [
-                            ['title' => 'Administrative Sanction', 'slug' => 'administrative-sanction', 'section' => 'myas'],
-                            ['title' => 'Financial Sanctions', 'slug' => 'financial-sanctions', 'section' => 'myas'],
-                            ['title' => 'Mandatory Disclosures', 'slug' => 'mandatory-disclosures', 'section' => 'myas'],
-                            ['title' => 'Regulation Of Prevention Fraud By The Athletes', 'slug' => 'athlete-prevention', 'section' => 'myas'],
-                            ['title' => 'Elections', 'slug' => 'elections', 'section' => 'myas'],
-                            ['title' => 'Minutes Of Meetings', 'slug' => 'minutes-of-meetings', 'section' => 'myas']
+                            ['title' => 'PCI', 'slug' => 'affiliation-pci', 'section' => 'about'],
+                            ['title' => 'World Boccia', 'slug' => 'affiliation-world-boccia', 'section' => 'about'],
+                            ['title' => 'Recognition Certificates', 'slug' => 'recognition-certificates', 'section' => 'about']
+                        ]
+                    ],
+                    [
+                        'title' => 'MYAS Disclosures',
+                        'slug' => 'disclosures',
+                        'section' => 'myas',
+                        'children' => [
+                            ['title' => 'Governance', 'slug' => 'governance-docs', 'section' => 'myas'],
+                            ['title' => 'Financial Management', 'slug' => 'financial-management-docs', 'section' => 'myas'],
+                            ['title' => 'Compliance & Regulations', 'slug' => 'compliance-regulations-docs', 'section' => 'myas']
                         ]
                     ]
                 ]
