@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
 require_once __DIR__ . '/../config/app.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 // Restricted to admin & editor
 requireLogin();
@@ -179,22 +180,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     ";
 
-                    // Send email
-                    $ch = curl_init('https://api.resend.com/emails');
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                        'Authorization: Bearer ' . RESEND_API_KEY,
-                        'Content-Type: application/json'
-                    ]);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                        'from' => 'Boccia India <noreply@bocciaindia.com>',
-                        'to' => $reg_data['snapshot_email'],
-                        'subject' => $subject,
-                        'html' => $htmlBody
-                    ]));
-                    curl_exec($ch);
-                    curl_close($ch);
+                    // Notify participant of status change
+                    sendEmail(
+                        $reg_data['snapshot_email'],
+                        $subject,
+                        $htmlBody
+                    );
                 }
 
                 $pdo->commit();

@@ -24,6 +24,22 @@ function createSlug($string) {
     return rtrim($string, '-');
 }
 
+// Helper: convert uploaded image to WebP and save to $destPath
+// Returns true on success, false on failure.
+function saveAsWebp($tmpFile, $ext, $destPath, $quality = 82) {
+    if ($ext === 'png') {
+        $img = imagecreatefrompng($tmpFile);
+    } elseif ($ext === 'webp') {
+        $img = imagecreatefromwebp($tmpFile);
+    } else {
+        $img = imagecreatefromjpeg($tmpFile);
+    }
+    if (!$img) return false;
+    $ok = imagewebp($img, $destPath, $quality);
+    imagedestroy($img);
+    return $ok;
+}
+
 // Handle Delete (Soft Delete)
 if (isset($_POST['delete_news']) && isset($_POST['news_id'])) {
     if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
@@ -131,8 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
                 $ext = strtolower(pathinfo($_FILES['thumbnail_image']['name'], PATHINFO_EXTENSION));
                 $size = $_FILES['thumbnail_image']['size'];
                 if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $size <= 1024 * 1024) {
-                    $fileName = 'thumb_' . time() . '.' . $ext;
-                    if (move_uploaded_file($_FILES['thumbnail_image']['tmp_name'], $newsUploadDir . $fileName)) {
+                    $fileName = 'thumb_' . time() . '.webp';
+                    if (saveAsWebp($_FILES['thumbnail_image']['tmp_name'], $ext, $newsUploadDir . $fileName)) {
                         $thumbnailPath = 'uploads/news/' . $newsId . '/' . $fileName;
                         $pdo->prepare("UPDATE news SET thumbnail_image = ? WHERE id = ?")->execute([$thumbnailPath, $newsId]);
                     }
@@ -145,8 +161,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
                 $ext = strtolower(pathinfo($_FILES['cover_image']['name'], PATHINFO_EXTENSION));
                 $size = $_FILES['cover_image']['size'];
                 if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $size <= 1024 * 1024) {
-                    $fileName = 'cover_' . time() . '.' . $ext;
-                    if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $newsUploadDir . $fileName)) {
+                    $fileName = 'cover_' . time() . '.webp';
+                    if (saveAsWebp($_FILES['cover_image']['tmp_name'], $ext, $newsUploadDir . $fileName)) {
                         $coverPath = 'uploads/news/' . $newsId . '/' . $fileName;
                         $pdo->prepare("UPDATE news SET cover_image = ? WHERE id = ?")->execute([$coverPath, $newsId]);
                     }
@@ -180,8 +196,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
                         $ext = strtolower(pathinfo($_FILES['gallery_images']['name'][$i], PATHINFO_EXTENSION));
                         $size = $_FILES['gallery_images']['size'][$i];
                         if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp']) && $size <= 1024 * 1024) {
-                            $fileName = 'gallery_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
-                            if (move_uploaded_file($_FILES['gallery_images']['tmp_name'][$i], $newsUploadDir . $fileName)) {
+                            $fileName = 'gallery_' . time() . '_' . rand(1000, 9999) . '.webp';
+                            if (saveAsWebp($_FILES['gallery_images']['tmp_name'][$i], $ext, $newsUploadDir . $fileName)) {
                                 $caption = isset($captions[$i]) ? trim($captions[$i]) : '';
                                 $stmt = $pdo->prepare("INSERT INTO news_images (news_id, image_path, caption, sort_order) VALUES (?, ?, ?, ?)");
                                 $stmt->execute([$newsId, 'uploads/news/' . $newsId . '/' . $fileName, $caption, $current_count + $i]);

@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/app.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 $message = '';
 $error = '';
@@ -87,21 +88,14 @@ if (isset($_POST['lookup'])) {
                       </div>
                     ";
 
-                    $ch = curl_init('https://api.resend.com/emails');
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                        'Authorization: Bearer ' . RESEND_API_KEY,
-                        'Content-Type: application/json'
-                    ]);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                        'from' => 'Boccia India <noreply@bocciaindia.com>',
-                        'to' => $email,
-                        'subject' => 'Profile Update Verification Code - BSFI',
-                        'html' => $htmlBody
-                    ]));
-                    curl_exec($ch);
-                    curl_close($ch);
+                    // OTPs bypass dedupe — user may legitimately resend within the window
+                    sendEmail(
+                        $email,
+                        'Profile Update Verification Code - BSFI',
+                        $htmlBody,
+                        null,
+                        true // $skipDedupe
+                    );
                 }
             } else {
                 $error = "No active approved registration found matching the entered details.";

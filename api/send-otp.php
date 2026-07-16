@@ -6,6 +6,7 @@ session_start();
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../config/app.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 // Validate CSRF
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
@@ -73,39 +74,20 @@ try {
       </div>
     ";
 
-    $ch = curl_init('https://api.resend.com/emails');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . RESEND_API_KEY,
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-        'from' => 'Boccia India <noreply@bocciaindia.com>',
-        'to' => $email,
-        'subject' => 'Your OTP Verification Code - BSFI',
-        'html' => $htmlBody
-    ]));
-    
-    $result = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    // OTPs bypass dedupe — user may legitimately request a resend within the window
+    $sent = sendEmail(
+        $email,
+        'Your OTP Verification Code - BSFI',
+        $htmlBody,
+        null,
+        true // $skipDedupe
+    );
 
-    if ($httpCode >= 200 && $httpCode < 300) {
-        // Log action to activity_logs
-        $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
-        $log->execute(['Email OTP Sent', "OTP code sent to email: {$email}"]);
-
+    if ($sent) {
         echo json_encode(['success' => 'OTP sent successfully.']);
     } else {
-        // Log failure details
-        $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
-        $log->execute(['Email OTP Failed', "HTTP Code: {$httpCode}, Response: {$result}"]);
-        
         http_response_code(500);
-        $resObj = json_decode($result, true);
-        $detail = $resObj['message'] ?? $result;
-        echo json_encode(['error' => "Failed to dispatch email (Resend API Error: {$detail}). Please verify domain registration or try again."]);
+        echo json_encode(['error' => 'Failed to dispatch OTP email. Please try again in a few seconds.']);
     }
 } catch (Exception $e) {
     http_response_code(500);

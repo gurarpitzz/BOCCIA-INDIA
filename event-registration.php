@@ -3,6 +3,7 @@
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/config/app.php';
+require_once __DIR__ . '/includes/mailer.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -149,21 +150,14 @@ if (isset($_POST['send_otp']) && $step > 0) {
                         </div>
                     ";
 
-                    $ch = curl_init('https://api.resend.com/emails');
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_POST, true);
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                        'Authorization: Bearer ' . RESEND_API_KEY,
-                        'Content-Type: application/json'
-                    ]);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                        'from' => 'Boccia India <noreply@bocciaindia.com>',
-                        'to' => $email,
-                        'subject' => 'Event Registration Verification Code - BSFI',
-                        'html' => $htmlBody
-                    ]));
-                    curl_exec($ch);
-                    curl_close($ch);
+                    // OTPs bypass dedupe window — resend is intentional
+                    sendEmail(
+                        $email,
+                        'Event Registration Verification Code - BSFI',
+                        $htmlBody,
+                        null,
+                        true // $skipDedupe
+                    );
 
                     // Log to cache for easy debugging/local verification
                     @file_put_contents(__DIR__ . '/cache/otp_debug.log', "[" . date('Y-m-d H:i:s') . "] Email: {$email} | OTP: {$otpCode}\n", FILE_APPEND);
@@ -451,21 +445,12 @@ if ($step == 2 && isset($_POST['submit_registration'])) {
                 </div>
             ";
 
-            $ch = curl_init('https://api.resend.com/emails');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Authorization: Bearer ' . RESEND_API_KEY,
-                'Content-Type: application/json'
-            ]);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                'from' => 'Boccia India <noreply@bocciaindia.com>',
-                'to' => $snapshot_email,
-                'subject' => $subject,
-                'html' => $htmlBody
-            ]));
-            curl_exec($ch);
-            curl_close($ch);
+            // Send event registration confirmation email
+            sendEmail(
+                $snapshot_email,
+                $subject,
+                $htmlBody
+            );
 
             $success = "Your event registration has been submitted successfully! Your Registration Reference ID is <strong>" . htmlspecialchars($reg_no) . "</strong>.";
             $step = 3;

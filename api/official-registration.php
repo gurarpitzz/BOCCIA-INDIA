@@ -6,6 +6,7 @@ session_start();
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../config/app.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 // Validate CSRF
 if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
@@ -112,12 +113,12 @@ try {
         exit();
     }
 
-    // Validate Photo
+    // Validate Photo - accept jpg, jpeg, png, webp
     $photoExt = strtolower(pathinfo($photo['name'], PATHINFO_EXTENSION));
     $photoMime = function_exists('mime_content_type') ? mime_content_type($photo['tmp_name']) : $photo['type'];
-    if (!in_array($photoExt, ['jpg', 'jpeg', 'png']) || !in_array($photoMime, ['image/jpeg', 'image/png'])) {
+    if (!in_array($photoExt, ['jpg', 'jpeg', 'png', 'webp']) || !in_array($photoMime, ['image/jpeg', 'image/png', 'image/webp'])) {
         http_response_code(400);
-        echo json_encode(['error' => 'Invalid passport photo file type (only JPG/PNG allowed).']);
+        echo json_encode(['error' => 'Invalid passport photo file type (only JPG/PNG/WebP allowed).']);
         exit();
     }
     if ($photo['size'] > 5 * 1024 * 1024) {
@@ -140,7 +141,8 @@ try {
         exit();
     }
 
-    $photoUuidName = generateUUID() . '.' . $photoExt;
+    // Always save photos as WebP for performance
+    $photoUuidName = generateUUID() . '.webp';
     $docUuidName = generateUUID() . '.' . $docExt;
 
     // Start Transaction
@@ -174,9 +176,19 @@ try {
     if (!is_dir($photoDir)) mkdir($photoDir, 0755, true);
     if (!is_dir($docDir)) mkdir($docDir, 0755, true);
 
-    if (!move_uploaded_file($photo['tmp_name'], $photoDir . $photoUuidName)) {
-        throw new Exception("Failed to write passport photograph upload.");
+    // Convert photo to WebP before saving
+    if (in_array($photoExt, ['jpg', 'jpeg'])) {
+        $imgRes = imagecreatefromjpeg($photo['tmp_name']);
+    } elseif ($photoExt === 'png') {
+        $imgRes = imagecreatefrompng($photo['tmp_name']);
+    } else {
+        $imgRes = imagecreatefromwebp($photo['tmp_name']);
     }
+    if (!$imgRes || !imagewebp($imgRes, $photoDir . $photoUuidName, 85)) {
+        throw new Exception("Failed to process and save passport photograph.");
+    }
+    imagedestroy($imgRes);
+
     if (!move_uploaded_file($doc['tmp_name'], $docDir . $docUuidName)) {
         throw new Exception("Failed to write government ID proof upload.");
     }
@@ -209,23 +221,12 @@ try {
       </div>
     ";
 
-    $ch = curl_init('https://api.resend.com/emails');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . RESEND_API_KEY,
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-        'from' => 'Boccia India <noreply@bocciaindia.com>',
-        'to' => $email,
-        'subject' => 'Official Registration Application Received - BSFI',
-        'html' => $htmlBody
-    ]));
-    curl_exec($ch);
-    curl_close($ch);
+    // Send acknowledgement email — acts as a submission receipt for the applicant
+    sendEmail(
+        $email,
+        'Official Registration Application Received - BSFI',
+        $htmlBody
+    );
 
     // Clear verification session variable
     unset($_SESSION['verified_email']);

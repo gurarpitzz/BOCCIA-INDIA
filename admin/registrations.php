@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
 require_once __DIR__ . '/../config/app.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 // Restricted to admin & editor for processing actions
 requireLogin();
@@ -13,94 +14,38 @@ if (!in_array($_SESSION['role'], ['admin', 'editor'])) {
 
 function sendApprovalEmail($email, $name, $regNo, $type) {
     if (empty($email)) return;
-    
-    $subject = $type === 'athlete' ? 'BSFI Athlete Registration Approved' : 'BSFI Official Registration Approved';
+    $subject  = $type === 'athlete' ? 'BSFI Athlete Registration Approved' : 'BSFI Official Registration Approved';
     $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
-    
-    $htmlBody = "
-      <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
-        <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
+    $html = "
+      <div style='font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;'>
+        <h2 style='color: #081B4B; margin-bottom: 20px;'>Boccia Sports Federation of India</h2>
         <p>Dear {$name},</p>
         <p>We are pleased to inform you that your registration application as an <strong>{$roleName}</strong> has been approved by the BSFI federation administration.</p>
-        <p>Here are your registration details:</p>
-        <div style=\"background: #f1f5f9; padding: 15px; margin: 20px 0; border-radius: 6px; font-size: 16px;\">
+        <div style='background: #f1f5f9; padding: 15px; margin: 20px 0; border-radius: 6px; font-size: 16px;'>
           <strong>Registration Number:</strong> {$regNo}<br/>
           <strong>Name:</strong> {$name}<br/>
           <strong>Status:</strong> Approved
         </div>
         <p>You can now verify your active membership on our website at any time using your registration number.</p>
-        <p style=\"margin-top: 30px;\">Best Regards,<br/>Boccia Sports Federation of India (BSFI)</p>
+        <p style='margin-top: 30px;'>Best Regards,<br/>Boccia Sports Federation of India (BSFI)</p>
       </div>
     ";
-
-    $ch = curl_init('https://api.resend.com/emails');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . RESEND_API_KEY,
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-        'from' => 'Boccia India <noreply@bocciaindia.com>',
-        'to' => $email,
-        'subject' => $subject,
-        'html' => $htmlBody
-    ]));
-    $res = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    // Get DB handle from global scope
-    global $pdo;
-    try {
-        if ($httpCode >= 200 && $httpCode < 300) {
-            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
-            $log->execute(['Email Approval Sent', "Approved email sent to: {$email} for {$regNo}"]);
-        } else {
-            error_log("Resend API failed to send approval to {$email}. Code: {$httpCode}, Response: {$res}");
-            $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
-            $log->execute(['Email Approval Failed', "HTTP Code: {$httpCode}, Response: {$res}"]);
-        }
-    } catch (\Throwable $t) {
-        error_log("Failed to write email activity log: " . $t->getMessage());
-    }
+    sendEmail($email, $subject, $html);
 }
 
 function sendUpdateApprovalEmail($email, $name, $regNo, $type) {
     if (empty($email)) return;
-    
     $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
-    
-    $htmlBody = "
-      <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
-        <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
+    $html = "
+      <div style='font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;'>
+        <h2 style='color: #081B4B; margin-bottom: 20px;'>Boccia Sports Federation of India</h2>
         <p>Dear {$name},</p>
         <p>Your profile details update request for Registration Number <strong>{$regNo}</strong> ({$roleName}) has been approved and applied to your profile record.</p>
         <p>You can now check your updated profile on the membership verification page.</p>
-        <p style=\"margin-top: 30px;\">Best Regards,<br/>Boccia Sports Federation of India (BSFI)</p>
+        <p style='margin-top: 30px;'>Best Regards,<br/>Boccia Sports Federation of India (BSFI)</p>
       </div>
     ";
-
-    $ch = curl_init('https://api.resend.com/emails');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . RESEND_API_KEY,
-        'Content-Type: application/json'
-    ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-        'from' => 'Boccia India <noreply@bocciaindia.com>',
-        'to' => $email,
-        'subject' => 'BSFI Profile Update Approved',
-        'html' => $htmlBody
-    ]));
-    $res = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    sendEmail($email, 'BSFI Profile Update Approved', $html);
 
     // Get DB handle from global scope
     global $pdo;

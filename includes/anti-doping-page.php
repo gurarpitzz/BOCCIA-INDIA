@@ -646,7 +646,7 @@ body {
                         </p>
                     </div>
                     <div class="intro-image-wrapper">
-                        <img src="about boccia/Antidoping.png" alt="Anti-Doping Clean Sport" />
+                        <img src="about boccia/Antidoping.webp" alt="Anti-Doping Clean Sport" />
                     </div>
                 </div>
 
