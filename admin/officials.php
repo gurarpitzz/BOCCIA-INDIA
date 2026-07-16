@@ -29,7 +29,7 @@ $roleStmt = $pdo->query("SELECT DISTINCT role FROM officials WHERE role IS NOT N
 $rolesList = $roleStmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Build SQL
-$query = "SELECT * FROM officials WHERE 1=1";
+$query = "SELECT * FROM officials WHERE deleted_at IS NULL";
 $params = [];
 
 if ($search !== '') {

@@ -31,7 +31,7 @@ $classStmt = $pdo->query("SELECT DISTINCT classification FROM athletes WHERE cla
 $classesList = $classStmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Build SQL
-$query = "SELECT * FROM athletes WHERE 1=1";
+$query = "SELECT * FROM athletes WHERE deleted_at IS NULL";
 $params = [];
 
 if ($search !== '') {
