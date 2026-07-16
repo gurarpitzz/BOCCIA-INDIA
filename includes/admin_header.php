@@ -101,6 +101,12 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                     </a>
                 </li>
                 <li>
+                    <a href="officials.php" class="<?php echo ($current_file === 'officials.php') ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span class="nav-label">Officials Directory</span>
+                    </a>
+                </li>
+                <li>
                     <a href="registrations.php" class="<?php echo ($current_file === 'registrations.php') ? 'active' : ''; ?>">
                         <i class="fa-solid fa-user-plus"></i>
                         <span class="nav-label">Registrations</span>

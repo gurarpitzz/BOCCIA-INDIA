@@ -127,6 +127,11 @@ $auditLogs = $stmt->fetchAll();
                         </a>
                     </div>
                     <div class="col">
+                        <a href="officials.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-user-tie"></i> Officials
+                        </a>
+                    </div>
+                    <div class="col">
                         <a href="news.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
                             <i class="fa-solid fa-newspaper"></i> News
                         </a>
@@ -210,6 +215,20 @@ $auditLogs = $stmt->fetchAll();
                                         <p style="font-size: 1.25rem; font-weight:800; color:#1e293b; margin: 0.5rem 0 0 0;"><?php echo $totalAthletes; ?> Active Athletes</p>
                                     </div>
                                     <a href="athletes.php" style="color:var(--bsfi-green); font-weight:700; text-decoration:none; font-size:0.875rem; margin-top:1.5rem; display:inline-flex; align-items:center; gap:0.4rem;">
+                                        Open Directory <i class="fa-solid fa-arrow-right-long"></i>
+                                    </a>
+                                </div>
+
+                                <!-- Officials Directory -->
+                                <div class="admin-card hoverable" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between; min-height:160px; padding:1.5rem;">
+                                    <div>
+                                        <h4 class="admin-card-title" style="font-size:1.1rem; color:#081B4B; display:flex; justify-content:space-between; align-items:center;">
+                                            Officials Directory
+                                            <i class="fa-solid fa-user-tie" style="color:var(--boccia-navy); font-size:1.25rem;"></i>
+                                        </h4>
+                                        <p style="font-size: 1.25rem; font-weight:800; color:#1e293b; margin: 0.5rem 0 0 0;"><?php echo $totalOfficials; ?> Active Officials</p>
+                                    </div>
+                                    <a href="officials.php" style="color:var(--navy); font-weight:700; text-decoration:none; font-size:0.875rem; margin-top:1.5rem; display:inline-flex; align-items:center; gap:0.4rem;">
                                         Open Directory <i class="fa-solid fa-arrow-right-long"></i>
                                     </a>
                                 </div>
