@@ -49,7 +49,12 @@ class ContentDiscoveryEngine {
 
         try {
             // Clear any previously discovered temporary gallery images to clean the database
-            $this->pdo->exec("DELETE FROM gallery_images WHERE category = 'Discovered'");
+            $catStmt = $this->pdo->prepare("SELECT id FROM gallery_categories WHERE name = 'Discovered' LIMIT 1");
+            $catStmt->execute();
+            $discId = $catStmt->fetchColumn();
+            if ($discId) {
+                $this->pdo->exec("DELETE FROM gallery_images WHERE category_id = " . (int)$discId);
+            }
             $logs[] = "Cleared old discovered gallery images from database.";
 
             // Seed parent navigation items if they don't exist
