@@ -5,6 +5,11 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
 
+// Start session if not started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Restricted strictly to admin role
 checkRole('admin');
 
@@ -12,10 +17,6 @@ $page_title = "Manage Staff - BSFI Admin";
 include __DIR__ . '/../includes/header.php';
 
 $message = '';
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 if (isset($_SESSION['flash_message'])) {
     $message = $_SESSION['flash_message'];
@@ -102,6 +103,9 @@ if (isset($_POST['delete_user'])) {
 // Fetch staff list
 $stmt = $pdo->query("SELECT id, username, role, created_at FROM users ORDER BY created_at DESC");
 $staffList = $stmt->fetchAll();
+
+$page_title = "Manage Staff - BSFI Admin";
+include __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="admin-wrapper">
