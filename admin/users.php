@@ -13,10 +13,19 @@ include __DIR__ . '/../includes/header.php';
 
 $message = '';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['flash_message'])) {
+    $message = $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+}
+
 // Handle creating user
 if (isset($_POST['create_user'])) {
     if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
-         $message = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
+         $_SESSION['flash_message'] = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
     } else {
          $username = trim($_POST['username']);
          $password = trim($_POST['password']);
@@ -32,56 +41,62 @@ if (isset($_POST['create_user'])) {
                  $newUserId = $pdo->lastInsertId();
                  
                  logAction($pdo, "Created Staff User Account", "users", $newUserId, "Username: $username | Role: $role");
-                 $message = "<div class='alert alert-success'>Staff account for <strong>" . htmlspecialchars($username) . "</strong> created successfully.</div>";
+                 $_SESSION['flash_message'] = "<div class='alert alert-success'>Staff account for <strong>" . htmlspecialchars($username) . "</strong> created successfully.</div>";
              } catch (PDOException $e) {
                  if ($e->getCode() == 23000) {
-                     $message = "<div class='alert alert-danger'>Username already exists. Please choose a different name.</div>";
+                     $_SESSION['flash_message'] = "<div class='alert alert-danger'>Username already exists. Please choose a different name.</div>";
                  } else {
-                     $message = "<div class='alert alert-danger'>Database error: " . $e->getMessage() . "</div>";
+                     $_SESSION['flash_message'] = "<div class='alert alert-danger'>Database error: " . $e->getMessage() . "</div>";
                  }
              }
          } else {
-             $message = "<div class='alert alert-danger'>All fields are required.</div>";
+             $_SESSION['flash_message'] = "<div class='alert alert-danger'>All fields are required.</div>";
          }
     }
+    header("Location: users.php");
+    exit();
 }
 
 // Handle updating role (revoke/grant rights)
 if (isset($_POST['update_role'])) {
     if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
-         $message = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
+         $_SESSION['flash_message'] = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
     } else {
          $userId = (int)$_POST['user_id'];
          $newRole = $_POST['role'];
          
          // Don't let administrators change their own role accidentally
          if ($userId === (int)$_SESSION['user_id']) {
-             $message = "<div class='alert alert-danger'>You cannot modify your own administrative rights.</div>";
+             $_SESSION['flash_message'] = "<div class='alert alert-danger'>You cannot modify your own administrative rights.</div>";
          } elseif (in_array($newRole, ['admin', 'editor', 'viewer'])) {
              $stmt = $pdo->prepare("UPDATE users SET role = ? WHERE id = ?");
              $stmt->execute([$newRole, $userId]);
              logAction($pdo, "Updated Staff User Role", "users", $userId, "New Role: $newRole");
-             $message = "<div class='alert alert-success'>Staff rights updated successfully.</div>";
+             $_SESSION['flash_message'] = "<div class='alert alert-success'>Staff rights updated successfully.</div>";
          }
     }
+    header("Location: users.php");
+    exit();
 }
 
 // Handle deleting user
 if (isset($_POST['delete_user'])) {
     if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
-         $message = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
+         $_SESSION['flash_message'] = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
     } else {
          $userId = (int)$_POST['user_id'];
          
          if ($userId === (int)$_SESSION['user_id']) {
-             $message = "<div class='alert alert-danger'>You cannot delete your own active administrator account.</div>";
+             $_SESSION['flash_message'] = "<div class='alert alert-danger'>You cannot delete your own active administrator account.</div>";
          } else {
              $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
              $stmt->execute([$userId]);
              logAction($pdo, "Deleted Staff User Account", "users", $userId);
-             $message = "<div class='alert alert-success'>Staff user deleted successfully.</div>";
+             $_SESSION['flash_message'] = "<div class='alert alert-success'>Staff user deleted successfully.</div>";
          }
     }
+    header("Location: users.php");
+    exit();
 }
 
 // Fetch staff list
