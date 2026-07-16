@@ -425,7 +425,7 @@ $statusList = $statusStmt->fetchAll();
                         <i class="fa-solid fa-hourglass-half fa-spin"></i>
                     </div>
                     <h4 class="fw-bold text-dark mb-2">Profile Deletion Scheduled</h4>
-                    <p class="text-secondary" style="font-size: 0.95rem;">Deleting profile in <span id="countdown-timer-val" class="fw-bold text-danger">15</span> seconds...</p>
+                    <p class="text-secondary" style="font-size: 0.95rem;">Deleting profile in <span id="countdown-timer-val" class="fw-bold text-danger">10</span> seconds...</p>
                     
                     <!-- Backward going timer bar -->
                     <div class="progress my-4" style="height: 12px; background-color: #E2E8F0; border-radius: 99px; overflow: hidden;">
@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let progressInterval = null;
     let deleteTimeout = null;
     
-    const DURATION = 15; // 15 seconds
+    const DURATION = 10; // 10 seconds
     let timeLeft = DURATION;
     
     // Dry-run password check
