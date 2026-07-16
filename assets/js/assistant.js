@@ -617,6 +617,7 @@
                     
                     <a href="${pathPrefix}get-involved/register-player.php" class="bsfi-ast-btn">Register as Athlete <span>&rarr;</span></a>
                     <a href="${pathPrefix}get-involved/register-official.php" class="bsfi-ast-btn">Register as Official <span>&rarr;</span></a>
+                    <button onclick="closeAssistantAndRedirect('${pathPrefix}index.php#who-can-participate')" class="bsfi-ast-btn" style="background: rgba(255,153,51,0.06); border: 1px solid rgba(255,153,51,0.2); color: #e07d16;">Athlete Eligibility: Who Can Participate? <span>&rarr;</span></button>
                 </div>
 
                 <!-- ════ SUBMENU: LEARN ════ -->
