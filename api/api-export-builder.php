@@ -11,15 +11,39 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'custom';
 $format = isset($_GET['format']) ? $_GET['format'] : 'csv'; // 'csv' or 'xlsx'
 $role = $_SESSION['role'] ?? 'viewer';
 
+// Helper to check if a value is an image/uploaded file path
+function getAbsoluteUrl($val) {
+    if (empty($val)) return '';
+    $val = trim($val);
+    // If it starts with uploads/ or contains uploads/, make it absolute
+    if (preg_match('/^uploads\//', $val) || strpos($val, '/uploads/') !== false) {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'bocciaindia.com';
+        // Strip any leading slash from the path if present
+        $path = ltrim($val, '/');
+        return "{$protocol}://{$host}/{$path}";
+    }
+    return '';
+}
+
 // Helper function to output CSV row
 function outputCsvRow($output, $fields) {
     fputcsv($output, array_map(function($v) {
-        return $v === null ? '' : $v;
+        if ($v === null) return '';
+        $abs = getAbsoluteUrl($v);
+        return (!empty($abs)) ? $abs : $v;
     }, $fields));
 }
 
 // Helper function to output Excel Cell
 function excelCell($val, $type = 'String') {
+    if ($val !== null) {
+        $abs = getAbsoluteUrl($val);
+        if (!empty($abs)) {
+            // Render clickable Hyperlink inside Excel XML spreadsheet cell
+            return '    <Cell ss:HRef="' . htmlspecialchars($abs) . '"><Data ss:Type="String">Click to View File</Data></Cell>' . "\n";
+        }
+    }
     return '    <Cell><Data ss:Type="' . htmlspecialchars($type) . '">' . htmlspecialchars($val ?? '') . '</Data></Cell>' . "\n";
 }
 
@@ -167,7 +191,13 @@ if ($action === 'event_participants') {
                 $aStmt->execute([$reg['id'], $cf['id']]);
                 $row_data[] = $aStmt->fetchColumn() ?: '';
             }
-            fputcsv($output, $row_data);
+            
+            $formatted_row = array_map(function($v) {
+                if ($v === null) return '';
+                $abs = getAbsoluteUrl($v);
+                return (!empty($abs)) ? $abs : $v;
+            }, $row_data);
+            fputcsv($output, $formatted_row);
         }
         fclose($output);
         logAction($pdo, "Exported Event Participants CSV spreadsheet", "schedules", $event_id);
@@ -592,7 +622,12 @@ if ($action === 'custom') {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            fputcsv($output, array_values($row));
+            $formatted_row = array_map(function($v) {
+                if ($v === null) return '';
+                $abs = getAbsoluteUrl($v);
+                return (!empty($abs)) ? $abs : $v;
+            }, array_values($row));
+            fputcsv($output, $formatted_row);
         }
         
         fclose($output);
