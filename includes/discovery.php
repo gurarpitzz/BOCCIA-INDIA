@@ -214,13 +214,19 @@ class ContentDiscoveryEngine {
 
         // If it is from the gallery section and an image, register in gallery_images table
         if ($section === 'gallery' && strpos($mimeType, 'image/') !== false) {
-            $galTitle = str_replace(['_', '-'], ' ', pathinfo($filename, PATHINFO_FILENAME));
-            $chkGal = $this->pdo->prepare("SELECT id FROM gallery_images WHERE image_path = ?");
-            $chkGal->execute([$relativeDestPath]);
-            if (!$chkGal->fetch()) {
-                $insGal = $this->pdo->prepare("INSERT INTO gallery_images (title, category, event_name, image_path, active) VALUES (?, 'Collage', 'Federation Gallery', ?, 1)");
-                $insGal->execute([$galTitle, $relativeDestPath]);
-                $logs[] = "Registered gallery image: $galTitle";
+            $caption = str_replace(['_', '-'], ' ', pathinfo($filename, PATHINFO_FILENAME));
+            $hash = hash_file('sha256', $filePath);
+
+            $chk = $this->pdo->prepare("SELECT id FROM gallery_images WHERE file_hash = ?");
+            $chk->execute([$hash]);
+
+            if (!$chk->fetch()) {
+                $ins = $this->pdo->prepare("
+                    INSERT INTO gallery_images (image_path, full_path, file_hash, caption, status) 
+                    VALUES (?, ?, ?, ?, 'published')
+                ");
+                $ins->execute([$relativeDestPath, $relativeDestPath, $hash, $caption]);
+                $logs[] = "Registered gallery image: $caption";
             }
         }
 
