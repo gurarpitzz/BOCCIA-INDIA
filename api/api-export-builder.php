@@ -465,7 +465,7 @@ if ($action === 'custom') {
                     break;
                 case 'receipt_path':
                     $selectFields[] = 'receipt_path';
-                    $columnHeaders[] = 'Gov Doc Path';
+                    $columnHeaders[] = 'Passport Path';
                     break;
             }
         }
@@ -541,7 +541,7 @@ if ($action === 'custom') {
                     break;
                 case 'receipt_path':
                     $selectFields[] = 'receipt_path';
-                    $columnHeaders[] = 'Gov Doc Path';
+                    $columnHeaders[] = 'Passport Path';
                     break;
             }
         }

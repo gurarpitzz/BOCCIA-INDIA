@@ -279,7 +279,7 @@ $eventsList = $pdo->query("SELECT id, discipline FROM schedules WHERE registrati
                                         </div>
                                         <div class="form-check my-1">
                                             <input class="form-check-input" type="checkbox" name="cols[]" value="receipt_path" id="col_receipt_path">
-                                            <label class="form-check-label text-danger fw-semibold" for="col_receipt_path"><i class="fa-solid fa-lock me-1"></i> Government Document ID</label>
+                                            <label class="form-check-label text-danger fw-semibold" for="col_receipt_path"><i class="fa-solid fa-lock me-1"></i> Passport / Gov Doc</label>
                                         </div>
                                     </div>
                                 </div>
