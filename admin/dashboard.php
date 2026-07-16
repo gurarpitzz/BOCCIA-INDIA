@@ -317,26 +317,18 @@ $auditLogs = $stmt->fetchAll();
                             </div>
                         </div>
 
-                        <!-- System Utilities (Exports & Backups) -->
+                        <!-- System Utilities (Exports) -->
                         <div id="system-utilities" class="admin-card" style="margin-bottom:0; padding:1.5rem;">
                             <h3 class="admin-card-title" style="font-size:1.15rem; color:#081B4B; display:flex; justify-content:space-between; align-items:center;">
                                 Utilities
                                 <i class="fa-solid fa-toolbox" style="font-size:1rem; opacity:0.6;"></i>
                             </h3>
-                            <p class="admin-card-desc" style="margin-bottom:1.25rem; font-size:0.8rem;">Database export and backups.</p>
+                            <p class="admin-card-desc" style="margin-bottom:1.25rem; font-size:0.8rem;">Export registries, participant lists, and custom reports.</p>
                             
                             <div style="display:flex; flex-direction:column; gap:0.6rem;">
-                                <a href="../api/export.php?type=csv" class="admin-btn" style="background:rgba(8,27,75,0.06); border:1px solid rgba(8,27,75,0.15); color:#081B4B; border-radius:8px; padding:0.6rem 0.8rem; font-size:0.85rem; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:0.5rem; justify-content:flex-start;">
-                                    <i class="fa-solid fa-file-csv" style="font-size:1rem;"></i> CSV Export (Athletes)
+                                <a href="export-center.php" class="admin-btn" style="background:rgba(8,27,75,0.06); border:1px solid rgba(8,27,75,0.15); color:#081B4B; border-radius:8px; padding:0.6rem 0.8rem; font-size:0.85rem; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:0.5rem; justify-content:flex-start;">
+                                    <i class="fa-solid fa-file-export" style="font-size:1rem;"></i> Export Control Center
                                 </a>
-                                <a href="../api/export.php?type=xlsx" class="admin-btn" style="background:rgba(8,27,75,0.06); border:1px solid rgba(8,27,75,0.15); color:#081B4B; border-radius:8px; padding:0.6rem 0.8rem; font-size:0.85rem; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:0.5rem; justify-content:flex-start;">
-                                    <i class="fa-solid fa-file-excel" style="font-size:1rem;"></i> Excel Export (Athletes)
-                                </a>
-                                <?php if ($_SESSION['role'] === 'admin'): ?>
-                                    <a href="../api/export.php?type=sql" class="admin-btn" style="background:rgba(255,153,51,0.1); border:1px solid rgba(255,153,51,0.3); color:#e07d16; border-radius:8px; padding:0.6rem 0.8rem; font-size:0.85rem; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:0.5rem; justify-content:flex-start;">
-                                        <i class="fa-solid fa-database" style="font-size:1rem;"></i> SQL Full Backup
-                                    </a>
-                                <?php endif; ?>
                             </div>
                         </div>
 
