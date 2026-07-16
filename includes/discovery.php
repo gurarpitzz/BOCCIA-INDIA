@@ -151,10 +151,13 @@ class ContentDiscoveryEngine {
             $pageId = $page['id'];
             $logs[] = "Updated text page: '$title' in section '$section'";
         } else {
-            // Insert new page
-            $insertStmt = $this->pdo->prepare("INSERT INTO site_pages (section, slug, title, content, status) VALUES (?, ?, ?, ?, 'published')");
-            $insertStmt->execute([$section, $slug, $title, $content]);
-            $pageId = $this->pdo->lastInsertId();
+            // Get next ID manually to safeguard against non-auto-incrementing database configurations
+            $nextId = (int)$this->pdo->query("SELECT COALESCE(MAX(id), 0) + 1 FROM site_pages")->fetchColumn();
+            
+            // Insert new page with manual ID assignment
+            $insertStmt = $this->pdo->prepare("INSERT INTO site_pages (id, section, slug, title, content, status) VALUES (?, ?, ?, ?, ?, 'published')");
+            $insertStmt->execute([$nextId, $section, $slug, $title, $content]);
+            $pageId = $nextId;
             $logs[] = "Created new page: '$title' (slug: $slug) in section '$section'";
         }
 
