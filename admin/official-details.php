@@ -49,6 +49,11 @@ include __DIR__ . '/../includes/header.php';
                 <a href="officials.php" class="admin-btn admin-btn-outline">
                     <i class="fa-solid fa-arrow-left"></i> Back to Directory
                 </a>
+                <?php if ($isAdmin): ?>
+                    <button type="button" class="btn btn-danger btn-sm rounded-3 px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#deleteProfileModal" style="font-size:0.82rem;">
+                        <i class="fa-solid fa-trash-can me-1"></i> Delete Profile
+                    </button>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -240,5 +245,89 @@ include __DIR__ . '/../includes/header.php';
 
     </div>
 </div>
+
+</div>
+
+<?php if ($isAdmin): ?>
+<!-- Delete Profile Confirmation Modal -->
+<div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-danger text-white border-0 py-3 rounded-top-4">
+                <h5 class="modal-title fw-bold" id="deleteProfileModalLabel">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Confirm Profile Deletion
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-dark">You are about to delete the official profile for <strong><?php echo htmlspecialchars($official['name']); ?></strong> (ID: <?php echo htmlspecialchars($official['official_reg_no']); ?>).</p>
+                <p class="text-danger fw-semibold"><i class="fa-solid fa-circle-exclamation me-1"></i> Warning: This action will restrict this profile from registry databases, audits, and official directories. This action is logged.</p>
+                
+                <form id="delete-profile-form" class="mt-3">
+                    <input type="hidden" name="id" value="<?php echo $officialId; ?>">
+                    <input type="hidden" name="type" value="official">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
+                    
+                    <div class="form-group mb-0">
+                        <label for="admin_password" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Enter Administrator Password to Confirm</label>
+                        <input type="password" class="form-control rounded-3" id="admin_password" name="password" required placeholder="Your admin account password...">
+                    </div>
+                    <div id="delete-error-msg" class="alert alert-danger mt-3 d-none rounded-3 py-2 px-3" style="font-size:0.85rem;"></div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-3 bg-light rounded-bottom-4">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="confirm-delete-btn" class="btn btn-danger rounded-pill px-4 fw-bold">Delete Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const confirmBtn = document.getElementById("confirm-delete-btn");
+    const errorMsg = document.getElementById("delete-error-msg");
+    const passwordInput = document.getElementById("admin_password");
+    
+    confirmBtn.addEventListener("click", function() {
+        const password = passwordInput.value.trim();
+        if (!password) {
+            errorMsg.textContent = "Please enter your password.";
+            errorMsg.classList.remove("d-none");
+            return;
+        }
+        
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Deleting...';
+        errorMsg.classList.add("d-none");
+        
+        const formData = new FormData(document.getElementById("delete-profile-form"));
+        
+        fetch("api/delete-profile.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(res => {
+            if (res.status === 200) {
+                // Success - redirect to directory
+                window.location.href = "officials.php";
+            } else {
+                errorMsg.textContent = res.body.error || "Failed to delete profile.";
+                errorMsg.classList.remove("d-none");
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = "Delete Profile";
+            }
+        })
+        .catch(err => {
+            errorMsg.textContent = "Server connection error. Please try again.";
+            errorMsg.classList.remove("d-none");
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = "Delete Profile";
+        });
+    });
+});
+</script>
+<?php endif; ?>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
