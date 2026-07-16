@@ -273,6 +273,14 @@ $eventsList = $pdo->query("SELECT id, discipline FROM schedules WHERE registrati
                                             <input class="form-check-input" type="checkbox" name="cols[]" value="father_name" id="col_parents">
                                             <label class="form-check-label text-danger fw-semibold" for="col_parents"><i class="fa-solid fa-lock me-1"></i> Parent Names</label>
                                         </div>
+                                        <div class="form-check my-1">
+                                            <input class="form-check-input" type="checkbox" name="cols[]" value="photo_path" id="col_photo_path">
+                                            <label class="form-check-label text-danger fw-semibold" for="col_photo_path"><i class="fa-solid fa-lock me-1"></i> Profile Photo (PFP)</label>
+                                        </div>
+                                        <div class="form-check my-1">
+                                            <input class="form-check-input" type="checkbox" name="cols[]" value="receipt_path" id="col_receipt_path">
+                                            <label class="form-check-label text-danger fw-semibold" for="col_receipt_path"><i class="fa-solid fa-lock me-1"></i> Government Document ID</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <span style="font-size:0.75rem; color:var(--text-muted); display:block; margin-top:10px;">* Red colored labels denote sensitive personal fields. Only administrative users can extract these fields. Non-admins selecting these columns will see them automatically redacted or blocked.</span>

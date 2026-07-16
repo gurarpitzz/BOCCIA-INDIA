@@ -355,7 +355,7 @@ if ($action === 'custom') {
     $colsRequested = isset($_GET['cols']) ? $_GET['cols'] : ['regn_no', 'full_name', 'gender', 'state', 'classification'];
     
     // Check if any sensitive columns are requested
-    $sensitiveCols = ['email', 'mobile', 'phone', 'aadhaar', 'address', 'kit_tshirt', 'father_name'];
+    $sensitiveCols = ['email', 'mobile', 'phone', 'aadhaar', 'address', 'kit_tshirt', 'father_name', 'photo_path', 'receipt_path'];
     $requestedSensitive = array_intersect($colsRequested, $sensitiveCols);
     
     if (!empty($requestedSensitive) && $role !== 'admin') {
@@ -459,6 +459,14 @@ if ($action === 'custom') {
                     $selectFields[] = 'impairment_type';
                     $columnHeaders[] = 'Impairment Type';
                     break;
+                case 'photo_path':
+                    $selectFields[] = 'photo_path';
+                    $columnHeaders[] = 'Profile Photo Path';
+                    break;
+                case 'receipt_path':
+                    $selectFields[] = 'receipt_path';
+                    $columnHeaders[] = 'Gov Doc Path';
+                    break;
             }
         }
         
@@ -526,6 +534,14 @@ if ($action === 'custom') {
                 case 'father_name': 
                     $selectFields[] = 'father_name'; 
                     $columnHeaders[] = 'Father\'s/Spouse\'s Name'; 
+                    break;
+                case 'photo_path':
+                    $selectFields[] = 'photo_path';
+                    $columnHeaders[] = 'Profile Photo Path';
+                    break;
+                case 'receipt_path':
+                    $selectFields[] = 'receipt_path';
+                    $columnHeaders[] = 'Gov Doc Path';
                     break;
             }
         }
