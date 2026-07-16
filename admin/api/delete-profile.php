@@ -69,8 +69,9 @@ try {
 
         // Audit Log
         $logDetails = "Deleted Athlete: " . $profile['full_name'] . " (Reg No: " . $profile['regn_no'] . ")";
-        $logStmt = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details) VALUES (?, 'DELETE_ATHLETE', ?)");
-        $logStmt->execute([$adminId, $logDetails]);
+        $nextLogId = (int)$pdo->query("SELECT COALESCE(MAX(id), 0) + 1 FROM audit_logs")->fetchColumn();
+        $logStmt = $pdo->prepare("INSERT INTO audit_logs (id, user_id, action, details) VALUES (?, ?, 'DELETE_ATHLETE', ?)");
+        $logStmt->execute([$nextLogId, $adminId, $logDetails]);
 
     } else {
         // Fetch official details for audit logging
@@ -87,8 +88,9 @@ try {
 
         // Audit Log
         $logDetails = "Deleted Official: " . $profile['name'] . " (Reg No: " . $profile['official_reg_no'] . ")";
-        $logStmt = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details) VALUES (?, 'DELETE_OFFICIAL', ?)");
-        $logStmt->execute([$adminId, $logDetails]);
+        $nextLogId = (int)$pdo->query("SELECT COALESCE(MAX(id), 0) + 1 FROM audit_logs")->fetchColumn();
+        $logStmt = $pdo->prepare("INSERT INTO audit_logs (id, user_id, action, details) VALUES (?, ?, 'DELETE_OFFICIAL', ?)");
+        $logStmt->execute([$nextLogId, $adminId, $logDetails]);
     }
 
     $pdo->commit();
