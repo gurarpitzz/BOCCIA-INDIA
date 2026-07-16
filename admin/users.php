@@ -13,9 +13,6 @@ if (session_status() === PHP_SESSION_NONE) {
 // Restricted strictly to admin role
 checkRole('admin');
 
-$page_title = "Manage Staff - BSFI Admin";
-include __DIR__ . '/../includes/header.php';
-
 $message = '';
 
 if (isset($_SESSION['flash_message'])) {
