@@ -459,8 +459,11 @@ class ContentDiscoveryEngine {
         $stmt->execute([$pageId]);
         $nextVer = $stmt->fetchColumn();
 
-        $ins = $this->pdo->prepare("INSERT INTO page_versions (page_id, version, content_snapshot) VALUES (?, ?, ?)");
-        $ins->execute([$pageId, $nextVer, $content]);
+        // Get next primary key ID manually for page_versions
+        $nextId = (int)$this->pdo->query("SELECT COALESCE(MAX(id), 0) + 1 FROM page_versions")->fetchColumn();
+
+        $ins = $this->pdo->prepare("INSERT INTO page_versions (id, page_id, version, content_snapshot) VALUES (?, ?, ?, ?)");
+        $ins->execute([$nextId, $pageId, $nextVer, $content]);
     }
 
     private function updateSearchIndex($title, $content, $type, $url) {
