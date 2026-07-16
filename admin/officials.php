@@ -66,7 +66,7 @@ $totalRows = $countStmt->fetch()['total'];
 $totalPages = ceil($totalRows / $limit);
 
 // Get records
-$query .= " ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
+$query .= " ORDER BY id ASC LIMIT $limit OFFSET $offset";
 $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $officialsList = $stmt->fetchAll();
