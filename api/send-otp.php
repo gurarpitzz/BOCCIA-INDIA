@@ -23,6 +23,39 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
+// Check if email is already in use by any player or official (approved or pending)
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND deleted_at IS NULL");
+$stmt->execute([$email]);
+if ($stmt->fetchColumn() > 0) {
+    http_response_code(400);
+    echo json_encode(['error' => 'This email address is already registered to a player. Players cannot register as officials.']);
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM athlete_applications WHERE email = ? AND status IN ('pending', 'approved')");
+$stmt->execute([$email]);
+if ($stmt->fetchColumn() > 0) {
+    http_response_code(400);
+    echo json_encode(['error' => 'This email address is already in use by a pending player application.']);
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM officials WHERE email = ? AND deleted_at IS NULL");
+$stmt->execute([$email]);
+if ($stmt->fetchColumn() > 0) {
+    http_response_code(400);
+    echo json_encode(['error' => 'This email address is already registered to an official. Officials cannot register as players.']);
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM official_applications WHERE email = ? AND status IN ('pending', 'approved')");
+$stmt->execute([$email]);
+if ($stmt->fetchColumn() > 0) {
+    http_response_code(400);
+    echo json_encode(['error' => 'This email address is already in use by a pending official application.']);
+    exit();
+}
+
 // Get Client IP
 $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
 

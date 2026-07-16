@@ -47,7 +47,25 @@ if (isset($_POST['lookup'])) {
                 
                 // Email claim logic: if no email exists on the legacy profile, treat the entered email as the claimed email
                 if (empty($email)) {
-                    $email = $lookup_email;
+                    // Check if lookup email is already registered to another athlete
+                    $dupCheck = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND id != ? AND deleted_at IS NULL");
+                    $dupCheck->execute([$lookup_email, $matched['id']]);
+                    if ($dupCheck->fetchColumn() > 0) {
+                        $error = "This email is already associated with another active player.";
+                    }
+                    
+                    // Check if lookup email is registered to any official
+                    if (empty($error)) {
+                        $dupCheckOff = $pdo->prepare("SELECT COUNT(*) FROM officials WHERE email = ? AND deleted_at IS NULL");
+                        $dupCheckOff->execute([$lookup_email]);
+                        if ($dupCheckOff->fetchColumn() > 0) {
+                            $error = "This email is registered to a federation official. Players cannot use official emails.";
+                        }
+                    }
+                    
+                    if (empty($error)) {
+                        $email = $lookup_email;
+                    }
                 }
 
                 if (strtolower($email) !== $lookup_email) {
@@ -174,6 +192,26 @@ if (isset($_POST['submit_update'])) {
                 if (move_uploaded_file($_FILES['photo_path']['tmp_name'], $uploadDir . $secureName)) {
                     $photo_path = 'uploads/profiles/' . $secureName;
                 }
+            }
+        }
+    }
+
+    // Verify email is unique if they are requesting a change
+    if ($isValid && !empty($email_req)) {
+        // Query to check if the new email belongs to someone else
+        $dupCheckAth = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND (id != ? OR ? != 'athlete') AND deleted_at IS NULL");
+        $dupCheckAth->execute([$email_req, $matched_id, $member_type]);
+        if ($dupCheckAth->fetchColumn() > 0) {
+            $error = "This email is already associated with another active player.";
+            $isValid = false;
+        }
+
+        if ($isValid) {
+            $dupCheckOff = $pdo->prepare("SELECT COUNT(*) FROM officials WHERE email = ? AND (id != ? OR ? != 'official') AND deleted_at IS NULL");
+            $dupCheckOff->execute([$email_req, $matched_id, $member_type]);
+            if ($dupCheckOff->fetchColumn() > 0) {
+                $error = "This email is already associated with a registered official. Players cannot use official emails.";
+                $isValid = false;
             }
         }
     }

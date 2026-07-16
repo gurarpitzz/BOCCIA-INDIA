@@ -149,6 +149,39 @@ try {
     $photoUuidName = generateUUID() . '.webp';
     $docUuidName = generateUUID() . '.' . $docExt;
 
+    // Verify email is not already in use by any other player or official
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND deleted_at IS NULL");
+    $stmt->execute([$email]);
+    if ($stmt->fetchColumn() > 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'This email address is already registered to a player.']);
+        exit();
+    }
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM athlete_applications WHERE email = ? AND status IN ('pending', 'approved')");
+    $stmt->execute([$email]);
+    if ($stmt->fetchColumn() > 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'This email address is already in use by a pending player application.']);
+        exit();
+    }
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM officials WHERE email = ? AND deleted_at IS NULL");
+    $stmt->execute([$email]);
+    if ($stmt->fetchColumn() > 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'This email address is already registered to an official. Players cannot register as officials.']);
+        exit();
+    }
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM official_applications WHERE email = ? AND status IN ('pending', 'approved')");
+    $stmt->execute([$email]);
+    if ($stmt->fetchColumn() > 0) {
+        http_response_code(400);
+        echo json_encode(['error' => 'This email address is already in use by a pending official application.']);
+        exit();
+    }
+
     // Start Transaction
     $pdo->beginTransaction();
 
