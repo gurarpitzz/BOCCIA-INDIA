@@ -44,6 +44,13 @@ try {
         exit();
     }
 
+    // Check if we are only verifying the password
+    $checkOnly = isset($_POST['check_only']) && $_POST['check_only'] == 1;
+    if ($checkOnly) {
+        echo json_encode(['success' => 'Password verified. Ready for deletion.']);
+        exit();
+    }
+
     // Begin transaction
     $pdo->beginTransaction();
 

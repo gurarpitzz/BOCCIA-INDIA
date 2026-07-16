@@ -248,36 +248,62 @@ include __DIR__ . '/../includes/header.php';
 
 </div>
 
-<?php if ($isAdmin): ?>
 <!-- Delete Profile Confirmation Modal -->
-<div class="modal fade" id="deleteProfileModal" tabindex="-1" aria-labelledby="deleteProfileModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <div class="modal-header bg-danger text-white border-0 py-3 rounded-top-4">
                 <h5 class="modal-title fw-bold" id="deleteProfileModalLabel">
                     <i class="fa-solid fa-triangle-exclamation me-1"></i> Confirm Profile Deletion
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" id="delete-modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-                <p class="text-dark">You are about to delete the official profile for <strong><?php echo htmlspecialchars($official['name']); ?></strong> (ID: <?php echo htmlspecialchars($official['official_reg_no']); ?>).</p>
-                <p class="text-danger fw-semibold"><i class="fa-solid fa-circle-exclamation me-1"></i> Warning: This action will restrict this profile from registry databases, audits, and official directories. This action is logged.</p>
-                
-                <form id="delete-profile-form" class="mt-3">
-                    <input type="hidden" name="id" value="<?php echo $officialId; ?>">
-                    <input type="hidden" name="type" value="official">
-                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
+            
+            <!-- Standard Confirmation State -->
+            <div id="delete-form-state">
+                <div class="modal-body p-4">
+                    <p class="text-dark mb-2">You are about to delete the official profile for <strong><?php echo htmlspecialchars($official['name']); ?></strong> (ID: <?php echo htmlspecialchars($official['official_reg_no']); ?>).</p>
+                    <p class="text-danger fw-semibold" style="font-size: 0.9rem;"><i class="fa-solid fa-circle-exclamation me-1"></i> Warning: This action will restrict this profile from registry databases, audits, and official directories. This action is logged.</p>
                     
-                    <div class="form-group mb-0">
-                        <label for="admin_password" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Enter Administrator Password to Confirm</label>
-                        <input type="password" class="form-control rounded-3" id="admin_password" name="password" required placeholder="Your admin account password...">
-                    </div>
-                    <div id="delete-error-msg" class="alert alert-danger mt-3 d-none rounded-3 py-2 px-3" style="font-size:0.85rem;"></div>
-                </form>
+                    <form id="delete-profile-form" class="mt-3" onsubmit="return false;">
+                        <input type="hidden" name="id" value="<?php echo $officialId; ?>">
+                        <input type="hidden" name="type" value="official">
+                        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
+                        
+                        <div class="form-group mb-0">
+                            <label for="admin_password" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Enter Administrator Password to Confirm</label>
+                            <input type="password" class="form-control rounded-3" id="admin_password" name="password" required placeholder="Your admin account password...">
+                        </div>
+                        <div id="delete-error-msg" class="alert alert-danger mt-3 d-none rounded-3 py-2 px-3" style="font-size:0.85rem;"></div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 p-3 bg-light rounded-bottom-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirm-delete-btn" class="btn btn-danger rounded-pill px-4 fw-bold">Delete Profile</button>
+                </div>
             </div>
-            <div class="modal-footer border-0 p-3 bg-light rounded-bottom-4">
-                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" id="confirm-delete-btn" class="btn btn-danger rounded-pill px-4 fw-bold">Delete Profile</button>
+
+            <!-- Countdown Deletion State -->
+            <div id="delete-countdown-state" class="d-none">
+                <div class="modal-body p-4 text-center">
+                    <div style="font-size: 3rem; color: var(--danger); margin-bottom: 1rem;">
+                        <i class="fa-solid fa-hourglass-half fa-spin"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-2">Profile Deletion Scheduled</h4>
+                    <p class="text-secondary" style="font-size: 0.95rem;">Deleting profile in <span id="countdown-timer-val" class="fw-bold text-danger">40</span> seconds...</p>
+                    
+                    <!-- Backward going timer bar -->
+                    <div class="progress my-4" style="height: 12px; background-color: #E2E8F0; border-radius: 99px; overflow: hidden;">
+                        <div id="countdown-progress-bar" class="progress-bar bg-danger" role="progressbar" style="width: 100%; transition: width 0.1s linear;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    
+                    <p class="text-muted mb-0" style="font-size:0.82rem;">You can safely cancel or undo this action before the timer expires.</p>
+                </div>
+                <div class="modal-footer border-0 p-3 bg-light justify-content-center rounded-bottom-4">
+                    <button type="button" id="undo-delete-btn" class="btn btn-primary rounded-pill px-5 py-2 fw-bold shadow-sm">
+                        <i class="fa-solid fa-arrow-rotate-left me-1"></i> Undo Deletion
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -288,7 +314,22 @@ document.addEventListener("DOMContentLoaded", function() {
     const confirmBtn = document.getElementById("confirm-delete-btn");
     const errorMsg = document.getElementById("delete-error-msg");
     const passwordInput = document.getElementById("admin_password");
+    const modalCloseBtn = document.getElementById("delete-modal-close");
     
+    const formState = document.getElementById("delete-form-state");
+    const countdownState = document.getElementById("delete-countdown-state");
+    const undoBtn = document.getElementById("undo-delete-btn");
+    const timerVal = document.getElementById("countdown-timer-val");
+    const progressBar = document.getElementById("countdown-progress-bar");
+    
+    let countdownInterval = null;
+    let progressInterval = null;
+    let deleteTimeout = null;
+    
+    const DURATION = 40; // 40 seconds
+    let timeLeft = DURATION;
+    
+    // Dry-run password check
     confirmBtn.addEventListener("click", function() {
         const password = passwordInput.value.trim();
         if (!password) {
@@ -298,10 +339,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         confirmBtn.disabled = true;
-        confirmBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Deleting...';
+        confirmBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Verifying...';
         errorMsg.classList.add("d-none");
         
         const formData = new FormData(document.getElementById("delete-profile-form"));
+        formData.append("check_only", "1");
         
         fetch("api/delete-profile.php", {
             method: "POST",
@@ -310,10 +352,10 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json().then(data => ({ status: response.status, body: data })))
         .then(res => {
             if (res.status === 200) {
-                // Success - redirect to directory
-                window.location.href = "officials.php";
+                // Password matches! Start 40s countdown state
+                startDeletionCountdown();
             } else {
-                errorMsg.textContent = res.body.error || "Failed to delete profile.";
+                errorMsg.textContent = res.body.error || "Verification failed.";
                 errorMsg.classList.remove("d-none");
                 confirmBtn.disabled = false;
                 confirmBtn.innerHTML = "Delete Profile";
@@ -326,6 +368,89 @@ document.addEventListener("DOMContentLoaded", function() {
             confirmBtn.innerHTML = "Delete Profile";
         });
     });
+    
+    function startDeletionCountdown() {
+        // Swap UI states
+        formState.classList.add("d-none");
+        countdownState.classList.remove("d-none");
+        modalCloseBtn.classList.add("d-none"); // Prevent closing modal via X
+        
+        timeLeft = DURATION;
+        timerVal.textContent = timeLeft;
+        progressBar.style.width = "100%";
+        
+        // Progress bar smooth decrementor (runs every 100ms)
+        const totalSteps = DURATION * 10;
+        let currentStep = totalSteps;
+        progressInterval = setInterval(function() {
+            currentStep--;
+            const percentage = (currentStep / totalSteps) * 100;
+            progressBar.style.width = percentage + "%";
+            progressBar.setAttribute("aria-valuenow", percentage);
+            
+            if (currentStep <= 0) {
+                clearInterval(progressInterval);
+            }
+        }, 100);
+        
+        // Timer countdown tick (runs every second)
+        countdownInterval = setInterval(function() {
+            timeLeft--;
+            timerVal.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+        
+        // Final execute timeout after 40 seconds
+        deleteTimeout = setTimeout(executeDeletion, DURATION * 1000);
+    }
+    
+    // Undo trigger
+    undoBtn.addEventListener("click", cancelDeletionCountdown);
+    
+    function cancelDeletionCountdown() {
+        // Clear all timers
+        clearTimeout(deleteTimeout);
+        clearInterval(countdownInterval);
+        clearInterval(progressInterval);
+        
+        // Reset inputs and UI states
+        timeLeft = DURATION;
+        passwordInput.value = "";
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = "Delete Profile";
+        
+        formState.classList.remove("d-none");
+        countdownState.classList.add("d-none");
+        modalCloseBtn.classList.remove("d-none");
+    }
+    
+    function executeDeletion() {
+        progressBar.style.width = "0%";
+        undoBtn.disabled = true;
+        undoBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Processing...';
+        
+        const formData = new FormData(document.getElementById("delete-profile-form"));
+        
+        fetch("api/delete-profile.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(res => {
+            if (res.status === 200) {
+                window.location.href = "officials.php";
+            } else {
+                alert("Deletion error: " + (res.body.error || "Failed to complete deletion."));
+                cancelDeletionCountdown();
+            }
+        })
+        .catch(err => {
+            alert("Database connection timeout. Please reload and try again.");
+            cancelDeletionCountdown();
+        });
+    }
 });
 </script>
 <?php endif; ?>
