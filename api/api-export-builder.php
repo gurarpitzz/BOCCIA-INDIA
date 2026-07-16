@@ -82,7 +82,7 @@ if ($action === 'event_participants') {
         'Payment Status',
         'Registration Status',
         'Transaction Ref',
-        'Receipt Path',
+        'Passport Path',
         'Rejection Remarks',
         'Created At'
     ];
@@ -228,7 +228,7 @@ if ($action === 'master') {
         echo " <Worksheet ss:Name=\"Athletes\">\n";
         echo "  <Table>\n";
         echo "   <Row>\n";
-        $headers = ['Registration No', 'Full Name', 'Gender', 'DOB', 'Father\'s Name', 'Mother\'s Name', 'Age Category', 'State', 'District', 'Classification', 'Wheelchair Status', 'Aadhaar', 'Mobile', 'Email', 'Address', 'Pincode', 'Kit T-Shirt', 'Kit Tracksuit', 'Kit Shoe', 'Photo Path', 'Receipt Path', 'Status', 'Legacy Registry'];
+        $headers = ['Registration No', 'Full Name', 'Gender', 'DOB', 'Father\'s Name', 'Mother\'s Name', 'Age Category', 'State', 'District', 'Classification', 'Wheelchair Status', 'Aadhaar', 'Mobile', 'Email', 'Address', 'Pincode', 'Kit T-Shirt', 'Kit Tracksuit', 'Kit Shoe', 'Photo Path', 'Passport Path', 'Status', 'Legacy Registry'];
         foreach ($headers as $h) echo "    <Cell><Data ss:Type=\"String\">" . htmlspecialchars($h) . "</Data></Cell>\n";
         echo "   </Row>\n";
         
@@ -248,7 +248,7 @@ if ($action === 'master') {
         echo " <Worksheet ss:Name=\"Officials\">\n";
         echo "  <Table>\n";
         echo "   <Row>\n";
-        $offHeaders = ['Official Reg No', 'Name', 'Role', 'Gender', 'DOB', 'Father\'s/Spouse\'s Name', 'State', 'Aadhaar', 'Phone', 'Email', 'Address', 'Pincode', 'Kit T-Shirt', 'Kit Tracksuit', 'Kit Shoe', 'Photo Path', 'Receipt Path', 'Status', 'Legacy Registry'];
+        $offHeaders = ['Official Reg No', 'Name', 'Role', 'Gender', 'DOB', 'Father\'s/Spouse\'s Name', 'State', 'Aadhaar', 'Phone', 'Email', 'Address', 'Pincode', 'Kit T-Shirt', 'Kit Tracksuit', 'Kit Shoe', 'Photo Path', 'Passport Path', 'Status', 'Legacy Registry'];
         foreach ($offHeaders as $h) echo "    <Cell><Data ss:Type=\"String\">" . htmlspecialchars($h) . "</Data></Cell>\n";
         echo "   </Row>\n";
         
