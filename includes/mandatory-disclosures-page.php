@@ -28,8 +28,8 @@ include __DIR__ . '/header.php';
             <div class="row mb-4">
                 <div class="col-md-8 mx-auto text-center">
                     <div class="section-title-wrapper mb-4">
-                        <span class="sub-label">sports code compliance</span>
-                        <h3 class="board-subtitle" style="color: #081B4B !important;">Compliance Matrix</h3>
+                        <span class="sub-label">official disclosures</span>
+                        <h3 class="board-subtitle" style="color: #081B4B !important;">Federation Transparency Information</h3>
                     </div>
                 </div>
             </div>
