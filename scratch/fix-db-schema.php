@@ -13,8 +13,12 @@ try {
     // 2. Drop old tables
     $pdo->exec("DROP TABLE IF EXISTS `gallery_images`;");
     echo "Dropped old gallery_images table.\n";
+    $pdo->exec("DROP TABLE IF EXISTS `gallery_albums_old`;");
+    echo "Dropped old gallery_albums_old table.\n";
     $pdo->exec("DROP TABLE IF EXISTS `gallery_albums`;");
     echo "Dropped old gallery_albums table.\n";
+    $pdo->exec("DROP TABLE IF EXISTS `gallery_categories`;");
+    echo "Dropped old gallery_categories table.\n";
     
     // 3. Re-enable foreign keys
     $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
