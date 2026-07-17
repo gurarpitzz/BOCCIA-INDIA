@@ -52,19 +52,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         $max_participants = !empty($_POST['max_participants']) ? (int)$_POST['max_participants'] : null;
         $allow_waiting_list = isset($_POST['allow_waiting_list']) ? 1 : 0;
 
+        $is_national = isset($_POST['is_national']) ? 1 : 0;
+        $result_url = !empty($_POST['result_url']) ? trim($_POST['result_url']) : null;
+        $result_button_text = !empty($_POST['result_button_text']) ? trim($_POST['result_button_text']) : 'View Results';
+
         if (empty($discipline) || empty($date_text) || empty($venue)) {
             $message = "<div class='alert alert-danger'>Discipline, Date, and Venue are required.</div>";
         } else {
             if ($id > 0) {
                 // Update
-                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=? WHERE id=?");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $id]);
+                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=?, is_national=?, result_url=?, result_button_text=? WHERE id=?");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $is_national, $result_url, $result_button_text, $id]);
                 logAction($pdo, "Updated Schedule", "schedules", $id);
                 $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
             } else {
                 // Insert
-                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list]);
+                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list, is_national, result_url, result_button_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $is_national, $result_url, $result_button_text]);
                 $newId = $pdo->lastInsertId();
                 logAction($pdo, "Added Schedule", "schedules", $newId);
                 $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
@@ -100,10 +104,16 @@ $schedulesList = $stmt->fetchAll();
                 <?php foreach ($schedulesList as $item): ?>
                     <div class="admin-card" style="display:grid; grid-template-columns:3fr 1fr; gap:2rem; align-items:center; margin-bottom: 0; <?php echo !$item['active'] ? 'opacity: 0.6;' : ''; ?>">
                         <div>
-                            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem;">
+                            <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem; flex-wrap: wrap;">
                                 <h3 class="admin-card-title" style="font-size:1.4rem; margin:0;"><?php echo htmlspecialchars($item['discipline']); ?></h3>
                                 <?php if($item['event_type']): ?>
                                     <span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($item['event_type']); ?></span>
+                                <?php endif; ?>
+                                <?php if(!empty($item['is_national'])): ?>
+                                    <span class="admin-badge" style="background:#FF9933; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">National Competition</span>
+                                <?php endif; ?>
+                                <?php if(!empty($item['result_url'])): ?>
+                                    <span class="admin-badge" style="background:#10B981; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Results Published</span>
                                 <?php endif; ?>
                                 <?php if(!$item['active']): ?>
                                     <span class="admin-badge admin-badge-danger">Inactive</span>
@@ -218,6 +228,25 @@ $schedulesList = $stmt->fetchAll();
                 </div>
             </div>
 
+
+            <div style="display:grid; grid-template-columns:1fr; gap:1rem; align-items:center;">
+                <div class="admin-form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 0.5rem;">
+                    <input type="checkbox" id="schedule-is-national" name="is_national" value="1" style="width: 18px; height: 18px; cursor:pointer;">
+                    <label for="schedule-is-national" style="font-size:0.9rem; font-weight:600; cursor:pointer; margin-bottom:0;">National Competition</label>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="admin-form-group">
+                    <label for="schedule-result-url">Result URL (Optional)</label>
+                    <input type="url" id="schedule-result-url" name="result_url" class="admin-input" placeholder="https://...">
+                </div>
+                <div class="admin-form-group">
+                    <label for="schedule-result-btn-text">Result Button Text</label>
+                    <input type="text" id="schedule-result-btn-text" name="result_button_text" class="admin-input" value="View Results">
+                </div>
+            </div>
+
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; align-items:center;">
                 <div class="admin-form-group">
                     <label for="schedule-start-date">Event Start Date</label>
@@ -244,6 +273,9 @@ function openScheduleModal(item) {
         document.getElementById('schedule-id').value = 0;
         form.reset();
         document.getElementById('schedule-active').checked = true;
+        document.getElementById('schedule-is-national').checked = false;
+        document.getElementById('schedule-result-url').value = '';
+        document.getElementById('schedule-result-btn-text').value = 'View Results';
     } else {
         document.getElementById('modal-title').textContent = "Edit Schedule";
         document.getElementById('schedule-id').value = item.id;
@@ -267,6 +299,9 @@ function openScheduleModal(item) {
         document.getElementById('schedule-waitlist').checked = item.allow_waiting_list == 1;
         document.getElementById('schedule-start-date').value = item.start_date;
         document.getElementById('schedule-active').checked = item.active == 1;
+        document.getElementById('schedule-is-national').checked = item.is_national == 1;
+        document.getElementById('schedule-result-url').value = item.result_url || '';
+        document.getElementById('schedule-result-btn-text').value = item.result_button_text || 'View Results';
     }
     
     toggleRegFields();
