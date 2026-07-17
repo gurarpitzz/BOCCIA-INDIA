@@ -2,6 +2,8 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
 # 301 Redirects from old WordPress URLs (handling optional trailing slash)
 RewriteRule ^contact-us/?$ /contact.php [R=301,L]
 RewriteRule ^about-boccia/?$ /page.php?section=about&slug=about-boccia [R=301,L]
@@ -14,4 +16,7 @@ RewriteRule ^home-old/?$ /index.php [R=301,L]
 # Author profiles redirection to homepage
 RewriteRule ^author/.*$ /index.php [R=301,L]
 
-RewriteRule ^sitemap\.xml$ sitemap.php [L]
+# Fallback: Redirect any other non-existent page/directory request to homepage (301)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php [R=301,L]
