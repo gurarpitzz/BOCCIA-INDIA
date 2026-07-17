@@ -2,4 +2,16 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# 301 Redirects from old WordPress URLs to new PHP URLs
+Redirect 301 /contact-us /contact.php
+Redirect 301 /about-boccia /page.php?section=about&slug=about-boccia
+Redirect 301 /classification /page.php?section=sport&slug=classification
+Redirect 301 /equipment /page.php?section=sport&slug=equipment
+Redirect 301 /rules /page.php?section=sport&slug=rules
+Redirect 301 /anti-doping /page.php?section=sport&slug=anti-doping
+Redirect 301 /home-old /index.php
+
+# Author profiles redirection to homepage
+RewriteRule ^author/.*$ index.php [R=301,L]
+
 RewriteRule ^sitemap\.xml$ sitemap.php [L]
