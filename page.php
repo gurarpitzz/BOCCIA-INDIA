@@ -5,8 +5,8 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 require_once __DIR__ . '/includes/document_renderer.php';
 
-$section = trim($_GET['section'] ?? '');
-$slug    = trim($_GET['slug'] ?? '');
+$section = rtrim(trim($_GET['section'] ?? ''), '/');
+$slug    = rtrim(trim($_GET['slug'] ?? ''), '/');
 
 if (empty($section) || empty($slug)) {
     header("Location: index.php");

@@ -2,16 +2,16 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 301 Redirects from old WordPress URLs to new PHP URLs
-Redirect 301 /contact-us /contact.php
-Redirect 301 /about-boccia /page.php?section=about&slug=about-boccia
-Redirect 301 /classification /page.php?section=sport&slug=classification
-Redirect 301 /equipment /page.php?section=sport&slug=equipment
-Redirect 301 /rules /page.php?section=sport&slug=rules
-Redirect 301 /anti-doping /page.php?section=sport&slug=anti-doping
-Redirect 301 /home-old /index.php
+# 301 Redirects from old WordPress URLs (handling optional trailing slash)
+RewriteRule ^contact-us/?$ /contact.php [R=301,L]
+RewriteRule ^about-boccia/?$ /page.php?section=about&slug=about-boccia [R=301,L]
+RewriteRule ^classification/?$ /page.php?section=sport&slug=classification [R=301,L]
+RewriteRule ^equipment/?$ /page.php?section=sport&slug=equipment [R=301,L]
+RewriteRule ^rules/?$ /page.php?section=sport&slug=rules [R=301,L]
+RewriteRule ^anti-doping/?$ /page.php?section=sport&slug=anti-doping [R=301,L]
+RewriteRule ^home-old/?$ /index.php [R=301,L]
 
 # Author profiles redirection to homepage
-RewriteRule ^author/.*$ index.php [R=301,L]
+RewriteRule ^author/.*$ /index.php [R=301,L]
 
 RewriteRule ^sitemap\.xml$ sitemap.php [L]
