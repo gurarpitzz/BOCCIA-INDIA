@@ -806,16 +806,16 @@ body {
                     <p>
                         For any further information and questions in relation to BISFed’s personal information practices, please contact:
                         <br>
-                        <a href="mailto:office@bocciaindia.com">office@bocciaindia.com</a>, 
-                        <a href="mailto:president@bocciaindia.com">president@bocciaindia.com</a>, or 
-                        <a href="mailto:secretary@bocciaindia.com">secretary@bocciaindia.com</a>.
+                        <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>, 
+                        <a href="mailto:president@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">president@bocciaindia.com</a>, or 
+                        <a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>.
                     </p>
                     <p class="mb-0">
                         If you have a doubt as regards to which organization you should apply for a TUE, or as to the recognition process, or any other question about TUEs, please contact:
                         <br>
-                        <a href="mailto:office@bocciaindia.com">office@bocciaindia.com</a>, 
-                        <a href="mailto:president@bocciaindia.com">president@bocciaindia.com</a>, or 
-                        <a href="mailto:secretary@bocciaindia.com">secretary@bocciaindia.com</a>.
+                        <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>, 
+                        <a href="mailto:president@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">president@bocciaindia.com</a>, or 
+                        <a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>.
                     </p>
                 </div>
             </div>
