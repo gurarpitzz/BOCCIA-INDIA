@@ -1026,6 +1026,14 @@ body {
                                 <line x1="325" y1="240" x2="325" y2="280" stroke="#FFFFFF" stroke-width="2" />
                                 <line x1="380" y1="240" x2="380" y2="280" stroke="#FFFFFF" stroke-width="2" />
 
+                                <!-- Playing Box Labels -->
+                                <text x="95" y="265" fill="rgba(255, 255, 255, 0.6)" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">box 1</text>
+                                <text x="147.5" y="265" fill="rgba(255, 255, 255, 0.6)" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">box 2</text>
+                                <text x="212.5" y="265" fill="rgba(255, 255, 255, 0.6)" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">box 3</text>
+                                <text x="287.5" y="265" fill="rgba(255, 255, 255, 0.6)" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">box 4</text>
+                                <text x="352.5" y="265" fill="rgba(255, 255, 255, 0.6)" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">box 5</text>
+                                <text x="405" y="265" fill="rgba(255, 255, 255, 0.6)" font-size="7" font-weight="700" text-anchor="middle" pointer-events="none">box 6</text>
+
                                 <!-- V Line (open polyline touching sidelines) -->
                                 <polyline points="135,100 250,140 365,100" fill="none" stroke="#FFFFFF" stroke-dasharray="4,3" stroke-width="2" />
                                 
