@@ -652,7 +652,7 @@
                     
                     <a href="${pathPrefix}contact.php" class="bsfi-ast-btn">Contact Page <span>&rarr;</span></a>
                     <a href="${pathPrefix}contact.php" class="bsfi-ast-btn">Registered Office <span>&rarr;</span></a>
-                    <a href="mailto:bocciaindia@gmail.com" class="bsfi-ast-btn">Email BSFI <span>&rarr;</span></a>
+                    <a href="mailto:office@bocciaindia.com" class="bsfi-ast-btn">Email BSFI <span>&rarr;</span></a>
                     <a href="${pathPrefix}contact.php" class="bsfi-ast-btn">Phone Numbers <span>&rarr;</span></a>
                 </div>
 

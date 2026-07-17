@@ -303,7 +303,9 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
                     <div class="contact-item">
                         <svg class="contact-icon-new" viewBox="0 0 24 24" style="width: 20px; height: 20px; fill: #138808; flex-shrink: 0;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                         <div class="contact-text">
-                            <a href="mailto:bocciaindia@gmail.com">bocciaindia@gmail.com</a>
+                            <a href="mailto:office@bocciaindia.com" style="display:block; margin-bottom: 2px;">office@bocciaindia.com</a>
+                            <a href="mailto:president@bocciaindia.com" style="display:block; margin-bottom: 2px;">president@bocciaindia.com</a>
+                            <a href="mailto:secretary@bocciaindia.com" style="display:block;">secretary@bocciaindia.com</a>
                         </div>
                     </div>
                     <div class="contact-item">

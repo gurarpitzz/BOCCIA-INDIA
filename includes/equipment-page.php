@@ -425,7 +425,11 @@ body {
                         <div class="contact-details-grid">
                             <div class="contact-detail-item">
                                 <i class="bi bi-envelope-fill"></i>
-                                <a href="mailto:Bocciaindia@gmail.com">Bocciaindia@gmail.com</a>
+                                <div>
+                                    <a href="mailto:office@bocciaindia.com">office@bocciaindia.com</a><br>
+                                    <a href="mailto:president@bocciaindia.com">president@bocciaindia.com</a><br>
+                                    <a href="mailto:secretary@bocciaindia.com">secretary@bocciaindia.com</a>
+                                </div>
                             </div>
                             <div class="contact-detail-item">
                                 <i class="bi bi-telephone-fill"></i>

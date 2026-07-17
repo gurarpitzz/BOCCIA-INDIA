@@ -804,10 +804,18 @@ body {
                 <div class="contact-callout">
                     <h3>Contact Information</h3>
                     <p>
-                        For any further information and questions in relation to BISFed’s personal information practices, please contact <a href="mailto:admin@bisfed.com" class="contact-email">admin@bisfed.com</a>.
+                        For any further information and questions in relation to BISFed’s personal information practices, please contact:
+                        <br>
+                        <a href="mailto:office@bocciaindia.com">office@bocciaindia.com</a>, 
+                        <a href="mailto:president@bocciaindia.com">president@bocciaindia.com</a>, or 
+                        <a href="mailto:secretary@bocciaindia.com">secretary@bocciaindia.com</a>.
                     </p>
                     <p class="mb-0">
-                        If you have a doubt as regards to which organization you should apply for a TUE, or as to the recognition process, or any other question about TUEs, please contact: <a href="mailto:admin@bisfed.com" class="contact-email">admin@bisfed.com</a>.
+                        If you have a doubt as regards to which organization you should apply for a TUE, or as to the recognition process, or any other question about TUEs, please contact:
+                        <br>
+                        <a href="mailto:office@bocciaindia.com">office@bocciaindia.com</a>, 
+                        <a href="mailto:president@bocciaindia.com">president@bocciaindia.com</a>, or 
+                        <a href="mailto:secretary@bocciaindia.com">secretary@bocciaindia.com</a>.
                     </p>
                 </div>
             </div>

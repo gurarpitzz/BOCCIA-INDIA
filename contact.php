@@ -575,7 +575,9 @@ include __DIR__ . '/includes/header.php';
                 <div class="contact-row-item">
                     <i class="fa-solid fa-envelope row-icon"></i>
                     <div class="row-details">
-                        <a href="mailto:Bocciaindia@gmail.com">Bocciaindia@gmail.com</a>
+                        <a href="mailto:office@bocciaindia.com" style="display:block; margin-bottom: 2px;">office@bocciaindia.com</a>
+                        <a href="mailto:president@bocciaindia.com" style="display:block; margin-bottom: 2px;">president@bocciaindia.com</a>
+                        <a href="mailto:secretary@bocciaindia.com" style="display:block;">secretary@bocciaindia.com</a>
                     </div>
                 </div>
                 <div class="contact-row-item">
@@ -612,7 +614,9 @@ New Delhi – 110001</address>
                 <div class="contact-row-item">
                     <i class="fa-solid fa-envelope row-icon"></i>
                     <div class="row-details">
-                        <a href="mailto:Bocciaindia@gmail.com">Bocciaindia@gmail.com</a>
+                        <a href="mailto:office@bocciaindia.com" style="display:block; margin-bottom: 2px;">office@bocciaindia.com</a>
+                        <a href="mailto:president@bocciaindia.com" style="display:block; margin-bottom: 2px;">president@bocciaindia.com</a>
+                        <a href="mailto:secretary@bocciaindia.com" style="display:block;">secretary@bocciaindia.com</a>
                     </div>
                 </div>
                 <div class="contact-row-item">

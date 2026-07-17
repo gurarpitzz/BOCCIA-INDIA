@@ -627,7 +627,7 @@
                     <li>Dyslexia Friendly Fonts</li>
                 </ul>
                 <p>For accessibility assistance or feedback, contact:<br>
-                <a href="mailto:bocciaindia@gmail.com" style="color: #F4B942;">bocciaindia@gmail.com</a></p>
+                <a href="mailto:office@bocciaindia.com" style="color: #F4B942;">office@bocciaindia.com</a></p>
             </div>
         `;
         document.body.appendChild(modal);
