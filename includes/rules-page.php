@@ -1013,8 +1013,8 @@ body {
                                 <line x1="325" y1="240" x2="325" y2="280" stroke="#FFFFFF" stroke-width="2" />
                                 <line x1="380" y1="240" x2="380" y2="280" stroke="#FFFFFF" stroke-width="2" />
 
-                                <!-- V Line -->
-                                <polygon points="190,100 250,140 310,100" fill="none" stroke="#FFFFFF" stroke-dasharray="4,3" stroke-width="2" />
+                                <!-- V Line (open polyline touching sidelines) -->
+                                <polyline points="135,100 250,140 365,100" fill="none" stroke="#FFFFFF" stroke-dasharray="4,3" stroke-width="2" />
                                 
                                 <!-- Center Cross -->
                                 <line x1="245" y1="80" x2="255" y2="80" stroke="#FFFFFF" stroke-width="2" />
