@@ -248,6 +248,10 @@
                                     <a href="page.php?section=competitions&slug=national-events" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
                                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> View Championships
                                     </a>
+                                    <br>
+                                    <a href="page.php?section=competitions&slug=results" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> View Results
+                                    </a>
                                 </div>
                             </td>
                         </tr>
