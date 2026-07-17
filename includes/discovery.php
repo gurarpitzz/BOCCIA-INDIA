@@ -363,7 +363,6 @@ class ContentDiscoveryEngine {
                         'section' => 'myas',
                         'children' => [
                             ['title' => 'Governance', 'slug' => 'governance-docs', 'section' => 'myas'],
-                            ['title' => 'Financial Management', 'slug' => 'financial-management-docs', 'section' => 'myas'],
                             ['title' => 'Compliance & Regulations', 'slug' => 'compliance-regulations-docs', 'section' => 'myas']
                         ]
                     ]
