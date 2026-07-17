@@ -803,19 +803,26 @@ body {
 
                 <div class="contact-callout">
                     <h3>Contact Information</h3>
-                    <p>
-                        For any further information and questions in relation to BISFed’s personal information practices, please contact:
-                        <br>
-                        <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>, 
-                        <a href="mailto:president@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">president@bocciaindia.com</a>, or 
-                        <a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>.
+                    <p style="opacity: 0.9;">
+                        For general enquiries regarding BSFI policies, governance, affiliations, competitions, or other federation-related matters, please contact:
                     </p>
-                    <p class="mb-0">
-                        If you have a doubt as regards to which organization you should apply for a TUE, or as to the recognition process, or any other question about TUEs, please contact:
-                        <br>
-                        <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>, 
-                        <a href="mailto:president@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">president@bocciaindia.com</a>, or 
-                        <a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>.
+                    <p class="fw-bold mb-4" style="font-size: 1.1rem;">
+                        📧 <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>
+                    </p>
+
+                    <hr style="border-top: 1px solid rgba(255,255,255,0.15); margin: 25px 0;">
+
+                    <h3 class="mt-4">Therapeutic Use Exemptions (TUE)</h3>
+                    <p style="opacity: 0.9;">
+                        For queries regarding Therapeutic Use Exemptions (TUE), including the application process, recognition procedures, eligibility, or anti-doping compliance, please contact:
+                    </p>
+                    <p class="mb-0" style="font-size: 1.1rem; line-height: 1.8;">
+                        <span class="d-block fw-bold">
+                            📧 <a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>
+                        </span>
+                        <span class="d-block" style="font-size: 0.95rem; font-weight: normal; margin-top: 5px;">
+                            📧 <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a> <span style="opacity: 0.65; font-size: 0.85rem; font-style: italic;">(for general assistance if required)</span>
+                        </span>
                     </p>
                 </div>
             </div>
