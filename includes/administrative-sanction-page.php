@@ -5,7 +5,6 @@ $meta_desc = "Official administrative and financial sanctions issued by the Mini
 $canonical_url = "page.php?section=myas&slug=administrative-sanction";
 
 include __DIR__ . '/header.php';
-require_once __DIR__ . '/document_renderer.php';
 ?>
 
 <div class="board-page-wrapper">
@@ -87,17 +86,6 @@ require_once __DIR__ . '/document_renderer.php';
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Readable PDF Section -->
-            <div class="row scroll-reveal mt-5">
-                <div class="col-12">
-                    <div class="section-title-wrapper text-center mb-4">
-                        <span class="sub-label">Official Overview</span>
-                        <h3 class="board-subtitle" style="color: #081B4B !important;">Administrative Sanction Overview</h3>
-                    </div>
-                    <?php echo DocumentRenderer::render('uploads/documents/Administrative-sanction-Boccia.pdf'); ?>
                 </div>
             </div>
             
