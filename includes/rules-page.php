@@ -1408,12 +1408,12 @@ body {
                                 <line x1="306.6" y1="380" x2="306.6" y2="460" stroke="#FFFFFF" stroke-width="2" />
 
                                 <!-- Playing Box Labels -->
-                                <text x="66.7" y="425" fill="rgba(255, 255, 255, 0.6)" font-size="8" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 1</text>
-                                <text x="120.0" y="425" fill="rgba(255, 255, 255, 0.6)" font-size="8" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 2</text>
-                                <text x="173.3" y="425" fill="rgba(255, 255, 255, 0.6)" font-size="8" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 3</text>
-                                <text x="226.7" y="425" fill="rgba(255, 255, 255, 0.6)" font-size="8" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 4</text>
-                                <text x="280.0" y="425" fill="rgba(255, 255, 255, 0.6)" font-size="8" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 5</text>
-                                <text x="333.3" y="425" fill="rgba(255, 255, 255, 0.6)" font-size="8" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 6</text>
+                                <text x="66.7" y="445" fill="rgba(255, 255, 255, 0.6)" font-size="7" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 1</text>
+                                <text x="120.0" y="445" fill="rgba(255, 255, 255, 0.6)" font-size="7" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 2</text>
+                                <text x="173.3" y="445" fill="rgba(255, 255, 255, 0.6)" font-size="7" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 3</text>
+                                <text x="226.7" y="445" fill="rgba(255, 255, 255, 0.6)" font-size="7" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 4</text>
+                                <text x="280.0" y="445" fill="rgba(255, 255, 255, 0.6)" font-size="7" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 5</text>
+                                <text x="333.3" y="445" fill="rgba(255, 255, 255, 0.6)" font-size="7" text-anchor="middle" font-family="var(--font-body-custom)" pointer-events="none">box 6</text>
 
                                 <!-- V Line ( vertex pointing down, ends touching sidelines ) -->
                                 <polyline points="40,240 200,300 360,240" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,3" />
