@@ -3,7 +3,7 @@
 
 $nationalSchedules = [];
 try {
-    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE active = 1 AND is_national = 1 ORDER BY start_date ASC, id ASC");
+    $stmt = $pdo->prepare("SELECT * FROM schedules WHERE active = 1 AND competition_scope = 'National' ORDER BY start_date ASC, id ASC");
     $stmt->execute();
     $nationalSchedules = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {

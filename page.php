@@ -90,6 +90,11 @@ if ($section === 'competitions' && $slug === 'national-events') {
     exit();
 }
 
+if ($section === 'competitions' && $slug === 'state-competitions') {
+    include __DIR__ . '/includes/state-competitions-page.php';
+    exit();
+}
+
 if ($section === 'competitions' && $slug === 'results') {
     include __DIR__ . '/includes/results-page.php';
     exit();

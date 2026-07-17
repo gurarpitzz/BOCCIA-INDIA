@@ -396,6 +396,7 @@ class ContentDiscoveryEngine {
                 'children' => [
                     ['title' => 'International Events', 'slug' => 'international-events', 'section' => 'competitions'],
                     ['title' => 'National Events', 'slug' => 'national-events', 'section' => 'competitions'],
+                    ['title' => 'State Competitions', 'slug' => 'state-competitions', 'section' => 'competitions'],
                     ['title' => 'Results', 'slug' => 'results', 'section' => 'competitions']
                 ]
             ],

@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         $max_participants = !empty($_POST['max_participants']) ? (int)$_POST['max_participants'] : null;
         $allow_waiting_list = isset($_POST['allow_waiting_list']) ? 1 : 0;
 
-        $is_national = isset($_POST['is_national']) ? 1 : 0;
+        $competition_scope = trim($_POST['competition_scope'] ?? 'National');
         $result_url = !empty($_POST['result_url']) ? trim($_POST['result_url']) : null;
         $result_button_text = !empty($_POST['result_button_text']) ? trim($_POST['result_button_text']) : 'View Results';
 
@@ -61,14 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         } else {
             if ($id > 0) {
                 // Update
-                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=?, is_national=?, result_url=?, result_button_text=? WHERE id=?");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $is_national, $result_url, $result_button_text, $id]);
+                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=?, competition_scope=?, result_url=?, result_button_text=? WHERE id=?");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $competition_scope, $result_url, $result_button_text, $id]);
                 logAction($pdo, "Updated Schedule", "schedules", $id);
                 $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
             } else {
                 // Insert
-                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list, is_national, result_url, result_button_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $is_national, $result_url, $result_button_text]);
+                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list, competition_scope, result_url, result_button_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $competition_scope, $result_url, $result_button_text]);
                 $newId = $pdo->lastInsertId();
                 logAction($pdo, "Added Schedule", "schedules", $newId);
                 $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
@@ -109,8 +109,15 @@ $schedulesList = $stmt->fetchAll();
                                 <?php if($item['event_type']): ?>
                                     <span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($item['event_type']); ?></span>
                                 <?php endif; ?>
-                                <?php if(!empty($item['is_national'])): ?>
-                                    <span class="admin-badge" style="background:#FF9933; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">National Competition</span>
+                                <?php if(!empty($item['competition_scope'])): ?>
+                                    <span class="admin-badge" style="background:#FF9933; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">
+                                        <?php 
+                                            if ($item['competition_scope'] === 'International') echo 'International Event';
+                                            elseif ($item['competition_scope'] === 'National') echo 'National Competition';
+                                            elseif ($item['competition_scope'] === 'State') echo 'State Competition';
+                                            else echo htmlspecialchars($item['competition_scope']);
+                                        ?>
+                                    </span>
                                 <?php endif; ?>
                                 <?php if(!empty($item['result_url'])): ?>
                                     <span class="admin-badge" style="background:#10B981; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Results Published</span>
@@ -230,9 +237,13 @@ $schedulesList = $stmt->fetchAll();
 
 
             <div style="display:grid; grid-template-columns:1fr; gap:1rem; align-items:center;">
-                <div class="admin-form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 0.5rem;">
-                    <input type="checkbox" id="schedule-is-national" name="is_national" value="1" style="width: 18px; height: 18px; cursor:pointer;">
-                    <label for="schedule-is-national" style="font-size:0.9rem; font-weight:600; cursor:pointer; margin-bottom:0;">National Competition</label>
+                <div class="admin-form-group">
+                    <label for="schedule-competition-scope" style="font-size:0.9rem; font-weight:600; margin-bottom:0.5rem; display:block;">Competition Scope *</label>
+                    <select id="schedule-competition-scope" name="competition_scope" class="admin-input" required>
+                        <option value="International">International Event</option>
+                        <option value="National">National Competition</option>
+                        <option value="State">State Competition</option>
+                    </select>
                 </div>
             </div>
 
@@ -273,7 +284,7 @@ function openScheduleModal(item) {
         document.getElementById('schedule-id').value = 0;
         form.reset();
         document.getElementById('schedule-active').checked = true;
-        document.getElementById('schedule-is-national').checked = false;
+        document.getElementById('schedule-competition-scope').value = 'National';
         document.getElementById('schedule-result-url').value = '';
         document.getElementById('schedule-result-btn-text').value = 'View Results';
     } else {
@@ -299,7 +310,7 @@ function openScheduleModal(item) {
         document.getElementById('schedule-waitlist').checked = item.allow_waiting_list == 1;
         document.getElementById('schedule-start-date').value = item.start_date;
         document.getElementById('schedule-active').checked = item.active == 1;
-        document.getElementById('schedule-is-national').checked = item.is_national == 1;
+        document.getElementById('schedule-competition-scope').value = item.competition_scope || 'National';
         document.getElementById('schedule-result-url').value = item.result_url || '';
         document.getElementById('schedule-result-btn-text').value = item.result_button_text || 'View Results';
     }
