@@ -415,12 +415,8 @@ class ContentDiscoveryEngine {
             [
                 'title' => 'Selection Guidelines',
                 'section' => 'selection-guidelines',
-                'slug' => null,
-                'children' => [
-                    ['title' => 'Selection Policy', 'slug' => 'selection-policy', 'section' => 'selection-guidelines'],
-                    ['title' => 'Boccia Asian Para Games 2026', 'slug' => 'apg-2026', 'section' => 'selection-guidelines'],
-                    ['title' => 'Selection Trials APG 2026', 'slug' => 'apg-trials-2026', 'section' => 'selection-guidelines']
-                ]
+                'slug' => 'selection-guidelines',
+                'children' => []
             ]
         ];
 

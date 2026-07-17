@@ -124,6 +124,10 @@ if ($section === 'myas' && $slug === 'athlete-prevention') {
     include __DIR__ . '/includes/athlete-prevention-page.php';
     exit();
 }
+if ($section === 'selection-guidelines' && $slug === 'selection-guidelines') {
+    include __DIR__ . '/includes/selection-guidelines-page.php';
+    exit();
+}
 
 if ($section === 'sport' && $slug === 'rules') {
     include __DIR__ . '/includes/rules-page.php';
