@@ -5,6 +5,8 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 
 $page_title = "Boccia Sports Federation of India | Official Portal";
+$meta_desc = "Welcome to the official portal of the Boccia Sports Federation of India (BSFI). Empowering para athletes and promoting adaptive Boccia across India.";
+$canonical_url = "index.php";
 include __DIR__ . '/includes/header.php';
 
 $message = '';

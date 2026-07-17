@@ -10,6 +10,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $page_title = "Event Registration - BSFI Portal";
+$meta_desc = "Register for upcoming BSFI events, coaching camps, national championships, and state tournaments online.";
+$canonical_url = "event-registration.php";
 include __DIR__ . '/includes/header.php';
 ?>
 

@@ -4,6 +4,8 @@ require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 
 $page_title = "Contact Us - Boccia Sports Federation of India";
+$meta_desc = "Get in touch with the Boccia Sports Federation of India (BSFI). Find corporate & registered office addresses, phone numbers, and official email contacts.";
+$canonical_url = "contact.php";
 include __DIR__ . '/includes/header.php';
 ?>
 
