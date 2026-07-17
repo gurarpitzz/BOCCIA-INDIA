@@ -6,10 +6,16 @@ if (!defined('PRIVATE_UPLOADS_DIR')) {
 }
 
 
-$host = 'localhost';
-$db = 'boccia_india';
-$user = 'root';
-$pass = '';
+// Load local configuration overrides if available
+$local_config_path = dirname(__DIR__) . '/config/local.php';
+if (file_exists($local_config_path)) {
+    require_once $local_config_path;
+}
+
+$host    = defined('DB_HOST') ? DB_HOST : 'localhost';
+$db      = defined('DB_NAME') ? DB_NAME : 'boccia_india';
+$user    = defined('DB_USER') ? DB_USER : 'root';
+$pass    = defined('DB_PASS') ? DB_PASS : '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
