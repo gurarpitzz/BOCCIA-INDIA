@@ -136,7 +136,7 @@ if (empty($selectionDocuments)) {
 
 <div class="guidelines-page">
     <!-- ═══════════ HERO ═══════════ -->
-    <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.88) 35%, rgba(7, 25, 84, 0.65) 55%, rgba(7, 25, 84, 0.35) 75%, transparent 100%), url('<?php echo htmlspecialchars($relative_prefix); ?>assets/images/board/board_bg.webp');">
+    <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.88) 35%, rgba(7, 25, 84, 0.65) 55%, rgba(7, 25, 84, 0.35) 75%, transparent 100%), url('<?php echo htmlspecialchars($relative_prefix); ?>board/board_bg.webp');">
         <div class="container board-hero-container">
             <div class="board-hero-content scroll-reveal">
                 <span class="board-hero-eyebrow">-- Selection Guidelines --</span>
