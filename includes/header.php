@@ -32,13 +32,14 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     <meta property="og:title" content="<?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?>">
     <meta property="og:description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia India (BSFI). Affiliated with PCI & World Boccia."; ?>">
     <?php 
-        $og_img_src = isset($og_image) && !empty($og_image) ? $og_image : $relative_prefix . 'boccia-india-logo.webp';
+        $og_img_src = isset($og_image) && !empty($og_image) ? $og_image : $relative_prefix . 'boccia-india-logo.png';
         // Clean leading slash/dots for combining
         $og_img_clean = ltrim($og_img_src, './');
         $og_img_absolute = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/' . $og_img_clean;
+        $og_img_type = (strtolower(pathinfo($og_img_absolute, PATHINFO_EXTENSION)) === 'png') ? 'image/png' : 'image/webp';
     ?>
     <meta property="og:image" content="<?php echo htmlspecialchars($og_img_absolute); ?>">
-    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:type" content="<?php echo $og_img_type; ?>">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -57,7 +58,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
       "name": "Boccia Sports Federation of India",
       "alternateName": "BSFI",
       "url": "https://bocciaindia.com/",
-      "logo": "https://bocciaindia.com/boccia-india-logo.webp",
+      "logo": "https://bocciaindia.com/boccia-india-logo.png",
       "description": "Official governing body for the sport of Para Boccia in India, promoting athletes and managing national ranking championships.",
       "contactPoint": [{
         "@type": "ContactPoint",
@@ -73,8 +74,14 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
       ]
     }
     </script>
-    <?php if (isset($canonical_url)): ?>
-    <link rel="canonical" href="<?php echo htmlspecialchars($canonical_url); ?>">
+    <?php if (isset($canonical_url)): 
+        $domain = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
+        $abs_canonical = $canonical_url;
+        if (strpos($canonical_url, 'http://') !== 0 && strpos($canonical_url, 'https://') !== 0) {
+            $abs_canonical = $domain . '/' . ltrim($canonical_url, '/');
+        }
+    ?>
+    <link rel="canonical" href="<?php echo htmlspecialchars($abs_canonical); ?>">
     <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
