@@ -1492,7 +1492,7 @@ body {
                     <p>PLAY. RESPECT. <span>INSPIRE.</span></p>
                 </div>
             </div>
-            <a href="page.php?section=get-involved&slug=become-member" class="btn-cta-action">Get Involved <i class="bi bi-arrow-right-short"></i></a>
+            <a href="<?php echo $relative_prefix; ?>get-involved/membership.php" class="btn-cta-action">Get Involved <i class="bi bi-arrow-right-short"></i></a>
         </div>
     </div>
 </div>
