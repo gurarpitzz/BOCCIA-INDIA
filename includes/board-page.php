@@ -37,7 +37,7 @@ include __DIR__ . '/header.php';
                                 <span class="spotlight-badge">President</span>
                                 <h2 class="spotlight-name">JASPREET SINGH</h2>
                                 <h3 class="spotlight-title">President, BSFI</h3>
-                                <p class="spotlight-desc">Strategic leadership and federation governance oversight. Directing national initiatives, expansion frameworks, and government liaisons to strengthen the foundation of Para Boccia in India.</p>
+                                <p class="spotlight-desc">The pioneering development and introduction of Boccia in India is widely credited to Jaspreet Singh Dhaliwal. He established the sport nationally, founded the federation (initially the Para Boccia Sports Welfare Society, now the Boccia Sports Federation of India), secured recognition from World Boccia (BISFed) and the Paralympic Committee of India, and continues to drive India's national championships and international representation.</p>
                             </div>
                         </div>
                     </div>
