@@ -24,6 +24,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
         $css_path  = $relative_prefix . 'styles.css';
         $logo_path = $relative_prefix;
     ?>
+    <base href="<?php echo 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/') . '/' . $relative_prefix; ?>">
     <title><?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?></title>
     <meta name="description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia India (BSFI). Affiliated with PCI & World Boccia."; ?>">
     <!-- Open Graph / Facebook / WhatsApp -->
