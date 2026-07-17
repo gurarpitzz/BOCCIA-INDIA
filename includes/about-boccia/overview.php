@@ -46,6 +46,7 @@
                         <h4 class="tab-pane-heading">Empowering Indian Athletes</h4>
                         <p>Boccia has emerged as an important adaptive sport in India, creating opportunities for persons with severe physical disabilities to participate in competitive sports and lead active, empowered lives. Through the efforts of dedicated organizations, coaches, volunteers, and advocates, awareness and participation have steadily increased.</p>
                         <p>Indian athletes have demonstrated remarkable talent and determination, representing the nation in international competitions and contributing to the growth of the sport. Development programs continue to introduce Boccia to new players while promoting accessibility.</p>
+                        <p>The pioneering development and introduction of Boccia in India is widely credited to Jaspreet Singh Dhaliwal. He established the sport nationally, founded the federation (initially the Para Boccia Sports Welfare Society, now the Boccia Sports Federation of India), secured recognition from World Boccia (BISFed) and the Paralympic Committee of India, and continues to drive India's national championships and international representation.</p>
                     </div>
                     
                 </div>
