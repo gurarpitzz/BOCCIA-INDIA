@@ -1,19 +1,19 @@
 <?php
-// scratch/git-reset.php - Discards server-side git modifications to allow clean cPanel pulls
+// scratch/git-reset.php - Utility to recover cPanel Git from force-push divergence
 header('Content-Type: text/plain');
+echo "Recovering production cPanel repository to match GitHub...\n\n";
 
 $output = [];
-$return_val = 0;
+$return_var = 0;
 
-// Execute git checkout to discard server-side modifications on includes/discovery.php
-exec('git checkout -- includes/discovery.php 2>&1', $output, $return_val);
+// Execute Git fetch and hard reset
+exec('git fetch origin 2>&1', $output, $return_var);
+exec('git reset --hard origin/main 2>&1', $output, $return_var);
 
-echo "Git Checkout Output:\n";
-echo implode("\n", $output) . "\n\n";
-echo "Exit Code: " . $return_val . "\n\n";
-
-$pull_output = [];
-exec('git pull origin main 2>&1', $pull_output, $return_val);
-echo "Git Pull Output:\n";
-echo implode("\n", $pull_output) . "\n\n";
-echo "Exit Code: " . $return_val . "\n";
+echo implode("\n", $output);
+echo "\n\nExit code: " . $return_var;
+if ($return_var === 0) {
+    echo "\nSuccess! cPanel is now fully synced with GitHub.";
+} else {
+    echo "\nFailed to reset. Please check permissions.";
+}
