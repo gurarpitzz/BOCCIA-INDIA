@@ -355,11 +355,7 @@ class ContentDiscoveryEngine {
                         'title' => 'Affiliations',
                         'slug' => 'affiliations',
                         'section' => 'about',
-                        'children' => [
-                            ['title' => 'PCI', 'slug' => 'affiliation-pci', 'section' => 'about'],
-                            ['title' => 'World Boccia', 'slug' => 'affiliation-world-boccia', 'section' => 'about'],
-                            ['title' => 'Recognition Certificates', 'slug' => 'recognition-certificates', 'section' => 'about']
-                        ]
+                        'children' => []
                     ],
                     [
                         'title' => 'MYAS Disclosures',
