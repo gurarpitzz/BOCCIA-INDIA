@@ -369,8 +369,13 @@ include __DIR__ . '/header.php';
                                             <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-2">YES</span>
                                             <div style="font-size: 0.85rem;" class="text-muted">
                                                 Compliant with General Code of Conduct (Points 20.1.1 to 20.10.4).
+                                                <br>
                                                 <a href="page.php?section=sport&slug=anti-doping" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
                                                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Anti-Doping Guidelines
+                                                </a>
+                                                <br>
+                                                <a href="page.php?section=myas&slug=athlete-prevention" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
+                                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Age Fraud Prevention
                                                 </a>
                                             </div>
                                         </td>
