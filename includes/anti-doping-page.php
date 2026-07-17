@@ -807,7 +807,7 @@ body {
                         For general enquiries regarding BSFI policies, governance, affiliations, competitions, or other federation-related matters, please contact:
                     </p>
                     <p class="fw-bold mb-4" style="font-size: 1.1rem;">
-                        📧 <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>
+                        <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: #FF9933; vertical-align: middle; margin-right: 8px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a>
                     </p>
 
                     <hr style="border-top: 1px solid rgba(255,255,255,0.15); margin: 25px 0;">
@@ -818,10 +818,10 @@ body {
                     </p>
                     <p class="mb-0" style="font-size: 1.1rem; line-height: 1.8;">
                         <span class="d-block fw-bold">
-                            📧 <a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>
+                            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; fill: #FF9933; vertical-align: middle; margin-right: 8px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><a href="mailto:secretary@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">secretary@bocciaindia.com</a>
                         </span>
                         <span class="d-block" style="font-size: 0.95rem; font-weight: normal; margin-top: 5px;">
-                            📧 <a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a> <span style="opacity: 0.65; font-size: 0.85rem; font-style: italic;">(for general assistance if required)</span>
+                            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; fill: #FF9933; vertical-align: middle; margin-right: 8px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg><a href="mailto:office@bocciaindia.com" style="color: #FF9933; text-decoration: underline;">office@bocciaindia.com</a> <span style="opacity: 0.65; font-size: 0.85rem; font-style: italic;">(for general assistance if required)</span>
                         </span>
                     </p>
                 </div>
