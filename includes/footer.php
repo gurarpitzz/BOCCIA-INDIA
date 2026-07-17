@@ -267,12 +267,12 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
             <div class="footer-quick-links">
                 <h3 class="footer-title">Quick Links</h3>
                 <ul>
-                    <li><a href="#home"><span class="link-arrow">↗</span> Home</a></li>
-                    <li><a href="#about"><span class="link-arrow">↗</span> About BSFI</a></li>
-                    <li><a href="#discover"><span class="link-arrow">↗</span> Our Sport</a></li>
-                    <li><a href="#competitions"><span class="link-arrow">↗</span> Competitions</a></li>
-                    <li><a href="#news"><span class="link-arrow">↗</span> News & Media</a></li>
-                    <li><a href="#photo-gallery"><span class="link-arrow">↗</span> Gallery</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>index.php#home"><span class="link-arrow">↗</span> Home</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>index.php#what-is-boccia"><span class="link-arrow">↗</span> About BSFI</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>index.php#who-can-participate"><span class="link-arrow">↗</span> Our Sport</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>index.php#schedules"><span class="link-arrow">↗</span> Competitions</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>index.php#news"><span class="link-arrow">↗</span> News & Media</a></li>
+                    <li><a href="<?php echo $relative_prefix; ?>index.php#photo-gallery"><span class="link-arrow">↗</span> Gallery</a></li>
                     <li><a href="<?php echo $relative_prefix; ?>contact.php"><span class="link-arrow">↗</span> Contact Us</a></li>
                 </ul>
             </div>
