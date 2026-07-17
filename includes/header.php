@@ -41,6 +41,38 @@ if (strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false) {
     <meta property="og:image:type" content="image/webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?php echo isset($page_title) ? htmlspecialchars($page_title) : "Boccia Sports Federation of India"; ?>">
+    <meta name="twitter:description" content="<?php echo isset($meta_desc) ? htmlspecialchars($meta_desc) : "Official portal of Boccia India (BSFI). Affiliated with PCI & World Boccia."; ?>">
+    <meta name="twitter:image" content="<?php echo htmlspecialchars($og_img_absolute); ?>">
+    
+    <!-- Google Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsOrganization",
+      "name": "Boccia Sports Federation of India",
+      "alternateName": "BSFI",
+      "url": "https://bocciaindia.com/",
+      "logo": "https://bocciaindia.com/boccia-india-logo.webp",
+      "description": "Official governing body for the sport of Para Boccia in India, promoting athletes and managing national ranking championships.",
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "telephone": "+91-9803454949",
+        "contactType": "general administration",
+        "email": "office@bocciaindia.com",
+        "areaServed": "IN",
+        "availableLanguage": ["en", "hi"]
+      }],
+      "sameAs": [
+        "https://www.facebook.com/bocciaindia",
+        "https://www.instagram.com/bocciaindia"
+      ]
+    }
+    </script>
     <?php if (isset($canonical_url)): ?>
     <link rel="canonical" href="<?php echo htmlspecialchars($canonical_url); ?>">
     <?php endif; ?>
