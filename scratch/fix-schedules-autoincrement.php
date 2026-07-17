@@ -42,7 +42,9 @@ try {
 
     // 2. Modify the column to ensure AUTO_INCREMENT is active
     echo "Enforcing AUTO_INCREMENT on schedules.id...\n";
+    $pdo->exec("SET FOREIGN_KEY_CHECKS=0");
     $pdo->exec("ALTER TABLE `schedules` MODIFY COLUMN `id` INT AUTO_INCREMENT");
+    $pdo->exec("SET FOREIGN_KEY_CHECKS=1");
     echo "SUCCESS: schedules.id is now AUTO_INCREMENT.\n";
     
 } catch (Exception $e) {
