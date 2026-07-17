@@ -33,6 +33,11 @@ if (empty($selectionDocuments)) {
         ]
     ];
 }
+
+$page_title = "Selection Guidelines - Boccia India";
+$meta_desc = "Official BSFI policies, selection criteria, trial schedules, qualification documents and athlete guidelines for national and international competitions.";
+
+include __DIR__ . '/header.php';
 ?>
 
 <style>
@@ -168,5 +173,7 @@ if (empty($selectionDocuments)) {
                 <?php endforeach; ?>
             </div>
         </div>
-    </section>
 </div>
+
+<?php include __DIR__ . '/footer.php'; ?>
+
