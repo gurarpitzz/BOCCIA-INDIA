@@ -85,6 +85,16 @@ if ($section === 'about' && $slug === 'affiliations') {
     exit();
 }
 
+if ($section === 'competitions' && $slug === 'national-events') {
+    include __DIR__ . '/includes/national-events-page.php';
+    exit();
+}
+
+if ($section === 'competitions' && $slug === 'results') {
+    include __DIR__ . '/includes/results-page.php';
+    exit();
+}
+
 if ($section === 'myas' && $slug === 'disclosures') {
     include __DIR__ . '/includes/myas-disclosures-page.php';
     exit();
