@@ -107,7 +107,8 @@ body {
    TOP LOGO BAR  — white background, logos centered
 ════════════════════════════════════════════════════ */
 .top-logo-bar {
-    background: #ffffff;
+    background: #ffffff url('header-bg.png') no-repeat center center;
+    background-size: cover;
     border-bottom: 1px solid #e2e2e2;
     padding-top: 16px;
     padding-bottom: 16px;
