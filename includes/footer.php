@@ -44,16 +44,7 @@ $script_path = $relative_prefix . 'app.js?v=' . time();
                          onerror="this.src='../PCI.webp'">
                 </div>
 
-                <!-- MYAS -->
-                <div class="logo-item" title="Ministry of Youth Affairs &amp; Sports">
-                    <img src="logos/Ministry_of_Youth_Affairs_and_Sports.svg"
-                         alt="Ministry of Youth Affairs &amp; Sports"
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                    <span class="logo-text-fallback" style="display:none;">
-                        <strong>MYAS</strong>
-                        <small>Ministry of Youth Affairs &amp; Sports</small>
-                    </span>
-                </div>
+
 
                 <!-- Anti-Doping -->
                 <div class="logo-item" title="World Anti-Doping Agency / NADA India">
