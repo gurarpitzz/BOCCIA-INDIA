@@ -42,7 +42,7 @@ include __DIR__ . '/header.php';
 
 <style>
 .guidelines-page {
-    background-color: #F8FAFC;
+    background: url('<?php echo htmlspecialchars($relative_prefix); ?>bg.webp') no-repeat center top / cover;
     padding-bottom: 80px;
 }
 .guidelines-content-section {
