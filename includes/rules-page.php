@@ -944,19 +944,6 @@ body {
     border-style: solid;
     border-color: var(--boccia-navy) transparent transparent transparent;
 }
-/* Wiggle animation for the target cross */
-@keyframes cross-wiggle {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(-12deg) scale(1.25); }
-    75% { transform: rotate(12deg) scale(1.25); }
-}
-.cross-wiggle-active {
-    animation: cross-wiggle 0.35s ease-in-out 3;
-}
-.cross-wiggle-active line {
-    stroke: var(--boccia-saffron) !important;
-    stroke-width: 3px !important;
-}
 </style>
 
 <div class="our-sport-page">
@@ -1380,7 +1367,8 @@ body {
                                 <!-- 2. V Line Highlight -->
                                 <polyline points="40,240 200,300 360,240" fill="none" stroke="rgba(255, 153, 51, 0.6)" stroke-width="12" stroke-linecap="round" class="court-overlay-highlight" id="highlight-v-line" style="display: none; pointer-events: none;" />
                                 
-
+                                <!-- 3. Cross Highlight -->
+                                <circle cx="200" cy="180" r="24" fill="rgba(255, 153, 51, 0.3)" stroke="var(--boccia-saffron)" stroke-width="2.5" class="court-overlay-highlight" id="highlight-cross" style="display: none; pointer-events: none;" />
                                 
                                 <!-- 4. Jack Placement Area Highlight (valid landing zone beyond V-line) -->
                                 <polygon points="40,40 360,40 360,240 200,300 40,240" fill="rgba(255, 153, 51, 0.22)" class="court-overlay-highlight" id="highlight-jack-placement" style="display: none; pointer-events: none;" />
@@ -1402,7 +1390,9 @@ body {
                                 <!-- V Line ( vertex pointing down, ends touching sidelines ) -->
                                 <polyline points="40,240 200,300 360,240" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,3" />
 
-
+                                <!-- Cross -->
+                                <line x1="195" y1="180" x2="205" y2="180" stroke="#FFFFFF" stroke-width="2" />
+                                <line x1="200" y1="175" x2="200" y2="185" stroke="#FFFFFF" stroke-width="2" />
 
                                 <!-- Hotspot interactive circles (1-indexed based on list on right) -->
                                 <!-- 1. Playing Box -->
@@ -1416,12 +1406,6 @@ body {
                                 <!-- 3. Cross -->
                                 <circle cx="200" cy="180" r="16" fill="rgba(255, 153, 51, 0.4)" stroke="var(--boccia-saffron)" stroke-width="2" class="court-hotspot" data-index="2" />
                                 <text x="200" y="184" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle" pointer-events="none">3</text>
-                                
-                                <!-- Cross layout mark positioned at y=210 (between hotspot 3 and 4) -->
-                                <g id="court-cross" style="transform-origin: 200px 210px;">
-                                    <line x1="195" y1="210" x2="205" y2="210" stroke="#FFFFFF" stroke-width="2" pointer-events="none" />
-                                    <line x1="200" y1="205" x2="200" y2="215" stroke="#FFFFFF" stroke-width="2" pointer-events="none" />
-                                </g>
 
                                 <!-- 4. Jack Placement Area -->
                                 <circle cx="200" cy="240" r="16" fill="rgba(255, 153, 51, 0.4)" stroke="var(--boccia-saffron)" stroke-width="2" class="court-hotspot" data-index="3" />
@@ -1527,16 +1511,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (matchingHs) matchingHs.classList.add("active");
         if (matchingLi) matchingLi.classList.add("active");
         
-        // Handle target cross wiggle animation trigger
-        const crossGroup = document.getElementById("court-cross");
-        if (crossGroup) {
-            crossGroup.classList.remove("cross-wiggle-active");
-            if (index == 2) {
-                void crossGroup.offsetWidth; // Force DOM reflow to restart animation on re-hover
-                crossGroup.classList.add("cross-wiggle-active");
-            }
-        }
-
         // Show corresponding SVG overlay area
         const activeHighlightId = highlightIds[index];
         if (activeHighlightId) {
