@@ -5,4 +5,4 @@ Disallow: /admin/
 Disallow: /import/
 Disallow: /uploads/
 
-Sitemap: http://localhost/sitemap.xml
+Sitemap: https://bocciaindia.com/sitemap.xml

@@ -1,54 +1,80 @@
 <?php
 // sitemap.php - Dynamic XML Sitemap for BSFI
-header("Content-Type: application/xml; charset=utf-8");
+header('Content-Type: application/xml; charset=UTF-8');
 
 require_once __DIR__ . '/includes/db.php';
 
-$domain = 'http' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 's' : '') . '://' . $_SERVER['HTTP_HOST'];
+$domain = 'https://bocciaindia.com';
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
 // Helper function to add a URL
-function addUrl($loc, $priority = '0.5', $changefreq = 'weekly') {
+function addUrl($loc, $lastmod = null, $priority = '0.5', $changefreq = 'weekly') {
     global $domain;
-    $date = date('Y-m-d');
-    echo '  <url>' . "\n";
-    echo '    <loc>' . htmlspecialchars($domain . '/' . $loc) . '</loc>' . "\n";
-    echo '    <lastmod>' . $date . '</lastmod>' . "\n";
-    echo '    <changefreq>' . htmlspecialchars($changefreq) . '</changefreq>' . "\n";
-    echo '    <priority>' . htmlspecialchars($priority) . '</priority>' . "\n";
-    echo '  </url>' . "\n";
+    if (empty($lastmod)) {
+        $lastmod = date('Y-m-d');
+    } else {
+        $lastmod = date('Y-m-d', strtotime($lastmod));
+    }
+    echo "  <url>\n";
+    echo "    <loc>" . htmlspecialchars($domain . '/' . $loc) . "</loc>\n";
+    echo "    <lastmod>" . $lastmod . "</lastmod>\n";
+    echo "    <changefreq>" . htmlspecialchars($changefreq) . "</changefreq>\n";
+    echo "    <priority>" . htmlspecialchars($priority) . "</priority>\n";
+    echo "  </url>\n";
 }
 
-// 1. Static Core Pages
-addUrl('', '1.0', 'daily');
-addUrl('index.php', '0.9', 'daily');
-addUrl('contact.php', '0.7', 'monthly');
-addUrl('news.php', '0.8', 'daily');
-addUrl('event-registration.php', '0.7', 'weekly');
+// 1. Core Pages
+addUrl('', null, '1.0', 'daily');
+addUrl('index.php', null, '0.9', 'daily');
+addUrl('contact.php', null, '0.7', 'monthly');
+addUrl('news.php', null, '0.8', 'daily');
+addUrl('event-registration.php', null, '0.7', 'weekly');
 
-// 2. Competitions Pages
-addUrl('page.php?section=competitions&amp;slug=international-events', '0.7', 'weekly');
-addUrl('page.php?section=competitions&amp;slug=national-events', '0.7', 'weekly');
-addUrl('page.php?section=competitions&amp;slug=state-competitions', '0.7', 'weekly');
-addUrl('page.php?section=competitions&amp;slug=results', '0.7', 'weekly');
-
-// 3. Dynamic document pages from database
+// 2. Dynamic navigation paths from database (discovery navigation items)
 try {
-    $stmt = $pdo->query("SELECT section_slug, slug FROM document_pages WHERE is_published = 1");
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        addUrl('page.php?section=' . urlencode($row['section_slug']) . '&amp;slug=' . urlencode($row['slug']), '0.6', 'monthly');
+    $stmt = $pdo->query("SELECT section, slug, title FROM navigation_items WHERE slug IS NOT NULL");
+    while ($item = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Resolve link using the exact structure from header.php
+        if ($item['section'] === 'get-involved' && in_array($item['slug'], ['membership', 'players-database', 'officials-database'])) {
+            addUrl("get-involved/" . $item['slug'] . ".php", null, '0.6', 'monthly');
+        } elseif ($item['section'] === 'news-media' && in_array($item['slug'], ['news', 'gallery', 'videos'])) {
+            if ($item['slug'] === 'videos') {
+                addUrl("news-media/videos.php", null, '0.6', 'monthly');
+            }
+            // Skip news and gallery redirects (since they point to sections of homepage / news.php)
+        } elseif ($item['section'] === 'competitions') {
+            if ($item['slug'] === 'international-events') {
+                // External link (worldboccia.io), skip
+                continue;
+            } elseif (in_array($item['slug'], ['national-events', 'state-competitions', 'results'])) {
+                addUrl("page.php?section=competitions&amp;slug=" . urlencode($item['slug']), null, '0.7', 'weekly');
+            }
+        } else {
+            // Check if it's a dynamic document page to fetch its creation timestamp for lastmod
+            $docStmt = $pdo->prepare("SELECT created_at FROM document_pages WHERE slug = ? AND is_published = 1 LIMIT 1");
+            $docStmt->execute([$item['slug']]);
+            $docCreated = $docStmt->fetchColumn();
+            
+            if ($docCreated) {
+                addUrl("page.php?section=" . urlencode($item['section']) . "&amp;slug=" . urlencode($item['slug']), $docCreated, '0.6', 'monthly');
+            } else {
+                // Verify if it's a standard static routed subpage
+                addUrl("page.php?section=" . urlencode($item['section']) . "&amp;slug=" . urlencode($item['slug']), null, '0.6', 'monthly');
+            }
+        }
     }
 } catch (Exception $e) {
     // Fail silently
 }
 
-// 4. Dynamic news articles from database
+// 3. Dynamic News Articles (published news items only)
 try {
-    $stmt = $pdo->query("SELECT slug FROM news WHERE status = 'published' ORDER BY created_at DESC");
+    $stmt = $pdo->query("SELECT slug, published_at, created_at FROM news WHERE status = 'published' ORDER BY created_at DESC");
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        addUrl('news.php?slug=' . urlencode($row['slug']), '0.6', 'weekly');
+        $timestamp = !empty($row['published_at']) ? $row['published_at'] : $row['created_at'];
+        addUrl('news.php?slug=' . urlencode($row['slug']), $timestamp, '0.6', 'weekly');
     }
 } catch (Exception $e) {
     // Fail silently
