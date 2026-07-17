@@ -166,7 +166,7 @@ include __DIR__ . '/header.php';
                             <p><?php echo htmlspecialchars($doc['description'] ?? ''); ?></p>
                         </div>
                         <div class="guideline-actions">
-                            <a href="<?php echo htmlspecialchars($relative_prefix); ?>page.php?section=selection-guidelines&slug=<?php echo urlencode($doc['slug']); ?>" class="guideline-btn-primary">View Document</a>
+                            <a href="<?php echo htmlspecialchars($relative_prefix); ?>page.php?section=selection-guidelines&slug=<?php echo urlencode($doc['slug']); ?>&view=1" class="guideline-btn-primary">View Document</a>
                             <a href="<?php echo htmlspecialchars($relative_prefix . $doc['pdf_file']); ?>" download class="guideline-btn-secondary">Download PDF</a>
                         </div>
                     </div>
