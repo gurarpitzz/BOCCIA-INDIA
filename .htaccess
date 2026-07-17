@@ -16,7 +16,5 @@ RewriteRule ^home-old/?$ /index.php [R=301,L]
 # Author profiles redirection to homepage
 RewriteRule ^author/.*$ /index.php [R=301,L]
 
-# Fallback: Redirect any other non-existent page/directory request to homepage (301)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php [R=301,L]
+# Define custom 404 error page for clean SEO and user experience
+ErrorDocument 404 /404.php
