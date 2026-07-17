@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `gallery_images` (
 ) ENGINE=InnoDB;
 
 -- 4. Create Indexes
-ALTER TABLE `gallery_images` ADD INDEX IF NOT EXISTS `idx_gallery_status` (`status`);
-ALTER TABLE `gallery_images` ADD INDEX IF NOT EXISTS `idx_gallery_deleted` (`is_deleted`);
-ALTER TABLE `gallery_images` ADD INDEX IF NOT EXISTS `idx_gallery_featured` (`is_featured`);
-ALTER TABLE `gallery_images` ADD INDEX IF NOT EXISTS `idx_gallery_hero` (`show_in_hero`);
-ALTER TABLE `gallery_images` ADD INDEX IF NOT EXISTS `idx_gallery_sort` (`sort_order`);
-ALTER TABLE `gallery_images` ADD INDEX IF NOT EXISTS `idx_gallery_hash` (`file_hash`);
+ALTER TABLE `gallery_images` ADD INDEX `idx_gallery_status` (`status`);
+ALTER TABLE `gallery_images` ADD INDEX `idx_gallery_deleted` (`is_deleted`);
+ALTER TABLE `gallery_images` ADD INDEX `idx_gallery_featured` (`is_featured`);
+ALTER TABLE `gallery_images` ADD INDEX `idx_gallery_hero` (`show_in_hero`);
+ALTER TABLE `gallery_images` ADD INDEX `idx_gallery_sort` (`sort_order`);
+ALTER TABLE `gallery_images` ADD INDEX `idx_gallery_hash` (`file_hash`);

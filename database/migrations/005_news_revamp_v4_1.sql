@@ -36,11 +36,11 @@ ALTER TABLE `news`
 -- 4. Adjust the existing status enum if necessary (we can leave it as draft/published/scheduled/archived from schema.sql)
 
 -- 5. Add indexes for performance optimization
-ALTER TABLE `news` ADD INDEX IF NOT EXISTS `idx_news_title` (`title`);
-ALTER TABLE `news` ADD INDEX IF NOT EXISTS `idx_news_slug` (`slug`);
-ALTER TABLE `news` ADD INDEX IF NOT EXISTS `idx_news_status` (`status`);
-ALTER TABLE `news` ADD INDEX IF NOT EXISTS `idx_news_published` (`published_at`);
-ALTER TABLE `news` ADD INDEX IF NOT EXISTS `idx_news_deleted` (`deleted_at`);
+ALTER TABLE `news` ADD INDEX `idx_news_title` (`title`);
+ALTER TABLE `news` ADD INDEX `idx_news_slug` (`slug`);
+ALTER TABLE `news` ADD INDEX `idx_news_status` (`status`);
+ALTER TABLE `news` ADD INDEX `idx_news_published` (`published_at`);
+ALTER TABLE `news` ADD INDEX `idx_news_deleted` (`deleted_at`);
 
 -- 6. Add caption column to news_images table if it does not exist
 ALTER TABLE `news_images`
