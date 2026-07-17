@@ -1360,6 +1360,22 @@ body {
                                 <!-- Base Background -->
                                 <rect x="0" y="0" width="400" height="500" fill="#0D2B66" />
                                 
+                                <!-- Interactive Area Highlights -->
+                                <!-- 1. Playing Box Highlight (covers all 6 boxes) -->
+                                <rect x="40" y="380" width="320" height="80" fill="rgba(255, 153, 51, 0.25)" class="court-overlay-highlight" id="highlight-playing-box" style="display: none; pointer-events: none;" />
+                                
+                                <!-- 2. V Line Highlight -->
+                                <polyline points="40,240 200,300 360,240" fill="none" stroke="rgba(255, 153, 51, 0.6)" stroke-width="12" stroke-linecap="round" class="court-overlay-highlight" id="highlight-v-line" style="display: none; pointer-events: none;" />
+                                
+                                <!-- 3. Cross Highlight -->
+                                <circle cx="200" cy="180" r="24" fill="rgba(255, 153, 51, 0.3)" stroke="var(--boccia-saffron)" stroke-width="2.5" class="court-overlay-highlight" id="highlight-cross" style="display: none; pointer-events: none;" />
+                                
+                                <!-- 4. Jack Placement Area Highlight (valid landing zone beyond V-line) -->
+                                <polygon points="40,40 360,40 360,240 200,300 40,240" fill="rgba(255, 153, 51, 0.22)" class="court-overlay-highlight" id="highlight-jack-placement" style="display: none; pointer-events: none;" />
+                                
+                                <!-- 5. Dead Ball Area Highlight (entire region outside court lines) -->
+                                <path d="M0,0 H400 V500 H0 Z M40,40 V460 H360 V40 Z" fill="rgba(255, 153, 51, 0.35)" fill-rule="evenodd" class="court-overlay-highlight" id="highlight-dead-ball" style="display: none; pointer-events: none;" />
+
                                 <!-- Court Boundary Lines -->
                                 <rect x="40" y="40" width="320" height="420" fill="none" stroke="#FFFFFF" stroke-width="3" />
                                 
@@ -1371,8 +1387,8 @@ body {
                                 <line x1="253.3" y1="380" x2="253.3" y2="460" stroke="#FFFFFF" stroke-width="2" />
                                 <line x1="306.6" y1="380" x2="306.6" y2="460" stroke="#FFFFFF" stroke-width="2" />
 
-                                <!-- V Line -->
-                                <polyline points="93.3,240 200,300 306.6,240" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,3" />
+                                <!-- V Line ( vertex pointing down, ends touching sidelines ) -->
+                                <polyline points="40,240 200,300 360,240" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,3" />
 
                                 <!-- Cross -->
                                 <line x1="195" y1="180" x2="205" y2="180" stroke="#FFFFFF" stroke-width="2" />
@@ -1471,16 +1487,38 @@ body {
 document.addEventListener("DOMContentLoaded", function () {
     const hotspots = document.querySelectorAll(".court-hotspot");
     const listItems = document.querySelectorAll(".court-info-item");
+    const highlights = document.querySelectorAll(".court-overlay-highlight");
+
+    const highlightIds = [
+        "highlight-playing-box",    // Index 0
+        "highlight-v-line",         // Index 1
+        "highlight-cross",          // Index 2
+        "highlight-jack-placement", // Index 3
+        "highlight-dead-ball"       // Index 4
+    ];
 
     function activateIndex(index) {
+        // Remove active class from dots and list items
         hotspots.forEach(hs => hs.classList.remove("active"));
         listItems.forEach(li => li.classList.remove("active"));
+        
+        // Hide all polygon highlights
+        highlights.forEach(hl => hl.style.display = "none");
         
         const matchingHs = document.querySelector(`.court-hotspot[data-index="${index}"]`);
         const matchingLi = document.querySelector(`.court-info-item[data-index="${index}"]`);
         
         if (matchingHs) matchingHs.classList.add("active");
         if (matchingLi) matchingLi.classList.add("active");
+        
+        // Show corresponding SVG overlay area
+        const activeHighlightId = highlightIds[index];
+        if (activeHighlightId) {
+            const activeHighlight = document.getElementById(activeHighlightId);
+            if (activeHighlight) {
+                activeHighlight.style.display = "block";
+            }
+        }
     }
 
     hotspots.forEach(hs => {
@@ -1499,7 +1537,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const index = this.getAttribute("data-index");
             activateIndex(index);
         });
+        li.addEventListener("click", function () {
+            const index = this.getAttribute("data-index");
+            activateIndex(index);
+        });
     });
+
+    // Initialize with first item (Playing Box) highlighted
+    activateIndex(0);
 });
 </script>
 
