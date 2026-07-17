@@ -1390,9 +1390,7 @@ body {
                                 <!-- V Line ( vertex pointing down, ends touching sidelines ) -->
                                 <polyline points="40,240 200,300 360,240" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,3" />
 
-                                <!-- Cross -->
-                                <line x1="195" y1="180" x2="205" y2="180" stroke="#FFFFFF" stroke-width="2" />
-                                <line x1="200" y1="175" x2="200" y2="185" stroke="#FFFFFF" stroke-width="2" />
+
 
                                 <!-- Hotspot interactive circles (1-indexed based on list on right) -->
                                 <!-- 1. Playing Box -->
@@ -1406,6 +1404,10 @@ body {
                                 <!-- 3. Cross -->
                                 <circle cx="200" cy="180" r="16" fill="rgba(255, 153, 51, 0.4)" stroke="var(--boccia-saffron)" stroke-width="2" class="court-hotspot" data-index="2" />
                                 <text x="200" y="184" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle" pointer-events="none">3</text>
+                                
+                                <!-- Cross drawn on top of hotspot to keep it visible -->
+                                <line x1="195" y1="180" x2="205" y2="180" stroke="#FFFFFF" stroke-width="2" pointer-events="none" />
+                                <line x1="200" y1="175" x2="200" y2="185" stroke="#FFFFFF" stroke-width="2" pointer-events="none" />
 
                                 <!-- 4. Jack Placement Area -->
                                 <circle cx="200" cy="240" r="16" fill="rgba(255, 153, 51, 0.4)" stroke="var(--boccia-saffron)" stroke-width="2" class="court-hotspot" data-index="3" />
