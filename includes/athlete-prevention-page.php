@@ -17,59 +17,18 @@ include __DIR__ . '/header.php';
 :root {
     --boccia-navy: #081B4B;
     --boccia-saffron: #FF9933;
-    --boccia-light: #FAF8F5;
     --boccia-card-bg: #FFFFFF;
-    --boccia-text-dark: #1E293B;
     --boccia-text-muted: #64748B;
-    --font-heading-main: 'Playfair Display', serif;
     --font-heading-sub: 'Outfit', sans-serif;
-    --font-body-custom: 'Plus Jakarta Sans', sans-serif;
 }
 
-body {
-    background-color: var(--boccia-light);
-    color: var(--boccia-text-dark);
-    font-family: var(--font-body-custom);
+.athlete-prevention-page {
+    background: url('<?php echo htmlspecialchars($relative_prefix); ?>bg.webp') no-repeat center top / cover;
+    padding-bottom: 80px;
 }
 
-/* --- Hero Section --- */
-.prevention-hero {
-    background: linear-gradient(135deg, #051336 0%, #0d235c 50%, #153582 100%);
-    color: #ffffff;
-    padding: 80px 0 60px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-eyebrow {
-    font-family: var(--font-heading-sub);
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.15em;
-    color: var(--boccia-saffron);
-    text-transform: uppercase;
-}
-
-.hero-title {
-    font-family: var(--font-heading-main);
-    font-size: 4rem;
-    font-weight: 800;
-    color: #ffffff;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.hero-title span {
-    font-weight: 400;
-    font-style: italic;
-}
-
-.hero-desc {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.85);
-    max-width: 600px;
-    margin-bottom: 0;
+.rules-section {
+    padding: 60px 0;
 }
 
 /* --- Section Title --- */
@@ -230,11 +189,15 @@ body {
 
 <div class="athlete-prevention-page">
     <!-- ═══════════ HERO ═══════════ -->
-    <section class="prevention-hero">
-        <div class="container">
-            <span class="hero-eyebrow">MYAS Disclosures</span>
-            <h1 class="hero-title">Athlete <span>Prevention</span></h1>
-            <p class="hero-desc">Federation-wide rules and measures focused on eradicating age fraud to protect the integrity of Para Boccia in India.</p>
+    <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.88) 35%, rgba(7, 25, 84, 0.65) 55%, rgba(7, 25, 84, 0.35) 75%, transparent 100%), url('<?php echo htmlspecialchars($relative_prefix); ?>board/board_bg.webp');">
+        <div class="container board-hero-container">
+            <div class="board-hero-content scroll-reveal">
+                <span class="board-hero-eyebrow">-- MYAS Disclosures --</span>
+                <h1 class="board-hero-title">Athlete Prevention</h1>
+                <p class="board-hero-text">
+                    Federation-wide rules and measures focused on eradicating age fraud to protect the integrity of Para Boccia in India.
+                </p>
+            </div>
         </div>
     </section>
 
