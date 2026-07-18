@@ -107,7 +107,7 @@ include __DIR__ . '/header.php';
                                 <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Financial approvals, audits, government sanctions, statements of accounts, utilization certificates, and budgets.</p>
                             </div>
                             <div class="d-flex flex-column gap-2">
-                                <a href="page.php?section=myas&slug=financial-management-docs" class="btn btn-primary rounded-pill fw-bold w-100" style="background: #081B4B; border-color: #081B4B; color: #ffffff;">
+                                <a href="page.php?section=myas&slug=financial-sanctions" class="btn btn-primary rounded-pill fw-bold w-100" style="background: #081B4B; border-color: #081B4B; color: #ffffff;">
                                     View Documents &rarr;
                                 </a>
                                 <a href="uploads/documents/Financial-sanction-boccia.pdf" download class="btn btn-outline-primary rounded-pill fw-bold w-100" style="border: 2px solid #FF9933; color: #FF9933;">
