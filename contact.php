@@ -3,6 +3,21 @@
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/auth.php';
 
+// Fetch central payment bank details from database
+$stmt = $pdo->query("SELECT * FROM site_settings WHERE setting_key LIKE 'payment_%'");
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$bank_settings = [];
+foreach ($rows as $row) {
+    $bank_settings[$row['setting_key']] = $row['setting_value'];
+}
+
+// Fallback values in case settings are not populated in the DB yet
+$bank_name = $bank_settings['payment_bank_name'] ?? 'State Bank of India';
+$account_name = $bank_settings['payment_account_name'] ?? 'Boccia Sports Federation of India';
+$account_number = $bank_settings['payment_account_number'] ?? '36123404464';
+$ifsc_code = $bank_settings['payment_ifsc_code'] ?? 'SBIN0050385';
+$branch_address = $bank_settings['payment_branch'] ?? 'SCO 128-129, Grain Market, Bathinda, Punjab';
+
 $page_title = "Contact Us - Boccia Sports Federation of India";
 $meta_desc = "Get in touch with the Boccia Sports Federation of India (BSFI). Find corporate & registered office addresses, phone numbers, and official email contacts.";
 $canonical_url = "contact.php";
@@ -653,23 +668,23 @@ Punjab – 151201</address>
             <table class="bank-info-table">
                 <tr>
                     <td class="label-col">Account Name</td>
-                    <td class="val-col">Boccia Sports Federation of India</td>
+                    <td class="val-col"><?php echo htmlspecialchars($account_name); ?></td>
                 </tr>
                 <tr>
                     <td class="label-col">Bank</td>
-                    <td class="val-col">State Bank of India (SBI)</td>
+                    <td class="val-col"><?php echo htmlspecialchars($bank_name); ?></td>
                 </tr>
                 <tr>
                     <td class="label-col">Account Number</td>
-                    <td class="val-col highlight-saffron" style="font-family: monospace; font-size: 1.05rem;">36123404464</td>
+                    <td class="val-col highlight-saffron" style="font-family: monospace; font-size: 1.05rem;"><?php echo htmlspecialchars($account_number); ?></td>
                 </tr>
                 <tr>
                     <td class="label-col">IFSC</td>
-                    <td class="val-col highlight-saffron" style="font-family: monospace; font-size: 1.05rem;">SBIN0017259</td>
+                    <td class="val-col highlight-saffron" style="font-family: monospace; font-size: 1.05rem;"><?php echo htmlspecialchars($ifsc_code); ?></td>
                 </tr>
                 <tr>
                     <td class="label-col">Branch</td>
-                    <td class="val-col">SCO 128–129, Grain Market, Bathinda – 151001</td>
+                    <td class="val-col"><?php echo htmlspecialchars($branch_address); ?></td>
                 </tr>
             </table>
         </div>
