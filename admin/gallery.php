@@ -467,12 +467,18 @@ $albumsList = $pdo->query("
 $baseWhere = $view === 'bin' ? "gi.is_deleted = 1" : "gi.is_deleted = 0";
 if ($filterAlbum) $baseWhere .= " AND gi.album_id = $filterAlbum";
 
+$sort = $_GET['sort'] ?? 'order'; // 'order' | 'newest'
+$orderBy = "gi.sort_order ASC, gi.id DESC";
+if ($sort === 'newest') {
+    $orderBy = "gi.created_at DESC, gi.id DESC";
+}
+
 $photosList = $pdo->query("
     SELECT gi.*, ga.title AS album_title
     FROM gallery_images gi
     LEFT JOIN gallery_albums ga ON gi.album_id = ga.id
     WHERE $baseWhere
-    ORDER BY gi.sort_order ASC, gi.id DESC
+    ORDER BY $orderBy
     LIMIT 300
 ")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -674,16 +680,25 @@ include __DIR__ . '/../includes/header.php';
        TAB 2: PHOTOS LIST & ALBUMS FILTERING
     ═══════════════════════════════════════════════════════ -->
     <?php elseif ($view === 'photos'): ?>
-    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; background: #fff; padding: 1rem; border-radius: 14px; border: 1px solid var(--card-border);">
-        <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Browse Album:</label>
-        <select onchange="location.href='gallery.php?view=photos&album=' + this.value" class="gadm-form-input" style="max-width: 300px; padding: 0.4rem 0.8rem; height: auto;">
-            <option value="0">All Photos</option>
-            <?php foreach ($albumsList as $alb): ?>
-                <option value="<?php echo $alb['id']; ?>" <?php echo $filterAlbum === (int)$alb['id'] ? 'selected' : ''; ?>>
-                    <?php echo htmlspecialchars($alb['title']); ?> (<?php echo (int)$alb['image_count']; ?>)
-                </option>
-            <?php endforeach; ?>
-        </select>
+    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; background: #fff; padding: 1rem; border-radius: 14px; border: 1px solid var(--card-border); flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); margin: 0;">Browse Album:</label>
+            <select onchange="location.href='gallery.php?view=photos&sort=<?php echo urlencode($sort); ?>&album=' + this.value" class="gadm-form-input" style="width: auto; min-width: 200px; padding: 0.4rem 0.8rem; height: auto;">
+                <option value="0">All Photos</option>
+                <?php foreach ($albumsList as $alb): ?>
+                    <option value="<?php echo $alb['id']; ?>" <?php echo $filterAlbum === (int)$alb['id'] ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($alb['title']); ?> (<?php echo (int)$alb['image_count']; ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: auto;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); margin: 0;">Sort By:</label>
+            <select onchange="location.href='gallery.php?view=photos&album=<?php echo $filterAlbum; ?>&sort=' + this.value" class="gadm-form-input" style="width: auto; min-width: 150px; padding: 0.4rem 0.8rem; height: auto;">
+                <option value="order" <?php echo $sort === 'order' ? 'selected' : ''; ?>>Sort Order</option>
+                <option value="newest" <?php echo $sort === 'newest' ? 'selected' : ''; ?>>Newest Uploaded</option>
+            </select>
+        </div>
     </div>
 
     <?php if (count($photosList) > 0): ?>
