@@ -344,24 +344,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $message = "<div class='alert alert-danger'>Unsupported file type.</div>";
                 } else {
                     $hash    = hash_file('sha256', $_FILES['image']['tmp_name']);
-                    $ymd     = date('Y/m');
-                    $destDir = $uploadBase . $ymd . '/';
-                    if (!is_dir($destDir)) mkdir($destDir, 0775, true);
-                    $baseName = $hash . '.' . $ext;
+                    
+                    // Check duplicate hash
+                    $chk = $pdo->prepare("SELECT id FROM gallery_images WHERE file_hash = ? AND id != ? LIMIT 1");
+                    $chk->execute([$hash, $id]);
+                    if ($chk->fetch()) {
+                        $message = "<div class='alert alert-danger'>This image has already been uploaded to the gallery.</div>";
+                    } else {
+                        $ymd     = date('Y/m');
+                        $destDir = $uploadBase . $ymd . '/';
+                        if (!is_dir($destDir)) mkdir($destDir, 0775, true);
+                        $baseName = $hash . '.' . $ext;
 
-                    $srcTmp = $_FILES['image']['tmp_name'];
-                    $fullDir = $destDir . 'full/';
-                    if (!is_dir($fullDir)) mkdir($fullDir, 0775, true);
-                    move_uploaded_file($srcTmp, $fullDir . $baseName);
+                        $srcTmp = $_FILES['image']['tmp_name'];
+                        $fullDir = $destDir . 'full/';
+                        if (!is_dir($fullDir)) mkdir($fullDir, 0775, true);
+                        move_uploaded_file($srcTmp, $fullDir . $baseName);
 
-                    $versions = processImageVersions($fullDir . $baseName, $destDir, $baseName);
-                    $newPaths = [
-                        'image_path'     => toWebPath($versions['full']  ?: $fullDir . $baseName, $docRoot),
-                        'thumbnail_path' => toWebPath($versions['thumb'] ?: $fullDir . $baseName, $docRoot),
-                        'medium_path'    => toWebPath($versions['medium']?: $fullDir . $baseName, $docRoot),
-                        'full_path'      => toWebPath($versions['full']  ?: $fullDir . $baseName, $docRoot),
-                        'file_hash'      => $hash,
-                    ];
+                        $versions = processImageVersions($fullDir . $baseName, $destDir, $baseName);
+                        $newPaths = [
+                            'image_path'     => toWebPath($versions['full']  ?: $fullDir . $baseName, $docRoot),
+                            'thumbnail_path' => toWebPath($versions['thumb'] ?: $fullDir . $baseName, $docRoot),
+                            'medium_path'    => toWebPath($versions['medium']?: $fullDir . $baseName, $docRoot),
+                            'full_path'      => toWebPath($versions['full']  ?: $fullDir . $baseName, $docRoot),
+                            'file_hash'      => $hash,
+                        ];
+                    }
                 }
             }
 
