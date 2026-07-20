@@ -198,6 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     logAction($pdo, "Rejected Athlete Application", "athlete_applications", $applicationId, "Name: {$app['full_name']}");
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application for " . htmlspecialchars($app['full_name']) . " rejected successfully.</div>";
                 } elseif ($action === 'approve_link') {
+                    $pdo->beginTransaction();
                     $existingId = (int)$_POST['existing_id'];
                     $existStmt = $pdo->prepare("SELECT * FROM athletes WHERE id = ?");
                     $existStmt->execute([$existingId]);
@@ -237,6 +238,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     $hist = $pdo->prepare("INSERT INTO athlete_status_history (athlete_id, old_status, new_status, changed_by, remarks) VALUES (?, ?, 'approved', ?, ?)");
                     $hist->execute([$existingId, $existing['status'], $_SESSION['user_id'], "Linked and approved from application ID: $applicationId"]);
+
+                    $pdo->commit();
 
                     logAction($pdo, "Linked & Approved Athlete Application", "athletes", $existingId, "Name: {$app['full_name']} | REGN_NO: {$existing['regn_no']}");
                     sendApprovalEmail($app['email'], $app['full_name'], $existing['regn_no'], 'athlete');
@@ -325,6 +328,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     logAction($pdo, "Rejected Official Application", "official_applications", $applicationId, "Name: {$app['full_name']}");
                     $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Official application for " . htmlspecialchars($app['full_name']) . " rejected successfully.</div>";
                 } elseif ($action === 'approve_link') {
+                    $pdo->beginTransaction();
                     $existingId = (int)$_POST['existing_id'];
                     $existStmt = $pdo->prepare("SELECT * FROM officials WHERE id = ?");
                     $existStmt->execute([$existingId]);
@@ -352,6 +356,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     $upApp = $pdo->prepare("UPDATE official_applications SET status = 'approved', existing_official_id = ? WHERE id = ?");
                     $upApp->execute([$existingId, $applicationId]);
+
+                    $pdo->commit();
 
                     logAction($pdo, "Linked & Approved Official Application", "officials", $existingId, "Name: {$app['full_name']} | Official ID: {$existing['official_reg_no']}");
                     sendApprovalEmail($app['email'], $app['full_name'], $existing['official_reg_no'], 'official');
