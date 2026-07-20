@@ -20,7 +20,18 @@ try {
         $pdo->prepare("UPDATE gallery_albums SET cover_image_id = ? WHERE cover_image_id = 0")->execute([$newId]);
     }
     
+    // Check if an album with ID 0 exists and renumber it to a safe positive ID
+    $checkZeroAlb = $pdo->query("SELECT COUNT(*) FROM gallery_albums WHERE id = 0")->fetchColumn();
+    if ($checkZeroAlb > 0) {
+        $maxAlbId = (int)$pdo->query("SELECT MAX(id) FROM gallery_albums")->fetchColumn();
+        $newAlbId = $maxAlbId + 1;
+        
+        $pdo->prepare("UPDATE gallery_albums SET id = ? WHERE id = 0")->execute([$newAlbId]);
+        $pdo->prepare("UPDATE gallery_images SET album_id = ? WHERE album_id = 0")->execute([$newAlbId]);
+    }
+    
     $pdo->exec("ALTER TABLE gallery_images MODIFY id INT NOT NULL AUTO_INCREMENT;");
+    $pdo->exec("ALTER TABLE gallery_albums MODIFY id INT NOT NULL AUTO_INCREMENT;");
     $pdo->exec("SET FOREIGN_KEY_CHECKS = 1;");
 } catch (PDOException $e) {
     echo "<div class='alert alert-danger' style='margin: 10px;'>Database auto-repair failed: " . htmlspecialchars($e->getMessage()) . "</div>";
