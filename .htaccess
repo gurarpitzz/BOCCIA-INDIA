@@ -11,6 +11,8 @@ RewriteRule ^classification/?$ /page.php?section=sport&slug=classification [R=30
 RewriteRule ^equipment/?$ /page.php?section=sport&slug=equipment [R=301,L]
 RewriteRule ^rules/?$ /page.php?section=sport&slug=rules [R=301,L]
 RewriteRule ^anti-doping/?$ /page.php?section=sport&slug=anti-doping [R=301,L]
+RewriteRule ^register-player\.php$ /get-involved/register-player.php [R=301,L]
+RewriteRule ^register-official\.php$ /get-involved/register-official.php [R=301,L]
 RewriteRule ^home-old/?$ /index.php [R=301,L]
 
 # Author profiles redirection to homepage
