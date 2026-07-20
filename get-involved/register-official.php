@@ -267,7 +267,7 @@ include __DIR__ . '/../includes/header.php';
             <!-- Right Side Form Column -->
             <div class="split-card-right">
                 <div class="form-header-box">
-                    <a href="membership.php" class="back-home-link">Back to HOME Page</a>
+                    <a href="get-involved/membership.php" class="back-home-link">Back to HOME Page</a>
                     <div>
                         <img src="../boccia-india-logo.webp" alt="BSFI Logo" class="form-logo-img">
                     </div>
