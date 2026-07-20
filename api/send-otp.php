@@ -32,7 +32,7 @@ if ($stmt->fetchColumn() > 0) {
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM athlete_applications WHERE email = ? AND status IN ('pending', 'approved')");
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM athlete_applications WHERE email = ? AND status = 'pending'");
 $stmt->execute([$email]);
 if ($stmt->fetchColumn() > 0) {
     http_response_code(400);
@@ -48,7 +48,7 @@ if ($stmt->fetchColumn() > 0) {
     exit();
 }
 
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM official_applications WHERE email = ? AND status IN ('pending', 'approved')");
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM official_applications WHERE email = ? AND status = 'pending'");
 $stmt->execute([$email]);
 if ($stmt->fetchColumn() > 0) {
     http_response_code(400);
