@@ -440,6 +440,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 rebuildGalleryCache($pdo, $GALLERY_CACHE);
             }
         }
+
+        // --- DELETE ALBUM ---
+        if (isset($_POST['delete_album'])) {
+            $albId = (int)$_POST['album_id'];
+            if ($albId > 0) {
+                $pdo->prepare("UPDATE gallery_albums SET cover_image_id = NULL WHERE id = ?")->execute([$albId]);
+                $pdo->prepare("UPDATE gallery_images SET album_id = NULL WHERE album_id = ?")->execute([$albId]);
+                $pdo->prepare("DELETE FROM gallery_albums WHERE id = ?")->execute([$albId]);
+                $message = "<div class='alert alert-success'>Album deleted successfully. All photos from this album have been preserved.</div>";
+                rebuildGalleryCache($pdo, $GALLERY_CACHE);
+            }
+        }
     }
 }
 
@@ -667,8 +679,14 @@ include __DIR__ . '/../includes/header.php';
                             <span class="gadm-badge bg-warning text-dark">Draft</span>
                         <?php endif; ?>
                     </td>
-                    <td style="text-align: right;">
+                    <td style="text-align: right; display: flex; gap: 0.35rem; justify-content: flex-end; align-items: center;">
                         <button class="gadm-btn gadm-btn-sec" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;" onclick='openAlbumModal(<?php echo json_encode($alb); ?>)'>Edit</button>
+                        <form method="POST" action="gallery.php?view=albums" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete the album &quot;<?php echo htmlspecialchars($alb['title']); ?>&quot;? All photos in this album will be preserved.');">
+                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                            <input type="hidden" name="delete_album" value="1">
+                            <input type="hidden" name="album_id" value="<?php echo $alb['id']; ?>">
+                            <button type="submit" class="gadm-btn gadm-btn-danger" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 <?php endforeach; ?>
