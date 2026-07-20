@@ -327,6 +327,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // --- SAVE PHOTO ---
         if (isset($_POST['save_image'])) {
+            @file_put_contents(dirname(__DIR__) . '/uploads/gallery_post.log', print_r($_POST, true));
             $id        = (int)($_POST['id'] ?? 0);
             $caption   = trim($_POST['caption'] ?? '');
             $altText   = trim($_POST['alt_text'] ?? '');
