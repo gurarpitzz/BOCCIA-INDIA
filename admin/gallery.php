@@ -344,7 +344,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $altText   = trim($_POST['alt_text'] ?? '');
             $credit    = trim($_POST['credit'] ?? '');
             $albumId   = (int)($_POST['album_id'] ?? 0) ?: null;
-            $sortOrder = (int)($_POST['sort_order'] ?? 0);
+            // Calculate auto-incremental sort order rather than user decided
+            if ($id > 0) {
+                $oldPhotoQuery = $pdo->prepare("SELECT album_id, sort_order FROM gallery_images WHERE id = ?");
+                $oldPhotoQuery->execute([$id]);
+                $oldPhoto = $oldPhotoQuery->fetch();
+                if ($oldPhoto) {
+                    if ($oldPhoto['album_id'] !== $albumId) {
+                        $stmtSort = $pdo->prepare("SELECT COALESCE(MAX(sort_order), 0) FROM gallery_images WHERE album_id " . ($albumId ? "= ?" : "IS NULL"));
+                        $stmtSort->execute($albumId ? [$albumId] : []);
+                        $sortOrder = (int)$stmtSort->fetchColumn() + 10;
+                    } else {
+                        $sortOrder = (int)$oldPhoto['sort_order'];
+                    }
+                } else {
+                    $sortOrder = 0;
+                }
+            } else {
+                $stmtSort = $pdo->prepare("SELECT COALESCE(MAX(sort_order), 0) FROM gallery_images WHERE album_id " . ($albumId ? "= ?" : "IS NULL"));
+                $stmtSort->execute($albumId ? [$albumId] : []);
+                $sortOrder = (int)$stmtSort->fetchColumn() + 10;
+            }
             $featured  = isset($_POST['is_featured']) ? 1 : 0;
             $hero      = isset($_POST['show_in_hero']) ? 1 : 0;
             $status    = in_array($_POST['status'] ?? '', ['published','draft','archived']) ? $_POST['status'] : 'published';
@@ -980,20 +1000,14 @@ include __DIR__ . '/../includes/header.php';
             </div>
         </div>
 
-        <div class="gadm-form-2col gadm-form-row">
-            <div>
-                <label class="gadm-form-label">Target Album</label>
-                <select name="album_id" id="fAlbum" class="gadm-form-input">
-                    <option value="">— No Album —</option>
-                    <?php foreach ($albumsList as $alb): ?>
-                        <option value="<?php echo $alb['id']; ?>"><?php echo htmlspecialchars($alb['title']); ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div>
-                <label class="gadm-form-label">Sort Order</label>
-                <input type="number" name="sort_order" id="fSort" class="gadm-form-input" value="0">
-            </div>
+        <div class="gadm-form-row">
+            <label class="gadm-form-label">Target Album</label>
+            <select name="album_id" id="fAlbum" class="gadm-form-input">
+                <option value="">— No Album —</option>
+                <?php foreach ($albumsList as $alb): ?>
+                    <option value="<?php echo $alb['id']; ?>"><?php echo htmlspecialchars($alb['title']); ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <div class="gadm-form-2col gadm-form-row">
@@ -1169,7 +1183,6 @@ function openPhotoModal(item) {
         document.getElementById('fAlt').value      = item.alt_text || '';
         document.getElementById('fCredit').value   = item.credit   || '';
         document.getElementById('fAlbum').value    = item.album_id || '';
-        document.getElementById('fSort').value     = item.sort_order;
         document.getElementById('fStatus').value   = item.status   || 'published';
         document.getElementById('fFeatured').checked  = item.is_featured == 1;
         document.getElementById('fHero').checked      = item.show_in_hero == 1;
