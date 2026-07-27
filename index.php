@@ -267,7 +267,7 @@ try {
                     <button class="overview-tab-btn active" data-tab="overview">Overview</button>
                     <button class="overview-tab-btn" data-tab="history">History</button>
                     <button class="overview-tab-btn" data-tab="reach">Global Reach</button>
-                    <button class="overview-tab-btn" data-tab="india">Boccia in India</button>
+                    <button class="overview-tab-btn" data-tab="india">History in India</button>
                 </div>
                 
                 <!-- Tab Contents Container -->
@@ -296,10 +296,9 @@ try {
                     
                     <!-- Tab: India -->
                     <div class="overview-tab-pane" id="tab-india">
-                        <h4 class="tab-pane-heading" style="color: #081B4B; font-weight: 700; margin-bottom: 1rem; font-size: 1.25rem;">Empowering Indian Athletes</h4>
-                        <p style="color: rgba(8, 27, 75, 0.85); font-size: 1.05rem; line-height: 1.65; margin-bottom: 1.5rem;">Boccia has emerged as an important adaptive sport in India, creating opportunities for persons with severe physical disabilities to participate in competitive sports and lead active, empowered lives. Through the efforts of dedicated organizations, coaches, volunteers, and advocates, awareness and participation have steadily increased.</p>
-                        <p style="color: rgba(8, 27, 75, 0.85); font-size: 1.05rem; line-height: 1.65; margin-bottom: 1.5rem;">Indian athletes have demonstrated remarkable talent and determination, representing the nation in international competitions and contributing to the growth of the sport. Development programs continue to introduce Boccia to new players while promoting accessibility.</p>
-                        <p style="color: rgba(8, 27, 75, 0.85); font-size: 1.05rem; line-height: 1.65; margin-bottom: 0;">The pioneering development and introduction of Boccia in India is widely credited to Jaspreet Singh Dhaliwal. He established the sport nationally, founded the federation (initially the Para Boccia Sports Welfare Society, now the Boccia Sports Federation of India), secured recognition from World Boccia (BISFed) and the Paralympic Committee of India, and continues to drive India's national championships and international representation.</p>
+                        <h4 class="tab-pane-heading" style="color: #081B4B; font-weight: 700; margin-bottom: 1rem; font-size: 1.25rem;">History of Boccia in India</h4>
+                        <p style="color: rgba(8, 27, 75, 0.85); font-size: 1.05rem; line-height: 1.65; margin-bottom: 1.5rem;">The history of Boccia in India began in 2016, when Mr. Jaspreet Singh Dhaliwal introduced and established the sport in the country. Through his vision and leadership, the foundation for Boccia in India was laid by promoting awareness, developing athletes and coaches, and creating opportunities for Indian players to compete internationally.</p>
+                        <p style="color: rgba(8, 27, 75, 0.85); font-size: 1.05rem; line-height: 1.65; margin-bottom: 0;">India's international journey started with the 2018 Asian Para Games in Jakarta and the 2019 Fazza Cup in Dubai. Since then, Indian athletes have steadily risen on the world stage, competing in major championships in Poland, Italy, China, and Hong Kong, and securing numerous international medals.</p>
                     </div>
                     
                 </div>
