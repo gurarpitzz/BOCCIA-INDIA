@@ -190,15 +190,17 @@
         <div class="row align-items-center g-5">
             <!-- Left: Growth Narrative -->
             <div class="col-lg-6 scroll-reveal">
-                <span class="about-section-eyebrow" style="color: #FF5A5F; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Empowerment & Expansion</span>
-                <h3 class="about-section-title" style="color: #0B1F5B; font-weight: 700; font-size: 1.8rem; margin-top: 0.5rem; margin-bottom: 1.25rem;">Growth of Boccia in India</h3>
-                <p class="about-india-lead" style="font-size: 1.15rem; font-weight: 600; color: #0B1F5B; margin-bottom: 1.25rem;">Empowering athletes across the nation through sports accessibility and specialized coaching programs.</p>
-                <p style="color: #333333; font-size: 0.98rem; line-height: 1.7; margin-bottom: 1.25rem;">
-                    Since its introduction in 2016 under the leadership of Mr. Jaspreet Singh Dhaliwal, Boccia has experienced rapid development across India. Today, the Boccia Sports Federation of India (BSFI) empowers a growing ecosystem of talented athletes, certified coaches, and technical officials.
-                </p>
-                <p style="color: #333333; font-size: 0.98rem; line-height: 1.7; margin-bottom: 0;">
-                    Our steady progression in international rankings and consistent medal tallies at World Boccia Challengers and regional championships reflect a bright future. India is proudly emerging as a highly competitive nation in the global adaptive sports community.
-                </p>
+                <div class="growth-narrative-card" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border-radius: 20px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid rgba(11, 31, 91, 0.08); height: 100%;">
+                    <span class="about-section-eyebrow" style="color: #FF5A5F; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Empowerment & Expansion</span>
+                    <h3 class="about-section-title" style="color: #0B1F5B; font-weight: 700; font-size: 1.8rem; margin-top: 0.5rem; margin-bottom: 1.25rem;">Growth of Boccia in India</h3>
+                    <p class="about-india-lead" style="font-size: 1.15rem; font-weight: 600; color: #0B1F5B; margin-bottom: 1.25rem;">Empowering athletes across the nation through sports accessibility and specialized coaching programs.</p>
+                    <p style="color: #333333; font-size: 0.98rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                        Since its introduction in 2016 under the leadership of Mr. Jaspreet Singh Dhaliwal, Boccia has experienced rapid development across India. Today, the Boccia Sports Federation of India (BSFI) empowers a growing ecosystem of talented athletes, certified coaches, and technical officials.
+                    </p>
+                    <p style="color: #333333; font-size: 0.98rem; line-height: 1.7; margin-bottom: 0;">
+                        Our steady progression in international rankings and consistent medal tallies at World Boccia Challengers and regional championships reflect a bright future. India is proudly emerging as a highly competitive nation in the global adaptive sports community.
+                    </p>
+                </div>
             </div>
             
             <!-- Right: Premium Image Collage -->
