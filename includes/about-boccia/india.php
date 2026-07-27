@@ -1,5 +1,50 @@
 <?php
 // includes/about-boccia/india.php - History & Growth of Boccia in India Section
+
+// Helper function to render premium vector medal badges instead of emojis
+function getMedalBadge($type, $label) {
+    $colors = [
+        'gold' => [
+            'bg' => 'rgba(255, 215, 0, 0.15)',
+            'color' => '#B8860B',
+            'border' => 'rgba(255, 215, 0, 0.4)'
+        ],
+        'silver' => [
+            'bg' => 'rgba(192, 192, 192, 0.2)',
+            'color' => '#708090',
+            'border' => 'rgba(192, 192, 192, 0.5)'
+        ],
+        'bronze' => [
+            'bg' => 'rgba(205, 127, 50, 0.15)',
+            'color' => '#A0522D',
+            'border' => 'rgba(205, 127, 50, 0.4)'
+        ],
+        'fourth' => [
+            'bg' => 'rgba(108, 117, 125, 0.12)',
+            'color' => '#555555',
+            'border' => 'rgba(108, 117, 125, 0.3)'
+        ]
+    ];
+    
+    $c = $colors[$type] ?? $colors['fourth'];
+    
+    // SVG path for a medal with a star
+    $svg = '<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 7l1.2 2.7 3 .2-2.3 2 0.7 2.9-2.6-1.6-2.6 1.6 0.7-2.9-2.3-2 3-.2z"/></svg>';
+    
+    // For 4th place, let's use an outline ribbon/flag SVG
+    if ($type === 'fourth') {
+        $svg = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>';
+    }
+
+    return sprintf(
+        '<span class="badge" style="background: %s; color: %s; border: 1.5px solid %s; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1.2;">%s%s</span>',
+        $c['bg'],
+        $c['color'],
+        $c['border'],
+        $svg,
+        $label
+    );
+}
 ?>
 <section class="about-india" style="background-image: url('about boccia/NATIONAL_IMPRINT_bg.webp'); background-repeat: no-repeat; background-position: center; background-size: cover; padding: 6rem 0;">
     <div class="container">
@@ -108,13 +153,13 @@
                             <div class="tournament-box" style="margin-bottom: 1.75rem; background: rgba(11, 31, 91, 0.03); padding: 1.25rem; border-radius: 12px; border-left: 4px solid #0B1F5B;">
                                 <h5 style="color: #0B1F5B; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.75rem;">Cairo 2024 World Boccia Challenger</h5>
                                 <ul style="list-style: none; padding-left: 0; margin-bottom: 0;">
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Anjali Devi (BC3)</span> <span class="badge" style="background-color: #FFD700; color: #000; font-weight: bold;">🥇 Gold (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Gayithri Hudeda Mata (BC1)</span> <span class="badge" style="background-color: #C0C0C0; color: #000; font-weight: bold;">🥈 Silver (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Sachin Chamaria (BC3)</span> <span class="badge" style="background-color: #C0C0C0; color: #000; font-weight: bold;">🥈 Silver (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Govindbhai B. Chaudhary (BC2)</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Sarita Dwivedi (BC3)</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC3 Mixed Pair</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Pair)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Ajeya Raj (BC3)</span> <span class="badge bg-secondary">4th Place (Ind.)</span></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Anjali Devi (BC3)</span> <?php echo getMedalBadge('gold', 'Gold (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Gayithri Hudeda Mata (BC1)</span> <?php echo getMedalBadge('silver', 'Silver (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Sachin Chamaria (BC3)</span> <?php echo getMedalBadge('silver', 'Silver (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Govindbhai B. Chaudhary (BC2)</span> <?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Sarita Dwivedi (BC3)</span> <?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC3 Mixed Pair</span> <?php echo getMedalBadge('bronze', 'Bronze (Pair)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Ajeya Raj (BC3)</span> <?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></li>
                                 </ul>
                             </div>
 
@@ -122,13 +167,13 @@
                             <div class="tournament-box" style="background: rgba(11, 31, 91, 0.03); padding: 1.25rem; border-radius: 12px; border-left: 4px solid #0B1F5B;">
                                 <h5 style="color: #0B1F5B; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.75rem;">Bahrain 2024 World Boccia Challenger</h5>
                                 <ul style="list-style: none; padding-left: 0; margin-bottom: 0;">
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Sachin Chamaria (BC3)</span> <span class="badge" style="background-color: #FFD700; color: #000; font-weight: bold;">🥇 Gold (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC1 & BC2 Mixed Team</span> <span class="badge" style="background-color: #C0C0C0; color: #000; font-weight: bold;">🥈 Silver (Team)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Ajeya Raj (BC3)</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Pooja Gupta (BC4)</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Jatin Kumar Kushwah (BC4)</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Sarita Dwivedi (BC3)</span> <span class="badge bg-secondary">4th Place (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">India BC3 Mixed Pair</span> <span class="badge bg-secondary">4th Place (Pair)</span></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Sachin Chamaria (BC3)</span> <?php echo getMedalBadge('gold', 'Gold (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC1 & BC2 Mixed Team</span> <?php echo getMedalBadge('silver', 'Silver (Team)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Ajeya Raj (BC3)</span> <?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Pooja Gupta (BC4)</span> <?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Jatin Kumar Kushwah (BC4)</span> <?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Sarita Dwivedi (BC3)</span> <?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">India BC3 Mixed Pair</span> <?php echo getMedalBadge('fourth', '4th Place (Pair)'); ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -141,9 +186,9 @@
                             <div class="tournament-box" style="margin-bottom: 1.25rem; background: rgba(11, 31, 91, 0.03); padding: 1.25rem; border-radius: 12px; border-left: 4px solid #FF5A5F;">
                                 <h5 style="color: #0B1F5B; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.75rem;">Astana 2025 World Boccia Challenger</h5>
                                 <ul style="list-style: none; padding-left: 0; margin-bottom: 0;">
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Pydiramu Kottinti (BC4)</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC3 Mixed Pair</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Pair)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC4 Mixed Pair</span> <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold;">🥉 Bronze (Pair)</span></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">Pydiramu Kottinti (BC4)</span> <?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC3 Mixed Pair</span> <?php echo getMedalBadge('bronze', 'Bronze (Pair)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC4 Mixed Pair</span> <?php echo getMedalBadge('bronze', 'Bronze (Pair)'); ?></li>
                                 </ul>
                             </div>
 
@@ -151,11 +196,11 @@
                             <div class="tournament-box" style="margin-bottom: 1.25rem; background: rgba(11, 31, 91, 0.03); padding: 1.25rem; border-radius: 12px; border-left: 4px solid #FF5A5F;">
                                 <h5 style="color: #0B1F5B; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.75rem;">Canberra 2025 World Boccia Challenger</h5>
                                 <ul style="list-style: none; padding-left: 0; margin-bottom: 0;">
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC3 Mixed Pair</span> <span class="badge" style="background-color: #C0C0C0; color: #000; font-weight: bold;">🥈 Silver (Pair)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Lakshimi Ramajayam (BC2)</span> <span class="badge bg-secondary">4th Place (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Anjali Devi (BC3)</span> <span class="badge bg-secondary">4th Place (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Ajeya Raj (BC3)</span> <span class="badge bg-secondary">4th Place (Ind.)</span></li>
-                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Pooja Gupta (BC4)</span> <span class="badge bg-secondary">4th Place (Ind.)</span></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between;"><span style="font-weight: 600;">India BC3 Mixed Pair</span> <?php echo getMedalBadge('silver', 'Silver (Pair)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Lakshimi Ramajayam (BC2)</span> <?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Anjali Devi (BC3)</span> <?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Ajeya Raj (BC3)</span> <?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></li>
+                                    <li style="padding: 0.25rem 0; font-size: 0.9rem; display: flex; justify-content: space-between; opacity: 0.7;"><span style="font-weight: 500;">Pooja Gupta (BC4)</span> <?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></li>
                                 </ul>
                             </div>
 
@@ -166,7 +211,7 @@
                                         <h6 style="color: #0B1F5B; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem;">Manama 2025</h6>
                                         <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.25rem;">
                                             <span style="font-weight: 600;">Ramesh Kumar (BC4)</span>
-                                            <span class="badge bg-secondary" style="align-self: flex-start;">4th Place (Ind.)</span>
+                                            <div style="margin-top: 0.25rem;"><?php echo getMedalBadge('fourth', '4th Place (Ind.)'); ?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +220,7 @@
                                         <h6 style="color: #0B1F5B; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem;">Dubai 2025 Youth Games</h6>
                                         <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.25rem;">
                                             <span style="font-weight: 600;">Aayushi Thakral (BC4)</span>
-                                            <span class="badge" style="background-color: #CD7F32; color: #fff; font-weight: bold; align-self: flex-start;">🥉 Bronze (Ind.)</span>
+                                            <div style="margin-top: 0.25rem;"><?php echo getMedalBadge('bronze', 'Bronze (Ind.)'); ?></div>
                                         </div>
                                     </div>
                                 </div>
