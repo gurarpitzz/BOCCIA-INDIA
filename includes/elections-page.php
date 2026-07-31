@@ -25,21 +25,20 @@ include __DIR__ . '/header.php';
     <section class="board-section">
         <div class="container">
             <div class="row justify-content-center scroll-reveal">
-                <div class="col-lg-8">
-                    <div class="card shadow-sm border-0 rounded-4 p-5 text-center" style="background: rgba(255, 255, 255, 0.96);">
-                        <div class="mb-4">
-                            <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px; background: rgba(255, 153, 51, 0.15);">
-                                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#FF9933" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                                </svg>
+                <div class="col-md-6 col-lg-5">
+                    <div class="card h-100 shadow-sm border-0 rounded-4" style="background: rgba(255, 255, 255, 0.95); transition: transform 0.2s;">
+                        <div class="card-body d-flex flex-column justify-content-between p-4">
+                            <div>
+                                <span class="badge bg-warning text-dark mb-2 text-uppercase fw-bold" style="font-size:0.75rem;">Elections 2022-23</span>
+                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4;">Certificate and Governing Board List</h5>
+                                <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Official certificate and details of the governing board election results.</p>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href="uploads/documents/Certificate_and_Governing_Board_list_2-3.pdf" download class="btn btn-outline-primary rounded-pill fw-bold" style="border: 2px solid #FF9933; color: #FF9933;">
+                                    Download PDF
+                                </a>
                             </div>
                         </div>
-                        <h3 class="fw-bold mb-3" style="color: #081B4B; font-family: var(--font-heading);">Content Yet to be Updated</h3>
-                        <p class="text-muted fs-5 mb-0" style="line-height:1.6;">
-                            Official election files and notification documentation are currently being compiled and will be uploaded shortly. Please check back later.
-                        </p>
                     </div>
                 </div>
             </div>
