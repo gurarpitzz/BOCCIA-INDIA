@@ -274,6 +274,50 @@ try {
         exit();
     }
     
+    elseif ($action === 'purge') {
+        $historyId = isset($_POST['history_id']) ? (int)$_POST['history_id'] : 0;
+        $athleteId = isset($_POST['athlete_id']) ? (int)$_POST['athlete_id'] : 0;
+
+        if ($historyId <= 0 || $athleteId <= 0) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing identifiers for permanent deletion.']);
+            exit();
+        }
+
+        // Fetch record to verify it exists and is archived
+        $oldStmt = $pdo->prepare("SELECT * FROM athlete_history WHERE id = ? AND athlete_id = ?");
+        $oldStmt->execute([$historyId, $athleteId]);
+        $record = $oldStmt->fetch();
+        if (!$record) {
+            http_response_code(404);
+            echo json_encode(['error' => 'History record not found.']);
+            exit();
+        }
+
+        // Verify athlete exists
+        $athStmt = $pdo->prepare("SELECT full_name, regn_no FROM athletes WHERE id = ? AND deleted_at IS NULL");
+        $athStmt->execute([$athleteId]);
+        $athlete = $athStmt->fetch();
+        if (!$athlete) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Target athlete profile not found.']);
+            exit();
+        }
+
+        $pdo->beginTransaction();
+
+        $del = $pdo->prepare("DELETE FROM athlete_history WHERE id = ? AND athlete_id = ?");
+        $del->execute([$historyId, $athleteId]);
+
+        // Audit Log
+        $logDetails = "Permanently Deleted Tournament Record for " . $athlete['full_name'] . " (Reg No: " . $athlete['regn_no'] . ") | Event: {$record['event_name']} | Year: {$record['event_year']} | Level: {$record['event_level']} | Result: {$record['rank']}";
+        logAction($pdo, 'athlete_history_purged', 'athletes', $athleteId, $logDetails);
+
+        $pdo->commit();
+        echo json_encode(['success' => 'Tournament performance record permanently deleted successfully.']);
+        exit();
+    }
+    
     else {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid administrative action specified.']);

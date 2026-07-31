@@ -379,6 +379,9 @@ $statusList = $statusStmt->fetchAll();
                                                             <button type="button" class="btn btn-sm btn-outline-success p-1 px-2" onclick="restoreHistory(<?php echo $hist['id']; ?>)" title="Restore Record">
                                                                 <i class="fa-solid fa-rotate-left"></i> Restore
                                                             </button>
+                                                            <button type="button" class="btn btn-sm btn-outline-danger p-1 px-2" onclick="purgeHistory(<?php echo $hist['id']; ?>)" title="Delete Permanently">
+                                                                <i class="fa-solid fa-trash"></i> Delete
+                                                            </button>
                                                         <?php else: ?>
                                                             <button type="button" class="btn btn-sm btn-outline-primary p-1 px-2" onclick="editHistory(<?php echo htmlspecialchars(json_encode($hist)); ?>)" title="Edit Record">
                                                                 <i class="fa-solid fa-pencil"></i>
@@ -1101,6 +1104,34 @@ function restoreHistory(id) {
             window.location.reload();
         } else {
             alert(res.body.error || "Failed to restore record.");
+        }
+    })
+    .catch(err => {
+        alert("Server connection error. Please try again.");
+    });
+}
+
+function purgeHistory(id) {
+    if (!confirm("WARNING: Are you sure you want to permanently delete this tournament record? This action CANNOT be undone!")) {
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append("csrf_token", "<?php echo $_SESSION['csrf_token'] ?? ''; ?>");
+    formData.append("action", "purge");
+    formData.append("history_id", id);
+    formData.append("athlete_id", "<?php echo $athleteId; ?>");
+    
+    fetch("api/athlete-history.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(res => {
+        if (res.status === 200) {
+            window.location.reload();
+        } else {
+            alert(res.body.error || "Failed to permanently delete record.");
         }
     })
     .catch(err => {
