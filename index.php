@@ -1982,7 +1982,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // Parse Hashtags
                     $displayContent = htmlspecialchars($displayContent);
-                    $displayContent = preg_replace('/#(\w+)/', '<span class="hashtag" style="color:#1E88E5; font-weight:600;">#$1</span>', $displayContent);
+                    $displayContent = preg_replace('/(?<!&)#([a-zA-Z]\w*)/', '<span class="hashtag" style="color:#1E88E5; font-weight:600;">#$1</span>', $displayContent);
                 ?>
                 <div class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch">
                     <div class="glass-card news-card w-100" id="news-<?php echo htmlspecialchars($news['slug']); ?>" style="background: #ffffff; border: 2px solid rgba(22, 41, 90, 0.1); border-radius: 32px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 0;">
