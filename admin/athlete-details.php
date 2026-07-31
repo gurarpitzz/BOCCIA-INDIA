@@ -991,16 +991,22 @@ function executeSave(formData) {
     });
 }
 
+let activeDeleteHistoryId = null;
+
 function deleteHistory(id) {
     if (!deleteHistoryModalInstance) {
         deleteHistoryModalInstance = new bootstrap.Modal(document.getElementById('deleteHistoryModal'));
     }
-    document.getElementById("delete_history_id").value = id;
+    activeDeleteHistoryId = id;
     deleteHistoryModalInstance.show();
 }
 
 function confirmDeleteHistory() {
-    const id = document.getElementById("delete_history_id").value;
+    const id = activeDeleteHistoryId;
+    if (!id) {
+        alert("No record selected for archiving.");
+        return;
+    }
     const confirmBtn = document.getElementById("confirm-delete-history-btn");
     
     confirmBtn.disabled = true;
