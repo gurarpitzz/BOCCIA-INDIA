@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `athlete_applications` (
     `kit_shoe` VARCHAR(20) NULL DEFAULT NULL,
     `photo_path` VARCHAR(255) NULL DEFAULT NULL,
     `receipt_path` VARCHAR(255) NULL DEFAULT NULL,
+    `medical_certificate` VARCHAR(255) NULL DEFAULT NULL,
     `status` ENUM('pending', 'approved', 'rejected', 'correction_requested') NOT NULL DEFAULT 'pending',
     `existing_athlete_id` INT NULL DEFAULT NULL,
     `possible_duplicate` TINYINT(1) NOT NULL DEFAULT 0,

@@ -374,8 +374,9 @@ include __DIR__ . '/../includes/header.php';
                                 <label class="form-label-custom">Age Category <span class="text-danger">*</span></label>
                                 <select name="age_category" class="form-select-custom" required>
                                     <option value="">Select Category</option>
-                                    <option value="Junior (U18)">Junior (U18)</option>
-                                    <option value="Senior">Senior</option>
+                                    <option value="Sub-Junior (Under 14 Years)">Sub-Junior (Under 14 Years)</option>
+                                    <option value="Junior (Under 17 Years)">Junior (Under 17 Years)</option>
+                                    <option value="Open (17 Years & Above)">Open (17 Years & Above)</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -479,6 +480,18 @@ include __DIR__ . '/../includes/header.php';
                                     <input type="file" id="file_doc" name="receipt_path" accept="application/pdf,image/jpeg,image/png" onchange="updateFileLabel('file_doc', 'doc_label')" required>
                                     <div class="text-slate-400 text-3xl mb-1"><i class="bi bi-cloud-arrow-up-fill"></i></div>
                                     <span class="text-sm font-semibold" id="doc_label">Choose Document File</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label-custom">Medical Certificate <span class="text-danger">*</span></label>
+                                <div class="file-drop-zone">
+                                    <input type="file" id="file_med" name="medical_certificate" accept=".pdf,.jpg,.jpeg,.png" onchange="updateFileLabel('file_med', 'med_label')" required>
+                                    <div class="text-slate-400 text-3xl mb-1"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                                    <span class="text-sm font-semibold" id="med_label">Choose Medical Certificate</span>
+                                </div>
+                                <div class="form-text text-slate-500 mt-1" style="font-size:0.78rem;">
+                                    Maximum file size: 2 MB. Larger files will not be accepted. Accepted formats: PDF, JPG, JPEG, PNG.
                                 </div>
                             </div>
                         </div>

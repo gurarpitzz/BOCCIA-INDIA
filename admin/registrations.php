@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         aadhaar = COALESCE(?, aadhaar), status = 'approved',
                         photo_status = IF(? != '' OR photo_path IS NOT NULL, 'verified', photo_status),
                         father_name = ?, mother_name = ?, age_category = ?, impairment_type = ?,
-                        address = ?, pincode = ?, kit_tshirt = ?, kit_tracksuit = ?, kit_shoe = ?, passport_file = COALESCE(?, passport_file) 
+                        address = ?, pincode = ?, kit_tshirt = ?, kit_tracksuit = ?, kit_shoe = ?, medical_certificate = COALESCE(?, medical_certificate), passport_file = COALESCE(?, passport_file) 
                         WHERE id = ?");
                     
                     $genderFormatted = strtoupper($app['gender']);
@@ -238,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         $app['state'], $app['district'], $assignedClass, $app['wheelchair_status'],
                         $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $app['photo_path'],
                         $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
-                        $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['receipt_path'],
+                        $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['medical_certificate'], $app['receipt_path'],
                         $existingId
                     ]);
 
@@ -292,8 +292,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     // Newly approved athlete sets photo_status to verified if photo exists
                     $insAthlete = $pdo->prepare("INSERT INTO athletes 
                         (regn_no, full_name, gender, dob, mobile, email, state, district, classification, representing_for, state_association_id, wheelchair_status, photo_path, receipt_path, status, aadhaar, digilocker_imported, photo_status,
-                         father_name, mother_name, age_category, impairment_type, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, passport_file) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                         father_name, mother_name, age_category, impairment_type, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, medical_certificate, passport_file) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     
                     $hasPhoto = !empty($app['photo_path']) ? 'verified' : 'missing';
                     $insAthlete->execute([
@@ -301,7 +301,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         $app['state'], $app['district'], $assignedClass, $app['state'], $assocId,
                         $app['wheelchair_status'], $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $hasPhoto,
                         $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
-                        $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['receipt_path']
+                        $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['medical_certificate'], $app['receipt_path']
                     ]);
                     $newAthleteId = $pdo->lastInsertId();
 
@@ -568,6 +568,9 @@ include __DIR__ . '/../includes/header.php';
                                     <?php endif; ?>
                                     <?php if (!empty($app['receipt_path'])): ?>
                                         <a href="download-doc.php?file=<?php echo urlencode($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($app['medical_certificate'])): ?>
+                                        <a href="download-doc.php?file=<?php echo urlencode($app['medical_certificate']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Med Cert</a>
                                     <?php endif; ?>
                                 </div>
                                 <form action="registrations.php?tab=athletes" method="POST" style="display:flex; gap:0.5rem; margin:0;">

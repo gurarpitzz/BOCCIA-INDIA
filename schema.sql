@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `athletes` (
     `wheelchair_status` VARCHAR(50) NULL,
     `photo_path` VARCHAR(255) NULL,
     `receipt_path` VARCHAR(255) NULL,
+    `medical_certificate` VARCHAR(255) NULL,
     `status` ENUM('pending', 'approved', 'rejected', 'archived') NOT NULL DEFAULT 'pending',
     `created_by` INT NULL,
     `updated_by` INT NULL,

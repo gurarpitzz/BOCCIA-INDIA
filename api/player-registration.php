@@ -107,8 +107,9 @@ try {
     // Files
     $photo = $_FILES['photo_path'] ?? null;
     $doc = $_FILES['receipt_path'] ?? null;
+    $med = $_FILES['medical_certificate'] ?? null;
 
-    if (empty($full_name) || empty($gender) || empty($dob) || empty($father_name) || empty($mother_name) || empty($phone) || empty($photo['name']) || empty($doc['name']) || empty($aadhaar)) {
+    if (empty($full_name) || empty($gender) || empty($dob) || empty($father_name) || empty($mother_name) || empty($phone) || empty($photo['name']) || empty($doc['name']) || empty($med['name']) || empty($aadhaar)) {
         http_response_code(400);
         echo json_encode(['error' => 'Required registration fields are missing.']);
         exit();
@@ -148,9 +149,24 @@ try {
         exit();
     }
 
+    // Validate Medical Certificate
+    $medExt = strtolower(pathinfo($med['name'], PATHINFO_EXTENSION));
+    $medMime = function_exists('mime_content_type') ? mime_content_type($med['tmp_name']) : $med['type'];
+    if (!in_array($medExt, ['jpg', 'jpeg', 'png', 'pdf']) || !in_array($medMime, ['image/jpeg', 'image/png', 'application/pdf'])) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid medical certificate file type (only JPG/PNG/PDF allowed).']);
+        exit();
+    }
+    if ($med['size'] > 2 * 1024 * 1024) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Medical certificate size must be less than 2MB.']);
+        exit();
+    }
+
     // Always save photos as WebP for performance
     $photoUuidName = generateUUID() . '.webp';
     $docUuidName = generateUUID() . '.' . $docExt;
+    $medUuidName = generateUUID() . '.' . $medExt;
 
     // Verify email is not already in use by any other player or official
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND deleted_at IS NULL");
@@ -235,12 +251,17 @@ try {
         throw new Exception("Failed to write government document proof upload.");
     }
 
+    if (!move_uploaded_file($med['tmp_name'], $docDir . $medUuidName)) {
+        throw new Exception("Failed to write medical certificate upload.");
+    }
+
     $photoPath = 'uploads/athletes/photos/' . $photoUuidName;
     $receiptPath = 'uploads/athletes/documents/' . $docUuidName;
+    $medPath = 'uploads/athletes/documents/' . $medUuidName;
 
     // Update with generated reference_id and file paths
-    $upd = $pdo->prepare("UPDATE athlete_applications SET reference_id = ?, photo_path = ?, receipt_path = ? WHERE id = ?");
-    $upd->execute([$referenceId, $photoPath, $receiptPath, $appId]);
+    $upd = $pdo->prepare("UPDATE athlete_applications SET reference_id = ?, photo_path = ?, receipt_path = ?, medical_certificate = ? WHERE id = ?");
+    $upd->execute([$referenceId, $photoPath, $receiptPath, $medPath, $appId]);
 
     $pdo->commit();
 

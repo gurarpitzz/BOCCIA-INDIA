@@ -277,6 +277,23 @@ $statusList = $statusStmt->fetchAll();
                                     <?php endif; ?>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <div class="p-2 border rounded-3 d-flex align-items-center justify-content-between" style="background:#F8FAFC; max-width: 400px;">
+                                    <div>
+                                        <i class="fa-solid fa-file-medical text-danger me-2" style="font-size:1.15rem;"></i>
+                                        <span class="fw-semibold" style="font-size:0.82rem;">Medical Certificate</span>
+                                    </div>
+                                    <?php if ($isAdmin): ?>
+                                        <?php if (!empty($athlete['medical_certificate'])): ?>
+                                            <a href="download-doc.php?file=<?php echo urlencode($athlete['medical_certificate']); ?>" target="_blank" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">View Document</a>
+                                        <?php else: ?>
+                                            <span class="text-muted" style="font-size:0.75rem;">None Uploaded</span>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span class="text-muted style-italic" style="font-size: 0.75rem;"><i class="fa-solid fa-lock text-danger me-1"></i> [Restricted]</span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
