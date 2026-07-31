@@ -16,6 +16,7 @@ if (!isLoggedIn() || ($_SESSION['role'] ?? '') !== 'admin') {
 
 // Validate CSRF token
 $csrf = $_POST['csrf_token'] ?? '';
+file_put_contents(__DIR__ . '/debug_post.txt', print_r($_POST, true));
 if (empty($csrf) || $csrf !== ($_SESSION['csrf_token'] ?? '')) {
     http_response_code(403);
     echo json_encode(['error' => 'Security validation token failed (CSRF).']);
