@@ -63,8 +63,8 @@ try {
             throw new Exception("Athlete profile not found.");
         }
 
-        // Soft delete the profile
-        $del = $pdo->prepare("UPDATE athletes SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?");
+        // Hard delete the profile
+        $del = $pdo->prepare("DELETE FROM athletes WHERE id = ?");
         $del->execute([$id]);
 
         // Audit Log
