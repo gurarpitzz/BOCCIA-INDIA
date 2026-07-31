@@ -37,7 +37,7 @@ $page_title = htmlspecialchars($athlete['full_name']) . " - Profile Tracker";
 include __DIR__ . '/../includes/header.php';
 
 // Fetch tournament/event history
-$histStmt = $pdo->prepare("SELECT * FROM athlete_history WHERE athlete_id = ? AND deleted_at IS NULL ORDER BY event_year DESC, id DESC");
+$histStmt = $pdo->prepare("SELECT * FROM athlete_history WHERE athlete_id = ? ORDER BY event_year DESC, id DESC");
 $histStmt->execute([$athleteId]);
 $historyList = $histStmt->fetchAll();
 
@@ -305,11 +305,17 @@ $statusList = $statusStmt->fetchAll();
                         <h3 class="admin-card-title m-0">
                             <i class="fa-solid fa-trophy text-warning me-2"></i> Tournament &amp; Performance History
                         </h3>
-                        <?php if ($isAdmin): ?>
-                            <button type="button" class="btn btn-sm btn-primary rounded-3 fw-bold px-3" onclick="openHistoryModal(0)">
-                                <i class="fa-solid fa-plus me-1"></i> Add Performance Record
-                            </button>
-                        <?php endif; ?>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="form-check form-switch m-0" style="font-size: 0.85rem;">
+                                <input class="form-check-input" type="checkbox" id="toggleArchivedSwitch" onchange="toggleArchivedVisibility(this.checked)">
+                                <label class="form-check-label text-muted fw-semibold" for="toggleArchivedSwitch">Show Archived</label>
+                            </div>
+                            <?php if ($isAdmin): ?>
+                                <button type="button" class="btn btn-sm btn-primary rounded-3 fw-bold px-3" onclick="openHistoryModal(0)">
+                                    <i class="fa-solid fa-plus me-1"></i> Add Performance Record
+                                </button>
+                            <?php endif; ?>
+                        </div>
                     </div>
 
                     <?php if (count($historyList) > 0): ?>
@@ -330,9 +336,17 @@ $statusList = $statusStmt->fetchAll();
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($historyList as $hist): ?>
-                                        <tr id="history-row-<?php echo $hist['id']; ?>">
-                                            <td class="fw-bold"><?php echo htmlspecialchars($hist['event_year']); ?></td>
+                                    <?php foreach ($historyList as $hist): 
+                                        $isArchived = !empty($hist['deleted_at']);
+                                        $rowClass = $isArchived ? 'archived-row table-secondary text-muted d-none' : '';
+                                    ?>
+                                        <tr id="history-row-<?php echo $hist['id']; ?>" class="<?php echo $rowClass; ?>">
+                                            <td class="fw-bold">
+                                                <?php echo htmlspecialchars($hist['event_year']); ?>
+                                                <?php if ($isArchived): ?>
+                                                    <span class="badge bg-danger ms-1" style="font-size: 0.65rem;">Archived</span>
+                                                <?php endif; ?>
+                                            </td>
                                             <td class="fw-semibold text-navy"><?php echo htmlspecialchars($hist['event_name']); ?></td>
                                             <td><span class="badge bg-secondary"><?php echo htmlspecialchars($hist['event_level'] ?? 'National'); ?></span></td>
                                             <td><?php echo htmlspecialchars($hist['state_represented'] ?? 'N/A'); ?></td>
@@ -361,12 +375,18 @@ $statusList = $statusStmt->fetchAll();
                                             <?php if ($isAdmin): ?>
                                                 <td>
                                                     <div class="d-flex gap-2">
-                                                        <button type="button" class="btn btn-sm btn-outline-primary p-1 px-2" onclick="editHistory(<?php echo htmlspecialchars(json_encode($hist)); ?>)" title="Edit Record">
-                                                            <i class="fa-solid fa-pencil"></i>
-                                                        </button>
-                                                        <button type="button" class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteHistory(<?php echo $hist['id']; ?>)" title="Archive Record">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                        </button>
+                                                        <?php if ($isArchived): ?>
+                                                            <button type="button" class="btn btn-sm btn-outline-success p-1 px-2" onclick="restoreHistory(<?php echo $hist['id']; ?>)" title="Restore Record">
+                                                                <i class="fa-solid fa-rotate-left"></i> Restore
+                                                            </button>
+                                                        <?php else: ?>
+                                                            <button type="button" class="btn btn-sm btn-outline-primary p-1 px-2" onclick="editHistory(<?php echo htmlspecialchars(json_encode($hist)); ?>)" title="Edit Record">
+                                                                <i class="fa-solid fa-pencil"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteHistory(<?php echo $hist['id']; ?>)" title="Archive Record">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </td>
                                             <?php endif; ?>
@@ -1036,6 +1056,55 @@ function confirmDeleteHistory() {
         alert("Server connection error. Please try again.");
         confirmBtn.disabled = false;
         confirmBtn.innerHTML = "Yes, Archive";
+    });
+}
+
+function toggleArchivedVisibility(showArchived) {
+    sessionStorage.setItem("show_archived_history", showArchived ? "true" : "false");
+    const archivedRows = document.querySelectorAll(".archived-row");
+    archivedRows.forEach(row => {
+        if (showArchived) {
+            row.classList.remove("d-none");
+        } else {
+            row.classList.add("d-none");
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const showArchivedPersisted = sessionStorage.getItem("show_archived_history") === "true";
+    const toggleSwitch = document.getElementById("toggleArchivedSwitch");
+    if (toggleSwitch) {
+        toggleSwitch.checked = showArchivedPersisted;
+        toggleArchivedVisibility(showArchivedPersisted);
+    }
+});
+
+function restoreHistory(id) {
+    if (!confirm("Are you sure you want to restore this archived tournament record?")) {
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append("csrf_token", "<?php echo $_SESSION['csrf_token'] ?? ''; ?>");
+    formData.append("action", "restore");
+    formData.append("history_id", id);
+    formData.append("athlete_id", "<?php echo $athleteId; ?>");
+    
+    fetch("api/athlete-history.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(res => {
+        if (res.status === 200) {
+            window.location.reload();
+        } else {
+            alert(res.body.error || "Failed to restore record.");
+        }
+    })
+    .catch(err => {
+        alert("Server connection error. Please try again.");
     });
 }
 </script>

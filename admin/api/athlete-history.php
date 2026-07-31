@@ -16,7 +16,6 @@ if (!isLoggedIn() || ($_SESSION['role'] ?? '') !== 'admin') {
 
 // Validate CSRF token
 $csrf = $_POST['csrf_token'] ?? '';
-file_put_contents(__DIR__ . '/debug_post.txt', print_r($_POST, true));
 if (empty($csrf) || $csrf !== ($_SESSION['csrf_token'] ?? '')) {
     http_response_code(403);
     echo json_encode(['error' => 'Security validation token failed (CSRF).']);
@@ -230,6 +229,50 @@ try {
         echo json_encode(['success' => 'Tournament performance record archived successfully.']);
         exit();
     } 
+    
+    elseif ($action === 'restore') {
+        $historyId = isset($_POST['history_id']) ? (int)$_POST['history_id'] : 0;
+        $athleteId = isset($_POST['athlete_id']) ? (int)$_POST['athlete_id'] : 0;
+
+        if ($historyId <= 0 || $athleteId <= 0) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing identifiers for record restoration.']);
+            exit();
+        }
+
+        // Fetch record to verify it is currently archived (deleted_at IS NOT NULL)
+        $oldStmt = $pdo->prepare("SELECT * FROM athlete_history WHERE id = ? AND athlete_id = ? AND deleted_at IS NOT NULL");
+        $oldStmt->execute([$historyId, $athleteId]);
+        $record = $oldStmt->fetch();
+        if (!$record) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Archived history record not found.']);
+            exit();
+        }
+
+        // Verify athlete exists
+        $athStmt = $pdo->prepare("SELECT full_name, regn_no FROM athletes WHERE id = ? AND deleted_at IS NULL");
+        $athStmt->execute([$athleteId]);
+        $athlete = $athStmt->fetch();
+        if (!$athlete) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Target athlete profile not found.']);
+            exit();
+        }
+
+        $pdo->beginTransaction();
+
+        $rest = $pdo->prepare("UPDATE athlete_history SET deleted_at = NULL WHERE id = ? AND athlete_id = ?");
+        $rest->execute([$historyId, $athleteId]);
+
+        // Audit Log
+        $logDetails = "Restored Tournament Record for " . $athlete['full_name'] . " (Reg No: " . $athlete['regn_no'] . ") | Event: {$record['event_name']} | Year: {$record['event_year']} | Level: {$record['event_level']}";
+        logAction($pdo, 'athlete_history_restored', 'athletes', $athleteId, $logDetails);
+
+        $pdo->commit();
+        echo json_encode(['success' => 'Tournament performance record restored successfully.']);
+        exit();
+    }
     
     else {
         http_response_code(400);
