@@ -394,16 +394,6 @@ include __DIR__ . '/../includes/header.php';
                                 <label class="form-label-custom">Impairment Type <span class="text-danger">*</span></label>
                                 <input type="text" name="impairment_type" class="form-control-custom" placeholder="e.g. Hypertonia" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom">Boccia Category <span class="text-danger">*</span></label>
-                                <select name="classification" class="form-select-custom" required>
-                                    <option value="">Select Category</option>
-                                    <option value="BC1">BC1</option>
-                                    <option value="BC2">BC2</option>
-                                    <option value="BC3">BC3</option>
-                                    <option value="BC4">BC4</option>
-                                </select>
-                            </div>
                             <div class="col-md-12">
                                 <label class="form-label-custom">Do you use a Wheelchair? <span class="text-danger">*</span></label>
                                 <select name="wheelchair_status" class="form-select-custom" required>

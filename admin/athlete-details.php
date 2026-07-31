@@ -127,7 +127,14 @@ $statusList = $statusStmt->fetchAll();
                     <div class="text-start" style="font-size: 0.9rem; line-height: 1.8;">
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Classification:</span>
-                            <span class="fw-bold text-dark"><?php echo htmlspecialchars($athlete['classification']); ?></span>
+                            <span class="fw-bold text-dark">
+                                <?php echo htmlspecialchars($athlete['classification']); ?>
+                                <?php if ($isAdmin): ?>
+                                    <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none ms-1" data-bs-toggle="modal" data-bs-target="#changeCategoryModal" style="font-size:0.75rem; vertical-align:middle;">
+                                        <i class="fa-solid fa-pencil text-primary"></i> Edit
+                                    </button>
+                                <?php endif; ?>
+                            </span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Impairment Type:</span>
@@ -586,6 +593,101 @@ document.addEventListener("DOMContentLoaded", function() {
             cancelDeletionCountdown();
         });
     }
+});
+</script>
+<?php endif; ?>
+
+<?php if ($isAdmin): ?>
+<!-- Change Category Modal -->
+<div class="modal fade" id="changeCategoryModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h3 class="modal-title fw-bold text-dark" style="font-family: 'Outfit', sans-serif;">Update Classification</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="category-modal-close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="change-category-form" onsubmit="return false;">
+                    <input type="hidden" name="id" value="<?php echo $athleteId; ?>">
+                    <input type="hidden" name="field" value="classification">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
+                    
+                    <div class="form-group mb-3">
+                        <label for="new_category_val" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Select New Boccia Category</label>
+                        <select class="form-select rounded-3" id="new_category_val" name="value" required>
+                            <option value="">Choose Category</option>
+                            <option value="BC1" <?php echo $athlete['classification'] === 'BC1' ? 'selected' : ''; ?>>BC1</option>
+                            <option value="BC2" <?php echo $athlete['classification'] === 'BC2' ? 'selected' : ''; ?>>BC2</option>
+                            <option value="BC3" <?php echo $athlete['classification'] === 'BC3' ? 'selected' : ''; ?>>BC3</option>
+                            <option value="BC4" <?php echo $athlete['classification'] === 'BC4' ? 'selected' : ''; ?>>BC4</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <label for="category_admin_password" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Confirm Administrator Password</label>
+                        <input type="password" class="form-control rounded-3" id="category_admin_password" name="password" required placeholder="Your admin account password...">
+                    </div>
+                    <div id="category-error-msg" class="alert alert-danger mt-3 d-none rounded-3 py-2 px-3" style="font-size:0.85rem;"></div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-3 bg-light rounded-bottom-4">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="confirm-category-btn" class="btn btn-primary rounded-pill px-4 fw-bold">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const confirmBtn = document.getElementById("confirm-category-btn");
+    const errorMsg = document.getElementById("category-error-msg");
+    const passwordInput = document.getElementById("category_admin_password");
+    const newCategorySelect = document.getElementById("new_category_val");
+    
+    confirmBtn.addEventListener("click", function() {
+        const password = passwordInput.value.trim();
+        const value = newCategorySelect.value;
+        if (!value) {
+            errorMsg.textContent = "Please select a category.";
+            errorMsg.classList.remove("d-none");
+            return;
+        }
+        if (!password) {
+            errorMsg.textContent = "Please enter your password.";
+            errorMsg.classList.remove("d-none");
+            return;
+        }
+        
+        confirmBtn.disabled = true;
+        confirmBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Saving...';
+        errorMsg.classList.add("d-none");
+        
+        const formData = new FormData(document.getElementById("change-category-form"));
+        
+        fetch("api/update-athlete.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json().then(data => ({ status: response.status, body: data })))
+        .then(res => {
+            if (res.status === 200) {
+                // Success! Reload the page to display updated category
+                window.location.reload();
+            } else {
+                errorMsg.textContent = res.body.error || "Failed to update category.";
+                errorMsg.classList.remove("d-none");
+                confirmBtn.disabled = false;
+                confirmBtn.innerHTML = "Save Changes";
+            }
+        })
+        .catch(err => {
+            errorMsg.textContent = "Server connection error. Please try again.";
+            errorMsg.classList.remove("d-none");
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = "Save Changes";
+        });
+    });
 });
 </script>
 <?php endif; ?>

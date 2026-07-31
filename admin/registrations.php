@@ -192,6 +192,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     throw new Exception("This application has already been processed (current status: " . $app['status'] . ").");
                 }
 
+                // Retrieve and validate assigned classification if approving
+                $assignedClass = '';
+                if ($action === 'approve_link' || $action === 'approve_new') {
+                    $assignedClass = trim($_POST['assigned_classification'] ?? '');
+                    if (!in_array($assignedClass, ['BC1', 'BC2', 'BC3', 'BC4'])) {
+                        throw new Exception("Please select a valid Boccia category (BC1-BC4) for approval.");
+                    }
+                }
+
                 if ($action === 'reject') {
                     $up = $pdo->prepare("UPDATE athlete_applications SET status = 'rejected' WHERE id = ?");
                     $up->execute([$applicationId]);
@@ -226,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     $upAthlete->execute([
                         $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
-                        $app['state'], $app['district'], $app['classification'], $app['wheelchair_status'],
+                        $app['state'], $app['district'], $assignedClass, $app['wheelchair_status'],
                         $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $app['photo_path'],
                         $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
                         $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['receipt_path'],
@@ -289,7 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $hasPhoto = !empty($app['photo_path']) ? 'verified' : 'missing';
                     $insAthlete->execute([
                         $regnNo, $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
-                        $app['state'], $app['district'], $app['classification'], $app['state'], $assocId,
+                        $app['state'], $app['district'], $assignedClass, $app['state'], $assocId,
                         $app['wheelchair_status'], $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $hasPhoto,
                         $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
                         $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['receipt_path']
@@ -566,6 +575,13 @@ include __DIR__ . '/../includes/header.php';
                                     <input type="hidden" name="type" value="athlete">
                                     <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
                                     
+                                    <select name="assigned_classification" class="form-select rounded-pill px-3 py-1" style="font-size:0.85rem; width: auto; max-width: 150px; border: 2px solid rgba(22, 41, 90, 0.1);" required>
+                                        <option value="">Category</option>
+                                        <option value="BC1">BC1</option>
+                                        <option value="BC2">BC2</option>
+                                        <option value="BC3">BC3</option>
+                                        <option value="BC4">BC4</option>
+                                    </select>
                                     <?php if ($app['possible_duplicate'] && $app['existing_athlete_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_athlete_id']; ?>">
                                         <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>
@@ -573,7 +589,7 @@ include __DIR__ . '/../includes/header.php';
                                     <?php else: ?>
                                         <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve Registration</button>
                                     <?php endif; ?>
-                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger">Reject</button>
+                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger" formnovalidate>Reject</button>
                                 </form>
                             </div>
 

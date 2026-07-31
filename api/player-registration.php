@@ -93,6 +93,9 @@ try {
     $state = trim($_POST['state'] ?? '');
     $impairment_type = trim($_POST['impairment_type'] ?? '');
     $classification = trim($_POST['classification'] ?? '');
+    if (empty($classification)) {
+        $classification = 'PENDING';
+    }
     $wheelchair_status = trim($_POST['wheelchair_status'] ?? '');
     $kit_tshirt = trim($_POST['kit_tshirt'] ?? '');
     $kit_tracksuit = trim($_POST['kit_tracksuit'] ?? '');
