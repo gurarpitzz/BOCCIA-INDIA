@@ -1,6 +1,7 @@
 <?php
 // athlete-details.php - Secure administrative Athlete profile tracer & history view
 require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/constants.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
 
@@ -36,7 +37,7 @@ $page_title = htmlspecialchars($athlete['full_name']) . " - Profile Tracker";
 include __DIR__ . '/../includes/header.php';
 
 // Fetch tournament/event history
-$histStmt = $pdo->prepare("SELECT * FROM athlete_history WHERE athlete_id = ? ORDER BY event_year DESC, id DESC");
+$histStmt = $pdo->prepare("SELECT * FROM athlete_history WHERE athlete_id = ? AND deleted_at IS NULL ORDER BY event_year DESC, id DESC");
 $histStmt->execute([$athleteId]);
 $historyList = $histStmt->fetchAll();
 
@@ -300,9 +301,16 @@ $statusList = $statusStmt->fetchAll();
 
                 <!-- Tournament & Event History -->
                 <div class="admin-card">
-                    <h3 class="admin-card-title mb-4" style="border-bottom: 2px solid #F1F5F9; padding-bottom: 0.75rem;">
-                        <i class="fa-solid fa-trophy text-warning me-2"></i> Tournament &amp; Performance History
-                    </h3>
+                    <div class="d-flex justify-content-between align-items-center mb-4" style="border-bottom: 2px solid #F1F5F9; padding-bottom: 0.75rem;">
+                        <h3 class="admin-card-title m-0">
+                            <i class="fa-solid fa-trophy text-warning me-2"></i> Tournament &amp; Performance History
+                        </h3>
+                        <?php if ($isAdmin): ?>
+                            <button type="button" class="btn btn-sm btn-primary rounded-3 fw-bold px-3" onclick="openHistoryModal(0)">
+                                <i class="fa-solid fa-plus me-1"></i> Add Performance Record
+                            </button>
+                        <?php endif; ?>
+                    </div>
 
                     <?php if (count($historyList) > 0): ?>
                         <div class="admin-table-wrapper">
@@ -314,36 +322,54 @@ $statusList = $statusStmt->fetchAll();
                                         <th>Level</th>
                                         <th>State Represented</th>
                                         <th>Class</th>
-                                        <th>Rank / Medal</th>
+                                        <th>Rank / Result</th>
                                         <th>Remarks</th>
+                                        <?php if ($isAdmin): ?>
+                                            <th>Actions</th>
+                                        <?php endif; ?>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($historyList as $hist): ?>
-                                        <tr>
+                                        <tr id="history-row-<?php echo $hist['id']; ?>">
                                             <td class="fw-bold"><?php echo htmlspecialchars($hist['event_year']); ?></td>
                                             <td class="fw-semibold text-navy"><?php echo htmlspecialchars($hist['event_name']); ?></td>
-                                            <td><?php echo htmlspecialchars($hist['event_level'] ?? 'National'); ?></td>
+                                            <td><span class="badge bg-secondary"><?php echo htmlspecialchars($hist['event_level'] ?? 'National'); ?></span></td>
                                             <td><?php echo htmlspecialchars($hist['state_represented'] ?? 'N/A'); ?></td>
                                             <td><?php echo htmlspecialchars($hist['classification'] ?? 'N/A'); ?></td>
                                             <td>
-                                                <?php if (!empty($hist['medal'])): ?>
+                                                <?php 
+                                                $rankVal = htmlspecialchars($hist['rank'] ?? '');
+                                                $isMedal = in_array(strtolower($rankVal), ['gold', 'silver', 'bronze']);
+                                                if ($isMedal): 
+                                                ?>
                                                     <span class="badge" style="background-color: <?php 
-                                                        $m = strtolower($hist['medal']);
+                                                        $m = strtolower($rankVal);
                                                         if ($m === 'gold') echo '#D97706; color:#fff';
                                                         elseif ($m === 'silver') echo '#94A3B8; color:#fff';
                                                         elseif ($m === 'bronze') echo '#B45309; color:#fff';
-                                                        else echo '#081B4B; color:#fff';
                                                     ?>">
-                                                        <i class="fa-solid fa-award"></i> <?php echo ucfirst(htmlspecialchars($hist['medal'])); ?>
+                                                        <i class="fa-solid fa-award"></i> <?php echo ucfirst($rankVal); ?>
                                                     </span>
+                                                <?php else: ?>
+                                                    <span class="fw-semibold text-dark"><?php echo $rankVal ?: 'Participant'; ?></span>
                                                 <?php endif; ?>
-                                                <?php if (!empty($hist['rank'])) echo ' (Rank: ' . htmlspecialchars($hist['rank']) . ')'; ?>
-                                                <?php if (empty($hist['medal']) && empty($hist['rank'])) echo 'Participant'; ?>
                                             </td>
                                             <td style="font-size:0.8rem; color:var(--text-secondary); max-width:180px;" title="<?php echo htmlspecialchars($hist['remarks'] ?? ''); ?>">
                                                 <?php echo htmlspecialchars($hist['remarks'] ?? '-'); ?>
                                             </td>
+                                            <?php if ($isAdmin): ?>
+                                                <td>
+                                                    <div class="d-flex gap-2">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary p-1 px-2" onclick="editHistory(<?php echo htmlspecialchars(json_encode($hist)); ?>)" title="Edit Record">
+                                                            <i class="fa-solid fa-pencil"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-outline-danger p-1 px-2" onclick="deleteHistory(<?php echo $hist['id']; ?>)" title="Archive Record">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            <?php endif; ?>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -706,6 +732,306 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+</script>
+<!-- Tournament History Modal -->
+<div class="modal fade" id="historyModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h3 class="modal-title fw-bold text-dark" id="history-modal-title" style="font-family: 'Outfit', sans-serif;">Add Performance Record</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="history-form" onsubmit="return false;">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
+                    <input type="hidden" name="action" value="save">
+                    <input type="hidden" name="athlete_id" value="<?php echo $athleteId; ?>">
+                    <input type="hidden" name="history_id" id="history_id" value="0">
+                    
+                    <div class="row g-3">
+                        <div class="col-12 col-md-8">
+                            <label for="hist_event_name" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Event Name *</label>
+                            <input type="text" class="form-control rounded-3" id="hist_event_name" name="event_name" required placeholder="e.g. 9th National Boccia Championship">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="hist_event_year" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Event Year *</label>
+                            <input type="number" class="form-control rounded-3" id="hist_event_year" name="event_year" required min="1900" max="<?php echo date('Y'); ?>" value="<?php echo date('Y'); ?>">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="hist_classification" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Classification *</label>
+                            <select class="form-select rounded-3" id="hist_classification" name="classification" required>
+                                <option value="">Select Category</option>
+                                <?php foreach (CLASSIFICATIONS as $class): ?>
+                                    <option value="<?php echo $class; ?>"><?php echo $class; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="hist_event_level" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Event Level *</label>
+                            <select class="form-select rounded-3" id="hist_event_level" name="event_level" required>
+                                <option value="">Select Level</option>
+                                <?php foreach (EVENT_LEVELS as $lvl): ?>
+                                    <option value="<?php echo $lvl; ?>"><?php echo $lvl; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="hist_state_represented" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">State Represented *</label>
+                            <select class="form-select rounded-3" id="hist_state_represented" name="state_represented" required>
+                                <option value="">Select State</option>
+                                <?php foreach (INDIAN_STATES as $stateOpt): ?>
+                                    <option value="<?php echo htmlspecialchars($stateOpt); ?>" <?php echo (strtolower(trim($athlete['representing_for'])) === strtolower(trim($stateOpt)) || strtolower(trim($athlete['state'])) === strtolower(trim($stateOpt))) ? 'selected' : ''; ?>><?php echo htmlspecialchars($stateOpt); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="hist_rank" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Rank / Result *</label>
+                            <select class="form-select rounded-3" id="hist_rank" name="rank" required onchange="toggleCustomRankField()">
+                                <option value="">Select Result</option>
+                                <?php foreach (RESULT_OPTIONS as $resOpt): ?>
+                                    <option value="<?php echo $resOpt; ?>"><?php echo $resOpt; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-6 d-none" id="custom-rank-group">
+                            <label for="hist_custom_rank" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Specify Other Result *</label>
+                            <input type="text" class="form-control rounded-3" id="hist_custom_rank" name="custom_rank" placeholder="e.g. 6th Place, Quarterfinalist">
+                        </div>
+                        <div class="col-12">
+                            <label for="hist_remarks" class="form-label fw-bold text-secondary" style="font-size:0.82rem;">Remarks (Optional)</label>
+                            <textarea class="form-control rounded-3" id="hist_remarks" name="remarks" rows="2" placeholder="Certificate numbers, notes, etc."></textarea>
+                        </div>
+                    </div>
+
+                    <div id="history-error-msg" class="alert alert-danger mt-3 d-none rounded-3 py-2 px-3" style="font-size:0.85rem;"></div>
+                    <div id="history-warning-msg" class="alert alert-warning mt-3 d-none rounded-3 py-2 px-3" style="font-size:0.85rem; display: flex; align-items: center; justify-content: space-between;">
+                        <span><i class="fa-solid fa-triangle-exclamation me-1"></i> A similar performance record already exists for this athlete. Proceed anyway?</span>
+                        <button type="button" class="btn btn-sm btn-warning fw-bold ms-2 py-0 px-2" onclick="saveHistoryRecord(true)">Yes, Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 p-3 bg-light rounded-bottom-4">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="save-history-btn" onclick="saveHistoryRecord(false)" class="btn btn-primary rounded-pill px-4 fw-bold">Save Record</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Archiving Confirmation Modal -->
+<div class="modal fade" id="deleteHistoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-header border-0 p-4 pb-0">
+                <h3 class="modal-title fw-bold text-dark" style="font-family: 'Outfit', sans-serif; font-size:1.2rem;">Archive Record?</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="text-muted mb-0" style="font-size:0.9rem;">Are you sure you want to archive this tournament history record? It will be hidden from the profile dashboard.</p>
+                <input type="hidden" id="delete_history_id" value="0">
+            </div>
+            <div class="modal-footer border-0 p-3 bg-light rounded-bottom-4">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-1" data-bs-dismiss="modal" style="font-size:0.85rem;">Cancel</button>
+                <button type="button" id="confirm-delete-history-btn" onclick="confirmDeleteHistory()" class="btn btn-danger rounded-pill px-3 py-1 fw-bold" style="font-size:0.85rem;">Yes, Archive</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let historyModalInstance = null;
+let deleteHistoryModalInstance = null;
+
+function toggleCustomRankField() {
+    const rankVal = document.getElementById("hist_rank").value;
+    const customGroup = document.getElementById("custom-rank-group");
+    const customInput = document.getElementById("hist_custom_rank");
+    if (rankVal === "Other") {
+        customGroup.classList.remove("d-none");
+        customInput.required = true;
+    } else {
+        customGroup.classList.add("d-none");
+        customInput.required = false;
+        customInput.value = "";
+    }
+}
+
+function openHistoryModal(id = 0) {
+    if (!historyModalInstance) {
+        historyModalInstance = new bootstrap.Modal(document.getElementById('historyModal'));
+    }
+    
+    // Clear form
+    document.getElementById("history-form").reset();
+    document.getElementById("history_id").value = id;
+    document.getElementById("history-error-msg").classList.add("d-none");
+    document.getElementById("history-warning-msg").classList.add("d-none");
+    document.getElementById("custom-rank-group").classList.add("d-none");
+    document.getElementById("hist_custom_rank").required = false;
+    
+    // Set title
+    document.getElementById("history-modal-title").textContent = id === 0 ? "Add Performance Record" : "Edit Performance Record";
+    
+    // Default state pre-fill if adding
+    if (id === 0) {
+        const defaultState = "<?php echo htmlspecialchars($athlete['representing_for'] ?: $athlete['state']); ?>";
+        document.getElementById("hist_state_represented").value = defaultState;
+    }
+
+    historyModalInstance.show();
+}
+
+function editHistory(record) {
+    openHistoryModal(record.id);
+    
+    // Populate form fields
+    document.getElementById("hist_event_name").value = record.event_name;
+    document.getElementById("hist_event_year").value = record.event_year;
+    document.getElementById("hist_classification").value = record.classification || "";
+    document.getElementById("hist_event_level").value = record.event_level || "";
+    document.getElementById("hist_state_represented").value = record.state_represented || "";
+    
+    const standardResults = <?php echo json_encode(RESULT_OPTIONS); ?>;
+    if (standardResults.includes(record.rank)) {
+        document.getElementById("hist_rank").value = record.rank;
+    } else {
+        document.getElementById("hist_rank").value = "Other";
+        document.getElementById("custom-rank-group").classList.remove("d-none");
+        document.getElementById("hist_custom_rank").value = record.rank;
+        document.getElementById("hist_custom_rank").required = true;
+    }
+    
+    document.getElementById("hist_remarks").value = record.remarks || "";
+}
+
+function saveHistoryRecord(bypassWarning = false) {
+    const errorMsg = document.getElementById("history-error-msg");
+    const warningMsg = document.getElementById("history-warning-msg");
+    const saveBtn = document.getElementById("save-history-btn");
+    
+    errorMsg.classList.add("d-none");
+    warningMsg.classList.add("d-none");
+    
+    // Simple frontend validation check
+    const form = document.getElementById("history-form");
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Saving...';
+    
+    const formData = new FormData(form);
+    
+    if (!bypassWarning) {
+        // Step 1: Duplicate check via API
+        const checkData = new FormData();
+        checkData.append("csrf_token", formData.get("csrf_token"));
+        checkData.append("action", "check_duplicate");
+        checkData.append("athlete_id", formData.get("athlete_id"));
+        checkData.append("history_id", formData.get("history_id"));
+        checkData.append("event_name", formData.get("event_name"));
+        checkData.append("event_year", formData.get("event_year"));
+        checkData.append("classification", formData.get("classification"));
+        checkData.append("event_level", formData.get("event_level"));
+        
+        fetch("api/athlete-history.php", {
+            method: "POST",
+            body: checkData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.duplicate) {
+                // Show warning message
+                warningMsg.classList.remove("d-none");
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = "Save Record";
+            } else {
+                // No duplicate found, proceed to save directly
+                executeSave(formData);
+            }
+        })
+        .catch(err => {
+            errorMsg.textContent = "Connection warning check failed. Click save again to retry.";
+            errorMsg.classList.remove("d-none");
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = "Save Record";
+        });
+    } else {
+        // Direct save bypassing the warning
+        executeSave(formData);
+    }
+}
+
+function executeSave(formData) {
+    const errorMsg = document.getElementById("history-error-msg");
+    const saveBtn = document.getElementById("save-history-btn");
+    
+    fetch("api/athlete-history.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(res => {
+        if (res.status === 200) {
+            window.location.reload();
+        } else {
+            errorMsg.textContent = res.body.error || "Failed to save record.";
+            errorMsg.classList.remove("d-none");
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = "Save Record";
+        }
+    })
+    .catch(err => {
+        errorMsg.textContent = "Server connection error. Please try again.";
+        errorMsg.classList.remove("d-none");
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = "Save Record";
+    });
+}
+
+function deleteHistory(id) {
+    if (!deleteHistoryModalInstance) {
+        deleteHistoryModalInstance = new bootstrap.Modal(document.getElementById('deleteHistoryModal'));
+    }
+    document.getElementById("delete_history_id").value = id;
+    deleteHistoryModalInstance.show();
+}
+
+function confirmDeleteHistory() {
+    const id = document.getElementById("delete_history_id").value;
+    const confirmBtn = document.getElementById("confirm-delete-history-btn");
+    
+    confirmBtn.disabled = true;
+    confirmBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Archiving...';
+    
+    const formData = new FormData();
+    formData.append("csrf_token", "<?php echo $_SESSION['csrf_token'] ?? ''; ?>");
+    formData.append("action", "delete");
+    formData.append("history_id", id);
+    formData.append("athlete_id", "<?php echo $athleteId; ?>");
+    
+    fetch("api/athlete-history.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(res => {
+        if (res.status === 200) {
+            window.location.reload();
+        } else {
+            alert(res.body.error || "Failed to archive record.");
+            confirmBtn.disabled = false;
+            confirmBtn.innerHTML = "Yes, Archive";
+        }
+    })
+    .catch(err => {
+        alert("Server connection error. Please try again.");
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = "Yes, Archive";
+    });
+}
 </script>
 <?php endif; ?>
 
