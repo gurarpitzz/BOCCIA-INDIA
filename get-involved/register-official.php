@@ -321,7 +321,7 @@ include __DIR__ . '/../includes/header.php';
                         
                         <div class="mb-4">
                           <label class="form-label-custom">Email Address <span class="text-danger">*</span></label>
-                          <div class="mb-3">
+                          <div style="margin-bottom: 30px;">
                             <div class="h-captcha" data-sitekey="<?php echo HCAPTCHA_SITE_KEY; ?>"></div>
                           </div>
                           <div class="d-flex gap-2">
