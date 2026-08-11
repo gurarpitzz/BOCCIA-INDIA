@@ -16,6 +16,7 @@ $page_title = "Online Official Registration - Boccia India";
 include __DIR__ . '/../includes/header.php';
 ?>
 
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -141,6 +142,14 @@ include __DIR__ . '/../includes/header.php';
     border-color: var(--boccia-maroon);
     outline: none;
     box-shadow: 0 0 0 3px rgba(140, 32, 28, 0.15);
+}
+
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 .wizard-step {
@@ -300,6 +309,10 @@ include __DIR__ . '/../includes/header.php';
                 <form id="registration-form" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" id="csrf_token_field" value="<?php echo $_SESSION['csrf_token']; ?>">
 
+                    <div class="hp-field" aria-hidden="true">
+                        <input type="text" name="website_url" id="field_website_url" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <!-- ================= STEP 0: EMAIL VERIFICATION ================= -->
                     <div class="wizard-step active" id="wizard-step-0">
                         <h4 class="mb-3 text-slate-800 font-bold">Email Verification</h4>
@@ -307,6 +320,9 @@ include __DIR__ . '/../includes/header.php';
                         
                         <div class="mb-4">
                           <label class="form-label-custom">Email Address <span class="text-danger">*</span></label>
+                          <div class="mb-3">
+                            <div class="h-captcha" data-sitekey="<?php echo HCAPTCHA_SITE_KEY; ?>"></div>
+                          </div>
                           <div class="d-flex gap-2">
                             <input type="email" id="field_email" name="email" class="form-control-custom" placeholder="e.g. official@gmail.com" required>
                             <button type="button" id="btn-send-otp" class="btn btn-primary" onclick="requestOTP()">Send OTP</button>
@@ -547,6 +563,8 @@ function startCooldown() {
 function requestOTP() {
     const email = document.getElementById("field_email").value;
     const csrf = document.getElementById("csrf_token_field").value;
+    const website_url = document.getElementById("field_website_url").value;
+    const captcha_token = document.querySelector('[name="h-captcha-response"]')?.value || "";
     const errBox = document.getElementById("general-error-box");
     
     errBox.classList.add("d-none");
@@ -556,9 +574,18 @@ function requestOTP() {
         return;
     }
 
+    if (!captcha_token && !website_url) {
+        errBox.innerText = "Please complete the hCaptcha challenge.";
+        errBox.classList.remove("d-none");
+        return;
+    }
+
     const fd = new FormData();
     fd.append("email", email);
     fd.append("csrf_token", csrf);
+    fd.append("website_url", website_url);
+    fd.append("captcha_token", captcha_token);
+    fd.append("action", "register_official");
 
     fetch("../api/send-otp.php", {
         method: "POST",
@@ -566,6 +593,9 @@ function requestOTP() {
     })
     .then(async res => {
         const data = await res.json();
+        if (typeof hcaptcha !== "undefined") {
+            hcaptcha.reset();
+        }
         if (!res.ok) {
             throw new Error(data.error || "Failed to send OTP.");
         }
@@ -595,6 +625,7 @@ function verifyOTPCode() {
     fd.append("email", email);
     fd.append("otp", otp);
     fd.append("csrf_token", csrf);
+    fd.append("action", "register_official");
 
     fetch("../api/verify-otp.php", {
         method: "POST",

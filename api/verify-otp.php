@@ -16,6 +16,7 @@ if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_to
 
 $email = trim($_POST['email'] ?? '');
 $otp = trim($_POST['otp'] ?? '');
+$action = trim($_POST['action'] ?? '');
 
 if (empty($email) || empty($otp)) {
     http_response_code(400);
@@ -23,10 +24,19 @@ if (empty($email) || empty($otp)) {
     exit();
 }
 
+$allowedActions = ['register_player', 'register_official', 'update_profile', 'event_registration'];
+if (empty($action) || !in_array($action, $allowedActions)) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Invalid action context.']);
+    exit();
+}
+
 try {
-    // Fetch active OTP
-    $stmt = $pdo->prepare("SELECT * FROM email_otps WHERE email = ? AND verified = 0 AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1");
-    $stmt->execute([$email]);
+    $emailHash = hash_hmac('sha256', strtolower($email), OTP_SECRET);
+
+    // Fetch active 'sent' OTP for this email and action
+    $stmt = $pdo->prepare("SELECT * FROM email_otps WHERE email_hash = ? AND action = ? AND status = 'sent' AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1");
+    $stmt->execute([$emailHash, $action]);
     $record = $stmt->fetch();
 
     if (!$record) {
@@ -36,9 +46,9 @@ try {
     }
 
     // Max 5 attempts check
-    if ($record['attempts'] >= 5) {
-        $del = $pdo->prepare("DELETE FROM email_otps WHERE email = ?");
-        $del->execute([$email]);
+    if ($record['attempt_count'] >= 5) {
+        $upd = $pdo->prepare("UPDATE email_otps SET status = 'invalidated' WHERE id = ?");
+        $upd->execute([$record['id']]);
         http_response_code(400);
         echo json_encode(['error' => 'Too many failed verification attempts. Please request a new OTP code.']);
         exit();
@@ -47,24 +57,36 @@ try {
     $hash = hash_hmac('sha256', $otp, OTP_SECRET);
 
     if ($record['otp_hash'] !== $hash) {
-        // Increment attempts
-        $upd = $pdo->prepare("UPDATE email_otps SET attempts = attempts + 1 WHERE id = ?");
+        // Increment attempt_count
+        $upd = $pdo->prepare("UPDATE email_otps SET attempt_count = attempt_count + 1 WHERE id = ?");
         $upd->execute([$record['id']]);
+        
+        // Re-read attempt count to check if it has reached 5
+        if ($record['attempt_count'] + 1 >= 5) {
+            $upd2 = $pdo->prepare("UPDATE email_otps SET status = 'invalidated' WHERE id = ?");
+            $upd2->execute([$record['id']]);
+            http_response_code(400);
+            echo json_encode(['error' => 'Too many failed verification attempts. Please request a new OTP code.']);
+            exit();
+        }
+        
         http_response_code(400);
         echo json_encode(['error' => 'Invalid OTP code. Please try again.']);
         exit();
     }
 
-    // Success -> delete OTP records to prevent reuse
-    $del = $pdo->prepare("DELETE FROM email_otps WHERE email = ?");
-    $del->execute([$email]);
+    // Success -> update status to 'used' and set used_at
+    $upd = $pdo->prepare("UPDATE email_otps SET status = 'used', used_at = NOW() WHERE id = ?");
+    $upd->execute([$record['id']]);
 
-    // Save verified state in session
+    // Save verified state in session (prefix with action to prevent cross-action session hijacking)
+    $_SESSION['verified_email_' . $action] = $email;
+    // For legacy compat (player/official registration check)
     $_SESSION['verified_email'] = $email;
 
     // Log action to activity_logs
     $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
-    $log->execute(['OTP Verified', "Email successfully verified: {$email}"]);
+    $log->execute(['OTP Verified', "Email successfully verified for action {$action}: {$email}"]);
 
     echo json_encode(['success' => true]);
 } catch (Exception $e) {

@@ -48,7 +48,7 @@ define('MAILER_DEDUPE_WINDOW', 60);
  *                                 dedupe window is intentional (e.g. OTP resend).
  * @return bool true on success, false on failure.
  */
-function sendEmail(string $to, string $subject, string $html, ?string $text = null, bool $skipDedupe = false): bool
+function sendEmail(string $to, string $subject, string $html, ?string $text = null, bool $skipDedupe = false, ?string $idempotencyKey = null): bool
 {
     global $pdo;
 
@@ -88,7 +88,7 @@ function sendEmail(string $to, string $subject, string $html, ?string $text = nu
     $response = '';
 
     while ($attempt <= MAILER_MAX_RETRIES) {
-        [$httpCode, $response] = _mailerDispatch($to, $subject, $html, $text);
+        [$httpCode, $response] = _mailerDispatch($to, $subject, $html, $text, $idempotencyKey);
 
         if ($httpCode >= 200 && $httpCode < 300) {
             break; // Success
@@ -138,7 +138,7 @@ function sendEmail(string $to, string $subject, string $html, ?string $text = nu
  *
  * @internal
  */
-function _mailerDispatch(string $to, string $subject, string $html, ?string $text): array
+function _mailerDispatch(string $to, string $subject, string $html, ?string $text, ?string $idempotencyKey = null): array
 {
     $payload = [
         'from'    => MAILER_FROM,
@@ -150,16 +150,21 @@ function _mailerDispatch(string $to, string $subject, string $html, ?string $tex
         $payload['text'] = $text;
     }
 
+    $headers = [
+        'Authorization: Bearer ' . RESEND_API_KEY,
+        'Content-Type: application/json',
+    ];
+    if ($idempotencyKey !== null) {
+        $headers[] = 'Idempotency-Key: ' . $idempotencyKey;
+    }
+
     $ch = curl_init('https://api.resend.com/emails');
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST           => true,
         CURLOPT_TIMEOUT        => MAILER_TIMEOUT,
         CURLOPT_CONNECTTIMEOUT => MAILER_CONNECT_TIMEOUT,
-        CURLOPT_HTTPHEADER     => [
-            'Authorization: Bearer ' . RESEND_API_KEY,
-            'Content-Type: application/json',
-        ],
+        CURLOPT_HTTPHEADER     => $headers,
         CURLOPT_POSTFIELDS     => json_encode($payload),
     ]);
 

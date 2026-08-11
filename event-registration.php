@@ -9,11 +9,108 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Generate CSRF Token
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Validate CSRF on POST requests
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
+        http_response_code(403);
+        die("Security token validation failed (CSRF).");
+    }
+}
+
+// Helper to verify hCaptcha server-side
+function verifyHCaptchaLocal($token, $ip) {
+    $postData = http_build_query([
+        'secret' => HCAPTCHA_SECRET_KEY,
+        'response' => $token,
+        'remoteip' => $ip,
+        'sitekey' => HCAPTCHA_SITE_KEY
+    ]);
+    
+    $ch = curl_init('https://api.hcaptcha.com/siteverify');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $postData,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/x-www-form-urlencoded'
+        ],
+        CURLOPT_TIMEOUT        => 10
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    
+    if ($response === false || $httpCode !== 200) {
+        return false;
+    }
+    
+    $data = json_decode($response, true);
+    return isset($data['success']) && $data['success'] === true;
+}
+
+// Helper to check rate limits atomically
+function checkLimitLocal($pdo, $hash, $type, $limit15m, $limit24h) {
+    $now = date('Y-m-d H:i:s');
+    
+    // Check 15m limit
+    $stmt = $pdo->prepare("SELECT id, request_count, window_started_at FROM otp_rate_limits WHERE identifier_hash = ? AND identifier_type = ? AND window_type = '15min' FOR UPDATE");
+    $stmt->execute([$hash, $type]);
+    $limitInfo = $stmt->fetch();
+    
+    if ($limitInfo) {
+        $windowStart = strtotime($limitInfo['window_started_at']);
+        if (time() - $windowStart < 900) {
+            if ($limitInfo['request_count'] >= $limit15m) {
+                return false;
+            }
+            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = request_count + 1, last_request_at = ? WHERE id = ?");
+            $upd->execute([$now, $limitInfo['id']]);
+        } else {
+            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = 1, window_started_at = ?, last_request_at = ? WHERE id = ?");
+            $upd->execute([$now, $now, $limitInfo['id']]);
+        }
+    } else {
+        $ins = $pdo->prepare("INSERT INTO otp_rate_limits (identifier_hash, identifier_type, window_type, request_count, window_started_at, last_request_at) VALUES (?, ?, '15min', 1, ?, ?)");
+        $ins->execute([$hash, $type, $now, $now]);
+    }
+    
+    // Check 24h limit
+    $stmt = $pdo->prepare("SELECT id, request_count, window_started_at FROM otp_rate_limits WHERE identifier_hash = ? AND identifier_type = ? AND window_type = '24hr' FOR UPDATE");
+    $stmt->execute([$hash, $type]);
+    $limitInfo = $stmt->fetch();
+    
+    if ($limitInfo) {
+        $windowStart = strtotime($limitInfo['window_started_at']);
+        if (time() - $windowStart < 86400) {
+            if ($limitInfo['request_count'] >= $limit24h) {
+                return false;
+            }
+            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = request_count + 1, last_request_at = ? WHERE id = ?");
+            $upd->execute([$now, $limitInfo['id']]);
+        } else {
+            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = 1, window_started_at = ?, last_request_at = ? WHERE id = ?");
+            $upd->execute([$now, $now, $limitInfo['id']]);
+        }
+    } else {
+        $ins = $pdo->prepare("INSERT INTO otp_rate_limits (identifier_hash, identifier_type, window_type, request_count, window_started_at, last_request_at) VALUES (?, ?, '24hr', 1, ?, ?)");
+        $ins->execute([$hash, $type, $now, $now]);
+    }
+    
+    return true;
+}
+
 $page_title = "Event Registration - BSFI Portal";
 $meta_desc = "Register for upcoming BSFI events, coaching camps, national championships, and state tournaments online.";
 $canonical_url = "event-registration.php";
 include __DIR__ . '/includes/header.php';
 ?>
+
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
 <style>
     body.accessibility-target {
@@ -34,6 +131,12 @@ include __DIR__ . '/includes/header.php';
         background: url('about%20boccia/why_boccia_matter_BG.webp') no-repeat center center fixed !important;
         background-size: cover !important;
         z-index: -1;
+    .hp-field {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
     }
 </style>
 
@@ -121,52 +224,109 @@ if (isset($_POST['send_otp']) && $step > 0) {
                 $pendingStmt->execute([$member_type, $matched['id']]);
                 $hasPendingUpdate = $pendingStmt->fetchColumn() > 0;
 
-                if (empty($email) || $hasPendingUpdate) {
-                    $error = "<strong>Your federation profile must be completed before you can register for events.</strong> We noticed your profile is either incomplete or currently awaiting approval. Please complete or finish the profile update process first. Once approved by BSFI, you can immediately return and register for this event.<br><a href='get-involved/update-profile.php?type=" . urlencode($member_type) . "&id=" . urlencode($member_id_input) . "' class='btn btn-sm btn-warning mt-2 fw-bold text-dark'><i class='fa-solid fa-pen-to-square'></i> Go to Profile Completion / Verification</a>";
-                } elseif (strtolower($email) !== $lookup_email) {
-                    $error = "The entered email address does not match our records for this profile.";
+                // Honeypot check
+                $website_url = trim($_POST['website_url'] ?? '');
+                if (!empty($website_url)) {
+                    $matched_email = $lookup_email;
+                    $success = "A 6-digit verification code has been dispatched to your email: " . htmlspecialchars($lookup_email);
+                    $step = 1.5;
                 } else {
-                    // Generate OTP code
-                    $otpCode = (string)random_int(100000, 999999);
-                    $otpHash = hash_hmac('sha256', $otpCode, OTP_SECRET);
-
-                    // Delete existing active OTPs for this email
-                    $del = $pdo->prepare("DELETE FROM email_otps WHERE email = ?");
-                    $del->execute([$email]);
-
-                    // Save hashed OTP
-                    $expiresAt = date('Y-m-d H:i:s', time() + 600); // 10 mins (OTP validity)
-                    $ins = $pdo->prepare("INSERT INTO email_otps (email, otp_hash, expires_at, ip_address) VALUES (?, ?, ?, ?)");
-                    $ins->execute([$email, $otpHash, $expiresAt, $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1']);
-
-                    // Dispatch via Resend REST call
-                    $htmlBody = "
-                        <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
-                            <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
-                            <p>Hello,</p>
-                            <p>Your 6-digit OTP verification code to log in and register for the tournament event is:</p>
-                            <div style=\"background: #f1f5f9; padding: 15px; font-size: 24px; font-weight: bold; letter-spacing: 4px; text-align: center; color: #FF9933; margin: 20px 0; border-radius: 6px;\">
-                                {$otpCode}
-                            </div>
-                            <p style=\"color: #64748b; font-size: 14px;\">This code is valid for 5 minutes and can only be used once. Please do not share this code.</p>
-                        </div>
-                    ";
-
-                    // OTPs bypass dedupe window — resend is intentional
-                    sendEmail(
-                        $email,
-                        'Event Registration Verification Code - BSFI',
-                        $htmlBody,
-                        null,
-                        true // $skipDedupe
-                    );
-
-                    // Log to cache for easy debugging/local verification
-                    @file_put_contents(__DIR__ . '/cache/otp_debug.log', "[" . date('Y-m-d H:i:s') . "] Email: {$email} | OTP: {$otpCode}\n", FILE_APPEND);
-
-                    $matched_email = $email;
-                    $success = "A 6-digit verification code has been dispatched to your email: " . htmlspecialchars($email);
-                    $step = 1.5; // OTP entry screen
+                    if (empty($email) || $hasPendingUpdate) {
+                        $error = "<strong>Your federation profile must be completed before you can register for events.</strong> We noticed your profile is either incomplete or currently awaiting approval. Please complete or finish the profile update process first. Once approved by BSFI, you can immediately return and register for this event.<br><a href='get-involved/update-profile.php?type=" . urlencode($member_type) . "&id=" . urlencode($member_id_input) . "' class='btn btn-sm btn-warning mt-2 fw-bold text-dark'><i class='fa-solid fa-pen-to-square'></i> Go to Profile Completion / Verification</a>";
+                    } elseif (strtolower($email) !== $lookup_email) {
+                        $error = "The entered email address does not match our records for this profile.";
+                    } else {
+                        // 1. Verify hCaptcha (Fail closed)
+                        $captcha_token = trim($_POST['h-captcha-response'] ?? '');
+                        $clientIp = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+                        
+                        if (empty($captcha_token) || !verifyHCaptchaLocal($captcha_token, $clientIp)) {
+                            $error = "hCaptcha verification failed. Please try again.";
+                        } else {
+                            // 2. Persistent rate limits
+                            $emailHash = hash_hmac('sha256', strtolower($email), OTP_SECRET);
+                            $ipHash = hash_hmac('sha256', $clientIp, OTP_SECRET);
+                            
+                            try {
+                                $pdo->beginTransaction();
+                                
+                                // Cooldown check (60s)
+                                $stmt = $pdo->prepare("SELECT created_at FROM email_otps WHERE email_hash = ? ORDER BY id DESC LIMIT 1 FOR UPDATE");
+                                $stmt->execute([$emailHash]);
+                                $lastOtp = $stmt->fetch();
+                                if ($lastOtp && (time() - strtotime($lastOtp['created_at']) < 60)) {
+                                    $error = "Please wait 60 seconds before requesting another code.";
+                                    $pdo->rollBack();
+                                } else {
+                                    // IP & Email Rate Limit check
+                                    if (!checkLimitLocal($pdo, $ipHash, 'ip', 5, 30)) {
+                                        $error = "Too many requests from your connection. Please try again later.";
+                                        $pdo->rollBack();
+                                    } elseif (!checkLimitLocal($pdo, $emailHash, 'email', 3, 10)) {
+                                        $error = "Too many requests for this email. Please try again later.";
+                                        $pdo->rollBack();
+                                    } else {
+                                        // Save OTP as 'pending'
+                                        $otpCode = (string)random_int(100000, 999999);
+                                        $otpHash = hash_hmac('sha256', $otpCode, OTP_SECRET);
+                                        
+                                        // Invalidate old OTPs
+                                        $upd = $pdo->prepare("UPDATE email_otps SET status = 'invalidated' WHERE email_hash = ? AND action = 'event_registration' AND status = 'sent'");
+                                        $upd->execute([$emailHash]);
+                                        
+                                        $expiresAt = date('Y-m-d H:i:s', time() + 600);
+                                        $ins = $pdo->prepare("INSERT INTO email_otps (email_hash, otp_hash, action, expires_at, status) VALUES (?, ?, 'event_registration', ?, 'pending')");
+                                        $ins->execute([$emailHash, $otpHash, $expiresAt]);
+                                        $otpId = $pdo->lastInsertId();
+                                        
+                                        $pdo->commit();
+                                        
+                                        $matched_email = $email;
+                                        $success = "A 6-digit verification code has been dispatched to your email: " . htmlspecialchars($email);
+                                        $step = 1.5;
+                                        
+                                        // Dispatch Resend email
+                                        $htmlBody = "
+                                          <div style=\"font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px;\">
+                                            <h2 style=\"color: #081B4B; margin-bottom: 20px;\">Boccia Sports Federation of India</h2>
+                                            <p>Hello,</p>
+                                            <p>Your 6-digit OTP verification code to log in and register for the tournament event is:</p>
+                                            <div style=\"background: #f1f5f9; padding: 15px; font-size: 24px; font-weight: bold; letter-spacing: 4px; text-align: center; color: #FF9933; margin: 20px 0; border-radius: 6px;\">
+                                              {$otpCode}
+                                            </div>
+                                            <p style=\"color: #64748b; font-size: 14px;\">This code is valid for 10 minutes and can only be used once. Please do not share this code.</p>
+                                          </div>
+                                        ";
+                                        
+                                        $idempotencyKey = hash('sha256', $emailHash . 'event_registration' . $otpId);
+                                        $sent = sendEmail(
+                                            $email,
+                                            'Event Registration Verification Code - BSFI',
+                                            $htmlBody,
+                                            null,
+                                            true,
+                                            $idempotencyKey
+                                        );
+                                        
+                                        if ($sent) {
+                                            $upd = $pdo->prepare("UPDATE email_otps SET status = 'sent' WHERE id = ?");
+                                            $upd->execute([$otpId]);
+                                        } else {
+                                            $upd = $pdo->prepare("UPDATE email_otps SET status = 'failed' WHERE id = ?");
+                                            $upd->execute([$otpId]);
+                                            $error = "Unable to send verification email right now. Please try again later.";
+                                            $step = 1;
+                                        }
+                                    }
+                                }
+                            } catch (Exception $e) {
+                                if ($pdo->inTransaction()) {
+                                    $pdo->rollBack();
+                                }
+                                $error = "Internal server error. Please try again later.";
+                            }
+                        }
+                    }
                 }
             } else {
                 $error = "No active approved registration found matching the entered details.";
@@ -184,46 +344,64 @@ if (isset($_POST['verify_otp']) && $step > 0) {
         $step = 1.5;
     } else {
         try {
-            $stmt = $pdo->prepare("SELECT * FROM email_otps WHERE email = ? AND verified = 0 AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1");
-            $stmt->execute([$matched_email]);
+            $emailHash = hash_hmac('sha256', strtolower($matched_email), OTP_SECRET);
+            // Fetch active OTP
+            $stmt = $pdo->prepare("SELECT * FROM email_otps WHERE email_hash = ? AND action = 'event_registration' AND status = 'sent' AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1");
+            $stmt->execute([$emailHash]);
             $record = $stmt->fetch();
 
             if (!$record) {
                 $error = "Invalid or expired verification code.";
                 $step = 1.5;
             } else {
-                $hash = hash_hmac('sha256', $otp_code, OTP_SECRET);
-                if ($record['otp_hash'] !== $hash) {
-                    $upd = $pdo->prepare("UPDATE email_otps SET attempts = attempts + 1 WHERE id = ?");
+                if ($record['attempt_count'] >= 5) {
+                    $upd = $pdo->prepare("UPDATE email_otps SET status = 'invalidated' WHERE id = ?");
                     $upd->execute([$record['id']]);
-                    $error = "Invalid verification code. Please try again.";
-                    $step = 1.5;
+                    $error = "Too many failed verification attempts. Please request a new OTP.";
+                    $step = 1;
                 } else {
-                    // Success -> delete OTP records to prevent reuse
-                    $del = $pdo->prepare("DELETE FROM email_otps WHERE email = ?");
-                    $del->execute([$matched_email]);
-
-                    // Fetch member ID and set session
-                    if ($member_type === 'official') {
-                        $mStmt = $pdo->prepare("SELECT * FROM officials WHERE email = ? AND status = 'approved' AND deleted_at IS NULL");
-                        $mStmt->execute([$matched_email]);
-                        $mRow = $mStmt->fetch();
-                        if ($mRow) {
-                            $_SESSION['member_id'] = $mRow['id'];
-                            $_SESSION['member_type'] = 'official';
-                            $_SESSION['member_regn_no'] = $mRow['official_reg_no'];
+                    $hash = hash_hmac('sha256', $otp_code, OTP_SECRET);
+                    if ($record['otp_hash'] !== $hash) {
+                        // Increment attempts
+                        $upd = $pdo->prepare("UPDATE email_otps SET attempt_count = attempt_count + 1 WHERE id = ?");
+                        $upd->execute([$record['id']]);
+                        
+                        if ($record['attempt_count'] + 1 >= 5) {
+                            $upd2 = $pdo->prepare("UPDATE email_otps SET status = 'invalidated' WHERE id = ?");
+                            $upd2->execute([$record['id']]);
+                            $error = "Too many failed verification attempts. Please request a new OTP.";
+                            $step = 1;
+                        } else {
+                            $error = "Invalid verification code. Please try again.";
+                            $step = 1.5;
                         }
                     } else {
-                        $mStmt = $pdo->prepare("SELECT * FROM athletes WHERE email = ? AND status = 'approved' AND deleted_at IS NULL");
-                        $mStmt->execute([$matched_email]);
-                        $mRow = $mStmt->fetch();
-                        if ($mRow) {
-                            $_SESSION['member_id'] = $mRow['id'];
-                            $_SESSION['member_type'] = 'athlete';
-                            $_SESSION['member_regn_no'] = $mRow['regn_no'];
+                        // Success -> set status to 'used'
+                        $upd = $pdo->prepare("UPDATE email_otps SET status = 'used', used_at = NOW() WHERE id = ?");
+                        $upd->execute([$record['id']]);
+
+                        // Fetch member ID and set session
+                        if ($member_type === 'official') {
+                            $mStmt = $pdo->prepare("SELECT * FROM officials WHERE email = ? AND status = 'approved' AND deleted_at IS NULL");
+                            $mStmt->execute([$matched_email]);
+                            $mRow = $mStmt->fetch();
+                            if ($mRow) {
+                                $_SESSION['member_id'] = $mRow['id'];
+                                $_SESSION['member_type'] = 'official';
+                                $_SESSION['member_regn_no'] = $mRow['official_reg_no'];
+                            }
+                        } else {
+                            $mStmt = $pdo->prepare("SELECT * FROM athletes WHERE email = ? AND status = 'approved' AND deleted_at IS NULL");
+                            $mStmt->execute([$matched_email]);
+                            $mRow = $mStmt->fetch();
+                            if ($mRow) {
+                                $_SESSION['member_id'] = $mRow['id'];
+                                $_SESSION['member_type'] = 'athlete';
+                                $_SESSION['member_regn_no'] = $mRow['regn_no'];
+                            }
                         }
+                        $success = "Identity verified successfully. You may now complete your registration form.";
                     }
-                    $success = "Identity verified successfully. You may now complete your registration form.";
                 }
             }
         } catch (PDOException $e) {
@@ -510,6 +688,10 @@ foreach ($rows as $row) {
                 <p class="text-secondary text-center mb-4">Please verify your membership identity to pre-fill your official details and proceed with registration.</p>
                 
                 <form action="event-registration.php?event_id=<?php echo $event_id; ?>" method="POST" style="display:flex; flex-direction:column; gap:1.25rem;">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                    <div class="hp-field" aria-hidden="true">
+                        <input type="text" name="website_url" tabindex="-1" autocomplete="off">
+                    </div>
                     <input type="hidden" name="send_otp" value="1">
                     
                     <div class="mb-3">
@@ -539,6 +721,10 @@ foreach ($rows as $row) {
                         <input type="email" id="lookup_email" name="lookup_email" class="form-control py-2.5 px-3" required placeholder="Enter your registered email address">
                     </div>
 
+                    <div class="mb-4 text-center d-flex justify-content-center">
+                        <div class="h-captcha" data-sitekey="<?php echo HCAPTCHA_SITE_KEY; ?>"></div>
+                    </div>
+
                     <button type="submit" class="btn text-white fw-bold py-2.5" style="background: #FF9933; border-radius: 8px; font-size: 1.05rem;">Request Verification Code</button>
                 </form>
 
@@ -557,6 +743,7 @@ foreach ($rows as $row) {
             </div>
             <div class="card-body p-5">
                 <form action="event-registration.php?event_id=<?php echo $event_id; ?>" method="POST" style="display:flex; flex-direction:column; gap:1.25rem;">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                     <input type="hidden" name="verify_otp" value="1">
                     <input type="hidden" name="member_type" value="<?php echo htmlspecialchars($member_type); ?>">
                     <input type="hidden" name="matched_email" value="<?php echo htmlspecialchars($matched_email); ?>">
@@ -585,6 +772,7 @@ foreach ($rows as $row) {
             </div>
             
             <form action="event-registration.php?event_id=<?php echo $event_id; ?>" method="POST" enctype="multipart/form-data" class="card-body p-5" style="display:flex; flex-direction:column; gap:2rem;">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <input type="hidden" name="submit_registration" value="1">
 
                 <!-- 1. System Read-Only Profile Snapshot -->

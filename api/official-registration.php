@@ -15,9 +15,17 @@ if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_to
     exit();
 }
 
+// Honeypot check
+$website_url = trim($_POST['website_url'] ?? '');
+if (!empty($website_url)) {
+    // Return fake generic success response to trick the bot
+    echo json_encode(['success' => true, 'reference_id' => 'BSFI-OFF-2026-' . str_pad(random_int(1000, 9999), 6, '0', STR_PAD_LEFT)]);
+    exit();
+}
+
 // Ensure email is verified in the session
 $email = trim($_POST['email'] ?? '');
-if (empty($email) || ($_SESSION['verified_email'] ?? '') !== $email) {
+if (empty($email) || ($_SESSION['verified_email_register_official'] ?? '') !== $email) {
     http_response_code(403);
     echo json_encode(['error' => 'Email verification is required before submitting.']);
     exit();
@@ -262,7 +270,7 @@ try {
     );
 
     // Clear verification session variable
-    unset($_SESSION['verified_email']);
+    unset($_SESSION['verified_email_register_official']);
 
     echo json_encode(['success' => true, 'reference_id' => $referenceId]);
 } catch (Throwable $e) {
