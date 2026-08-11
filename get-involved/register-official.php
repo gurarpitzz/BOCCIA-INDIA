@@ -2,6 +2,7 @@
 // get-involved/register-official.php - Modern 3-step Official registration wizard in native PHP
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../config/app.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
