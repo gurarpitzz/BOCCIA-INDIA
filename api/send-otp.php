@@ -172,7 +172,7 @@ try {
         $pdo->rollBack();
     }
     http_response_code(500);
-    echo json_encode(['error' => 'Internal server error. Please try again later.']);
+    echo json_encode(['error' => 'Internal server error: ' . $e->getMessage()]);
     exit();
 }
 
