@@ -112,6 +112,7 @@ $member_type = isset($_POST['member_type']) ? $_POST['member_type'] : (isset($_G
 $member_id_input = isset($_POST['member_id_input']) ? trim($_POST['member_id_input']) : (isset($_GET['id']) ? trim($_GET['id']) : '');
 $dob = isset($_POST['dob']) ? trim($_POST['dob']) : '';
 $lookup_email = isset($_POST['lookup_email']) ? strtolower(trim($_POST['lookup_email'])) : '';
+$father_name_input = isset($_POST['father_name_input']) ? trim($_POST['father_name_input']) : '';
 
 $matched_id = isset($_POST['matched_id']) ? (int)$_POST['matched_id'] : 0;
 $matched_email = isset($_POST['matched_email']) ? trim($_POST['matched_email']) : '';
@@ -144,8 +145,22 @@ if (isset($_POST['lookup'])) {
             if ($matched) {
                 $email = trim($matched['email'] ?? '');
                 
-                // Email claim logic: if no email exists on the legacy profile, treat the entered email as the claimed email
+                // If no email exists on the legacy profile, we must verify the Father's Name is correct to prevent unauthorized claims
                 if (empty($email)) {
+                    if (empty($father_name_input)) {
+                        $error = "Father's Name is required to claim a profile that does not have a registered email address.";
+                    } else {
+                        $dbFatherName = strtolower(preg_replace('/\s+/', '', $matched['father_name'] ?? ''));
+                        $inputFatherName = strtolower(preg_replace('/\s+/', '', $father_name_input));
+                        if ($dbFatherName !== $inputFatherName) {
+                            $error = "The entered Father's Name does not match our records for this profile.";
+                        }
+                    }
+                }
+
+                if (empty($error)) {
+                    // Email claim logic: if no email exists on the legacy profile, treat the entered email as the claimed email
+                    if (empty($email)) {
                     // Check if lookup email is already registered to another athlete
                     $dupCheck = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND id != ? AND deleted_at IS NULL");
                     $dupCheck->execute([$lookup_email, $matched['id']]);
@@ -279,7 +294,8 @@ if (isset($_POST['lookup'])) {
                         }
                     }
                 }
-            } else {
+            }
+        } else {
                 $error = "No active approved registration found matching the entered details.";
             }
         } catch (PDOException $e) {
@@ -558,6 +574,10 @@ include __DIR__ . '/../includes/header.php';
                     <div class="mb-4">
                         <label class="form-label-custom">Registered Email Address</label>
                         <input type="email" name="lookup_email" value="<?php echo htmlspecialchars($lookup_email); ?>" class="form-control-custom" placeholder="E.g. athlete@example.com" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label-custom">Father's Name <span style="font-size:0.8rem; opacity:0.8; font-weight:normal;">(Required only for legacy profiles without registered emails)</span></label>
+                        <input type="text" name="father_name_input" value="<?php echo htmlspecialchars($father_name_input); ?>" class="form-control-custom" placeholder="E.g. Jayantilal Patel">
                     </div>
                     <div class="mb-4 text-center d-flex justify-content-center">
                         <div class="h-captcha" data-sitekey="<?php echo HCAPTCHA_SITE_KEY; ?>"></div>
