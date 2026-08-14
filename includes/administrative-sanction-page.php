@@ -74,12 +74,6 @@ include __DIR__ . '/header.php';
                     'title' => 'Pajulahti Challenger Clearance',
                     'desc' => 'Clearance/sanction for Para Boccia team in the Pajulahti 2024 World Boccia Challenger, Finland.',
                     'file' => 'uploads/documents/PARA_BOCCIA_TEAM_PAJULAHTI_2024_WORLD_BOCCIA_CHALLENGER_FINLAND.pdf'
-                ],
-                [
-                    'badge' => 'Disclosures',
-                    'title' => 'Supporting Document',
-                    'desc' => 'Supporting document for administrative sanctions and clearances.',
-                    'file' => 'uploads/documents/SUPPORTING_DOCUMENT_ADMINISTRATIVE_SANCTION.pdf'
                 ]
             ];
             ?>
