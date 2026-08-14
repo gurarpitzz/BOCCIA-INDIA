@@ -130,7 +130,7 @@ $documents = $stmt->fetchAll();
                                         <span class="admin-badge <?php echo $catBadge; ?>"><?php echo htmlspecialchars($doc['category']); ?></span>
                                     </td>
                                     <td>
-                                        <a href="download.php?id=<?php echo $doc['id']; ?>" class="btn btn-sm btn-outline-danger" title="Download: <?php echo htmlspecialchars($doc['original_filename']); ?>">
+                                        <a href="../download.php?id=<?php echo $doc['id']; ?>&inline=1" target="_blank" class="btn btn-sm btn-danger text-white" title="View PDF: <?php echo htmlspecialchars($doc['original_filename']); ?>">
                                             <i class="fa-solid fa-file-pdf"></i> PDF
                                         </a>
                                     </td>

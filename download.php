@@ -10,8 +10,12 @@ if ($id === false || $id === null) {
 }
 
 try {
-    // Fetch only published and non-deleted documents
-    $stmt = $pdo->prepare("SELECT pdf_path, original_filename FROM circulars_notices WHERE id = ? AND status = 'Published' AND deleted_at IS NULL LIMIT 1");
+    // If user is logged in as admin/editor, allow viewing drafts/archived entries as well
+    if (isLoggedIn() && in_array($_SESSION['role'] ?? '', ['admin', 'editor'])) {
+        $stmt = $pdo->prepare("SELECT pdf_path, original_filename, status FROM circulars_notices WHERE id = ? AND deleted_at IS NULL LIMIT 1");
+    } else {
+        $stmt = $pdo->prepare("SELECT pdf_path, original_filename, status FROM circulars_notices WHERE id = ? AND status = 'Published' AND deleted_at IS NULL LIMIT 1");
+    }
     $stmt->execute([$id]);
     $doc = $stmt->fetch();
 } catch (PDOException $e) {
@@ -79,7 +83,8 @@ if (ob_get_level()) {
 
 // Set secure download headers
 header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="' . $cleanFilename . '"');
+$disposition = (isset($_GET['inline']) && $_GET['inline'] === '1') ? 'inline' : 'attachment';
+header('Content-Disposition: ' . $disposition . '; filename="' . $cleanFilename . '"');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: private, no-store, no-cache, must-revalidate');
 header('Pragma: no-cache');
