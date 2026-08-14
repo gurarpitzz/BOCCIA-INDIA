@@ -277,7 +277,7 @@ include __DIR__ . '/../includes/header.php';
             <!-- Right Side Form Column -->
             <div class="split-card-right">
                 <div class="form-header-box">
-                    <a href="get-involved/membership.php" class="back-home-link">Back to HOME Page</a>
+                    <a href="membership.php" class="back-home-link">Back to HOME Page</a>
                     <div>
                         <img src="../boccia-india-logo.webp" alt="BSFI Logo" class="form-logo-img">
                     </div>
@@ -605,7 +605,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
 
                             <div>
-                                <a href="get-involved/status.php" id="track-url-btn" class="btn btn-primary px-4 py-2">Track Application Status</a>
+                                <a href="status.php" id="track-url-btn" class="btn btn-primary px-4 py-2">Track Application Status</a>
                             </div>
                         </div>
                     </div>
@@ -1023,7 +1023,7 @@ function submitApplication() {
         
         // Show success screen
         document.getElementById("ref-id-display").innerText = data.reference_id;
-        document.getElementById("track-url-btn").href = `get-involved/status.php?id=${data.reference_id}&email=${encodeURIComponent(document.getElementById("field_email").value)}`;
+        document.getElementById("track-url-btn").href = `status.php?id=${data.reference_id}&email=${encodeURIComponent(document.getElementById("field_email").value)}`;
         localStorage.removeItem(DRAFT_KEY);
         goToStep(6);
     })
