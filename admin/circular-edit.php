@@ -244,8 +244,8 @@ include __DIR__ . '/../includes/header.php';
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-                    <a href="circulars.php" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
-                    <button type="submit" name="save_document" class="btn btn-primary rounded-pill px-4" style="background: var(--bsfi-navy); border-color: var(--bsfi-navy);">Save Document</button>
+                    <a href="circulars.php" class="admin-btn admin-btn-outline rounded-pill px-4">Cancel</a>
+                    <button type="submit" name="save_document" class="admin-btn admin-btn-primary rounded-pill px-4">Save Document</button>
                 </div>
             </form>
         </div>
