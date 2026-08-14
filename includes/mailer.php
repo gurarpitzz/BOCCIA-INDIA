@@ -34,6 +34,13 @@ define('MAILER_CONNECT_TIMEOUT', 5);
  */
 define('MAILER_DEDUPE_WINDOW', 60);
 
+/**
+ * Global daily email limit circuit breaker.
+ * Prevents the application from sending more than this many emails per day,
+ * protecting you against unexpected API billing if other rate limits are bypassed.
+ */
+define('MAILER_DAILY_LIMIT', 500);
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -62,6 +69,19 @@ function sendEmail(string $to, string $subject, string $html, ?string $text = nu
     if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
         error_log("[Mailer] Skipped — invalid or empty recipient: '{$to}'");
         return false;
+    }
+
+    // ── Global Daily Circuit Breaker ──────────────────────────────────────────
+    if (isset($pdo)) {
+        try {
+            $dailyCount = $pdo->query("SELECT COUNT(*) FROM email_logs WHERE sent_at >= CURDATE() AND status = 'sent'")->fetchColumn();
+            if ((int)$dailyCount >= MAILER_DAILY_LIMIT) {
+                error_log("[Mailer] CIRCUIT BREAKER TRIGGERED: Daily limit of " . MAILER_DAILY_LIMIT . " reached ({$dailyCount} sent today). Blocking email to {$to}.");
+                return false;
+            }
+        } catch (\Throwable $e) {
+            error_log("[Mailer] Circuit breaker check error (non-fatal): " . $e->getMessage());
+        }
     }
 
     // ── Duplicate suppression ────────────────────────────────────────────────
