@@ -77,8 +77,8 @@ $documents = $stmt->fetchAll();
                 <h1 class="admin-page-title">Circulars & Notices</h1>
             </div>
             <div style="display:flex; gap:0.75rem;">
-                <a href="admin/circular-edit.php" class="admin-btn admin-btn-primary"><i class="fa-solid fa-plus me-1"></i> Add Document</a>
-                <a href="admin/dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
+                <a href="circular-edit.php" class="admin-btn admin-btn-primary"><i class="fa-solid fa-plus me-1"></i> Add Document</a>
+                <a href="dashboard.php" class="admin-btn admin-btn-outline">Return to Dashboard</a>
             </div>
         </div>
 
@@ -143,7 +143,7 @@ $documents = $stmt->fetchAll();
                                     <td style="text-align: right;">
                                         <div class="d-flex justify-content-end gap-1">
                                             <!-- Status toggle action forms -->
-                                            <form action="admin/circulars.php" method="POST" class="d-inline" onsubmit="return confirm('Change status?');">
+                                            <form action="circulars.php" method="POST" class="d-inline" onsubmit="return confirm('Change status?');">
                                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                 <input type="hidden" name="id" value="<?php echo $doc['id']; ?>">
                                                 <?php if ($doc['status'] === 'Draft'): ?>
@@ -156,7 +156,7 @@ $documents = $stmt->fetchAll();
                                             </form>
 
                                             <?php if ($doc['status'] !== 'Archived'): ?>
-                                                <form action="admin/circulars.php" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to archive this document?');">
+                                                <form action="circulars.php" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to archive this document?');">
                                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                     <input type="hidden" name="id" value="<?php echo $doc['id']; ?>">
                                                     <input type="hidden" name="action" value="archive">
@@ -164,9 +164,9 @@ $documents = $stmt->fetchAll();
                                                 </form>
                                             <?php endif; ?>
 
-                                            <a href="admin/circular-edit.php?id=<?php echo $doc['id']; ?>" class="btn btn-sm btn-primary px-2" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <a href="circular-edit.php?id=<?php echo $doc['id']; ?>" class="btn btn-sm btn-primary px-2" title="Edit"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                            <form action="admin/circulars.php" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this document?\nThis action is a soft-delete and can be recovered by database administrators.');">
+                                            <form action="circulars.php" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this document?\nThis action is a soft-delete and can be recovered by database administrators.');">
                                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                 <input type="hidden" name="id" value="<?php echo $doc['id']; ?>">
                                                 <input type="hidden" name="action" value="delete">

@@ -177,7 +177,7 @@ include __DIR__ . '/../includes/header.php';
                 <h1 class="admin-page-title"><?php echo ($id > 0 ? "Edit" : "Add New"); ?> Circular / Notice</h1>
             </div>
             <div>
-                <a href="admin/circulars.php" class="admin-btn admin-btn-outline"><i class="fa-solid fa-arrow-left me-1"></i> Back to Listing</a>
+                <a href="circulars.php" class="admin-btn admin-btn-outline"><i class="fa-solid fa-arrow-left me-1"></i> Back to Listing</a>
             </div>
         </div>
 
@@ -187,7 +187,7 @@ include __DIR__ . '/../includes/header.php';
         <div class="admin-card" style="max-width: 800px;">
             <h3 class="admin-card-title"><?php echo ($id > 0 ? "Document Details" : "Upload Document"); ?></h3>
             
-            <form action="admin/circular-edit.php<?php echo ($id > 0 ? '?id=' . $id : ''); ?>" method="POST" enctype="multipart/form-data" class="mt-4">
+            <form action="circular-edit.php<?php echo ($id > 0 ? '?id=' . $id : ''); ?>" method="POST" enctype="multipart/form-data" class="mt-4">
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 
                 <div class="row g-3">
@@ -244,7 +244,7 @@ include __DIR__ . '/../includes/header.php';
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-                    <a href="admin/circulars.php" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
+                    <a href="circulars.php" class="btn btn-outline-secondary rounded-pill px-4">Cancel</a>
                     <button type="submit" name="save_document" class="btn btn-primary rounded-pill px-4" style="background: var(--bsfi-navy); border-color: var(--bsfi-navy);">Save Document</button>
                 </div>
             </form>
