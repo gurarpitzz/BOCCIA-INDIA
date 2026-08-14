@@ -535,9 +535,7 @@ body.preloader-active { overflow: hidden !important; }
                                              $link = $logo_path . "news-media/" . $item['slug'] . ".php";
                                          }
                                     } elseif ($item['section'] === 'competitions') {
-                                         if ($item['slug'] === 'international-events') {
-                                             $link = "https://worldboccia.io/events";
-                                         } elseif (in_array($item['slug'], ['national-events', 'state-competitions', 'results'])) {
+                                         if (in_array($item['slug'], ['international-events', 'national-events', 'state-competitions', 'results'])) {
                                              $link = $logo_path . "page.php?section=competitions&slug=" . urlencode($item['slug']);
                                          } else {
                                              $link = $logo_path . "index.php#schedules";

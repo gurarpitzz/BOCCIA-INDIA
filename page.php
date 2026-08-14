@@ -100,6 +100,11 @@ if ($section === 'competitions' && $slug === 'results') {
     exit();
 }
 
+if ($section === 'competitions' && $slug === 'international-events') {
+    include __DIR__ . '/includes/international-events-page.php';
+    exit();
+}
+
 if ($section === 'myas' && $slug === 'disclosures') {
     include __DIR__ . '/includes/myas-disclosures-page.php';
     exit();
