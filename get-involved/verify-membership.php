@@ -367,7 +367,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
                         <?php endif; ?>
                         
-                        <a href="update-profile.php?type=<?php echo strtolower($result['type']); ?>&id=<?php echo urlencode($result['reg_no']); ?>" class="btn btn-sm btn-primary rounded-pill px-3">
+                        <a href="get-involved/update-profile.php?type=<?php echo strtolower($result['type']); ?>&id=<?php echo urlencode($result['reg_no']); ?>" class="btn btn-sm btn-primary rounded-pill px-3">
                             <i class="bi bi-pencil-square me-1"></i> Update My Profile
                         </a>
                     </div>
@@ -379,7 +379,7 @@ include __DIR__ . '/../includes/header.php';
             <?php endif; ?>
 
             <div class="mt-5">
-                <a href="membership.php" class="text-white text-decoration-none" style="font-family: var(--font-heading-sub); font-weight: 600; font-size: 0.95rem;">
+                <a href="get-involved/membership.php" class="text-white text-decoration-none" style="font-family: var(--font-heading-sub); font-weight: 600; font-size: 0.95rem;">
                     <i class="bi bi-arrow-left me-1"></i> Back to Membership Portal
                 </a>
             </div>

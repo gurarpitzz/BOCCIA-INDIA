@@ -366,7 +366,7 @@ include __DIR__ . '/../includes/header.php';
                 <div class="portal-choices-grid">
                     
                     <!-- Choice 1: Player -->
-                    <a href="register-player.php" class="choice-link-card choice-player-card">
+                        <a href="get-involved/register-player.php" class="choice-link-card choice-player-card">
                         <div class="choice-icon-wrap">
                             <i class="bi bi-person-bounding-box"></i>
                         </div>
@@ -378,7 +378,7 @@ include __DIR__ . '/../includes/header.php';
                     </a>
 
                     <!-- Choice 2: Coach/Official -->
-                    <a href="register-official.php" class="choice-link-card choice-official-card">
+                        <a href="get-involved/register-official.php" class="choice-link-card choice-official-card">
                         <div class="choice-icon-wrap">
                             <i class="bi bi-person-badge-fill"></i>
                         </div>
@@ -393,7 +393,7 @@ include __DIR__ . '/../includes/header.php';
 
                 <div class="mt-5 text-center pt-4 border-top" style="border-top-color: rgba(8, 27, 75, 0.08) !important;">
                     <p class="text-muted mb-3" style="font-family: var(--font-body); font-size: 1rem;">Already registered? Check your membership status online instantly.</p>
-                    <a href="verify-membership.php" class="btn btn-outline-primary rounded-pill px-4 py-2" style="font-family: var(--font-heading); font-weight: 700; border-color: var(--boccia-navy); color: var(--boccia-navy); transition: all 0.3s ease;">
+                    <a href="get-involved/verify-membership.php" class="btn btn-outline-primary rounded-pill px-4 py-2" style="font-family: var(--font-heading); font-weight: 700; border-color: var(--boccia-navy); color: var(--boccia-navy); transition: all 0.3s ease;">
                         <i class="bi bi-shield-fill-check me-1"></i> Verify Membership Status
                     </a>
                 </div>

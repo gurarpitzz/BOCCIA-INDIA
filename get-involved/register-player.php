@@ -277,7 +277,7 @@ include __DIR__ . '/../includes/header.php';
             <!-- Right Side Form Column -->
             <div class="split-card-right">
                 <div class="form-header-box">
-                    <a href="membership.php" class="back-home-link">Back to HOME Page</a>
+                    <a href="get-involved/membership.php" class="back-home-link">Back to HOME Page</a>
                     <div class="mb-2">
                         <a href="../index.php#who-can-participate" class="back-home-link" style="font-size:0.85rem; color:#64748b; background:#f1f5f9; padding:6px 12px; border-radius:20px; display:inline-flex; align-items:center; gap:6px;">
                             <i class="bi bi-info-circle-fill"></i> Athlete Eligibility: Who Can Participate?
@@ -531,7 +531,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
 
                             <div>
-                                <a href="status.php" id="track-url-btn" class="btn btn-primary px-4 py-2">Track Application Status</a>
+                                <a href="get-involved/status.php" id="track-url-btn" class="btn btn-primary px-4 py-2">Track Application Status</a>
                             </div>
                         </div>
                     </div>
@@ -802,7 +802,7 @@ function submitApplication() {
         
         // Show success screen
         document.getElementById("ref-id-display").innerText = data.reference_id;
-        document.getElementById("track-url-btn").href = `status.php?id=${data.reference_id}&email=${encodeURIComponent(document.getElementById("field_email").value)}`;
+        document.getElementById("track-url-btn").href = `get-involved/status.php?id=${data.reference_id}&email=${encodeURIComponent(document.getElementById("field_email").value)}`;
         localStorage.removeItem(DRAFT_KEY);
         goToStep(4);
     })

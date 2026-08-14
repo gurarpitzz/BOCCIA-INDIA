@@ -176,7 +176,7 @@ $prefillEmail = trim($_GET['email'] ?? '');
             <div class="status-card-body">
                 
                 <div class="form-header-box">
-                    <a href="membership.php" class="back-home-link">Back to Membership Portal</a>
+                    <a href="get-involved/membership.php" class="back-home-link">Back to Membership Portal</a>
                     <div>
                         <img src="../boccia-india-logo.webp" alt="BSFI Logo" class="form-logo-img">
                     </div>

@@ -299,7 +299,7 @@ include __DIR__ . '/../includes/header.php';
                 <ul class="pagination pagination-md shadow-sm rounded-pill overflow-hidden border-0">
                     <?php if ($currentPage > 1): ?>
                         <li class="page-item">
-                            <a class="page-link border-0 px-3 py-2 text-dark fw-bold" href="players-database.php?page=<?php echo $currentPage - 1; ?>&search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($stateFilter); ?>&category=<?php echo urlencode($categoryFilter); ?>" aria-label="Previous">
+                            <a class="page-link border-0 px-3 py-2 text-dark fw-bold" href="get-involved/players-database.php?page=<?php echo $currentPage - 1; ?>&search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($stateFilter); ?>&category=<?php echo urlencode($categoryFilter); ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -307,7 +307,7 @@ include __DIR__ . '/../includes/header.php';
 
                     <?php for ($i = 1; $i <= $totalPages; $i++): ?>
                         <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
-                            <a class="page-link border-0 px-3 py-2 <?php echo $i === $currentPage ? 'bg-primary text-white' : 'text-dark'; ?> fw-bold" href="players-database.php?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($stateFilter); ?>&category=<?php echo urlencode($categoryFilter); ?>">
+                            <a class="page-link border-0 px-3 py-2 <?php echo $i === $currentPage ? 'bg-primary text-white' : 'text-dark'; ?> fw-bold" href="get-involved/players-database.php?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($stateFilter); ?>&category=<?php echo urlencode($categoryFilter); ?>">
                                 <?php echo $i; ?>
                             </a>
                         </li>
@@ -315,7 +315,7 @@ include __DIR__ . '/../includes/header.php';
 
                     <?php if ($currentPage < $totalPages): ?>
                         <li class="page-item">
-                            <a class="page-link border-0 px-3 py-2 text-dark fw-bold" href="players-database.php?page=<?php echo $currentPage + 1; ?>&search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($stateFilter); ?>&category=<?php echo urlencode($categoryFilter); ?>" aria-label="Next">
+                            <a class="page-link border-0 px-3 py-2 text-dark fw-bold" href="get-involved/players-database.php?page=<?php echo $currentPage + 1; ?>&search=<?php echo urlencode($search); ?>&state=<?php echo urlencode($stateFilter); ?>&category=<?php echo urlencode($categoryFilter); ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
