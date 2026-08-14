@@ -1,5 +1,5 @@
 <?php
-// get-involved/register-official.php - Modern 3-step Official registration wizard in native PHP
+// get-involved/register-official.php - Complete multi-step Official registration wizard in native PHP
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../config/app.php';
@@ -167,7 +167,7 @@ include __DIR__ . '/../includes/header.php';
     align-items: center;
     justify-content: space-between;
     position: relative;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto 30px;
 }
 
@@ -293,6 +293,8 @@ include __DIR__ . '/../includes/header.php';
                     <span class="step-num" id="step-dot-1">1</span>
                     <span class="step-num" id="step-dot-2">2</span>
                     <span class="step-num" id="step-dot-3">3</span>
+                    <span class="step-num" id="step-dot-4">4</span>
+                    <span class="step-num" id="step-dot-5">5</span>
                 </div>
 
                 <!-- Draft recovery container -->
@@ -347,18 +349,6 @@ include __DIR__ . '/../includes/header.php';
                                 <label class="form-label-custom">Full Name <span class="text-danger">*</span></label>
                                 <input type="text" name="full_name" class="form-control-custom" required>
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label-custom">Registration Role <span class="text-danger">*</span></label>
-                                <select name="role" class="form-select-custom" required>
-                                    <option value="">Select Role</option>
-                                    <option value="Coach">Coach</option>
-                                    <option value="Sport Assistant">Sport Assistant</option>
-                                    <option value="Classifier">Classifier</option>
-                                    <option value="Technical Official">Technical Official</option>
-                                    <option value="Referee">Referee</option>
-                                    <option value="Volunteer">Volunteer</option>
-                                </select>
-                            </div>
                             <div class="col-md-6">
                                 <label class="form-label-custom">Gender <span class="text-danger">*</span></label>
                                 <select name="gender" class="form-select-custom" required>
@@ -373,7 +363,7 @@ include __DIR__ . '/../includes/header.php';
                                 <input type="date" name="dob" class="form-control-custom" required>
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label-custom">Father's / Spouse's Name <span class="text-danger">*</span></label>
+                                <label class="form-label-custom">Father's Name <span class="text-danger">*</span></label>
                                 <input type="text" name="father_name" class="form-control-custom" required>
                             </div>
                             <div class="col-md-12">
@@ -386,30 +376,54 @@ include __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
-                    <!-- ================= STEP 2: ADDRESS & SIZES ================= -->
+                    <!-- ================= STEP 2: OFFICIAL CATEGORY & PROFESSIONAL PROFILE ================= -->
                     <div class="wizard-step" id="wizard-step-2">
-                        <h4 class="mb-4 text-slate-800 font-bold">Step 2: Address &amp; Sizes</h4>
+                        <h4 class="mb-4 text-slate-800 font-bold">Step 2: Category &amp; Profile</h4>
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="form-label-custom">State / Union Territory <span class="text-danger">*</span></label>
-                                <select name="state" class="form-select-custom" required>
-                                    <option value="">Select State</option>
-                                    <?php
-                                    $statesList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"];
-                                    foreach ($statesList as $st) {
-                                        echo "<option value=\"".htmlspecialchars($st)."\">".htmlspecialchars($st)."</option>";
-                                    }
-                                    ?>
+                                <label class="form-label-custom">Official Category <span class="text-danger">*</span></label>
+                                <select name="category" id="official-category" class="form-select-custom" onchange="onCategoryChange()" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Coach">Coach</option>
+                                    <option value="Referee">Referee</option>
+                                    <option value="Volunteer">Volunteer</option>
+                                    <option value="Classifier">Classifier</option>
+                                    <option value="Ramp Operator / Sports Assistant">Ramp Operator / Sports Assistant</option>
+                                    <option value="Escort">Escort</option>
                                 </select>
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label-custom">Permanent Address <span class="text-danger">*</span></label>
-                                <textarea name="address" rows="3" class="form-control-custom" required></textarea>
+
+                            <!-- Educational Qualification (Coach, Referee, Classifier) -->
+                            <div class="col-md-12 category-conditional-field" id="field-wrapper-qualification" style="display:none;">
+                                <label class="form-label-custom">Educational / Professional Qualification <span class="text-danger">*</span></label>
+                                <input type="text" name="education_qualification" id="input-qualification" class="form-control-custom">
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label-custom">Pin Code <span class="text-danger">*</span></label>
-                                <input type="text" name="pincode" maxlength="6" class="form-control-custom" required>
+
+                            <!-- Classifier Type Dropdown (Classifier Only) -->
+                            <div class="col-md-12 category-conditional-field" id="field-wrapper-classifier-type" style="display:none;">
+                                <label class="form-label-custom">Classifier Type <span class="text-danger">*</span></label>
+                                <select name="classifier_type" id="select-classifier-type" class="form-select-custom" onchange="onClassifierTypeChange()">
+                                    <option value="">Select Classifier Type</option>
+                                    <option value="Physio">Physio</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Coach">Coach</option>
+                                    <option value="Other">Other</option>
+                                </select>
                             </div>
+
+                            <!-- Classifier Specify Other (Classifier Only) -->
+                            <div class="col-md-12 category-conditional-field" id="field-wrapper-classifier-other" style="display:none;">
+                                <label class="form-label-custom">Specify Classifier Type <span class="text-danger">*</span></label>
+                                <input type="text" name="classifier_type_other" id="input-classifier-other" class="form-control-custom" placeholder="Please specify your classifier role">
+                            </div>
+
+                            <!-- Experience (Coach, Referee, Volunteer, Classifier required; Ramp, Escort optional) -->
+                            <div class="col-md-12 category-conditional-field" id="field-wrapper-experience" style="display:none;">
+                                <label class="form-label-custom" id="label-experience">Experience in Para Sports <span class="text-danger">*</span></label>
+                                <textarea name="para_sports_experience" id="input-experience" rows="3" class="form-control-custom"></textarea>
+                            </div>
+
+                            <!-- Uniform Kit Sizes (All Categories) -->
                             <div class="col-md-4">
                                 <label class="form-label-custom">T-Shirt Size <span class="text-danger">*</span></label>
                                 <select name="kit_tshirt" class="form-select-custom" required>
@@ -455,15 +469,45 @@ include __DIR__ . '/../includes/header.php';
                         </div>
                     </div>
 
-                    <!-- ================= STEP 3: IDENTITY & VERIFICATION ================= -->
+                    <!-- ================= STEP 3: ADDRESS & IDENTITY ================= -->
                     <div class="wizard-step" id="wizard-step-3">
-                        <h4 class="mb-4 text-slate-800 font-bold">Step 3: Identity &amp; Uploads</h4>
+                        <h4 class="mb-4 text-slate-800 font-bold">Step 3: Address &amp; Identity</h4>
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="form-label-custom">Aadhaar / Government ID Number <span class="text-danger">*</span></label>
-                                <input type="text" name="aadhaar" pattern="\d{12}" title="Aadhaar number must be exactly 12 digits" maxlength="12" minlength="12" class="form-control-custom" required>
+                                <label class="form-label-custom">State / Union Territory <span class="text-danger">*</span></label>
+                                <select name="state" class="form-select-custom" required>
+                                    <option value="">Select State</option>
+                                    <?php
+                                    $statesList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"];
+                                    foreach ($statesList as $st) {
+                                        echo "<option value=\"".htmlspecialchars($st)."\">".htmlspecialchars($st)."</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
+                            <div class="col-md-12">
+                                <label class="form-label-custom">Permanent Address <span class="text-danger">*</span></label>
+                                <textarea name="address" rows="3" class="form-control-custom" required></textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label-custom">Pin Code <span class="text-danger">*</span></label>
+                                <input type="text" name="pincode" maxlength="6" class="form-control-custom" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label-custom">Aadhaar Card Number <span class="text-danger">*</span></label>
+                                <input type="text" name="aadhaar" id="input-aadhaar" pattern="\d{12}" title="Aadhaar number must be exactly 12 digits" maxlength="12" minlength="12" class="form-control-custom" required>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn-wizard btn-wizard-prev" onclick="goToStep(2)">&larr; Back</button>
+                            <button type="button" class="btn-wizard btn-wizard-next" onclick="goToStep(4)">Continue &rarr;</button>
+                        </div>
+                    </div>
 
+                    <!-- ================= STEP 4: DOCUMENTS & UPLOADS ================= -->
+                    <div class="wizard-step" id="wizard-step-4">
+                        <h4 class="mb-4 text-slate-800 font-bold">Step 4: Documents &amp; Uploads</h4>
+                        <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label-custom">Passport Size Photo (JPG/PNG) <span class="text-danger">*</span></label>
                                 <div class="file-drop-zone">
@@ -474,22 +518,82 @@ include __DIR__ . '/../includes/header.php';
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label-custom">Government ID Proof (PDF/JPG/PNG) <span class="text-danger">*</span></label>
+                                <label class="form-label-custom">Government ID Proof (Aadhaar/ID Scan) <span class="text-danger">*</span></label>
                                 <div class="file-drop-zone">
                                     <input type="file" id="file_doc" name="receipt_path" accept="application/pdf,image/jpeg,image/png" onchange="updateFileLabel('file_doc', 'doc_label')" required>
                                     <div class="text-slate-400 text-3xl mb-1"><i class="bi bi-cloud-arrow-up-fill"></i></div>
                                     <span class="text-sm font-semibold" id="doc_label">Choose Document File</span>
                                 </div>
                             </div>
+
+                            <!-- Passport Booklet Upload (Required for Coach, Referee, Ramp Operator, Escort; Optional for Volunteer, Classifier) -->
+                            <div class="col-md-12" id="field-wrapper-passport-upload">
+                                <label class="form-label-custom" id="label-passport-upload">Passport Document Booklet / Copy <span class="text-danger">*</span></label>
+                                <div class="file-drop-zone">
+                                    <input type="file" id="file_passport" name="passport_file" accept="application/pdf,image/jpeg,image/png" onchange="updateFileLabel('file_passport', 'passport_label')">
+                                    <div class="text-slate-400 text-3xl mb-1"><i class="bi bi-cloud-arrow-up-fill"></i></div>
+                                    <span class="text-sm font-semibold" id="passport_label">Choose Passport Copy File</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="d-flex justify-content-between mt-4">
-                            <button type="button" class="btn-wizard btn-wizard-prev" onclick="goToStep(2)">&larr; Back</button>
+                            <button type="button" class="btn-wizard btn-wizard-prev" onclick="goToStep(3)">&larr; Back</button>
+                            <button type="button" class="btn-wizard btn-wizard-next" onclick="prepareReviewStep()">Continue &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- ================= STEP 5: DECLARATION & REVIEW ================= -->
+                    <div class="wizard-step" id="wizard-step-5">
+                        <h4 class="mb-4 text-slate-800 font-bold">Step 5: Review &amp; Declaration</h4>
+                        
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:1.5rem; margin-bottom:1.5rem; max-height:400px; overflow-y:auto; font-size:0.92rem; display:flex; flex-direction:column; gap:1.25rem;">
+                            <div>
+                                <h5 style="color:var(--boccia-navy); font-weight:700; border-bottom:1.5px solid #cbd5e1; padding-bottom:0.4rem; margin-bottom:0.6rem;">Personal Information</h5>
+                                <p class="mb-1"><strong>Full Name:</strong> <span id="rev-name"></span></p>
+                                <p class="mb-1"><strong>Gender:</strong> <span id="rev-gender"></span></p>
+                                <p class="mb-1"><strong>Date of Birth:</strong> <span id="rev-dob"></span></p>
+                                <p class="mb-1"><strong>Father's Name:</strong> <span id="rev-father"></span></p>
+                                <p class="mb-1"><strong>Phone Number:</strong> <span id="rev-phone"></span></p>
+                                <p class="mb-1"><strong>Verified Email:</strong> <span id="rev-email"></span></p>
+                            </div>
+                            <div>
+                                <h5 style="color:var(--boccia-navy); font-weight:700; border-bottom:1.5px solid #cbd5e1; padding-bottom:0.4rem; margin-bottom:0.6rem;">Official Information</h5>
+                                <p class="mb-1"><strong>Category:</strong> <span id="rev-category"></span></p>
+                                <p class="mb-1" id="rev-wrapper-qualification"><strong>Educational Qualification:</strong> <span id="rev-qualification"></span></p>
+                                <p class="mb-1" id="rev-wrapper-classifier-type"><strong>Classifier Type:</strong> <span id="rev-classifier-type"></span></p>
+                                <p class="mb-1" id="rev-wrapper-experience"><strong>Experience in Para Sports:</strong> <span id="rev-experience"></span></p>
+                                <p class="mb-1"><strong>Uniform Kit Sizes:</strong> T-Shirt: <span id="rev-kit-tshirt"></span> | Tracksuit: <span id="rev-kit-track"></span> | Shoes (UK): <span id="rev-kit-shoe"></span></p>
+                            </div>
+                            <div>
+                                <h5 style="color:var(--boccia-navy); font-weight:700; border-bottom:1.5px solid #cbd5e1; padding-bottom:0.4rem; margin-bottom:0.6rem;">Address &amp; Identity</h5>
+                                <p class="mb-1"><strong>State / UT:</strong> <span id="rev-state"></span></p>
+                                <p class="mb-1"><strong>Address:</strong> <span id="rev-address"></span></p>
+                                <p class="mb-1"><strong>Pin Code:</strong> <span id="rev-pincode"></span></p>
+                                <p class="mb-1"><strong>Aadhaar Number:</strong> <span id="rev-aadhaar"></span></p>
+                            </div>
+                            <div>
+                                <h5 style="color:var(--boccia-navy); font-weight:700; border-bottom:1.5px solid #cbd5e1; padding-bottom:0.4rem; margin-bottom:0.6rem;">Attached Documents</h5>
+                                <p class="mb-1" id="rev-doc-photo"><strong>✓ Passport Size Photo:</strong> Attached</p>
+                                <p class="mb-1" id="rev-doc-id"><strong>✓ Government ID Proof:</strong> Attached</p>
+                                <p class="mb-1" id="rev-doc-passport"><strong>✓ Passport Booklet:</strong> Attached</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-4" style="display:flex; align-items:flex-start; gap:0.6rem;">
+                            <input type="checkbox" id="declaration-check" required style="width: 20px; height: 20px; margin-top: 2px; cursor:pointer;">
+                            <label for="declaration-check" style="font-size:0.88rem; color:#475569; font-weight:600; cursor:pointer;">
+                                I declare that the information provided in this application is true and correct to the best of my knowledge. I understand that any false or inaccurate representation will result in immediate disqualification or termination of BSFI membership.
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="button" class="btn-wizard btn-wizard-prev" onclick="goToStep(4)">&larr; Back</button>
                             <button type="button" id="btn-submit-reg" class="btn-wizard btn-wizard-next" onclick="submitApplication()">Submit Application</button>
                         </div>
                     </div>
 
-                    <!-- ================= STEP 4: SUCCESS PAGE ================= -->
-                    <div class="wizard-step" id="wizard-step-4">
+                    <!-- ================= STEP 6: SUCCESS PAGE ================= -->
+                    <div class="wizard-step" id="wizard-step-6">
                         <div class="text-center space-y-4 py-4">
                             <div class="text-5xl text-emerald-500 mb-3"><i class="bi bi-check-circle-fill"></i></div>
                             <h2 class="text-2xl font-black text-slate-800 mb-2">Registration Submitted Successfully</h2>
@@ -649,6 +753,93 @@ function verifyOTPCode() {
     });
 }
 
+function onCategoryChange() {
+    const cat = document.getElementById("official-category").value;
+    const qual = document.getElementById("field-wrapper-qualification");
+    const qualInput = document.getElementById("input-qualification");
+    const exp = document.getElementById("field-wrapper-experience");
+    const expLabel = document.getElementById("label-experience");
+    const expInput = document.getElementById("input-experience");
+    const classType = document.getElementById("field-wrapper-classifier-type");
+    const classSelect = document.getElementById("select-classifier-type");
+    const passWrap = document.getElementById("field-wrapper-passport-upload");
+    const passInput = document.getElementById("file_passport");
+    const passLabel = document.getElementById("label-passport-upload");
+
+    // Reset validations and values
+    qualInput.required = false;
+    expInput.required = false;
+    classSelect.required = false;
+    passInput.required = false;
+
+    // Reset classifier conditional fields
+    document.getElementById("field-wrapper-classifier-other").style.display = 'none';
+    document.getElementById("input-classifier-other").required = false;
+
+    // Hide all initially
+    qual.style.display = "none";
+    exp.style.display = "none";
+    classType.style.display = "none";
+
+    if (!cat) return;
+
+    // Handle show & require validations based on category rules
+    if (cat === 'Coach' || cat === 'Referee') {
+        qual.style.display = "block";
+        qualInput.required = true;
+        exp.style.display = "block";
+        expLabel.innerHTML = 'Experience in Para Sports <span class="text-danger">*</span>';
+        expInput.required = true;
+        
+        // Passport Document Required
+        passLabel.innerHTML = 'Passport Document Booklet / Copy <span class="text-danger">*</span>';
+        passInput.required = true;
+    } else if (cat === 'Volunteer') {
+        exp.style.display = "block";
+        expLabel.innerHTML = 'Experience in Para Sports <span class="text-danger">*</span>';
+        expInput.required = true;
+        
+        // Passport Document Optional
+        passLabel.innerHTML = 'Passport Document Booklet / Copy (Optional)';
+        passInput.required = false;
+    } else if (cat === 'Classifier') {
+        qual.style.display = "block";
+        qualInput.required = true;
+        classType.style.display = "block";
+        classSelect.required = true;
+        exp.style.display = "block";
+        expLabel.innerHTML = 'Experience in Para Sports <span class="text-danger">*</span>';
+        expInput.required = true;
+        
+        // Passport Document Optional
+        passLabel.innerHTML = 'Passport Document Booklet / Copy (Optional)';
+        passInput.required = false;
+    } else if (cat === 'Ramp Operator / Sports Assistant' || cat === 'Escort') {
+        exp.style.display = "block";
+        expLabel.innerHTML = 'Experience in Para Sports (Optional)';
+        expInput.required = false;
+
+        // Passport Document Required
+        passLabel.innerHTML = 'Passport Document Booklet / Copy <span class="text-danger">*</span>';
+        passInput.required = true;
+    }
+}
+
+function onClassifierTypeChange() {
+    const type = document.getElementById("select-classifier-type").value;
+    const specify = document.getElementById("field-wrapper-classifier-other");
+    const specInput = document.getElementById("input-classifier-other");
+
+    if (type === 'Other') {
+        specify.style.display = 'block';
+        specInput.required = true;
+    } else {
+        specify.style.display = 'none';
+        specInput.required = false;
+        specInput.value = '';
+    }
+}
+
 function goToStep(stepIndex) {
     const errBox = document.getElementById("general-error-box");
     errBox.classList.add("d-none");
@@ -684,15 +875,77 @@ function goToStep(stepIndex) {
     });
 
     // Fill line length
-    const fillPercent = ((stepIndex) / 3) * 100;
+    const fillPercent = ((stepIndex) / 5) * 100;
     document.getElementById("progress-fill-line").style.width = `${fillPercent}%`;
 
     currentStep = stepIndex;
     saveDraftData();
 }
 
+function prepareReviewStep() {
+    // Run Step 4 validations before allowing review screen access
+    const fields = document.querySelectorAll(`#wizard-step-4 [required]`);
+    let valid = true;
+    fields.forEach(f => {
+        if (!f.checkValidity()) {
+            valid = false;
+            f.reportValidity();
+        }
+    });
+    if (!valid) return;
+
+    // Fill review details
+    document.getElementById("rev-name").innerText = document.querySelector('[name="full_name"]').value;
+    document.getElementById("rev-gender").innerText = document.querySelector('[name="gender"]').value;
+    document.getElementById("rev-dob").innerText = document.querySelector('[name="dob"]').value;
+    document.getElementById("rev-father").innerText = document.querySelector('[name="father_name"]').value;
+    document.getElementById("rev-phone").innerText = document.querySelector('[name="phone"]').value;
+    document.getElementById("rev-email").innerText = document.getElementById("field_email").value;
+
+    const cat = document.getElementById("official-category").value;
+    document.getElementById("rev-category").innerText = cat;
+
+    // Category specifics
+    const revQual = document.getElementById("rev-wrapper-qualification");
+    const revClass = document.getElementById("rev-wrapper-classifier-type");
+    const revExp = document.getElementById("rev-wrapper-experience");
+
+    revQual.style.display = "none";
+    revClass.style.display = "none";
+    revExp.style.display = "none";
+
+    if (cat === 'Coach' || cat === 'Referee' || cat === 'Classifier') {
+        revQual.style.display = "block";
+        document.getElementById("rev-qualification").innerText = document.getElementById("input-qualification").value;
+    }
+    if (cat === 'Classifier') {
+        revClass.style.display = "block";
+        const cType = document.getElementById("select-classifier-type").value;
+        document.getElementById("rev-classifier-type").innerText = cType === 'Other' ? `Other (${document.getElementById("input-classifier-other").value})` : cType;
+    }
+    revExp.style.display = "block";
+    document.getElementById("rev-experience").innerText = document.getElementById("input-experience").value || 'None';
+
+    document.getElementById("rev-kit-tshirt").innerText = document.querySelector('[name="kit_tshirt"]').value;
+    document.getElementById("rev-kit-track").innerText = document.querySelector('[name="kit_tracksuit"]').value;
+    document.getElementById("rev-kit-shoe").innerText = document.querySelector('[name="kit_shoe"]').value;
+
+    document.getElementById("rev-state").innerText = document.querySelector('[name="state"]').value;
+    document.getElementById("rev-address").innerText = document.querySelector('[name="address"]').value;
+    document.getElementById("rev-pincode").innerText = document.querySelector('[name="pincode"]').value;
+
+    // Mask Aadhaar
+    const aadhaarVal = document.getElementById("input-aadhaar").value;
+    document.getElementById("rev-aadhaar").innerText = aadhaarVal.substring(0, 4) + "-XXXX-XXXX";
+
+    // Documents check
+    document.getElementById("rev-doc-passport").style.display = document.getElementById("file_passport").files.length > 0 ? "block" : "none";
+
+    goToStep(5);
+}
+
 function saveDraftData() {
-    if (currentStep < 1 || currentStep > 3) return;
+    if (currentStep < 1 || currentStep > 5) return;
     
     const form = document.getElementById("registration-form");
     const fd = new FormData(form);
@@ -724,6 +977,9 @@ function loadDraftData() {
         }
     });
 
+    onCategoryChange(); // Trigger dynamic layouts load
+    onClassifierTypeChange();
+
     isVerified = true;
     document.getElementById("field_email").readOnly = true;
     document.getElementById("btn-send-otp").disabled = true;
@@ -744,16 +1000,11 @@ function submitApplication() {
     
     errBox.classList.add("d-none");
     
-    // Check final step validations
-    const fields = form.querySelectorAll(`#wizard-step-3 [required]`);
-    let valid = true;
-    fields.forEach(f => {
-        if (!f.checkValidity()) {
-            valid = false;
-            f.reportValidity();
-        }
-    });
-    if (!valid) return;
+    if (!document.getElementById("declaration-check").checked) {
+        errBox.innerText = "Please accept the declaration checkbox before submitting.";
+        errBox.classList.remove("d-none");
+        return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting...";
@@ -774,7 +1025,7 @@ function submitApplication() {
         document.getElementById("ref-id-display").innerText = data.reference_id;
         document.getElementById("track-url-btn").href = `get-involved/status.php?id=${data.reference_id}&email=${encodeURIComponent(document.getElementById("field_email").value)}`;
         localStorage.removeItem(DRAFT_KEY);
-        goToStep(4);
+        goToStep(6);
     })
     .catch(err => {
         errBox.innerText = err.message;

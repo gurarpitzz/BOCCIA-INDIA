@@ -349,17 +349,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     // Update existing official details
                     $upOfficial = $pdo->prepare("UPDATE officials SET 
-                        name = ?, role = ?, gender = ?, dob = ?, father_name = ?, 
+                        name = ?, category = ?, role = ?, gender = ?, dob = ?, father_name = ?, 
                         state = ?, aadhaar = COALESCE(?, aadhaar), phone = ?, email = ?, 
                         address = ?, pincode = ?, kit_tshirt = ?, kit_tracksuit = ?, kit_shoe = ?, 
+                        education_qualification = ?, para_sports_experience = ?, classifier_type = ?, 
+                        classifier_type_other = ?, passport_file = COALESCE(?, passport_file),
                         photo_path = COALESCE(?, photo_path), receipt_path = COALESCE(?, receipt_path), status = 'approved',
                         photo_status = IF(? != '' OR photo_path IS NOT NULL, 'verified', photo_status) 
                         WHERE id = ?");
                     
                     $upOfficial->execute([
-                        $app['full_name'], $app['role'], $app['gender'], $app['dob'], $app['father_name'],
+                        $app['full_name'], $app['category'], $app['role'], $app['gender'], $app['dob'], $app['father_name'],
                         $app['state'], $app['aadhaar'], $app['phone'], $app['email'],
                         $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'],
+                        $app['education_qualification'], $app['para_sports_experience'], $app['classifier_type'],
+                        $app['classifier_type_other'], $app['passport_file'],
                         $app['photo_path'], $app['receipt_path'], $app['photo_path'], $existingId
                     ]);
 
@@ -388,14 +392,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $officialId = "OF-" . str_pad($nextNo, 4, '0', STR_PAD_LEFT);
 
                     $insOfficial = $pdo->prepare("INSERT INTO officials 
-                        (official_reg_no, name, role, gender, dob, father_name, state, aadhaar, phone, email, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, photo_path, receipt_path, status, photo_status) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
+                        (official_reg_no, name, category, role, gender, dob, father_name, state, aadhaar, phone, email, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, education_qualification, para_sports_experience, classifier_type, classifier_type_other, passport_file, photo_path, receipt_path, status, photo_status) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
                     
                     $hasPhoto = !empty($app['photo_path']) ? 'verified' : 'missing';
                     $insOfficial->execute([
-                        $officialId, $app['full_name'], $app['role'], $app['gender'], $app['dob'], $app['father_name'],
+                        $officialId, $app['full_name'], $app['category'], $app['role'], $app['gender'], $app['dob'], $app['father_name'],
                         $app['state'], $app['aadhaar'], $app['phone'], $app['email'], $app['address'], $app['pincode'],
-                        $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['photo_path'], $app['receipt_path'], $hasPhoto
+                        $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['education_qualification'], $app['para_sports_experience'],
+                        $app['classifier_type'], $app['classifier_type_other'], $app['passport_file'], $app['photo_path'], $app['receipt_path'], $hasPhoto
                     ]);
                     $newOfficialId = $pdo->lastInsertId();
 
@@ -668,12 +673,22 @@ include __DIR__ . '/../includes/header.php';
                             <?php else: ?>
                                 <!-- Standard fields details display if no duplicates -->
                                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.5rem; margin-bottom:2rem; font-size:0.9rem; color:var(--text-secondary);">
-                                    <div><strong>Role:</strong> <?php echo htmlspecialchars($app['role']); ?></div>
+                                    <div><strong>Category:</strong> <span class="admin-badge admin-badge-info"><?php echo htmlspecialchars($app['category'] ?: $app['role']); ?></span></div>
                                     <div><strong>Gender:</strong> <?php echo htmlspecialchars($app['gender']); ?></div>
                                     <div><strong>Date of Birth:</strong> <?php echo htmlspecialchars($app['dob']); ?></div>
                                     <div><strong>Phone:</strong> <?php echo htmlspecialchars($app['phone']); ?></div>
                                     <div><strong>Email:</strong> <?php echo htmlspecialchars($app['email']); ?></div>
                                     <div><strong>State:</strong> <?php echo htmlspecialchars($app['state']); ?></div>
+                                    <div><strong>Kit Sizes:</strong> T:<?php echo htmlspecialchars($app['kit_tshirt']); ?>/Tr:<?php echo htmlspecialchars($app['kit_tracksuit']); ?>/S:<?php echo htmlspecialchars($app['kit_shoe']); ?></div>
+                                    <?php if(!empty($app['education_qualification'])): ?>
+                                        <div style="grid-column: 1 / -1;"><strong>Education Qualification:</strong> <?php echo htmlspecialchars($app['education_qualification']); ?></div>
+                                    <?php endif; ?>
+                                    <?php if(!empty($app['classifier_type'])): ?>
+                                        <div><strong>Classifier Type:</strong> <?php echo htmlspecialchars($app['classifier_type'] === 'Other' ? "Other ({$app['classifier_type_other']})" : $app['classifier_type']); ?></div>
+                                    <?php endif; ?>
+                                    <?php if(!empty($app['para_sports_experience'])): ?>
+                                        <div style="grid-column: 1 / -1;"><strong>Experience in Para Sports:</strong> <?php echo nl2br(htmlspecialchars($app['para_sports_experience'])); ?></div>
+                                    <?php endif; ?>
                                     <div><strong>Aadhaar No:</strong> 
                                         <?php
                                             $isAdmin = (isset($_SESSION['role']) && $_SESSION['role'] === 'admin');
@@ -702,6 +717,9 @@ include __DIR__ . '/../includes/header.php';
                                     <?php endif; ?>
                                     <?php if (!empty($app['receipt_path'])): ?>
                                         <a href="download-doc.php?file=<?php echo urlencode($app['receipt_path']); ?>" target="_blank" class="admin-btn admin-btn-outline">View ID Proof</a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($app['passport_file'])): ?>
+                                        <a href="download-doc.php?file=<?php echo urlencode($app['passport_file']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Passport Booklet</a>
                                     <?php endif; ?>
                                 </div>
                                 <form action="registrations.php?tab=officials" method="POST" style="display:flex; gap:0.5rem; margin:0;">

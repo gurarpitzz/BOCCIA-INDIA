@@ -24,7 +24,8 @@ if (!empty($stateFilter)) {
 }
 
 if (!empty($roleFilter)) {
-    $whereClauses[] = "role = ?";
+    $whereClauses[] = "(category = ? OR (category IS NULL AND role = ?))";
+    $params[] = $roleFilter;
     $params[] = $roleFilter;
 }
 
@@ -66,14 +67,14 @@ try {
     $totalRecords = (int)$countStmt->fetchColumn();
     $totalPages = ceil($totalRecords / $recordsPerPage);
 
-    $query = "SELECT id, official_reg_no, name, role, gender, dob, state, photo_path, photo_status FROM officials WHERE $whereSql ORDER BY name ASC LIMIT $recordsPerPage OFFSET $offset";
+    $query = "SELECT id, official_reg_no, name, category, role, gender, dob, state, photo_path, photo_status FROM officials WHERE $whereSql ORDER BY name ASC LIMIT $recordsPerPage OFFSET $offset";
     $stmt = $pdo->prepare($query);
     $stmt->execute($params);
     $officials = $stmt->fetchAll();
 
     // Fetch lists for filter dropdowns
     $statesList = $pdo->query("SELECT DISTINCT state FROM officials WHERE status = 'approved' AND deleted_at IS NULL ORDER BY state ASC")->fetchAll(PDO::FETCH_COLUMN);
-    $rolesList = $pdo->query("SELECT DISTINCT role FROM officials WHERE status = 'approved' AND deleted_at IS NULL ORDER BY role ASC")->fetchAll(PDO::FETCH_COLUMN);
+    $rolesList = $pdo->query("SELECT DISTINCT COALESCE(category, role) FROM officials WHERE status = 'approved' AND deleted_at IS NULL ORDER BY COALESCE(category, role) ASC")->fetchAll(PDO::FETCH_COLUMN);
 } catch (PDOException $e) {
     die("Database access failure: " . $e->getMessage());
 }
@@ -235,9 +236,9 @@ include __DIR__ . '/../includes/header.php';
             </select>
         </div>
         <div class="col-md-3">
-            <label class="form-label fw-bold text-dark">Filter by Role</label>
+            <label class="form-label fw-bold text-dark">Filter by Category</label>
             <select name="role" class="form-select">
-                <option value="">All Roles</option>
+                <option value="">All Categories</option>
                 <?php foreach ($rolesList as $role): ?>
                     <option value="<?php echo htmlspecialchars($role); ?>" <?php echo $roleFilter === $role ? 'selected' : ''; ?>><?php echo htmlspecialchars($role); ?></option>
                 <?php endforeach; ?>
@@ -279,7 +280,7 @@ include __DIR__ . '/../includes/header.php';
                                 <td class="p-3" data-label="Official Name"><strong><?php echo htmlspecialchars($off['name']); ?></strong></td>
                                 <td class="p-3" data-label="Gender"><?php echo htmlspecialchars($off['gender']); ?></td>
                                 <td class="p-3" data-label="State"><?php echo htmlspecialchars($off['state']); ?></td>
-                                <td class="p-3" data-label="Role"><span class="badge bg-secondary px-3 py-2"><?php echo htmlspecialchars($off['role']); ?></span></td>
+                                <td class="p-3" data-label="Role"><span class="badge bg-secondary px-3 py-2"><?php echo htmlspecialchars($off['category'] ?: $off['role']); ?></span></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
