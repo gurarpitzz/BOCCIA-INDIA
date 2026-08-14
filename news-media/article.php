@@ -176,7 +176,7 @@ $articleTitle = urlencode($article['title']);
                     <h5 class="fw-bold mb-3" style="color: #081B4B; font-family: var(--font-heading);">More in this Category</h5>
                     <div class="d-flex flex-column gap-3">
                         <?php foreach($relatedArticles as $rel): 
-                            $relThumb = !empty($rel['thumbnail_image']) ? htmlspecialchars("../" . $rel['thumbnail_image']) : (!empty($rel['image']) ? htmlspecialchars("../" . $rel['image']) : '../assets/images/bsfi-placeholder.webp');
+                            $relThumb = !empty($rel['thumbnail_image']) ? htmlspecialchars("../" . $rel['thumbnail_image']) : (!empty($rel['image']) ? htmlspecialchars("../" . $rel['image']) : (!empty($rel['cover_image']) ? htmlspecialchars("../" . $rel['cover_image']) : '../assets/images/bsfi-placeholder.webp'));
                         ?>
                             <a href="article.php?slug=<?php echo urlencode($rel['slug']); ?>" style="text-decoration: none; color: inherit;" class="d-flex gap-3 align-items-center">
                                 <img src="<?php echo $relThumb; ?>" class="rounded-3" style="width: 70px; height: 70px; object-fit: cover; flex-shrink: 0;" alt="Related">

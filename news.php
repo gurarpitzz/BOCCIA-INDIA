@@ -256,7 +256,7 @@ include __DIR__ . '/includes/header.php';
                     <?php if (count($related) > 0): ?>
                         <div class="d-flex flex-column gap-3">
                             <?php foreach ($related as $rel): 
-                                $relCover = !empty($rel['thumbnail_image']) ? $rel['thumbnail_image'] : (!empty($rel['image']) ? $rel['image'] : 'assets/images/bsfi-placeholder.webp');
+                                $relCover = !empty($rel['thumbnail_image']) ? $rel['thumbnail_image'] : (!empty($rel['image']) ? $rel['image'] : (!empty($rel['cover_image']) ? $rel['cover_image'] : 'assets/images/bsfi-placeholder.webp'));
                             ?>
                                 <div class="d-flex gap-3 align-items-center pb-3 border-bottom last-no-border" style="border-bottom: 1px dashed #E5E7EB;">
                                     <a href="news.php?slug=<?php echo urlencode($rel['slug']); ?>" style="width: 80px; height: 80px; flex-shrink: 0; border-radius: 12px; overflow:hidden; border:1px solid #E5E7EB;" class="d-block">

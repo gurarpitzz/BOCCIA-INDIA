@@ -1971,7 +1971,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 foreach ($allNews as $news): 
                     $extraImgs = isset($newsImages[$news['id']]) ? $newsImages[$news['id']] : [];
                     $allMedia = [];
-                    if (!empty($news['image'])) $allMedia[] = $news['image'];
+                    $mainImg = !empty($news['image']) ? $news['image'] : (!empty($news['cover_image']) ? $news['cover_image'] : (!empty($news['thumbnail_image']) ? $news['thumbnail_image'] : ''));
+                    if (!empty($mainImg)) $allMedia[] = $mainImg;
                     $allMedia = array_merge($allMedia, $extraImgs);
                     $imgCount = count($allMedia);
                     
