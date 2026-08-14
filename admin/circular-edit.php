@@ -73,9 +73,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // 2. Verify MIME type
                 if ($uploadSuccess) {
-                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                    $mime = finfo_file($finfo, $tmpFile);
-                    finfo_close($finfo);
+                    $mime = '';
+                    if (function_exists('finfo_open')) {
+                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                        $mime = finfo_file($finfo, $tmpFile);
+                        finfo_close($finfo);
+                    } elseif (function_exists('mime_content_type')) {
+                        $mime = mime_content_type($tmpFile);
+                    } else {
+                        $mime = $_FILES['pdf_file']['type'] ?? 'application/pdf'; // fallback to browser type
+                    }
+                    
                     if ($mime !== 'application/pdf') {
                         $uploadSuccess = false;
                         $message = "<div class='alert alert-danger'>Invalid MIME type. File is not a valid PDF.</div>";
@@ -117,9 +125,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $message = "<div class='alert alert-danger'>Failed to move uploaded file. Check directory permissions.</div>";
                     }
                 }
-            } elseif ($id === 0 && (!isset($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK)) {
-                $uploadSuccess = false;
-                $message = "<div class='alert alert-danger'>A PDF document is required for new entries.</div>";
+            } else {
+                // If there was an actual upload error (like size limits, partial upload, etc.)
+                if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] !== UPLOAD_ERR_NO_FILE) {
+                    $uploadSuccess = false;
+                    $uploadErrors = [
+                        UPLOAD_ERR_INI_SIZE   => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+                        UPLOAD_ERR_FORM_SIZE  => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+                        UPLOAD_ERR_PARTIAL    => 'The uploaded file was only partially uploaded.',
+                        UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder.',
+                        UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk.',
+                        UPLOAD_ERR_EXTENSION  => 'A PHP extension stopped the file upload.'
+                    ];
+                    $errCode = $_FILES['pdf_file']['error'];
+                    $errText = $uploadErrors[$errCode] ?? 'Unknown upload error.';
+                    $message = "<div class='alert alert-danger'>File upload failed: " . $errText . " (Code: " . $errCode . ")</div>";
+                } elseif ($id === 0) {
+                    $uploadSuccess = false;
+                    $message = "<div class='alert alert-danger'>A PDF document is required for new entries.</div>";
+                }
             }
 
             if ($uploadSuccess) {
