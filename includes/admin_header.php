@@ -134,6 +134,13 @@ $current_file = basename($_SERVER['SCRIPT_NAME']);
                     </a>
                 </li>
 
+                <li>
+                    <a href="circulars.php" class="<?php echo ($current_file === 'circulars.php') ? 'active' : ''; ?>">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span class="nav-label">Circulars & Notices</span>
+                    </a>
+                </li>
+
                 
                 <li class="nav-section-title">System</li>
                 <li>

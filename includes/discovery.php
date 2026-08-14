@@ -406,6 +406,7 @@ class ContentDiscoveryEngine {
                 'slug' => null,
                 'children' => [
                     ['title' => 'News', 'slug' => 'news', 'section' => 'news-media'],
+                    ['title' => 'Circulars & Notices', 'slug' => 'circulars-notices', 'section' => 'news-media'],
                     ['title' => 'Gallery', 'slug' => 'gallery', 'section' => 'news-media'],
                     ['title' => 'BSFI Tender', 'slug' => 'tenders', 'section' => 'news-media']
                 ]
