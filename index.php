@@ -14,7 +14,7 @@ $message = '';
 // Fetch Active Schedules
 $publicSchedules = [];
 try {
-    $schedStmt = $pdo->query("SELECT * FROM schedules WHERE active = 1 ORDER BY start_date ASC, id ASC");
+    $schedStmt = $pdo->query("SELECT * FROM schedules WHERE active = 1 AND show_on_homepage = 1 ORDER BY start_date ASC, id ASC");
     $publicSchedules = $schedStmt->fetchAll();
 } catch (PDOException $e) {
     // Fail silently

@@ -55,20 +55,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_schedule'])) {
         $competition_scope = trim($_POST['competition_scope'] ?? 'National');
         $result_url = !empty($_POST['result_url']) ? trim($_POST['result_url']) : null;
         $result_button_text = !empty($_POST['result_button_text']) ? trim($_POST['result_button_text']) : 'View Results';
+        $show_on_homepage = isset($_POST['show_on_homepage']) ? 1 : 0;
 
         if (empty($discipline) || empty($date_text) || empty($venue)) {
             $message = "<div class='alert alert-danger'>Discipline, Date, and Venue are required.</div>";
         } else {
             if ($id > 0) {
                 // Update
-                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=?, competition_scope=?, result_url=?, result_button_text=? WHERE id=?");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $competition_scope, $result_url, $result_button_text, $id]);
+                $stmt = $pdo->prepare("UPDATE schedules SET discipline=?, event_type=?, date_text=?, venue=?, registration_link=?, start_date=?, active=?, registration_mode=?, registration_fee=?, registration_deadline=?, max_participants=?, allow_waiting_list=?, competition_scope=?, result_url=?, result_button_text=?, show_on_homepage=? WHERE id=?");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $competition_scope, $result_url, $result_button_text, $show_on_homepage, $id]);
                 logAction($pdo, "Updated Schedule", "schedules", $id);
                 $message = "<div class='alert alert-success'>Schedule updated successfully.</div>";
             } else {
                 // Insert
-                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list, competition_scope, result_url, result_button_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $competition_scope, $result_url, $result_button_text]);
+                $stmt = $pdo->prepare("INSERT INTO schedules (discipline, event_type, date_text, venue, registration_link, start_date, active, registration_mode, registration_fee, registration_deadline, max_participants, allow_waiting_list, competition_scope, result_url, result_button_text, show_on_homepage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$discipline, $event_type, $date_text, $venue, $registration_link, $start_date, $active, $registration_mode, $registration_fee, $registration_deadline, $max_participants, $allow_waiting_list, $competition_scope, $result_url, $result_button_text, $show_on_homepage]);
                 $newId = $pdo->lastInsertId();
                 logAction($pdo, "Added Schedule", "schedules", $newId);
                 $message = "<div class='alert alert-success'>Schedule added successfully.</div>";
@@ -118,6 +119,11 @@ $schedulesList = $stmt->fetchAll();
                                             else echo htmlspecialchars($item['competition_scope']);
                                         ?>
                                     </span>
+                                <?php endif; ?>
+                                <?php if(!empty($item['show_on_homepage']) && $item['show_on_homepage'] == 1): ?>
+                                    <span class="admin-badge" style="background:#1E40AF; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Homepage: ON</span>
+                                <?php else: ?>
+                                    <span class="admin-badge" style="background:#64748B; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Homepage: OFF</span>
                                 <?php endif; ?>
                                 <?php if(!empty($item['result_url'])): ?>
                                     <span class="admin-badge" style="background:#10B981; color:#ffffff; font-weight:700; font-size:0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Results Published</span>
@@ -245,6 +251,10 @@ $schedulesList = $stmt->fetchAll();
                         <option value="State">State Competition</option>
                     </select>
                 </div>
+                <div class="admin-form-group" style="display:flex; align-items:center; gap:0.5rem; margin-top: 0.5rem; margin-bottom: 1rem;">
+                    <input type="checkbox" id="schedule-homepage" name="show_on_homepage" value="1" style="width: 18px; height: 18px; cursor:pointer;">
+                    <label for="schedule-homepage" style="font-size:0.9rem; font-weight:600; cursor:pointer; margin-bottom:0;">Show on Homepage Schedule</label>
+                </div>
             </div>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
@@ -285,6 +295,7 @@ function openScheduleModal(item) {
         form.reset();
         document.getElementById('schedule-active').checked = true;
         document.getElementById('schedule-competition-scope').value = 'National';
+        document.getElementById('schedule-homepage').checked = false;
         document.getElementById('schedule-result-url').value = '';
         document.getElementById('schedule-result-btn-text').value = 'View Results';
     } else {
@@ -311,6 +322,7 @@ function openScheduleModal(item) {
         document.getElementById('schedule-start-date').value = item.start_date;
         document.getElementById('schedule-active').checked = item.active == 1;
         document.getElementById('schedule-competition-scope').value = item.competition_scope || 'National';
+        document.getElementById('schedule-homepage').checked = item.show_on_homepage == 1;
         document.getElementById('schedule-result-url').value = item.result_url || '';
         document.getElementById('schedule-result-btn-text').value = item.result_button_text || 'View Results';
     }
