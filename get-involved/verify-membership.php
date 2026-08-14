@@ -297,7 +297,7 @@ include __DIR__ . '/../includes/header.php';
                 </p>
             </div>
 
-            <form action="verify-membership.php" method="POST" class="mt-4">
+            <form action="" method="POST" class="mt-4">
                 <div class="verification-input-group">
                     <input type="text" name="regn_no" value="<?php echo htmlspecialchars($search); ?>" class="verification-input" placeholder="Enter REGN_NO or Official ID (e.g. 0003 or OF-0001)">
                     <button type="submit" class="btn-verify-submit">

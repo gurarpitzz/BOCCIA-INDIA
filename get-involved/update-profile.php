@@ -535,7 +535,7 @@ include __DIR__ . '/../includes/header.php';
 
             <!-- STEP 1: IDENTITY LOOKUP -->
             <?php if ($step === 1): ?>
-                <form action="update-profile.php" method="POST">
+                <form action="" method="POST">
                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                     <div class="hp-field" aria-hidden="true">
                         <input type="text" name="website_url" tabindex="-1" autocomplete="off">
@@ -570,7 +570,7 @@ include __DIR__ . '/../includes/header.php';
                 <div class="alert alert-info border-0 p-3 mb-4 rounded-3 text-start" style="background-color: rgba(59, 130, 246, 0.15); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.3) !important;">
                     <i class="bi bi-info-circle-fill me-2"></i> A verification code has been sent to your registered: <strong><?php echo $mask_contact; ?></strong>.
                 </div>
-                <form action="update-profile.php" method="POST">
+                <form action="" method="POST">
                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                     <input type="hidden" name="member_type" value="<?php echo htmlspecialchars($member_type); ?>">
                     <input type="hidden" name="matched_id" value="<?php echo $matched_id; ?>">
@@ -590,7 +590,7 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                 <?php endif; ?>
 
-                <form action="update-profile.php" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                     <input type="hidden" name="member_type" value="<?php echo htmlspecialchars($member_type); ?>">
                     <input type="hidden" name="matched_id" value="<?php echo $matched_id; ?>">
