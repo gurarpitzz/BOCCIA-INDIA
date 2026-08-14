@@ -17,6 +17,23 @@ $canonical_url = "page.php?section=competitions&slug=international-events";
 include __DIR__ . '/header.php';
 ?>
 
+<style>
+.national-events-page {
+    background: url('<?php echo htmlspecialchars($relative_prefix); ?>bg.webp') no-repeat center top / cover;
+    padding-bottom: 80px;
+}
+.national-events-content-section {
+    padding: 60px 0;
+}
+.schedule-table-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 40px;
+    border: 1px solid rgba(8, 27, 75, 0.06);
+    box-shadow: 0 10px 30px rgba(8, 27, 75, 0.03);
+}
+</style>
+
 <div class="national-events-page">
     <!-- ═══════════ HERO ═══════════ -->
     <section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.88) 35%, rgba(7, 25, 84, 0.65) 55%, rgba(7, 25, 84, 0.35) 75%, transparent 100%), url('<?php echo htmlspecialchars($relative_prefix); ?>board/board_bg.webp');">
