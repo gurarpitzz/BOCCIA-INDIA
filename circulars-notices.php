@@ -219,12 +219,17 @@ include __DIR__ . '/includes/header.php';
 </style>
 
 <!-- Hero Section -->
-<section class="circulars-hero">
-    <div class="container">
-        <h1 class="display-5 fw-bold" style="font-family: 'Outfit', sans-serif;">Circulars & Notices</h1>
-        <p class="lead mb-0 opacity-90" style="max-width: 600px; margin: 0 auto; font-family: 'Poppins', sans-serif;">
-            Stay updated with the latest official circulars, notices, and important announcements from the federation.
-        </p>
+<section class="board-hero" style="background-image: linear-gradient(90deg, rgba(7, 25, 84, 0.95) 0%, rgba(7, 25, 84, 0.88) 35%, rgba(7, 25, 84, 0.65) 55%, rgba(7, 25, 84, 0.35) 75%, transparent 100%), url('<?php echo htmlspecialchars($relative_prefix); ?>board/board_bg.webp');">
+    <div class="container board-hero-container">
+        <div class="board-hero-content scroll-reveal">
+            <span class="board-hero-eyebrow">-- News &amp; Media --</span>
+            <h1 class="board-hero-title">Circulars &amp; Notices</h1>
+            <p class="board-hero-text">
+                Stay updated with the latest official circulars, notices, and important announcements from the federation.
+                <br>
+                <span style="color: var(--bsfi-saffron, #FF9933); font-weight: 600;">Access and download the latest federation updates.</span>
+            </p>
+        </div>
     </div>
 </section>
 
