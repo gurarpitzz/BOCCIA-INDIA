@@ -186,7 +186,7 @@ $auditLogs = $stmt->fetchAll();
                 <div class="col">
                     <div class="admin-stat-card accent-amber h-100">
                         <span class="admin-stat-label">Pending Reviews</span>
-                        <h2 class="admin-stat-val"><?php echo $pendingRegistrations; ?></h2>
+                        <h2 class="admin-stat-val"><?php echo ($pendingRegistrations + $pendingOfficials + $pendingProfileUpdates); ?></h2>
                     </div>
                 </div>
             </div>
@@ -240,7 +240,7 @@ $auditLogs = $stmt->fetchAll();
                                             Registrations
                                             <i class="fa-solid fa-user-check" style="color:var(--bsfi-saffron); font-size:1.25rem;"></i>
                                         </h4>
-                                        <p style="font-size: 1.25rem; font-weight:800; color:#1e293b; margin: 0.5rem 0 0 0;"><?php echo $pendingRegistrations; ?> Pending Applications</p>
+                                        <p style="font-size: 1.25rem; font-weight:800; color:#1e293b; margin: 0.5rem 0 0 0;"><?php echo ($pendingRegistrations + $pendingOfficials); ?> Pending Applications</p>
                                     </div>
                                     <a href="registrations.php" style="color:var(--bsfi-saffron); font-weight:700; text-decoration:none; font-size:0.875rem; margin-top:1.5rem; display:inline-flex; align-items:center; gap:0.4rem;">
                                         Review Applications <i class="fa-solid fa-arrow-right-long"></i>
