@@ -577,7 +577,7 @@ include __DIR__ . '/../includes/header.php';
                     </div>
                     <div class="mb-4">
                         <label class="form-label-custom">Father's Name <span style="font-size:0.8rem; opacity:0.8; font-weight:normal;">(Required only for legacy profiles without registered emails)</span></label>
-                        <input type="text" name="father_name_input" value="<?php echo htmlspecialchars($father_name_input); ?>" class="form-control-custom" placeholder="E.g. Jayantilal Patel">
+                        <input type="text" name="father_name_input" value="<?php echo htmlspecialchars($father_name_input); ?>" class="form-control-custom" placeholder="Enter Father's Name">
                     </div>
                     <div class="mb-4 text-center d-flex justify-content-center">
                         <div class="h-captcha" data-sitekey="<?php echo HCAPTCHA_SITE_KEY; ?>"></div>
