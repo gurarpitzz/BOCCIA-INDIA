@@ -188,7 +188,14 @@
                             </td>
                             <td class="text-muted fw-semibold">Annexure XV, Annexure XVIII</td>
                             <td>
-                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold">YES</span>
+                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-2">YES</span>
+                                <div style="font-size: 0.85rem;" class="text-muted mt-1">
+                                    <strong class="text-dark">Public Information Officer (PIO):</strong><br>
+                                    <span class="fw-semibold text-dark">Gurpreet Singh</span><br>
+                                    <span class="text-muted"><i class="bi bi-envelope me-1"></i>gsablu8383@gmail.com</span><br>
+                                    <span class="text-muted"><i class="bi bi-telephone me-1"></i>+91 9855222006</span><br>
+                                    <span class="text-muted small">#69, VPO-Ablu, Tehsil &amp; Distt. Bathinda, Punjab-151201</span>
+                                </div>
                             </td>
                         </tr>
 
