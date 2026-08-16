@@ -17,8 +17,23 @@
             <!-- BC1: Image Left, Content Right -->
             <div class="class-row align-items-center scroll-reveal">
                 <div class="class-visual">
-                    <div class="class-video-container">
-                        <img src="about boccia/category/BC1/bc1.jpg" alt="BC1 Category Athlete" class="class-loop-image" loading="lazy">
+                    <div class="class-video-container class-slider-wrapper" id="bc1-slider">
+                        <div class="class-slides">
+                            <div class="class-slide active">
+                                <img src="about boccia/category/BC1/bc1.jpg" alt="Gayithri HM - BC1 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Gayithri HM — International Silver Medalist</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/BC1/sandhya_national_gold_medlist_2.jpg" alt="Sandhya Bhumij - BC1 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Sandhya Bhumij — National Gold Medalist</div>
+                            </div>
+                        </div>
+                        <button class="slider-arrow prev" onclick="switchClassSlide('bc1-slider', -1)" aria-label="Previous image"><i class="bi bi-chevron-left"></i></button>
+                        <button class="slider-arrow next" onclick="switchClassSlide('bc1-slider', 1)" aria-label="Next image"><i class="bi bi-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            <span class="dot active" onclick="setClassSlide('bc1-slider', 0)"></span>
+                            <span class="dot" onclick="setClassSlide('bc1-slider', 1)"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="class-details">
@@ -48,8 +63,28 @@
                     </div>
                 </div>
                 <div class="class-visual">
-                    <div class="class-video-container">
-                        <img src="about boccia/category/bc2/bc2.jpg" alt="BC2 Category Athlete" class="class-loop-image" loading="lazy">
+                    <div class="class-video-container class-slider-wrapper" id="bc2-slider">
+                        <div class="class-slides">
+                            <div class="class-slide active">
+                                <img src="about boccia/category/bc2/bc2.jpg" alt="Govindbhai Chaudhary - BC2 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Govindbhai Chaudhary — National Champion</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/bc2/vyom-pawa.jpg" alt="Vyom Bharat Pawa - BC2 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Vyom Bharat Pawa — National Medallist</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/bc2/lakkshhya-gupta.jpg" alt="Lakkshhya Gupta - BC2 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Lakkshhya Gupta — National Medallist</div>
+                            </div>
+                        </div>
+                        <button class="slider-arrow prev" onclick="switchClassSlide('bc2-slider', -1)" aria-label="Previous image"><i class="bi bi-chevron-left"></i></button>
+                        <button class="slider-arrow next" onclick="switchClassSlide('bc2-slider', 1)" aria-label="Next image"><i class="bi bi-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            <span class="dot active" onclick="setClassSlide('bc2-slider', 0)"></span>
+                            <span class="dot" onclick="setClassSlide('bc2-slider', 1)"></span>
+                            <span class="dot" onclick="setClassSlide('bc2-slider', 2)"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,8 +92,28 @@
             <!-- BC3: Image Left, Content Right -->
             <div class="class-row align-items-center scroll-reveal">
                 <div class="class-visual">
-                    <div class="class-video-container">
-                        <img src="about boccia/category/bc3/bc3.jpg" alt="BC3 Category Athlete" class="class-loop-image" loading="lazy">
+                    <div class="class-video-container class-slider-wrapper" id="bc3-slider">
+                        <div class="class-slides">
+                            <div class="class-slide active">
+                                <img src="about boccia/category/bc3/bc3.jpg" alt="Ajeya Raj & Anjali Devi - BC3 Category Indian Athletes" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Ajeya Raj & Anjali Devi — International Medalists</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/bc3/sarita_dwivedi.jpg" alt="Sarita Dwivedi - BC3 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Sarita Dwivedi — International Medalist</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/bc3/raghav_mishra_international_player.jpg" alt="Raghav Mishra - BC3 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Raghav Mishra — International Player</div>
+                            </div>
+                        </div>
+                        <button class="slider-arrow prev" onclick="switchClassSlide('bc3-slider', -1)" aria-label="Previous image"><i class="bi bi-chevron-left"></i></button>
+                        <button class="slider-arrow next" onclick="switchClassSlide('bc3-slider', 1)" aria-label="Next image"><i class="bi bi-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            <span class="dot active" onclick="setClassSlide('bc3-slider', 0)"></span>
+                            <span class="dot" onclick="setClassSlide('bc3-slider', 1)"></span>
+                            <span class="dot" onclick="setClassSlide('bc3-slider', 2)"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="class-details">
@@ -88,8 +143,28 @@
                     </div>
                 </div>
                 <div class="class-visual">
-                    <div class="class-video-container">
-                        <img src="about boccia/category/bc4/bc4.jpg" alt="BC4 Category Athlete" class="class-loop-image" loading="lazy">
+                    <div class="class-video-container class-slider-wrapper" id="bc4-slider">
+                        <div class="class-slides">
+                            <div class="class-slide active">
+                                <img src="about boccia/category/bc4/bc4.jpg" alt="Pooja Gupta & Jatin Kumar - BC4 Category Indian Athletes" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Pooja Gupta & Jatin Kumar — International Pair</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/bc4/jatin_international_medlist.jpg" alt="Jatin Kumar - BC4 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Jatin Kumar — International Medalist</div>
+                            </div>
+                            <div class="class-slide">
+                                <img src="about boccia/category/bc4/usha_kiran.jpg" alt="Usha Kiran - BC4 Category Indian Athlete" class="class-loop-image" loading="lazy">
+                                <div class="player-badge">🇮🇳 Usha Kiran — National Gold Medalist</div>
+                            </div>
+                        </div>
+                        <button class="slider-arrow prev" onclick="switchClassSlide('bc4-slider', -1)" aria-label="Previous image"><i class="bi bi-chevron-left"></i></button>
+                        <button class="slider-arrow next" onclick="switchClassSlide('bc4-slider', 1)" aria-label="Next image"><i class="bi bi-chevron-right"></i></button>
+                        <div class="slider-dots">
+                            <span class="dot active" onclick="setClassSlide('bc4-slider', 0)"></span>
+                            <span class="dot" onclick="setClassSlide('bc4-slider', 1)"></span>
+                            <span class="dot" onclick="setClassSlide('bc4-slider', 2)"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,3 +172,34 @@
         </div>
     </div>
 </section>
+
+<script>
+if (typeof switchClassSlide !== 'function') {
+    function switchClassSlide(sliderId, dir) {
+        const slider = document.getElementById(sliderId);
+        if (!slider) return;
+        const slides = slider.querySelectorAll('.class-slide');
+        const dots = slider.querySelectorAll('.slider-dots .dot');
+        let activeIdx = 0;
+        slides.forEach((slide, idx) => {
+            if (slide.classList.contains('active')) activeIdx = idx;
+        });
+        let newIdx = (activeIdx + dir + slides.length) % slides.length;
+        setClassSlide(sliderId, newIdx);
+    }
+
+    function setClassSlide(sliderId, targetIdx) {
+        const slider = document.getElementById(sliderId);
+        if (!slider) return;
+        const slides = slider.querySelectorAll('.class-slide');
+        const dots = slider.querySelectorAll('.slider-dots .dot');
+        slides.forEach((slide, idx) => {
+            slide.classList.toggle('active', idx === targetIdx);
+        });
+        dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === targetIdx);
+        });
+    }
+}
+</script>
+
