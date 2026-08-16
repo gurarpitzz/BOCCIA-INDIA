@@ -207,9 +207,8 @@
                             </td>
                             <td class="text-muted fw-semibold">Annexure II, para. 3.5.</td>
                             <td>
-                                <div class="fw-semibold text-dark mb-1">No change in EC</div>
-                                <div style="font-size: 0.85rem;" class="text-muted">
-                                    Tenure is compliant (max 4 years). Elected as per Hon'ble Delhi High Court interim order W.P. (C) 10647/2019.
+                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-2">NO CHANGE IN EC</span>
+                                <div style="font-size: 0.85rem;" class="text-muted mt-1">
                                     <a href="page.php?section=myas&slug=elections" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
                                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Election Compliance
                                     </a>
