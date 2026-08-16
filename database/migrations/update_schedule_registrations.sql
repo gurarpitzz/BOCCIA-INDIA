@@ -64,5 +64,5 @@ INSERT IGNORE INTO `site_settings` (`setting_key`, `setting_value`) VALUES
 ('payment_bank_name', 'State Bank of India'),
 ('payment_account_name', 'Boccia Sports Federation of India'),
 ('payment_account_number', '36123404464'),
-('payment_branch', 'SCO 128-129, Grain Market, Bathinda, Punjab'),
-('payment_ifsc_code', 'SBIN0050385');
+('payment_branch', 'Saggu Complex, 100 Feet Road, Near Aakash Institute, Bathinda, Punjab - 151001'),
+('payment_ifsc_code', 'SBIN0019158');

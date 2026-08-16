@@ -101,13 +101,13 @@ foreach ($rows as $row) {
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="payment_ifsc_code" style="font-weight: 600; color: #1e293b; display: block; margin-bottom: 0.5rem;">IFSC Code <span style="color: var(--danger);">*</span></label>
-                        <input type="text" id="payment_ifsc_code" name="payment_ifsc_code" class="admin-input" required value="<?php echo htmlspecialchars($current_settings['payment_ifsc_code'] ?? ''); ?>" placeholder="e.g. SBIN0050385" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #cbd5e1;">
+                        <input type="text" id="payment_ifsc_code" name="payment_ifsc_code" class="admin-input" required value="<?php echo htmlspecialchars($current_settings['payment_ifsc_code'] ?? ''); ?>" placeholder="e.g. SBIN0019158" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #cbd5e1;">
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="payment_branch" style="font-weight: 600; color: #1e293b; display: block; margin-bottom: 0.5rem;">Branch Address <span style="color: var(--danger);">*</span></label>
-                    <textarea id="payment_branch" name="payment_branch" class="admin-input" required rows="3" placeholder="e.g. SCO 128-129, Grain Market, Bathinda, Punjab" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #cbd5e1;"><?php echo htmlspecialchars($current_settings['payment_branch'] ?? ''); ?></textarea>
+                    <textarea id="payment_branch" name="payment_branch" class="admin-input" required rows="3" placeholder="e.g. Saggu Complex, 100 Feet Road, Near Aakash Institute, Bathinda, Punjab - 151001" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #cbd5e1;"><?php echo htmlspecialchars($current_settings['payment_branch'] ?? ''); ?></textarea>
                 </div>
 
                 <div style="margin-top: 1rem;">
