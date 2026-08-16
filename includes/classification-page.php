@@ -238,6 +238,12 @@ include __DIR__ . '/header.php';
                 <p class="board-hero-text">
                     To ensure fair competition, classification groups athletes based on functional ability. Athletes undergo specialized evaluations to assign their profile category.
                 </p>
+                <div class="quick-nav-container mt-4" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <a href="page.php?section=sport&slug=rules#how-it-works" class="btn btn-outline-light rounded-pill px-3 py-2 fw-semibold" style="font-size: 0.85rem;"><i class="bi bi-compass-fill me-1" style="color: #10B981;"></i> How Boccia Works</a>
+                    <a href="page.php?section=sport&slug=classification" class="btn btn-light rounded-pill px-3 py-2 fw-bold text-dark" style="font-size: 0.85rem;"><i class="bi bi-people-fill me-1" style="color: #10B981;"></i> Classification</a>
+                    <a href="page.php?section=sport&slug=equipment" class="btn btn-outline-light rounded-pill px-3 py-2 fw-semibold" style="font-size: 0.85rem;"><i class="bi bi-tools me-1" style="color: #10B981;"></i> Equipment</a>
+                    <a href="page.php?section=sport&slug=rules#documents" class="btn btn-outline-light rounded-pill px-3 py-2 fw-semibold" style="font-size: 0.85rem;"><i class="bi bi-file-earmark-text-fill me-1" style="color: #10B981;"></i> Official Documents</a>
+                </div>
             </div>
         </div>
     </section>
