@@ -125,8 +125,8 @@
                                 <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold mb-2">YES</span>
                                 <div style="font-size: 0.85rem;" class="text-muted mt-1">
                                     Affiliated with IPC / World Boccia.
-                                    <a href="https://worldboccia.com" target="_blank" rel="noopener" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
-                                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> World Boccia Website
+                                    <a href="uploads/documents/Affiliation_with_World_Boccia.pdf" target="_blank" class="d-inline-flex align-items-center mt-1 text-decoration-none fw-semibold text-primary">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="me-1"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> View World Boccia Affiliation
                                     </a>
                                 </div>
                             </td>
