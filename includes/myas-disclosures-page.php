@@ -53,17 +53,17 @@ include __DIR__ . '/header.php';
                     </div>
                 </div>
 
-                <!-- Category 2: Financial Management -->
+                <!-- Category 2: Yearly Audit & ITR -->
                 <div class="col-12 col-md-4">
                     <div class="card h-100 shadow-sm border-0 rounded-4" style="background: rgba(255, 255, 255, 0.95); transition: transform 0.2s;">
                         <div class="card-body d-flex flex-column justify-content-between p-4">
                             <div>
-                                <span class="badge bg-warning text-dark mb-2 text-uppercase fw-bold" style="font-size:0.72rem;">Accounts & Budgets</span>
-                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Financial Management</h5>
-                                <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Financial approvals, audits, government sanctions, statements of accounts, utilization certificates, and budgets.</p>
+                                <span class="badge bg-warning text-dark mb-2 text-uppercase fw-bold" style="font-size:0.72rem;">Audits &amp; ITR</span>
+                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Yearly Audit (3 Yrs ITR)</h5>
+                                <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Audited statements of accounts, 12A/80G donation records, and Income Tax Returns (ITR) for the last 3 financial years.</p>
                             </div>
                             <div class="d-flex flex-column gap-2">
-                                <a href="page.php?section=myas&slug=financial-sanctions" class="btn btn-primary rounded-pill fw-bold w-100" style="background: #081B4B; border-color: #081B4B; color: #ffffff;">
+                                <a href="page.php?section=myas&slug=yearly-audit" class="btn btn-primary rounded-pill fw-bold w-100" style="background: #081B4B; border-color: #081B4B; color: #ffffff;">
                                     View Documents &rarr;
                                 </a>
                             </div>

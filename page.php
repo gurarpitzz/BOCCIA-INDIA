@@ -115,8 +115,8 @@ if ($section === 'myas' && $slug === 'governance-docs') {
     exit();
 }
 
-if ($section === 'myas' && $slug === 'financial-management-docs') {
-    include __DIR__ . '/includes/financial-management-docs-page.php';
+if ($section === 'myas' && ($slug === 'yearly-audit' || $slug === 'financial-management-docs')) {
+    include __DIR__ . '/includes/yearly-audit-page.php';
     exit();
 }
 
