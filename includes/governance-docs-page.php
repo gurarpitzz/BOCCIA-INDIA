@@ -103,7 +103,7 @@ include __DIR__ . '/header.php';
                         <div class="card-body d-flex flex-column justify-content-between p-4">
                             <div>
                                 <span class="badge bg-warning text-dark mb-2 text-uppercase fw-bold" style="font-size:0.72rem;">Audits &amp; ITR</span>
-                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Yearly Audit (3 Yrs ITR)</h5>
+                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Yearly Audit</h5>
                                 <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Audited statements of accounts, 12A/80G donation records, and Income Tax Returns (ITR) for FY 2023-24, AY 2024-25, and AY 2025-26.</p>
                             </div>
                             <div class="d-flex flex-column gap-2">
@@ -112,7 +112,7 @@ include __DIR__ . '/header.php';
                                 </a>
                                 <div class="dropdown">
                                     <button class="btn btn-outline-primary rounded-pill fw-bold w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border: 2px solid #FF9933; color: #FF9933;">
-                                        Download ITR (3 Yrs)
+                                        Download ITR
                                     </button>
                                     <ul class="dropdown-menu shadow rounded-3 w-100">
                                         <li><a class="dropdown-item py-2" href="uploads/documents/donation_BSFI_2023-24.pdf" download><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>FY 2023–24 Donation & Audit</a></li>

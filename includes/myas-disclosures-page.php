@@ -59,7 +59,7 @@ include __DIR__ . '/header.php';
                         <div class="card-body d-flex flex-column justify-content-between p-4">
                             <div>
                                 <span class="badge bg-warning text-dark mb-2 text-uppercase fw-bold" style="font-size:0.72rem;">Audits &amp; ITR</span>
-                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Yearly Audit (3 Yrs ITR)</h5>
+                                <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Yearly Audit</h5>
                                 <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Audited statements of accounts, 12A/80G donation records, and Income Tax Returns (ITR) for the last 3 financial years.</p>
                             </div>
                             <div class="d-flex flex-column gap-2">
