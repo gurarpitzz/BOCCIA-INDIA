@@ -970,19 +970,19 @@ body {
                     <p class="hero-desc">Discover the rules, classifications, equipment standards, and competitive structure of Para Boccia.</p>
                     
                     <div class="quick-nav-container">
-                        <a href="page.php?section=sport&slug=rules#how-it-works" class="quick-nav-card">
+                        <a href="#how-it-works" class="quick-nav-card">
                             <i class="bi bi-compass-fill"></i>
                             <span>How Boccia Works</span>
                         </a>
-                        <a href="page.php?section=sport&slug=classification" class="quick-nav-card">
+                        <a href="#classification" class="quick-nav-card">
                             <i class="bi bi-people-fill"></i>
                             <span>Classification</span>
                         </a>
-                        <a href="page.php?section=sport&slug=equipment" class="quick-nav-card">
+                        <a href="#equipment" class="quick-nav-card">
                             <i class="bi bi-tools"></i>
                             <span>Equipment</span>
                         </a>
-                        <a href="page.php?section=sport&slug=rules#documents" class="quick-nav-card">
+                        <a href="#documents" class="quick-nav-card">
                             <i class="bi bi-file-earmark-text-fill"></i>
                             <span>Official Documents</span>
                         </a>
@@ -1181,7 +1181,7 @@ body {
                         <li><span>Uses Ramp</span> <i class="bi bi-x-circle-fill"></i></li>
                     </ul>
                     <p class="class-desc">Athletes throw the ball with their hand or foot. They may play with the assistance of an assistant who stays outside the athlete's box to adjust the chair or pass the ball.</p>
-                    <a href="page.php?section=sport&slug=classification" class="btn-learn-more">Learn More</a>
+                    <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-learn-more">Learn More</a>
                 </div>
 
                 <!-- BC2 -->
@@ -1199,7 +1199,7 @@ body {
                         <li><span>Uses Ramp</span> <i class="bi bi-x-circle-fill"></i></li>
                     </ul>
                     <p class="class-desc">Athletes throw the ball with their hand. They are not eligible for any assistance inside the box, performing all actions independently.</p>
-                    <a href="page.php?section=sport&slug=classification" class="btn-learn-more">Learn More</a>
+                    <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-learn-more">Learn More</a>
                 </div>
 
                 <!-- BC3 -->
@@ -1220,7 +1220,7 @@ body {
                         <li><span>Hand Throw</span> <i class="bi bi-x-circle-fill"></i></li>
                     </ul>
                     <p class="class-desc">Athletes have severe locomotor dysfunction in all four limbs. They use an assistive device (ramp) and an assistant (ramper) who must keep their back to the court.</p>
-                    <a href="page.php?section=sport&slug=classification" class="btn-learn-more">Learn More</a>
+                    <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-learn-more">Learn More</a>
                 </div>
 
                 <!-- BC4 -->
@@ -1238,14 +1238,14 @@ body {
                         <li><span>Uses Ramp</span> <i class="bi bi-x-circle-fill"></i></li>
                     </ul>
                     <p class="class-desc">Athletes have non-cerebral origin physical impairment (e.g. Muscular Dystrophy). They throw the ball with their hand and are not eligible for assistance.</p>
-                    <a href="page.php?section=sport&slug=classification" class="btn-learn-more">Learn More</a>
+                    <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-learn-more">Learn More</a>
                 </div>
             </div>
             
             <div class="text-center mt-5">
                 <div style="background: rgba(255, 255, 255, 0.85); display: inline-block; padding: 20px 40px; border-radius: 50px; border: 1px solid rgba(8, 27, 75, 0.08); box-shadow: 0 10px 25px rgba(8, 27, 75, 0.03); backdrop-filter: blur(5px);">
                     <p class="mb-2" style="font-size: 1rem; color: #1E293B; font-weight: 600; line-height: 1.5;"><i class="bi bi-info-circle" style="color: var(--boccia-navy); margin-right: 5px;"></i> Classification is based on functional ability and reviewed periodically to ensure fair competition.</p>
-                    <a href="page.php?section=sport&slug=classification" class="fw-bold text-decoration-none d-inline-flex align-items-center gap-1" style="color: var(--boccia-navy); font-size: 1.05rem;">
+                    <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="fw-bold text-decoration-none d-inline-flex align-items-center gap-1" style="color: var(--boccia-navy); font-size: 1.05rem;">
                         View Classification Guidelines <i class="bi bi-arrow-right-short" style="font-size: 1.2rem;"></i>
                     </a>
                 </div>
@@ -1267,7 +1267,7 @@ body {
                     <div class="equip-body">
                         <h4>Competition Balls</h4>
                         <p>Leather balls meeting BISFed standards for size, weight (275g +/- 12g) and circumference (270mm +/- 8mm).</p>
-                        <a href="page.php?section=sport&slug=equipment" class="btn-equip-link">View Specs <i class="bi bi-arrow-right"></i></a>
+                        <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-equip-link">View Specs <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -1279,7 +1279,7 @@ body {
                     <div class="equip-body">
                         <h4>Ramps</h4>
                         <p>Approved assistive devices for BC3 athletes. Ramps must fit within the athlete's 2.5m x 1m playing box.</p>
-                        <a href="page.php?section=sport&slug=equipment" class="btn-equip-link">View Guidelines <i class="bi bi-arrow-right"></i></a>
+                        <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-equip-link">View Guidelines <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -1291,7 +1291,7 @@ body {
                     <div class="equip-body">
                         <h4>Court Specs</h4>
                         <p>Flat indoor court measuring 12.5m x 6m. The throwing area is divided into 6 distinct boxes.</p>
-                        <a href="page.php?section=sport&slug=equipment" class="btn-equip-link">View Details <i class="bi bi-arrow-right"></i></a>
+                        <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-equip-link">View Details <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -1303,7 +1303,7 @@ body {
                     <div class="equip-body">
                         <h4>Measuring Tools</h4>
                         <p>Callipers, feeler gauges, and tape measures used by referees to determine extremely close scores.</p>
-                        <a href="page.php?section=sport&slug=equipment" class="btn-equip-link">View Tools <i class="bi bi-arrow-right"></i></a>
+                        <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-equip-link">View Tools <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -1325,8 +1325,8 @@ body {
                         <span>Updated: 01 May 2026</span>
                     </div>
                     <div class="doc-actions">
-                        <a href="page.php?section=sport&slug=anti-doping" class="btn-doc-view">View Online</a>
-                        <a href="page.php?section=sport&slug=anti-doping" class="btn-doc-dl">Details</a>
+                        <a href="https://www.worldboccia.com/documents/#AntiDopingDoc" target="_blank" class="btn-doc-view">View Online</a>
+                        <a href="https://www.worldboccia.com/documents/#AntiDopingDoc" download class="btn-doc-dl">Download</a>
                     </div>
                 </div>
 
@@ -1340,8 +1340,8 @@ body {
                         <span>Updated: 15 Apr 2026</span>
                     </div>
                     <div class="doc-actions">
-                        <a href="page.php?section=sport&slug=classification" class="btn-doc-view">View Online</a>
-                        <a href="page.php?section=sport&slug=classification" class="btn-doc-dl">Details</a>
+                        <a href="https://www.worldboccia.com/documents/#ClassificationDoc" target="_blank" class="btn-doc-view">View Online</a>
+                        <a href="https://www.worldboccia.com/documents/#ClassificationDoc" download class="btn-doc-dl">Download</a>
                     </div>
                 </div>
 
@@ -1355,13 +1355,13 @@ body {
                         <span>Updated: 10 Apr 2026</span>
                     </div>
                     <div class="doc-actions">
-                        <a href="page.php?section=sport&slug=equipment" class="btn-doc-view">View Online</a>
+                        <a href="https://www.worldboccia.com/about-boccia/sport-equipment/" target="_blank" class="btn-doc-view">View Online</a>
                         <a href="uploads/documents/World-Boccia-Rules-2025-2028-v1.2.1-2.pdf" download class="btn-doc-dl">Download</a>
                     </div>
                 </div>
             </div>
             <div class="mt-4 text-center">
-                <a href="page.php?section=myas&slug=governance-docs" class="btn-view-all-docs">View All Governance &amp; Official Docs</a>
+                <a href="https://www.worldboccia.com/documents/" target="_blank" class="btn-view-all-docs">View All Documents</a>
             </div>
         </div>
     </section>
