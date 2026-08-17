@@ -1194,6 +1194,9 @@ function purgeHistory(id) {
     .catch(err => {
         alert("Server connection error. Please try again.");
     });
+}
+</script>
+
 <!-- Edit NSRS ID Modal -->
 <div class="modal fade" id="editNsrsIdModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
