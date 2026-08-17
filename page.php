@@ -17,53 +17,8 @@ try {
     $docPageStmt->execute([$slug]);
     $docPage = $docPageStmt->fetch();
     
-    if ($docPage) {
-        $page_title = $docPage['title'] . " | " . $docPage['subtitle'] . " - Boccia India";
-        $meta_desc = $docPage['description'] ?? "Official document registry of Boccia Sports Federation of India.";
-        $canonical_url = "page.php?section=" . urlencode($section) . "&slug=" . urlencode($slug);
-        
-        include __DIR__ . '/includes/header.php';
-        
-        // Populate parameters for document-view-page template
-        $doc_title = $docPage['title'];
-        $doc_subtitle = $docPage['subtitle'];
-        $doc_desc = $docPage['description'] ?? '';
-        $pdf_file = $docPage['pdf_file'];
-        $heroBg = !empty($docPage['hero_image']) ? $docPage['hero_image'] : 'board/board_bg.webp';
-        
-        // Custom metadata lookups based on slugs
-        if ($slug === 'affiliation-pci') {
-            $doc_date = "National Affiliation";
-            $doc_dept = "Paralympic Committee of India (PCI)";
-            $doc_type = "Recognition Certificate";
-        } elseif ($slug === 'affiliation-world-boccia') {
-            $doc_date = "International Affiliation";
-            $doc_dept = "World Boccia (BISFed)";
-            $doc_type = "Affiliation Certificate";
-        } elseif ($slug === 'selection-policy') {
-            $doc_date = "2026 Season";
-            $doc_dept = "BSFI Selection Committee";
-            $doc_type = "National Selection Policy";
-        } elseif ($slug === 'apg-2026') {
-            $doc_date = "Asian Para Games 2026";
-            $doc_dept = "BSFI Technical Committee";
-            $doc_type = "Qualification Guidelines";
-        } elseif ($slug === 'apg-trials-2026') {
-            $doc_date = "Asian Para Games 2026";
-            $doc_dept = "BSFI Selection Committee";
-            $doc_type = "Selection Trial Schedule";
-        } elseif ($slug === 'tenders') {
-            $doc_date = "Procurement Notice";
-            $doc_dept = "BSFI Finance & Procurement Unit";
-            $doc_type = "Official Tender Notice";
-        } else {
-            $doc_date = "Published";
-            $doc_dept = "Boccia Sports Federation of India";
-            $doc_type = "Official Document";
-        }
-
-        include __DIR__ . '/includes/document-view-page.php';
-        include __DIR__ . '/includes/footer.php';
+    if ($docPage && !empty($docPage['pdf_file'])) {
+        header("Location: " . $docPage['pdf_file']);
         exit();
     }
 } catch (PDOException $e) {
