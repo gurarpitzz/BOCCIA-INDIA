@@ -90,14 +90,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <div class="container-fluid" style="padding: 2rem;">
         
         <?php if (!empty($error)): ?>
-            <div class="alert alert-danger border-0 p-3 mb-4 rounded-3" style="background-color:#FEF2F2; color:#991B1B;">
-                <i class="fa-solid fa-circle-exclamation me-2"></i> <?php echo htmlspecialchars($error); ?>
+            <div class="alert border-0 p-3 mb-4 rounded-4 shadow-sm d-flex align-items-center gap-3" style="background-color: #FEF2F2; border-left: 6px solid #DC2626 !important; color: #991B1B;">
+                <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #FEE2E2; color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1" style="font-size: 0.98rem; color: #991B1B;"><i class="fa-solid fa-triangle-exclamation me-1"></i> Access &amp; Authorization Error</h6>
+                    <div style="font-size: 0.92rem; font-weight: 700; color: #7F1D1D;"><?php echo htmlspecialchars($error); ?></div>
+                </div>
             </div>
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modalEl = document.getElementById("editNsrsIdModal");
+                if (modalEl) {
+                    var modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+                }
+            });
+            </script>
         <?php endif; ?>
 
         <?php if (!empty($success)): ?>
-            <div class="alert alert-success border-0 p-3 mb-4 rounded-3" style="background-color:#ECFDF5; color:#065F46;">
-                <i class="fa-solid fa-circle-check me-2"></i> <?php echo htmlspecialchars($success); ?>
+            <div class="alert border-0 p-3 mb-4 rounded-4 shadow-sm d-flex align-items-center gap-3" style="background-color:#ECFDF5; border-left: 6px solid #10B981 !important; color:#065F46;">
+                <div style="width: 44px; height: 44px; border-radius: 50%; background-color: #D1FAE5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-1" style="font-size: 0.98rem; color: #065F46;">Authorization Confirmed</h6>
+                    <div style="font-size: 0.92rem; font-weight: 700; color: #047857;"><?php echo htmlspecialchars($success); ?></div>
+                </div>
             </div>
         <?php endif; ?>
         
@@ -1209,6 +1230,11 @@ function purgeHistory(id) {
                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <input type="hidden" name="action" value="update_nsrs_id">
                 <div class="modal-body p-4">
+                    <?php if (!empty($error)): ?>
+                        <div class="alert alert-danger border-0 small mb-3 fw-bold" style="background:#FEE2E2; color:#991B1B;">
+                            <i class="fa-solid fa-circle-exclamation me-1"></i> <?php echo htmlspecialchars($error); ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="alert alert-warning border-0 text-dark small mb-3" style="background:#FEF3C7;">
                         <i class="fa-solid fa-lock me-1"></i> Security Verification: Modifying an athlete's NSRS ID requires your current administrator account password.
                     </div>
