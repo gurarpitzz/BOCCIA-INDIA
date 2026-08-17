@@ -260,7 +260,7 @@ function fetchStatusDetails(event) {
     submitBtn.disabled = true;
     submitBtn.innerText = "Checking...";
 
-    fetch(`../api/status.php?id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`)
+    fetch(`../api/status.php?id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}&_t=${Date.now()}`)
     .then(async res => {
         const data = await res.json();
         if (!res.ok) {
@@ -284,36 +284,31 @@ function fetchStatusDetails(event) {
         const infoDesc = document.getElementById("result-info-desc");
 
         badge.className = "badge-status";
+        const statusKey = (data.status || '').toLowerCase().trim();
         
-        switch(data.status) {
-            case 'submitted':
-                badge.classList.add("badge-submitted");
-                badge.innerText = "Submitted";
-                infoTitle.innerText = "Application is Received";
-                infoDesc.innerText = "Your registration details have been securely logged. An administrator will start the verification process shortly.";
-                break;
-            case 'under review':
-                badge.classList.add("badge-review");
-                badge.innerText = "Under Review";
-                infoTitle.innerText = "Currently Under Review";
-                infoDesc.innerText = "An administrator is verifying your document proofs and qualifications. Please check back later.";
-                break;
-            case 'rejected':
-            case 'action required':
-                badge.classList.add("badge-action");
-                badge.innerText = "Rejected";
-                infoTitle.innerText = "Application Not Approved";
-                let notesText = data.reviewNotes && data.reviewNotes.trim() !== "" 
-                    ? data.reviewNotes 
-                    : "Your application was reviewed and not approved by the verification committee. Please contact office@bocciaindia.com for further guidance.";
-                infoDesc.innerHTML = `<strong style="color: #991b1b; display: block; margin-bottom: 6px;">Reason for Rejection / Admin Comments:</strong> <span style="color: #475569;">${notesText.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`;
-                break;
-            case 'approved':
-                badge.classList.add("badge-approved");
-                badge.innerText = "Approved";
-                infoTitle.innerText = "Registration Approved";
-                infoDesc.innerText = "Congratulations! Your application has been approved. You are now formally registered with the Boccia Sports Federation of India.";
-                break;
+        if (statusKey === 'rejected' || statusKey === 'action required' || statusKey.includes('reject')) {
+            badge.classList.add("badge-action");
+            badge.innerText = "Rejected";
+            infoTitle.innerText = "Application Not Approved";
+            let notesText = data.reviewNotes && data.reviewNotes.trim() !== "" 
+                ? data.reviewNotes 
+                : "Your application was reviewed and not approved by the verification committee. Please contact office@bocciaindia.com for further guidance.";
+            infoDesc.innerHTML = `<strong style="color: #991b1b; display: block; margin-bottom: 6px;">Reason for Rejection / Admin Comments:</strong> <span style="color: #475569;">${notesText.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`;
+        } else if (statusKey === 'approved') {
+            badge.classList.add("badge-approved");
+            badge.innerText = "Approved";
+            infoTitle.innerText = "Registration Approved";
+            infoDesc.innerText = "Congratulations! Your application has been approved. You are now formally registered with the Boccia Sports Federation of India.";
+        } else if (statusKey === 'under review') {
+            badge.classList.add("badge-review");
+            badge.innerText = "Under Review";
+            infoTitle.innerText = "Currently Under Review";
+            infoDesc.innerText = "An administrator is verifying your document proofs and qualifications. Please check back later.";
+        } else {
+            badge.classList.add("badge-submitted");
+            badge.innerText = "Submitted";
+            infoTitle.innerText = "Application Received";
+            infoDesc.innerText = "Your registration details have been securely logged. An administrator will start the verification process shortly.";
         }
 
         results.classList.remove("d-none");

@@ -2,6 +2,8 @@
 // api/status.php - Secure AJAX status check endpoint
 
 header('Content-Type: application/json');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 require_once __DIR__ . '/../includes/db.php';
 
