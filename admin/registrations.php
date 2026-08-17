@@ -236,12 +236,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     throw new Exception("This application has already been processed (current status: " . $app['status'] . ").");
                 }
 
-                // Retrieve and validate assigned classification if approving
+                // Retrieve and validate assigned classification & NSRS ID if approving
                 $assignedClass = '';
+                $nsrsId = '';
                 if ($action === 'approve_link' || $action === 'approve_new') {
                     $assignedClass = trim($_POST['assigned_classification'] ?? '');
                     if (!in_array($assignedClass, ['BC1', 'BC2', 'BC3', 'BC4'])) {
                         throw new Exception("Please select a valid Boccia category (BC1-BC4) for approval.");
+                    }
+                    $nsrsId = trim($_POST['nsrs_id'] ?? '');
+                    if (empty($nsrsId)) {
+                        throw new Exception("NSRS ID is compulsory to approve an athlete registration.");
                     }
                 }
 
@@ -268,7 +273,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         full_name = ?, gender = ?, dob = ?, mobile = ?, email = ?, 
                         state = ?, district = ?, classification = ?, wheelchair_status = ?, 
                         photo_path = COALESCE(?, photo_path), receipt_path = COALESCE(?, receipt_path), 
-                        aadhaar = COALESCE(?, aadhaar), status = 'approved',
+                        aadhaar = COALESCE(?, aadhaar), status = 'approved', nsrs_id = ?,
                         photo_status = IF(? != '' OR photo_path IS NOT NULL, 'verified', photo_status),
                         father_name = ?, mother_name = ?, age_category = ?, impairment_type = ?,
                         address = ?, pincode = ?, kit_tshirt = ?, kit_tracksuit = ?, kit_shoe = ?, medical_certificate = COALESCE(?, medical_certificate), passport_file = COALESCE(?, passport_file) 
@@ -282,7 +287,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $upAthlete->execute([
                         $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
                         $app['state'], $app['district'], $assignedClass, $app['wheelchair_status'],
-                        $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $app['photo_path'],
+                        $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $nsrsId, $app['photo_path'],
                         $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
                         $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['medical_certificate'], $app['receipt_path'],
                         $existingId
@@ -292,13 +297,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $upApp->execute([$existingId, $applicationId]);
 
                     $hist = $pdo->prepare("INSERT INTO athlete_status_history (athlete_id, old_status, new_status, changed_by, remarks) VALUES (?, ?, 'approved', ?, ?)");
-                    $hist->execute([$existingId, $existing['status'], $_SESSION['user_id'], "Linked and approved from application ID: $applicationId"]);
+                    $hist->execute([$existingId, $existing['status'], $_SESSION['user_id'], "Linked and approved from application ID: $applicationId | NSRS ID: $nsrsId"]);
 
                     $pdo->commit();
 
-                    logAction($pdo, "Linked & Approved Athlete Application", "athletes", $existingId, "Name: {$app['full_name']} | REGN_NO: {$existing['regn_no']}");
+                    logAction($pdo, "Linked & Approved Athlete Application", "athletes", $existingId, "Name: {$app['full_name']} | REGN_NO: {$existing['regn_no']} | NSRS_ID: $nsrsId");
                     sendApprovalEmail($app['email'], $app['full_name'], $existing['regn_no'], 'athlete');
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application linked to existing Athlete <strong>" . htmlspecialchars($existing['regn_no']) . "</strong> and approved successfully.</div>";
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application linked to existing Athlete <strong>" . htmlspecialchars($existing['regn_no']) . "</strong> and approved successfully with NSRS ID: <strong>" . htmlspecialchars($nsrsId) . "</strong>.</div>";
                 } elseif ($action === 'approve_new') {
                     $pdo->beginTransaction();
 
@@ -337,13 +342,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     // Newly approved athlete sets photo_status to verified if photo exists
                     $insAthlete = $pdo->prepare("INSERT INTO athletes 
-                        (regn_no, full_name, gender, dob, mobile, email, state, district, classification, representing_for, state_association_id, wheelchair_status, photo_path, receipt_path, status, aadhaar, digilocker_imported, photo_status,
+                        (regn_no, nsrs_id, full_name, gender, dob, mobile, email, state, district, classification, representing_for, state_association_id, wheelchair_status, photo_path, receipt_path, status, aadhaar, digilocker_imported, photo_status,
                          father_name, mother_name, age_category, impairment_type, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, medical_certificate, passport_file) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     
                     $hasPhoto = !empty($app['photo_path']) ? 'verified' : 'missing';
                     $insAthlete->execute([
-                        $regnNo, $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
+                        $regnNo, $nsrsId, $app['full_name'], $genderFormatted, $app['dob'], $app['phone'], $app['email'],
                         $app['state'], $app['district'], $assignedClass, $app['state'], $assocId,
                         $app['wheelchair_status'], $app['photo_path'], $app['receipt_path'], $app['aadhaar'], $hasPhoto,
                         $app['father_name'], $app['mother_name'], $app['age_category'], $app['impairment_type'],
@@ -355,13 +360,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $upApp->execute([$newAthleteId, $applicationId]);
 
                     $hist = $pdo->prepare("INSERT INTO athlete_status_history (athlete_id, old_status, new_status, changed_by, remarks) VALUES (?, NULL, 'approved', ?, ?)");
-                    $hist->execute([$newAthleteId, $_SESSION['user_id'], "Newly approved athlete from application ID: $applicationId"]);
+                    $hist->execute([$newAthleteId, $_SESSION['user_id'], "Newly approved athlete from application ID: $applicationId | NSRS ID: $nsrsId"]);
 
                     $pdo->commit();
 
-                    logAction($pdo, "Approved New Athlete Application", "athletes", $newAthleteId, "Name: {$app['full_name']} | Generated REGN_NO: $regnNo");
+                    logAction($pdo, "Approved New Athlete Application", "athletes", $newAthleteId, "Name: {$app['full_name']} | Generated REGN_NO: $regnNo | NSRS_ID: $nsrsId");
                     sendApprovalEmail($app['email'], $app['full_name'], $regnNo, 'athlete');
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application approved successfully! Athlete REGN_NO: <strong>$regnNo</strong></div>";
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application approved successfully! Athlete REGN_NO: <strong>$regnNo</strong> | NSRS ID: <strong>" . htmlspecialchars($nsrsId) . "</strong></div>";
                 }
             } elseif ($type === 'official') {
                 // Fetch application details
@@ -375,6 +380,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                 if ($app['status'] !== 'pending') {
                     throw new Exception("This application has already been processed (current status: " . $app['status'] . ").");
+                }
+
+                $nsrsId = '';
+                if ($action === 'approve_link' || $action === 'approve_new') {
+                    $nsrsId = trim($_POST['nsrs_id'] ?? '');
+                    if (empty($nsrsId)) {
+                        throw new Exception("NSRS ID is compulsory to approve an official registration.");
+                    }
                 }
 
                 if ($action === 'reject') {
@@ -402,7 +415,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         address = ?, pincode = ?, kit_tshirt = ?, kit_tracksuit = ?, kit_shoe = ?, 
                         education_qualification = ?, para_sports_experience = ?, classifier_type = ?, 
                         classifier_type_other = ?, passport_file = COALESCE(?, passport_file),
-                        photo_path = COALESCE(?, photo_path), receipt_path = COALESCE(?, receipt_path), status = 'approved',
+                        photo_path = COALESCE(?, photo_path), receipt_path = COALESCE(?, receipt_path), status = 'approved', nsrs_id = ?,
                         photo_status = IF(? != '' OR photo_path IS NOT NULL, 'verified', photo_status) 
                         WHERE id = ?");
                     
@@ -412,7 +425,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         $app['address'], $app['pincode'], $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'],
                         $app['education_qualification'], $app['para_sports_experience'], $app['classifier_type'],
                         $app['classifier_type_other'], $app['passport_file'],
-                        $app['photo_path'], $app['receipt_path'], $app['photo_path'], $existingId
+                        $app['photo_path'], $app['receipt_path'], $nsrsId, $app['photo_path'], $existingId
                     ]);
 
                     $upApp = $pdo->prepare("UPDATE official_applications SET status = 'approved', existing_official_id = ? WHERE id = ?");
@@ -420,9 +433,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     $pdo->commit();
 
-                    logAction($pdo, "Linked & Approved Official Application", "officials", $existingId, "Name: {$app['full_name']} | Official ID: {$existing['official_reg_no']}");
+                    logAction($pdo, "Linked & Approved Official Application", "officials", $existingId, "Name: {$app['full_name']} | Official ID: {$existing['official_reg_no']} | NSRS_ID: $nsrsId");
                     sendApprovalEmail($app['email'], $app['full_name'], $existing['official_reg_no'], 'official');
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application linked to existing Official <strong>" . htmlspecialchars($existing['official_reg_no']) . "</strong> and approved successfully.</div>";
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application linked to existing Official <strong>" . htmlspecialchars($existing['official_reg_no']) . "</strong> and approved successfully with NSRS ID: <strong>" . htmlspecialchars($nsrsId) . "</strong>.</div>";
                 } elseif ($action === 'approve_new') {
                     $pdo->beginTransaction();
 
@@ -440,12 +453,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $officialId = "OF-" . str_pad($nextNo, 4, '0', STR_PAD_LEFT);
 
                     $insOfficial = $pdo->prepare("INSERT INTO officials 
-                        (official_reg_no, name, category, role, gender, dob, father_name, state, aadhaar, phone, email, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, education_qualification, para_sports_experience, classifier_type, classifier_type_other, passport_file, photo_path, receipt_path, status, photo_status) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
+                        (official_reg_no, nsrs_id, name, category, role, gender, dob, father_name, state, aadhaar, phone, email, address, pincode, kit_tshirt, kit_tracksuit, kit_shoe, education_qualification, para_sports_experience, classifier_type, classifier_type_other, passport_file, photo_path, receipt_path, status, photo_status) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
                     
                     $hasPhoto = !empty($app['photo_path']) ? 'verified' : 'missing';
                     $insOfficial->execute([
-                        $officialId, $app['full_name'], $app['category'], $app['role'], $app['gender'], $app['dob'], $app['father_name'],
+                        $officialId, $nsrsId, $app['full_name'], $app['category'], $app['role'], $app['gender'], $app['dob'], $app['father_name'],
                         $app['state'], $app['aadhaar'], $app['phone'], $app['email'], $app['address'], $app['pincode'],
                         $app['kit_tshirt'], $app['kit_tracksuit'], $app['kit_shoe'], $app['education_qualification'], $app['para_sports_experience'],
                         $app['classifier_type'], $app['classifier_type_other'], $app['passport_file'], $app['photo_path'], $app['receipt_path'], $hasPhoto
@@ -457,9 +470,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
                     $pdo->commit();
 
-                    logAction($pdo, "Approved New Official Application", "officials", $newOfficialId, "Name: {$app['full_name']} | Generated ID: $officialId");
+                    logAction($pdo, "Approved New Official Application", "officials", $newOfficialId, "Name: {$app['full_name']} | Generated ID: $officialId | NSRS_ID: $nsrsId");
                     sendApprovalEmail($app['email'], $app['full_name'], $officialId, 'official');
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application approved successfully! Official ID: <strong>$officialId</strong></div>";
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application approved successfully! Official ID: <strong>$officialId</strong> | NSRS ID: <strong>" . htmlspecialchars($nsrsId) . "</strong></div>";
                 }
             }
         } catch (Exception $e) {
@@ -646,7 +659,8 @@ include __DIR__ . '/../includes/header.php';
                                         <option value="BC3">BC3</option>
                                         <option value="BC4">BC4</option>
                                     </select>
-                                    <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 220px; border-radius: 20px; padding: 0.3rem 0.75rem;">
+                                    <input type="text" name="nsrs_id" class="admin-input" placeholder="NSRS ID (Required)..." style="font-size:0.85rem; width: 170px; border-radius: 20px; padding: 0.3rem 0.75rem; border: 2px solid #081B4B;" required>
+                                    <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 200px; border-radius: 20px; padding: 0.3rem 0.75rem;">
                                     <?php if ($app['possible_duplicate'] && $app['existing_athlete_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_athlete_id']; ?>">
                                         <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>
@@ -784,7 +798,8 @@ include __DIR__ . '/../includes/header.php';
                                     <input type="hidden" name="type" value="official">
                                     <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
                                     
-                                    <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 220px; border-radius: 20px; padding: 0.3rem 0.75rem;">
+                                    <input type="text" name="nsrs_id" class="admin-input" placeholder="NSRS ID (Required)..." style="font-size:0.85rem; width: 170px; border-radius: 20px; padding: 0.3rem 0.75rem; border: 2px solid #081B4B;" required>
+                                    <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 200px; border-radius: 20px; padding: 0.3rem 0.75rem;">
                                     <?php if ($app['possible_duplicate'] && $app['existing_official_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_official_id']; ?>">
                                         <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>

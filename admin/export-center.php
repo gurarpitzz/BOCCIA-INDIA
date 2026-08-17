@@ -227,6 +227,10 @@ $eventsList = $pdo->query("SELECT id, discipline FROM schedules WHERE registrati
                                             <label class="form-check-label fw-semibold" for="col_regn">Registration No / ID</label>
                                         </div>
                                         <div class="form-check my-1">
+                                            <input class="form-check-input" type="checkbox" name="cols[]" value="nsrs_id" id="col_nsrs_id" checked>
+                                            <label class="form-check-label text-primary fw-semibold" for="col_nsrs_id"><i class="fa-solid fa-id-card me-1"></i> NSRS ID</label>
+                                        </div>
+                                        <div class="form-check my-1">
                                             <input class="form-check-input" type="checkbox" name="cols[]" value="full_name" id="col_name" checked>
                                             <label class="form-check-label fw-semibold" for="col_name">Full Name</label>
                                         </div>

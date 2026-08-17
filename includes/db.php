@@ -27,6 +27,13 @@ $options = [
 
 try {
      $pdo = new PDO($dsn, $user, $pass, $options);
+     // Self-healing check for nsrs_id columns
+     try {
+         $pdo->exec("ALTER TABLE `athletes` ADD COLUMN `nsrs_id` VARCHAR(100) NULL DEFAULT NULL AFTER `regn_no`");
+     } catch (\Throwable $t) {}
+     try {
+         $pdo->exec("ALTER TABLE `officials` ADD COLUMN `nsrs_id` VARCHAR(100) NULL DEFAULT NULL AFTER `official_reg_no`");
+     } catch (\Throwable $t) {}
 } catch (\PDOException $e) {
      die("PDO Error: " . $e->getMessage());
 }

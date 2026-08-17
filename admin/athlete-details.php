@@ -51,10 +51,55 @@ $statusStmt = $pdo->prepare("
 ");
 $statusStmt->execute([$athleteId]);
 $statusList = $statusStmt->fetchAll();
+
+$error = '';
+$success = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_nsrs_id') {
+    if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
+        $error = "Security token validation failed (CSRF).";
+    } elseif (!$isAdmin) {
+        $error = "Only Administrators can modify NSRS IDs.";
+    } else {
+        $adminPass = $_POST['admin_password'] ?? '';
+        $newNsrsId = trim($_POST['new_nsrs_id'] ?? '');
+
+        // Fetch current admin password hash
+        $userStmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
+        $userStmt->execute([$_SESSION['user_id']]);
+        $currentUser = $userStmt->fetch();
+
+        if (!$currentUser || !password_verify($adminPass, $currentUser['password_hash'])) {
+            $error = "Authorization failed! Incorrect administrator password.";
+        } elseif (empty($newNsrsId)) {
+            $error = "NSRS ID cannot be empty.";
+        } else {
+            $upNsrs = $pdo->prepare("UPDATE athletes SET nsrs_id = ? WHERE id = ?");
+            $upNsrs->execute([$newNsrsId, $athleteId]);
+            logAction($pdo, "Updated Athlete NSRS ID", "athletes", $athleteId, "New NSRS ID: $newNsrsId");
+            $success = "NSRS ID updated successfully to: " . htmlspecialchars($newNsrsId);
+            // Refresh athlete details
+            $stmt->execute([$athleteId]);
+            $athlete = $stmt->fetch();
+        }
+    }
+}
 ?>
 
 <div class="admin-wrapper">
     <div class="container-fluid" style="padding: 2rem;">
+        
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-danger border-0 p-3 mb-4 rounded-3" style="background-color:#FEF2F2; color:#991B1B;">
+                <i class="fa-solid fa-circle-exclamation me-2"></i> <?php echo htmlspecialchars($error); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($success)): ?>
+            <div class="alert alert-success border-0 p-3 mb-4 rounded-3" style="background-color:#ECFDF5; color:#065F46;">
+                <i class="fa-solid fa-circle-check me-2"></i> <?php echo htmlspecialchars($success); ?>
+            </div>
+        <?php endif; ?>
         
         <!-- Breadcrumbs / Top Actions -->
         <div class="admin-page-title-row">
@@ -103,10 +148,22 @@ $statusList = $statusStmt->fetchAll();
                     <h3 style="font-weight: 800; color: var(--navy); margin-bottom: 0.25rem;">
                         <?php echo htmlspecialchars($athlete['full_name']); ?>
                     </h3>
-                    <div style="font-family: monospace; font-size: 1.15rem; font-weight: 700; color: var(--bsfi-green); margin-bottom: 1.25rem;">
+                    <div style="font-family: monospace; font-size: 1.15rem; font-weight: 700; color: var(--bsfi-green); margin-bottom: 0.75rem;">
                         ID: <?php echo htmlspecialchars($athlete['regn_no']); ?>
                         <div style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); margin-top: 0.15rem;">
                             🔒 Permanent Federation Identifier (Locked)
+                        </div>
+                    </div>
+
+                    <div class="mb-4 p-2 rounded-3" style="background:#F1F5F9; border:1px solid #CBD5E1;">
+                        <div style="font-size:0.75rem; font-weight:700; color:#475569; text-transform:uppercase;">NSRS ID</div>
+                        <div style="font-family:monospace; font-weight:800; font-size:1.05rem; color:#081B4B;">
+                            <?php echo htmlspecialchars($athlete['nsrs_id'] ?: 'Not Assigned'); ?>
+                            <?php if ($isAdmin): ?>
+                                <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none ms-2" data-bs-toggle="modal" data-bs-target="#editNsrsIdModal" style="font-size:0.75rem;">
+                                    <i class="fa-solid fa-pen-to-square text-primary"></i> Edit
+                                </button>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -1137,8 +1194,38 @@ function purgeHistory(id) {
     .catch(err => {
         alert("Server connection error. Please try again.");
     });
-}
-</script>
+<!-- Edit NSRS ID Modal -->
+<div class="modal fade" id="editNsrsIdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-bottom-0 pb-0" style="background:#081B4B; color:white; border-radius: 16px 16px 0 0; padding:1.25rem 1.5rem;">
+                <h5 class="modal-title font-bold text-white"><i class="fa-solid fa-shield-halved me-2"></i> Edit NSRS ID</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="athlete-details.php?id=<?php echo $athlete['id']; ?>" method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <input type="hidden" name="action" value="update_nsrs_id">
+                <div class="modal-body p-4">
+                    <div class="alert alert-warning border-0 text-dark small mb-3" style="background:#FEF3C7;">
+                        <i class="fa-solid fa-lock me-1"></i> Security Verification: Modifying an athlete's NSRS ID requires your current administrator account password.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">NSRS ID <span class="text-danger">*</span></label>
+                        <input type="text" name="new_nsrs_id" class="form-control" value="<?php echo htmlspecialchars($athlete['nsrs_id'] ?? ''); ?>" placeholder="Enter NSRS ID..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Admin Account Password <span class="text-danger">*</span></label>
+                        <input type="password" name="admin_password" class="form-control" placeholder="Enter your login password..." required>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4" style="background:#081B4B; border-color:#081B4B;">Authorize &amp; Save NSRS ID</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?php endif; ?>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

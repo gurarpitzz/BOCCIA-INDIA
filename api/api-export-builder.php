@@ -385,7 +385,7 @@ if ($action === 'custom') {
     $colsRequested = isset($_GET['cols']) ? $_GET['cols'] : ['regn_no', 'full_name', 'gender', 'state', 'classification'];
     
     // Check if any sensitive columns are requested
-    $sensitiveCols = ['email', 'mobile', 'phone', 'aadhaar', 'address', 'kit_tshirt', 'father_name', 'photo_path', 'receipt_path'];
+    $sensitiveCols = ['nsrs_id', 'email', 'mobile', 'phone', 'aadhaar', 'address', 'kit_tshirt', 'father_name', 'photo_path', 'receipt_path'];
     $requestedSensitive = array_intersect($colsRequested, $sensitiveCols);
     
     if (!empty($requestedSensitive) && $role !== 'admin') {
@@ -432,6 +432,10 @@ if ($action === 'custom') {
                 case 'regn_no': 
                     $selectFields[] = 'regn_no'; 
                     $columnHeaders[] = 'Registration No'; 
+                    break;
+                case 'nsrs_id': 
+                    $selectFields[] = 'nsrs_id'; 
+                    $columnHeaders[] = 'NSRS ID'; 
                     break;
                 case 'full_name': 
                     $selectFields[] = 'full_name'; 
@@ -514,6 +518,10 @@ if ($action === 'custom') {
                 case 'regn_no': 
                     $selectFields[] = 'official_reg_no'; 
                     $columnHeaders[] = 'Official Reg No'; 
+                    break;
+                case 'nsrs_id': 
+                    $selectFields[] = 'nsrs_id'; 
+                    $columnHeaders[] = 'NSRS ID'; 
                     break;
                 case 'full_name': 
                     $selectFields[] = 'name'; 
