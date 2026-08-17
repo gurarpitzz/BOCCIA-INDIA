@@ -110,7 +110,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $requestId = (int)($_POST['request_id'] ?? 0);
 
         try {
-            if ($action === 'approve_update' || $action === 'reject_update') {
+            if ($action === 'reopen') {
+                $targetTable = ($type === 'official') ? 'official_applications' : 'athlete_applications';
+                $up = $pdo->prepare("UPDATE {$targetTable} SET status = 'pending' WHERE id = ?");
+                $up->execute([$applicationId]);
+                logAction($pdo, "Reopened Application", $targetTable, $applicationId, "Type: $type | ID: $applicationId");
+                $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application reopened successfully and moved back to the active review queue.</div>";
+            } elseif ($action === 'delete_application') {
+                $targetTable = ($type === 'official') ? 'official_applications' : 'athlete_applications';
+                $del = $pdo->prepare("DELETE FROM {$targetTable} WHERE id = ?");
+                $del->execute([$applicationId]);
+                logAction($pdo, "Deleted Application Record", $targetTable, $applicationId, "Type: $type | ID: $applicationId");
+                $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application record permanently deleted.</div>";
+            } elseif ($action === 'approve_update' || $action === 'reject_update') {
                 // Fetch request details
                 $reqStmt = $pdo->prepare("SELECT * FROM profile_update_requests WHERE id = ?");
                 $reqStmt->execute([$requestId]);
@@ -903,6 +915,7 @@ include __DIR__ . '/../includes/header.php';
                                         <th>Contact Email</th>
                                         <th>Rejection Reason / Admin Comments</th>
                                         <th>Rejected Date</th>
+                                        <th style="text-align:right;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -918,6 +931,15 @@ include __DIR__ . '/../includes/header.php';
                                                 </span>
                                             </td>
                                             <td><?php echo date('d M Y, h:i A', strtotime($rAth['updated_at'])); ?></td>
+                                            <td style="text-align:right;">
+                                                <form action="registrations.php?tab=rejected" method="POST" style="display:inline-flex; gap:0.35rem; margin:0;">
+                                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                    <input type="hidden" name="type" value="athlete">
+                                                    <input type="hidden" name="application_id" value="<?php echo $rAth['id']; ?>">
+                                                    <button type="submit" name="action" value="reopen" class="btn btn-sm btn-outline-warning rounded-pill px-2 py-1" style="font-size:0.75rem;" title="Reopen &amp; Move back to Active Review Queue"><i class="fa-solid fa-rotate-left me-1"></i>Reopen</button>
+                                                    <button type="submit" name="action" value="delete_application" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" style="font-size:0.75rem;" onclick="return confirm('Permanently delete this rejected application record?');" title="Permanently Delete Record"><i class="fa-solid fa-trash me-1"></i>Delete</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <?php foreach ($rejectedOfficials as $rOff): ?>
@@ -932,6 +954,15 @@ include __DIR__ . '/../includes/header.php';
                                                 </span>
                                             </td>
                                             <td><?php echo date('d M Y, h:i A', strtotime($rOff['updated_at'])); ?></td>
+                                            <td style="text-align:right;">
+                                                <form action="registrations.php?tab=rejected" method="POST" style="display:inline-flex; gap:0.35rem; margin:0;">
+                                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                    <input type="hidden" name="type" value="official">
+                                                    <input type="hidden" name="application_id" value="<?php echo $rOff['id']; ?>">
+                                                    <button type="submit" name="action" value="reopen" class="btn btn-sm btn-outline-warning rounded-pill px-2 py-1" style="font-size:0.75rem;" title="Reopen &amp; Move back to Active Review Queue"><i class="fa-solid fa-rotate-left me-1"></i>Reopen</button>
+                                                    <button type="submit" name="action" value="delete_application" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" style="font-size:0.75rem;" onclick="return confirm('Permanently delete this rejected application record?');" title="Permanently Delete Record"><i class="fa-solid fa-trash me-1"></i>Delete</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
