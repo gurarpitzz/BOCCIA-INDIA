@@ -3293,18 +3293,19 @@ body {
     padding: 2.5rem;
 }
 .spotlight-img-wrapper {
-    width: 320px;
-    height: 320px;
+    width: 300px;
+    aspect-ratio: 4/5;
     border-radius: 24px;
     overflow: hidden;
     flex-shrink: 0;
     box-shadow: 0 10px 25px rgba(11, 31, 91, 0.05);
+    background: #F6F3EC;
 }
 .spotlight-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center;
 }
 .spotlight-info {
     padding: 1.5rem 2.5rem;
@@ -3608,6 +3609,8 @@ body {
     }
     .spotlight-img-wrapper {
         max-width: 280px;
+        width: 100%;
+        aspect-ratio: 4/5;
         margin: 0 auto 2rem;
     }
     .spotlight-info {
