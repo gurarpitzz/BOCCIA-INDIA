@@ -51,13 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
         if (!$currentUser || !password_verify($adminPass, $currentUser['password_hash'])) {
             $error = "Authorization failed! Incorrect administrator password.";
-        } elseif (empty($newNsrsId)) {
-            $error = "NSRS ID cannot be empty.";
         } else {
+            $valToSave = ($newNsrsId === '') ? null : $newNsrsId;
             $upNsrs = $pdo->prepare("UPDATE officials SET nsrs_id = ? WHERE id = ?");
-            $upNsrs->execute([$newNsrsId, $officialId]);
-            logAction($pdo, "Updated Official NSRS ID", "officials", $officialId, "New NSRS ID: $newNsrsId");
-            $success = "NSRS ID updated successfully to: " . htmlspecialchars($newNsrsId);
+            $upNsrs->execute([$valToSave, $officialId]);
+            logAction($pdo, "Updated Official NSRS ID", "officials", $officialId, "New NSRS ID: " . ($valToSave ?? 'NULL'));
+            $success = $valToSave !== null ? "NSRS ID updated successfully to: " . htmlspecialchars($valToSave) : "NSRS ID cleared successfully.";
             // Refresh official details
             $stmt->execute([$officialId]);
             $official = $stmt->fetch();
@@ -554,8 +553,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         <i class="fa-solid fa-lock me-1"></i> Security Verification: Modifying an official's NSRS ID requires your current administrator account password.
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">NSRS ID <span class="text-danger">*</span></label>
-                        <input type="text" name="new_nsrs_id" class="form-control" value="<?php echo htmlspecialchars($official['nsrs_id'] ?? ''); ?>" placeholder="Enter NSRS ID..." required>
+                        <label class="form-label fw-semibold">NSRS ID <span class="text-muted fw-normal font-normal">(Leave blank to clear / remove)</span></label>
+                        <input type="text" name="new_nsrs_id" class="form-control" value="<?php echo htmlspecialchars($official['nsrs_id'] ?? ''); ?>" placeholder="Enter NSRS ID or leave empty to clear...">
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Admin Account Password <span class="text-danger">*</span></label>
