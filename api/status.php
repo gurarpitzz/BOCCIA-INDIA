@@ -18,11 +18,11 @@ try {
     $application = null;
 
     if (strpos($referenceId, 'BSFI-ATH-') === 0) {
-        $stmt = $pdo->prepare("SELECT full_name, email, status, created_at, updated_at FROM athlete_applications WHERE reference_id = ? AND email = ?");
+        $stmt = $pdo->prepare("SELECT full_name, email, status, review_notes, created_at, updated_at FROM athlete_applications WHERE reference_id = ? AND email = ?");
         $stmt->execute([$referenceId, $email]);
         $application = $stmt->fetch();
     } elseif (strpos($referenceId, 'BSFI-OFF-') === 0) {
-        $stmt = $pdo->prepare("SELECT full_name, email, status, created_at, updated_at FROM official_applications WHERE reference_id = ? AND email = ?");
+        $stmt = $pdo->prepare("SELECT full_name, email, status, review_notes, created_at, updated_at FROM official_applications WHERE reference_id = ? AND email = ?");
         $stmt->execute([$referenceId, $email]);
         $application = $stmt->fetch();
     } else {
@@ -37,11 +37,9 @@ try {
         exit();
     }
 
-    // Mask status for public UI
+    // Status mapping for public UI
     $publicStatus = $application['status'];
-    if ($publicStatus === 'rejected') {
-        $publicStatus = 'action required';
-    } elseif ($publicStatus === 'pending') {
+    if ($publicStatus === 'pending') {
         $publicStatus = 'submitted';
     }
 
@@ -52,6 +50,7 @@ try {
     echo json_encode([
         'name' => $application['full_name'],
         'status' => $publicStatus,
+        'reviewNotes' => $application['review_notes'] ?? '',
         'submittedAt' => $application['created_at'],
         'updatedAt' => $application['updated_at']
     ]);

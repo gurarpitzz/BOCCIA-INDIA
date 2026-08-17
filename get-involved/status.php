@@ -298,11 +298,15 @@ function fetchStatusDetails(event) {
                 infoTitle.innerText = "Currently Under Review";
                 infoDesc.innerText = "An administrator is verifying your document proofs and qualifications. Please check back later.";
                 break;
+            case 'rejected':
             case 'action required':
                 badge.classList.add("badge-action");
-                badge.innerText = "Action Required";
-                infoTitle.innerText = "Correction Required";
-                infoDesc.innerText = "There is an issue with your uploaded document files or details. Please check your email for correction guidelines or contact support.";
+                badge.innerText = "Rejected";
+                infoTitle.innerText = "Application Not Approved";
+                let notesText = data.reviewNotes && data.reviewNotes.trim() !== "" 
+                    ? data.reviewNotes 
+                    : "Your application was reviewed and not approved by the verification committee. Please contact office@bocciaindia.com for further guidance.";
+                infoDesc.innerHTML = `<strong style="color: #991b1b; display: block; margin-bottom: 6px;">Reason for Rejection / Admin Comments:</strong> <span style="color: #475569;">${notesText.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`;
                 break;
             case 'approved':
                 badge.classList.add("badge-approved");

@@ -33,6 +33,38 @@ function sendApprovalEmail($email, $name, $regNo, $type) {
     sendEmail($email, $subject, $html);
 }
 
+function sendRejectionEmail($email, $name, $refNo, $type, $reason) {
+    if (empty($email)) return;
+    $subject  = $type === 'athlete' ? 'BSFI Athlete Registration Application Update' : 'BSFI Official Registration Application Update';
+    $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
+    $reasonText = !empty($reason) ? htmlspecialchars($reason) : 'Documentation requirements or profile information criteria not met.';
+    $html = "
+      <div style='font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #ffffff;'>
+        <h2 style='color: #8C201C; margin-bottom: 20px; font-weight: 800;'>Boccia Sports Federation of India</h2>
+        <p>Dear {$name},</p>
+        <p>Thank you for submitting your registration application as an <strong>{$roleName}</strong> to the Boccia Sports Federation of India (BSFI).</p>
+        <p>After reviewing your submitted application, the BSFI verification committee has <strong>not approved</strong> your registration at this time.</p>
+        <div style='background-color: #fef2f2; border-left: 4px solid #dc2626; padding: 15px; margin: 20px 0; border-radius: 6px;'>
+          <strong style='color: #991b1b; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;'>Reason for Rejection / Comments:</strong>
+          <p style='color: #7f1d1d; margin: 8px 0 0 0; font-size: 15px; font-weight: 600;'>{$reasonText}</p>
+        </div>
+        <div style='background-color: #f8fafc; padding: 12px 15px; border-radius: 6px; font-size: 14px; color: #334155; margin-bottom: 20px;'>
+          <strong>Reference ID:</strong> {$refNo}
+        </div>
+        <p>If you believe this is an error or wish to submit corrected documents, please visit our <a href='https://www.bocciaindia.com/get-involved/status.php?id={$refNo}&email=" . urlencode($email) . "' style='color: #081B4B; font-weight: bold;'>Status Tracking Portal</a> or contact the federation at <a href='mailto:office@bocciaindia.com' style='color: #081B4B;'>office@bocciaindia.com</a>.</p>
+        <p style='margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 13px; color: #64748b;'>Best Regards,<br/><strong>Boccia Sports Federation of India (BSFI)</strong></p>
+      </div>
+    ";
+    
+    sendEmail($email, $subject, $html);
+
+    global $pdo;
+    try {
+        $log = $pdo->prepare("INSERT INTO activity_logs (action, details) VALUES (?, ?)");
+        $log->execute(['Email Rejection Sent', "Rejection email sent to: {$email} for Ref: {$refNo}"]);
+    } catch (\Throwable $t) {}
+}
+
 function sendUpdateApprovalEmail($email, $name, $regNo, $type) {
     if (empty($email)) return;
     $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
@@ -202,10 +234,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
 
                 if ($action === 'reject') {
-                    $up = $pdo->prepare("UPDATE athlete_applications SET status = 'rejected' WHERE id = ?");
-                    $up->execute([$applicationId]);
-                    logAction($pdo, "Rejected Athlete Application", "athlete_applications", $applicationId, "Name: {$app['full_name']}");
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application for " . htmlspecialchars($app['full_name']) . " rejected successfully.</div>";
+                    $notes = isset($_POST['review_notes']) ? trim($_POST['review_notes']) : '';
+                    $up = $pdo->prepare("UPDATE athlete_applications SET status = 'rejected', review_notes = ? WHERE id = ?");
+                    $up->execute([$notes, $applicationId]);
+                    logAction($pdo, "Rejected Athlete Application", "athlete_applications", $applicationId, "Name: {$app['full_name']} | Notes: {$notes}");
+                    sendRejectionEmail($app['email'], $app['full_name'], $app['reference_id'] ?? "BSFI-ATH-{$applicationId}", 'athlete', $notes);
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Application for <strong>" . htmlspecialchars($app['full_name']) . "</strong> rejected successfully. Notification email sent to applicant.</div>";
                 } elseif ($action === 'approve_link') {
                     $pdo->beginTransaction();
                     $existingId = (int)$_POST['existing_id'];
@@ -332,10 +366,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
 
                 if ($action === 'reject') {
-                    $up = $pdo->prepare("UPDATE official_applications SET status = 'rejected' WHERE id = ?");
-                    $up->execute([$applicationId]);
-                    logAction($pdo, "Rejected Official Application", "official_applications", $applicationId, "Name: {$app['full_name']}");
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Official application for " . htmlspecialchars($app['full_name']) . " rejected successfully.</div>";
+                    $notes = isset($_POST['review_notes']) ? trim($_POST['review_notes']) : '';
+                    $up = $pdo->prepare("UPDATE official_applications SET status = 'rejected', review_notes = ? WHERE id = ?");
+                    $up->execute([$notes, $applicationId]);
+                    logAction($pdo, "Rejected Official Application", "official_applications", $applicationId, "Name: {$app['full_name']} | Notes: {$notes}");
+                    sendRejectionEmail($app['email'], $app['full_name'], $app['reference_id'] ?? "BSFI-OFF-{$applicationId}", 'official', $notes);
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Official application for <strong>" . htmlspecialchars($app['full_name']) . "</strong> rejected successfully. Notification email sent to applicant.</div>";
                 } elseif ($action === 'approve_link') {
                     $pdo->beginTransaction();
                     $existingId = (int)$_POST['existing_id'];
@@ -440,6 +476,11 @@ $profileUpdatesQueue = $pdo->query("SELECT p.*,
     WHERE p.status = 'pending'
     ORDER BY p.submitted_at ASC")->fetchAll(PDO::FETCH_ASSOC);
 
+// Fetch rejected applications for log view
+$rejectedAthletes = $pdo->query("SELECT * FROM athlete_applications WHERE status = 'rejected' ORDER BY updated_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+$rejectedOfficials = $pdo->query("SELECT * FROM official_applications WHERE status = 'rejected' ORDER BY updated_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+$totalRejectedCount = count($rejectedAthletes) + count($rejectedOfficials);
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -457,7 +498,7 @@ include __DIR__ . '/../includes/header.php';
         <?php echo $message; ?>
 
         <!-- Tabs Navigation -->
-        <div style="display:flex; gap:1rem; margin-bottom:2rem; border-bottom:2px solid #E2E8F0; padding-bottom:1px;">
+        <div style="display:flex; gap:1rem; margin-bottom:2rem; border-bottom:2px solid #E2E8F0; padding-bottom:1px; flex-wrap:wrap;">
             <a href="?tab=athletes" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'athletes' ? 'var(--bsfi-green)' : 'transparent'; ?>; color:<?php echo $tab === 'athletes' ? 'var(--bsfi-green)' : 'var(--text-secondary)'; ?>; transition:all 0.3s ease;">
                 Athletes Queue (<?php echo count($athletesQueue); ?>)
             </a>
@@ -466,6 +507,9 @@ include __DIR__ . '/../includes/header.php';
             </a>
             <a href="?tab=profile_updates" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'profile_updates' ? 'var(--bsfi-green)' : 'transparent'; ?>; color:<?php echo $tab === 'profile_updates' ? 'var(--bsfi-green)' : 'var(--text-secondary)'; ?>; transition:all 0.3s ease;">
                 Profile Updates (<?php echo count($profileUpdatesQueue); ?>)
+            </a>
+            <a href="?tab=rejected" style="text-decoration:none; padding:1rem 2rem; font-family:'Outfit',sans-serif; font-weight:700; font-size:1.1rem; border-bottom:3px solid <?php echo $tab === 'rejected' ? '#dc2626' : 'transparent'; ?>; color:<?php echo $tab === 'rejected' ? '#dc2626' : 'var(--text-secondary)'; ?>; transition:all 0.3s ease;">
+                Rejected Log (<?php echo $totalRejectedCount; ?>)
             </a>
         </div>
 
@@ -578,18 +622,19 @@ include __DIR__ . '/../includes/header.php';
                                         <a href="download-doc.php?file=<?php echo urlencode($app['medical_certificate']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Med Cert</a>
                                     <?php endif; ?>
                                 </div>
-                                <form action="registrations.php?tab=athletes" method="POST" style="display:flex; gap:0.5rem; margin:0;">
+                                <form action="registrations.php?tab=athletes" method="POST" style="display:flex; gap:0.5rem; margin:0; flex-wrap:wrap; align-items:center;">
                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                     <input type="hidden" name="type" value="athlete">
                                     <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
                                     
-                                    <select name="assigned_classification" class="form-select rounded-pill px-3 py-1" style="font-size:0.85rem; width: auto; max-width: 150px; border: 2px solid rgba(22, 41, 90, 0.1);" required>
+                                    <select name="assigned_classification" class="form-select rounded-pill px-3 py-1" style="font-size:0.85rem; width: auto; max-width: 140px; border: 2px solid rgba(22, 41, 90, 0.1);" required>
                                         <option value="">Category</option>
                                         <option value="BC1">BC1</option>
                                         <option value="BC2">BC2</option>
                                         <option value="BC3">BC3</option>
                                         <option value="BC4">BC4</option>
                                     </select>
+                                    <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 220px; border-radius: 20px; padding: 0.3rem 0.75rem;">
                                     <?php if ($app['possible_duplicate'] && $app['existing_athlete_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_athlete_id']; ?>">
                                         <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>
@@ -597,7 +642,7 @@ include __DIR__ . '/../includes/header.php';
                                     <?php else: ?>
                                         <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve Registration</button>
                                     <?php endif; ?>
-                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger" formnovalidate>Reject</button>
+                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger" formnovalidate onclick="return confirm('Are you sure you want to reject this athlete application? A rejection email will be sent.');">Reject</button>
                                 </form>
                             </div>
 
@@ -722,11 +767,12 @@ include __DIR__ . '/../includes/header.php';
                                         <a href="download-doc.php?file=<?php echo urlencode($app['passport_file']); ?>" target="_blank" class="admin-btn admin-btn-outline">View Passport Booklet</a>
                                     <?php endif; ?>
                                 </div>
-                                <form action="registrations.php?tab=officials" method="POST" style="display:flex; gap:0.5rem; margin:0;">
+                                <form action="registrations.php?tab=officials" method="POST" style="display:flex; gap:0.5rem; margin:0; flex-wrap:wrap; align-items:center;">
                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                     <input type="hidden" name="type" value="official">
                                     <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
                                     
+                                    <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 220px; border-radius: 20px; padding: 0.3rem 0.75rem;">
                                     <?php if ($app['possible_duplicate'] && $app['existing_official_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_official_id']; ?>">
                                         <button type="submit" name="action" value="approve_link" class="admin-btn admin-btn-warning">Approve &amp; Link Profile</button>
@@ -734,7 +780,7 @@ include __DIR__ . '/../includes/header.php';
                                     <?php else: ?>
                                         <button type="submit" name="action" value="approve_new" class="admin-btn admin-btn-primary">Approve Registration</button>
                                     <?php endif; ?>
-                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger">Reject</button>
+                                    <button type="submit" name="action" value="reject" class="admin-btn admin-btn-danger" onclick="return confirm('Are you sure you want to reject this official application? A rejection email will be sent.');">Reject</button>
                                 </form>
                             </div>
 
@@ -843,6 +889,60 @@ include __DIR__ . '/../includes/header.php';
                         <p style="font-size:1.15rem; color:var(--text-secondary); margin:0;">All clear! There are no pending profile update requests to review.</p>
                     </div>
                 <?php endif; ?>
+            <?php elseif ($tab === 'rejected'): ?>
+                <?php if ($totalRejectedCount > 0): ?>
+                    <div class="admin-card">
+                        <h3 class="admin-card-title" style="font-size:1.4rem; margin-bottom:1.5rem; color:#8C201C;"><i class="fa-solid fa-ban me-2"></i> Rejected Applications Log</h3>
+                        <div class="table-responsive">
+                            <table class="table align-middle" style="font-size:0.9rem;">
+                                <thead style="background:#F8FAFC;">
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Reference ID</th>
+                                        <th>Applicant Name</th>
+                                        <th>Contact Email</th>
+                                        <th>Rejection Reason / Admin Comments</th>
+                                        <th>Rejected Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($rejectedAthletes as $rAth): ?>
+                                        <tr>
+                                            <td><span class="admin-badge admin-badge-info">Athlete</span></td>
+                                            <td><code style="font-weight:700; color:#081B4B;"><?php echo htmlspecialchars($rAth['reference_id'] ?? "BSFI-ATH-{$rAth['id']}"); ?></code></td>
+                                            <td><strong><?php echo htmlspecialchars($rAth['full_name']); ?></strong></td>
+                                            <td><?php echo htmlspecialchars($rAth['email']); ?></td>
+                                            <td>
+                                                <span style="color:#991b1b; font-weight:600;">
+                                                    <?php echo htmlspecialchars($rAth['review_notes'] ?: 'No reason specified.'); ?>
+                                                </span>
+                                            </td>
+                                            <td><?php echo date('d M Y, h:i A', strtotime($rAth['updated_at'])); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php foreach ($rejectedOfficials as $rOff): ?>
+                                        <tr>
+                                            <td><span class="admin-badge admin-badge-warning">Official</span></td>
+                                            <td><code style="font-weight:700; color:#081B4B;"><?php echo htmlspecialchars($rOff['reference_id'] ?? "BSFI-OFF-{$rOff['id']}"); ?></code></td>
+                                            <td><strong><?php echo htmlspecialchars($rOff['full_name']); ?></strong></td>
+                                            <td><?php echo htmlspecialchars($rOff['email']); ?></td>
+                                            <td>
+                                                <span style="color:#991b1b; font-weight:600;">
+                                                    <?php echo htmlspecialchars($rOff['review_notes'] ?: 'No reason specified.'); ?>
+                                                </span>
+                                            </td>
+                                            <td><?php echo date('d M Y, h:i A', strtotime($rOff['updated_at'])); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="admin-card" style="text-align:center; padding: 4rem;">
+                        <p style="font-size:1.15rem; color:var(--text-secondary); margin:0;">No rejected applications found in the log.</p>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
 
@@ -867,7 +967,5 @@ function toggleAadhaarReg(type, id) {
     }
 }
 </script>
-
-<?php include __DIR__ . '/../includes/footer.php'; ?>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
