@@ -151,9 +151,14 @@ body {
     transform: scale(1.15);
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* --- Section Formatting --- */
 .rules-section {
     padding: 80px 0;
+    scroll-margin-top: 130px;
 }
 
 .section-divider-title {
@@ -1585,6 +1590,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initialize with first item (Playing Box) highlighted
     activateIndex(0);
+
+    // Smooth scrolling for quick-nav-card in-page links with fixed header offset
+    document.querySelectorAll('.quick-nav-card').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = 130;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }
+        });
+    });
 });
 </script>
 
