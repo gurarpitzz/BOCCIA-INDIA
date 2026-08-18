@@ -104,7 +104,7 @@ include __DIR__ . '/header.php';
                             <div>
                                 <span class="badge bg-warning text-dark mb-2 text-uppercase fw-bold" style="font-size:0.72rem;">Audits &amp; ITR</span>
                                 <h5 class="card-title fw-bold text-dark mb-3" style="line-height:1.4; color: #081B4B !important;">Yearly Audit</h5>
-                                <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Audited statements of accounts, 12A/80G donation records, and Income Tax Returns (ITR) for FY 2023-24, AY 2024-25, and AY 2025-26.</p>
+                                <p class="card-text text-muted mb-4" style="font-size:0.9rem;">Audited statements of accounts and Income Tax Returns (ITR) for FY 2023-24, AY 2024-25, and AY 2025-26.</p>
                             </div>
                             <div class="d-flex flex-column gap-2">
                                 <a href="page.php?section=myas&slug=yearly-audit" class="btn btn-primary rounded-pill fw-bold w-100" style="background: #081B4B; border-color: #081B4B; color: #ffffff;">
@@ -115,7 +115,7 @@ include __DIR__ . '/header.php';
                                         Download ITR
                                     </button>
                                     <ul class="dropdown-menu shadow rounded-3 w-100">
-                                        <li><a class="dropdown-item py-2" href="uploads/documents/donation_BSFI_2023-24.pdf" download><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>FY 2023–24 Donation & Audit</a></li>
+                                        <li><a class="dropdown-item py-2" href="uploads/documents/ITR_Assessment_2023-24.pdf" download><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>AY 2023–24 ITR Assessment</a></li>
                                         <li><a class="dropdown-item py-2" href="uploads/documents/ITR_Assessment_2024-25.pdf" download><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>AY 2024–25 ITR Assessment</a></li>
                                         <li><a class="dropdown-item py-2" href="uploads/documents/ITR_2025-26.pdf" download><i class="bi bi-file-earmark-pdf me-2 text-danger"></i>AY 2025–26 ITR Return</a></li>
                                     </ul>

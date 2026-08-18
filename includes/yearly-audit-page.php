@@ -15,7 +15,7 @@ include __DIR__ . '/header.php';
                 <span class="board-hero-eyebrow">-- MYAS Disclosures --</span>
                 <h1 class="board-hero-title">YEARLY AUDITS & ITR</h1>
                 <p class="board-hero-text">
-                    Audited statements of accounts, 12A/80G donation records, and Income Tax Returns (ITR) for the last 3 financial years.
+                    Audited statements of accounts and Income Tax Returns (ITR) for the last 3 financial years.
                 </p>
             </div>
         </div>
@@ -28,11 +28,11 @@ include __DIR__ . '/header.php';
             <?php
             $audits = [
                 [
-                    'badge' => 'FY 2023–24 Audit & Donation',
+                    'badge' => 'AY 2023–24 ITR Assessment',
                     'year' => '2023 - 2024',
-                    'title' => 'BSFI Audit & Donation Record 2023-24',
-                    'desc' => 'Audited financial statements of accounts and 80G donation receipts of Boccia Sports Federation of India for Financial Year 2023-24.',
-                    'file' => 'uploads/documents/donation_BSFI_2023-24.pdf'
+                    'title' => 'ITR Assessment Filing 2023-24',
+                    'desc' => 'Official Income Tax Return (ITR) filing, acknowledgment, and audited financial statements for Assessment Year 2023-24.',
+                    'file' => 'uploads/documents/ITR_Assessment_2023-24.pdf'
                 ],
                 [
                     'badge' => 'AY 2024–25 ITR Assessment',
