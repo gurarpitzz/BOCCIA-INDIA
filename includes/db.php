@@ -35,6 +35,10 @@ try {
          $pdo->exec("ALTER TABLE `officials` ADD COLUMN `nsrs_id` VARCHAR(100) NULL DEFAULT NULL AFTER `official_reg_no`");
      } catch (\Throwable $t) {}
      try {
+         $pdo->exec("UPDATE `athletes` SET `nsrs_id` = NULL WHERE `nsrs_id` = '' OR TRIM(`nsrs_id`) = ''");
+         $pdo->exec("UPDATE `officials` SET `nsrs_id` = NULL WHERE `nsrs_id` = '' OR TRIM(`nsrs_id`) = ''");
+     } catch (\Throwable $t) {}
+     try {
          $pdo->exec("ALTER TABLE `athletes` ADD UNIQUE KEY `uq_athletes_nsrs_id` (`nsrs_id`)");
      } catch (\Throwable $t) {}
      try {
