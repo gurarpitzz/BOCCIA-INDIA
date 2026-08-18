@@ -82,8 +82,8 @@ try {
             throw new Exception("Official profile not found.");
         }
 
-        // Soft delete the profile
-        $del = $pdo->prepare("UPDATE officials SET deleted_at = CURRENT_TIMESTAMP WHERE id = ?");
+        // Hard delete the official profile
+        $del = $pdo->prepare("DELETE FROM officials WHERE id = ?");
         $del->execute([$id]);
 
         // Audit Log
