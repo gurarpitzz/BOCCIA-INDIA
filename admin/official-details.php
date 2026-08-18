@@ -53,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $error = "Authorization failed! Incorrect administrator password.";
         } elseif (empty($newNsrsId)) {
             $error = "NSRS ID cannot be empty.";
+        } elseif (($chkUnique = isNsrsIdUnique($pdo, $newNsrsId, null, $officialId)) !== true) {
+            $error = $chkUnique;
         } else {
             $upNsrs = $pdo->prepare("UPDATE officials SET nsrs_id = ? WHERE id = ?");
             $upNsrs->execute([$newNsrsId, $officialId]);

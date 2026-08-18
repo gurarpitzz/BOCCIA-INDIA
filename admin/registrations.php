@@ -248,6 +248,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     if (empty($nsrsId)) {
                         throw new Exception("NSRS ID is compulsory to approve an athlete registration.");
                     }
+                    $chkUnique = isNsrsIdUnique($pdo, $nsrsId, $action === 'approve_link' ? (int)($_POST['existing_id'] ?? 0) : null, null);
+                    if ($chkUnique !== true) {
+                        throw new Exception($chkUnique);
+                    }
                 }
 
                 if ($action === 'reject') {
@@ -387,6 +391,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $nsrsId = trim($_POST['nsrs_id'] ?? '');
                     if (empty($nsrsId)) {
                         throw new Exception("NSRS ID is compulsory to approve an official registration.");
+                    }
+                    $chkUnique = isNsrsIdUnique($pdo, $nsrsId, null, $action === 'approve_link' ? (int)($_POST['existing_id'] ?? 0) : null);
+                    if ($chkUnique !== true) {
+                        throw new Exception($chkUnique);
                     }
                 }
 

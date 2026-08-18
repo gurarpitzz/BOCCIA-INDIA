@@ -34,6 +34,49 @@ try {
      try {
          $pdo->exec("ALTER TABLE `officials` ADD COLUMN `nsrs_id` VARCHAR(100) NULL DEFAULT NULL AFTER `official_reg_no`");
      } catch (\Throwable $t) {}
+     try {
+         $pdo->exec("ALTER TABLE `athletes` ADD UNIQUE KEY `uq_athletes_nsrs_id` (`nsrs_id`)");
+     } catch (\Throwable $t) {}
+     try {
+         $pdo->exec("ALTER TABLE `officials` ADD UNIQUE KEY `uq_officials_nsrs_id` (`nsrs_id`)");
+     } catch (\Throwable $t) {}
 } catch (\PDOException $e) {
      die("PDO Error: " . $e->getMessage());
+}
+
+if (!function_exists('isNsrsIdUnique')) {
+    function isNsrsIdUnique($pdo, $nsrsId, $excludeAthleteId = null, $excludeOfficialId = null) {
+        $nsrsId = trim((string)$nsrsId);
+        if ($nsrsId === '') return true;
+
+        // Check in athletes table
+        $sql1 = "SELECT id, full_name, regn_no FROM athletes WHERE nsrs_id = ?";
+        $params1 = [$nsrsId];
+        if ($excludeAthleteId) {
+            $sql1 .= " AND id != ?";
+            $params1[] = (int)$excludeAthleteId;
+        }
+        $stmt1 = $pdo->prepare($sql1);
+        $stmt1->execute($params1);
+        $row1 = $stmt1->fetch(PDO::FETCH_ASSOC);
+        if ($row1) {
+            return "NSRS ID '{$nsrsId}' is already assigned to Athlete: " . htmlspecialchars($row1['full_name']) . " (Reg No: " . htmlspecialchars($row1['regn_no']) . "). Please enter a unique NSRS ID.";
+        }
+
+        // Check in officials table
+        $sql2 = "SELECT id, name, official_reg_no FROM officials WHERE nsrs_id = ?";
+        $params2 = [$nsrsId];
+        if ($excludeOfficialId) {
+            $sql2 .= " AND id != ?";
+            $params2[] = (int)$excludeOfficialId;
+        }
+        $stmt2 = $pdo->prepare($sql2);
+        $stmt2->execute($params2);
+        $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+        if ($row2) {
+            return "NSRS ID '{$nsrsId}' is already assigned to Official: " . htmlspecialchars($row2['name']) . " (Reg No: " . htmlspecialchars($row2['official_reg_no']) . "). Please enter a unique NSRS ID.";
+        }
+
+        return true;
+    }
 }
