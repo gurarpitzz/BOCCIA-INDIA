@@ -652,14 +652,14 @@ include __DIR__ . '/../includes/header.php';
                                     <input type="hidden" name="type" value="athlete">
                                     <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
                                     
-                                    <select name="assigned_classification" class="form-select rounded-pill px-3 py-1" style="font-size:0.85rem; width: auto; max-width: 140px; border: 2px solid rgba(22, 41, 90, 0.1);" required>
+                                    <select name="assigned_classification" class="form-select rounded-pill px-3 py-1" style="font-size:0.85rem; width: auto; max-width: 140px; border: 2px solid rgba(22, 41, 90, 0.1);">
                                         <option value="">Category</option>
                                         <option value="BC1">BC1</option>
                                         <option value="BC2">BC2</option>
                                         <option value="BC3">BC3</option>
                                         <option value="BC4">BC4</option>
                                     </select>
-                                    <input type="text" name="nsrs_id" class="admin-input" placeholder="NSRS ID (Required)..." style="font-size:0.85rem; width: 170px; border-radius: 20px; padding: 0.3rem 0.75rem; border: 2px solid #081B4B;" required>
+                                    <input type="text" name="nsrs_id" class="admin-input" placeholder="NSRS ID (Approval)..." style="font-size:0.85rem; width: 170px; border-radius: 20px; padding: 0.3rem 0.75rem; border: 2px solid #081B4B;">
                                     <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 200px; border-radius: 20px; padding: 0.3rem 0.75rem;">
                                     <?php if ($app['possible_duplicate'] && $app['existing_athlete_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_athlete_id']; ?>">
@@ -798,7 +798,7 @@ include __DIR__ . '/../includes/header.php';
                                     <input type="hidden" name="type" value="official">
                                     <input type="hidden" name="application_id" value="<?php echo $app['id']; ?>">
                                     
-                                    <input type="text" name="nsrs_id" class="admin-input" placeholder="NSRS ID (Required)..." style="font-size:0.85rem; width: 170px; border-radius: 20px; padding: 0.3rem 0.75rem; border: 2px solid #081B4B;" required>
+                                    <input type="text" name="nsrs_id" class="admin-input" placeholder="NSRS ID (Approval)..." style="font-size:0.85rem; width: 170px; border-radius: 20px; padding: 0.3rem 0.75rem; border: 2px solid #081B4B;">
                                     <input type="text" name="review_notes" class="admin-input" placeholder="Rejection reason / comments..." style="font-size:0.85rem; width: 200px; border-radius: 20px; padding: 0.3rem 0.75rem;">
                                     <?php if ($app['possible_duplicate'] && $app['existing_official_id']): ?>
                                         <input type="hidden" name="existing_id" value="<?php echo $app['existing_official_id']; ?>">
