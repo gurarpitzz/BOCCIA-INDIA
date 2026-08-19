@@ -84,6 +84,10 @@ if (isset($_POST['confirm_import']) && !empty($temp_file)) {
                     $full_name = isset($row[6]) ? trim($row[6]) : '';
                     $gender = isset($row[7]) ? strtoupper(trim($row[7])) : 'MALE';
                     $dob_raw = isset($row[8]) ? trim($row[8]) : '';
+                    $father_name = isset($row[9]) ? trim($row[9]) : null;
+                    if ($father_name === '') $father_name = null;
+                    $mother_name = isset($row[10]) ? trim($row[10]) : null;
+                    if ($mother_name === '') $mother_name = null;
                     $cert_no = isset($row[15]) ? trim($row[15]) : '';
                     $state = isset($row[16]) ? trim($row[16]) : '';
                     $classification = isset($row[24]) ? trim($row[24]) : '';
@@ -104,14 +108,18 @@ if (isset($_POST['confirm_import']) && !empty($temp_file)) {
                     // Check duplicate registration
                     $dupCheck = $pdo->prepare("SELECT id FROM athletes WHERE regn_no = ?");
                     $dupCheck->execute([$regn_no]);
-                    if ($dupCheck->fetch()) {
+                    $existingAth = $dupCheck->fetch();
+                    if ($existingAth) {
+                        // Update father_name & mother_name if missing on existing record
+                        $updStmt = $pdo->prepare("UPDATE athletes SET father_name = COALESCE(father_name, ?), mother_name = COALESCE(mother_name, ?) WHERE id = ?");
+                        $updStmt->execute([$father_name, $mother_name, $existingAth['id']]);
                         $duplicates++;
                         continue;
                     }
                     
                     // Insert
-                    $stmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, state, classification, representing_for, wheelchair_status, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
-                    $stmt->execute([$regn_no, $full_name, $gender, $dob, $state, $classification, $representing_for, $wheelchair_status, $_SESSION['user_id']]);
+                    $stmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, father_name, mother_name, state, classification, representing_for, wheelchair_status, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
+                    $stmt->execute([$regn_no, $full_name, $gender, $dob, $father_name, $mother_name, $state, $classification, $representing_for, $wheelchair_status, $_SESSION['user_id']]);
                     $inserted++;
                 }
                 
