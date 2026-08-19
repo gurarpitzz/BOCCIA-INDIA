@@ -55,31 +55,88 @@ $statusList = $statusStmt->fetchAll();
 $error = '';
 $success = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_nsrs_id') {
-    if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
-        $error = "Security token validation failed (CSRF).";
-    } elseif (!$isAdmin) {
-        $error = "Only Administrators can modify NSRS IDs.";
-    } else {
-        $adminPass = $_POST['admin_password'] ?? '';
-        $newNsrsId = trim($_POST['new_nsrs_id'] ?? '');
-
-        // Fetch current admin password hash
-        $userStmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
-        $userStmt->execute([$_SESSION['user_id']]);
-        $currentUser = $userStmt->fetch();
-
-        if (!$currentUser || !password_verify($adminPass, $currentUser['password_hash'])) {
-            $error = "Authorization failed! Incorrect administrator password.";
-        } elseif (empty($newNsrsId)) {
-            $error = "NSRS ID cannot be empty.";
-        } elseif (($chkUnique = isNsrsIdUnique($pdo, $newNsrsId, $athleteId, null)) !== true) {
-            $error = $chkUnique;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    if ($_POST['action'] === 'update_nsrs_id') {
+        if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
+            $error = "Security token validation failed (CSRF).";
+        } elseif (!$isAdmin) {
+            $error = "Only Administrators can modify NSRS IDs.";
         } else {
-            $upNsrs = $pdo->prepare("UPDATE athletes SET nsrs_id = ? WHERE id = ?");
-            $upNsrs->execute([$newNsrsId, $athleteId]);
-            logAction($pdo, "Updated Athlete NSRS ID", "athletes", $athleteId, "New NSRS ID: $newNsrsId");
-            $success = "NSRS ID updated successfully to: " . htmlspecialchars($newNsrsId);
+            $adminPass = $_POST['admin_password'] ?? '';
+            $newNsrsId = trim($_POST['new_nsrs_id'] ?? '');
+
+            // Fetch current admin password hash
+            $userStmt = $pdo->prepare("SELECT password_hash FROM users WHERE id = ?");
+            $userStmt->execute([$_SESSION['user_id']]);
+            $currentUser = $userStmt->fetch();
+
+            if (!$currentUser || !password_verify($adminPass, $currentUser['password_hash'])) {
+                $error = "Authorization failed! Incorrect administrator password.";
+            } elseif (empty($newNsrsId)) {
+                $error = "NSRS ID cannot be empty.";
+            } elseif (($chkUnique = isNsrsIdUnique($pdo, $newNsrsId, $athleteId, null)) !== true) {
+                $error = $chkUnique;
+            } else {
+                $upNsrs = $pdo->prepare("UPDATE athletes SET nsrs_id = ? WHERE id = ?");
+                $upNsrs->execute([$newNsrsId, $athleteId]);
+                logAction($pdo, "Updated Athlete NSRS ID", "athletes", $athleteId, "New NSRS ID: $newNsrsId");
+                $success = "NSRS ID updated successfully to: " . htmlspecialchars($newNsrsId);
+                // Refresh athlete details
+                $stmt->execute([$athleteId]);
+                $athlete = $stmt->fetch();
+            }
+        }
+    } elseif ($_POST['action'] === 'update_athlete_details') {
+        if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
+            $error = "Security token validation failed (CSRF).";
+        } elseif (!$isAdmin) {
+            $error = "Only Administrators can modify athlete profile details.";
+        } else {
+            $father_name = trim($_POST['father_name'] ?? '');
+            $mother_name = trim($_POST['mother_name'] ?? '');
+            $age_category = trim($_POST['age_category'] ?? '');
+            $classification = trim($_POST['classification'] ?? '');
+            $impairment_type = trim($_POST['impairment_type'] ?? '');
+            $representing_for = trim($_POST['representing_for'] ?? '');
+            $wheelchair_status = trim($_POST['wheelchair_status'] ?? '');
+            $kit_tshirt = trim($_POST['kit_tshirt'] ?? '');
+            $kit_tracksuit = trim($_POST['kit_tracksuit'] ?? '');
+            $kit_shoe = trim($_POST['kit_shoe'] ?? '');
+            $aadhaar = trim($_POST['aadhaar'] ?? '');
+            $mobile = trim($_POST['mobile'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $address = trim($_POST['address'] ?? '');
+            $pincode = trim($_POST['pincode'] ?? '');
+
+            $upStmt = $pdo->prepare("UPDATE athletes SET 
+                father_name = NULLIF(?, ''),
+                mother_name = NULLIF(?, ''),
+                age_category = NULLIF(?, ''),
+                classification = NULLIF(?, ''),
+                impairment_type = NULLIF(?, ''),
+                state = NULLIF(?, ''),
+                representing_for = NULLIF(?, ''),
+                wheelchair_status = NULLIF(?, ''),
+                kit_tshirt = NULLIF(?, ''),
+                kit_tracksuit = NULLIF(?, ''),
+                kit_shoe = NULLIF(?, ''),
+                aadhaar = NULLIF(?, ''),
+                mobile = NULLIF(?, ''),
+                email = NULLIF(?, ''),
+                address = NULLIF(?, ''),
+                pincode = NULLIF(?, '')
+                WHERE id = ?");
+            
+            $upStmt->execute([
+                $father_name, $mother_name, $age_category, $classification, $impairment_type,
+                $representing_for, $representing_for, $wheelchair_status,
+                $kit_tshirt, $kit_tracksuit, $kit_shoe, $aadhaar, $mobile, $email,
+                $address, $pincode, $athleteId
+            ]);
+
+            logAction($pdo, "Updated Athlete Profile Details", "athletes", $athleteId, "Updated profile fields directly via Admin Panel");
+            $success = "Athlete profile details updated successfully!";
+            
             // Refresh athlete details
             $stmt->execute([$athleteId]);
             $athlete = $stmt->fetch();
@@ -238,9 +295,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 
                 <!-- Demographic & PII Details -->
                 <div class="admin-card">
-                    <h3 class="admin-card-title mb-4" style="border-bottom: 2px solid #F1F5F9; padding-bottom: 0.75rem;">
-                        <i class="fa-solid fa-address-card text-success me-2"></i> Demographic &amp; Registration Profile
-                    </h3>
+                    <div class="d-flex justify-content-between align-items-center mb-4" style="border-bottom: 2px solid #F1F5F9; padding-bottom: 0.75rem;">
+                        <h3 class="admin-card-title m-0">
+                            <i class="fa-solid fa-address-card text-success me-2"></i> Demographic &amp; Registration Profile
+                        </h3>
+                        <?php if ($isAdmin): ?>
+                            <button type="button" class="admin-btn admin-btn-outline" data-bs-toggle="modal" data-bs-target="#editAthleteProfileModal" style="font-size:0.8rem; padding:0.4rem 0.85rem;">
+                                <i class="fa-solid fa-pen-to-square me-1"></i> Edit Profile
+                            </button>
+                        <?php endif; ?>
+                    </div>
                     
                     <div class="row g-4">
                         <div class="col-12 col-md-6">
@@ -1252,6 +1316,114 @@ function purgeHistory(id) {
                 <div class="modal-footer border-top-0 pt-0">
                     <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary rounded-pill px-4" style="background:#081B4B; border-color:#081B4B;">Authorize &amp; Save NSRS ID</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit Athlete Full Profile Modal -->
+<div class="modal fade" id="editAthleteProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-bottom-0 pb-0" style="background:#081B4B; color:white; border-radius: 16px 16px 0 0; padding:1.25rem 1.5rem;">
+                <h5 class="modal-title font-bold text-white"><i class="fa-solid fa-user-pen me-2"></i> Edit Athlete Profile &amp; Demographics</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="athlete-details.php?id=<?php echo $athlete['id']; ?>" method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                <input type="hidden" name="action" value="update_athlete_details">
+                <div class="modal-body p-4" style="max-height: 70vh; overflow-y: auto;">
+                    
+                    <h6 class="fw-bold mb-3 text-primary" style="border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem;"><i class="fa-solid fa-address-card me-1"></i> Family &amp; Demographics</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Father's Name</label>
+                            <input type="text" name="father_name" class="form-control" value="<?php echo htmlspecialchars($athlete['father_name'] ?? ''); ?>" placeholder="Enter father's name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Mother's Name</label>
+                            <input type="text" name="mother_name" class="form-control" value="<?php echo htmlspecialchars($athlete['mother_name'] ?? ''); ?>" placeholder="Enter mother's name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Age Category</label>
+                            <select name="age_category" class="form-select">
+                                <option value="">Select Age Category</option>
+                                <option value="OPEN" <?php echo ($athlete['age_category'] ?? '') === 'OPEN' ? 'selected' : ''; ?>>Open / Senior</option>
+                                <option value="JUNIOR" <?php echo ($athlete['age_category'] ?? '') === 'JUNIOR' ? 'selected' : ''; ?>>Junior</option>
+                                <option value="YOUTH" <?php echo ($athlete['age_category'] ?? '') === 'YOUTH' ? 'selected' : ''; ?>>Youth</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Classification</label>
+                            <select name="classification" class="form-select">
+                                <option value="BC1" <?php echo ($athlete['classification'] ?? '') === 'BC1' ? 'selected' : ''; ?>>BC1</option>
+                                <option value="BC2" <?php echo ($athlete['classification'] ?? '') === 'BC2' ? 'selected' : ''; ?>>BC2</option>
+                                <option value="BC3" <?php echo ($athlete['classification'] ?? '') === 'BC3' ? 'selected' : ''; ?>>BC3</option>
+                                <option value="BC4" <?php echo ($athlete['classification'] ?? '') === 'BC4' ? 'selected' : ''; ?>>BC4</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Impairment Type</label>
+                            <input type="text" name="impairment_type" class="form-control" value="<?php echo htmlspecialchars($athlete['impairment_type'] ?? ''); ?>" placeholder="E.g. Cerebral Palsy">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Representing State</label>
+                            <input type="text" name="representing_for" class="form-control" value="<?php echo htmlspecialchars($athlete['representing_for'] ?? ''); ?>" placeholder="State Name">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Wheelchair Status</label>
+                            <select name="wheelchair_status" class="form-select">
+                                <option value="None" <?php echo ($athlete['wheelchair_status'] ?? '') === 'None' ? 'selected' : ''; ?>>None</option>
+                                <option value="Manual Wheelchair" <?php echo ($athlete['wheelchair_status'] ?? '') === 'Manual Wheelchair' ? 'selected' : ''; ?>>Manual Wheelchair</option>
+                                <option value="Power Wheelchair" <?php echo ($athlete['wheelchair_status'] ?? '') === 'Power Wheelchair' ? 'selected' : ''; ?>>Power Wheelchair</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 text-primary" style="border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem;"><i class="fa-solid fa-shirt me-1"></i> Kit Details</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">T-Shirt Size</label>
+                            <input type="text" name="kit_tshirt" class="form-control" value="<?php echo htmlspecialchars($athlete['kit_tshirt'] ?? ''); ?>" placeholder="E.g. M, L, XL">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Tracksuit Size</label>
+                            <input type="text" name="kit_tracksuit" class="form-control" value="<?php echo htmlspecialchars($athlete['kit_tracksuit'] ?? ''); ?>" placeholder="E.g. M, L, XL">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Shoe Size</label>
+                            <input type="text" name="kit_shoe" class="form-control" value="<?php echo htmlspecialchars($athlete['kit_shoe'] ?? ''); ?>" placeholder="E.g. UK 8">
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3 text-primary" style="border-bottom:1px solid #E2E8F0; padding-bottom:0.5rem;"><i class="fa-solid fa-id-card me-1"></i> Identity &amp; Contact Info</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Aadhaar Number</label>
+                            <input type="text" name="aadhaar" class="form-control" value="<?php echo htmlspecialchars($athlete['aadhaar'] ?? ''); ?>" placeholder="12 Digit Aadhaar Number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Mobile Phone Number</label>
+                            <input type="tel" name="mobile" class="form-control" value="<?php echo htmlspecialchars($athlete['mobile'] ?? ''); ?>" placeholder="Mobile number">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($athlete['email'] ?? ''); ?>" placeholder="Email address">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Pin Code</label>
+                            <input type="text" name="pincode" class="form-control" value="<?php echo htmlspecialchars($athlete['pincode'] ?? ''); ?>" placeholder="6 Digit Pin Code">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Permanent Address</label>
+                            <textarea name="address" class="form-control" rows="2" placeholder="Complete address"><?php echo htmlspecialchars($athlete['address'] ?? ''); ?></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4" style="background:#10B981; border-color:#10B981;">Save Changes</button>
                 </div>
             </form>
         </div>
