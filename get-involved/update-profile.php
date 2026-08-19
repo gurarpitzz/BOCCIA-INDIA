@@ -365,31 +365,51 @@ if (isset($_POST['submit_update'])) {
     $pincode_req = trim($_POST['pincode'] ?? '');
     
     $photo_path = null;
+    $passport_path = null;
+    $medical_path = null;
     $isValid = true;
 
-    // Handle photo upload if present
-    if (!empty($_FILES['photo_path']['name'])) {
-        if ($_FILES['photo_path']['size'] > 5 * 1024 * 1024) {
-            $error = "File size exceeds 5MB limit.";
-            $isValid = false;
-        } else {
-            $filename = $_FILES['photo_path']['name'];
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            $allowedExts = ['png', 'jpg', 'jpeg'];
-            if (!in_array($ext, $allowedExts)) {
-                $error = "Invalid file type. Only JPG, JPEG, and PNG are allowed.";
-                $isValid = false;
-            } else {
-                $uploadDir = __DIR__ . '/../uploads/profiles/';
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
-                }
-                $secureName = bin2hex(random_bytes(16)) . '_' . time() . '.' . $ext;
-                if (move_uploaded_file($_FILES['photo_path']['tmp_name'], $uploadDir . $secureName)) {
-                    $photo_path = 'uploads/profiles/' . $secureName;
-                }
-            }
+    // Helper for file uploads
+    $uploadFile = function($fileKey, $allowedExts, $targetDirRel, &$errorMsg) {
+        if (empty($_FILES[$fileKey]['name'])) return null;
+        if ($_FILES[$fileKey]['size'] > 10 * 1024 * 1024) {
+            $errorMsg = "File size for " . htmlspecialchars($fileKey) . " exceeds 10MB limit.";
+            return false;
         }
+        $filename = $_FILES[$fileKey]['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        if (!in_array($ext, $allowedExts)) {
+            $errorMsg = "Invalid file format for " . htmlspecialchars($fileKey) . ". Allowed: " . implode(', ', $allowedExts);
+            return false;
+        }
+        $uploadDir = __DIR__ . '/../' . $targetDirRel;
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        $secureName = bin2hex(random_bytes(16)) . '_' . time() . '.' . $ext;
+        if (move_uploaded_file($_FILES[$fileKey]['tmp_name'], $uploadDir . $secureName)) {
+            return $targetDirRel . $secureName;
+        }
+        $errorMsg = "Failed to upload file.";
+        return false;
+    };
+
+    // Handle photo upload
+    if (!empty($_FILES['photo_path']['name'])) {
+        $res = $uploadFile('photo_path', ['jpg', 'jpeg', 'png'], 'uploads/profiles/', $error);
+        if ($res === false) { $isValid = false; } else { $photo_path = $res; }
+    }
+
+    // Handle passport/identity file upload
+    if ($isValid && !empty($_FILES['passport_file']['name'])) {
+        $res = $uploadFile('passport_file', ['jpg', 'jpeg', 'png', 'pdf'], 'uploads/documents/', $error);
+        if ($res === false) { $isValid = false; } else { $passport_path = $res; }
+    }
+
+    // Handle medical certificate upload
+    if ($isValid && !empty($_FILES['medical_certificate']['name'])) {
+        $res = $uploadFile('medical_certificate', ['jpg', 'jpeg', 'png', 'pdf'], 'uploads/documents/', $error);
+        if ($res === false) { $isValid = false; } else { $medical_path = $res; }
     }
 
     // Verify email is unique if they are requesting a change
@@ -414,8 +434,8 @@ if (isset($_POST['submit_update'])) {
 
     if ($isValid) {
         try {
-            $ins = $pdo->prepare("INSERT INTO profile_update_requests (member_type, member_id, requested_email, requested_phone, requested_address, requested_pincode, requested_photo_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')");
-            $ins->execute([$member_type, $matched_id, $email_req, $phone_req, $address_req, $pincode_req, $photo_path]);
+            $ins = $pdo->prepare("INSERT INTO profile_update_requests (member_type, member_id, requested_email, requested_phone, requested_address, requested_pincode, requested_photo_path, requested_passport_file, requested_medical_certificate, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+            $ins->execute([$member_type, $matched_id, $email_req, $phone_req, $address_req, $pincode_req, $photo_path, $passport_path, $medical_path]);
             
             $step = 4;
             $message = "Your profile update request has been successfully submitted! An administrator will review and apply the changes shortly.";
@@ -637,8 +657,20 @@ include __DIR__ . '/../includes/header.php';
 
                     <div class="mb-4">
                         <label class="form-label-custom">Upload Passport Size Photograph</label>
-                        <input type="file" name="photo_path" class="form-control-custom" required>
-                        <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Passport photo must show face clearly in JPG/PNG format. Maximum 5MB.</span>
+                        <input type="file" name="photo_path" class="form-control-custom" accept=".jpg,.jpeg,.png">
+                        <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Passport photo must show face clearly in JPG/PNG format. Max 5MB.</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Upload Passport / Identity File (Optional)</label>
+                        <input type="file" name="passport_file" class="form-control-custom" accept=".jpg,.jpeg,.png,.pdf">
+                        <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Identity proof document in PDF or image format (Max 10MB).</span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Upload Medical Certificate (Optional)</label>
+                        <input type="file" name="medical_certificate" class="form-control-custom" accept=".jpg,.jpeg,.png,.pdf">
+                        <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Valid medical/disability certificate in PDF or image format (Max 10MB).</span>
                     </div>
 
                     <button type="submit" name="submit_update" class="btn-submit-update">Submit Profile Update</button>

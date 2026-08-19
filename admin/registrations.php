@@ -157,7 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             address = COALESCE(NULLIF(?, ''), address),
                             pincode = COALESCE(NULLIF(?, ''), pincode),
                             photo_path = COALESCE(NULLIF(?, ''), photo_path),
-                            photo_status = IF(? != '', 'verified', photo_status)
+                            photo_status = IF(? != '', 'verified', photo_status),
+                            passport_file = COALESCE(NULLIF(?, ''), passport_file),
+                            medical_certificate = COALESCE(NULLIF(?, ''), medical_certificate)
                             WHERE id = ?");
                         
                         $upAthlete->execute([
@@ -167,6 +169,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             $req['requested_pincode'],
                             $req['requested_photo_path'],
                             $req['requested_photo_path'],
+                            $req['requested_passport_file'] ?? null,
+                            $req['requested_medical_certificate'] ?? null,
                             $memberId
                         ]);
                     } else {
@@ -177,7 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             address = COALESCE(NULLIF(?, ''), address),
                             pincode = COALESCE(NULLIF(?, ''), pincode),
                             photo_path = COALESCE(NULLIF(?, ''), photo_path),
-                            photo_status = IF(? != '', 'verified', photo_status)
+                            photo_status = IF(? != '', 'verified', photo_status),
+                            passport_file = COALESCE(NULLIF(?, ''), passport_file)
                             WHERE id = ?");
                         
                         $upOfficial->execute([
@@ -187,6 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             $req['requested_pincode'],
                             $req['requested_photo_path'],
                             $req['requested_photo_path'],
+                            $req['requested_passport_file'] ?? null,
                             $memberId
                         ]);
                     }
