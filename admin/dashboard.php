@@ -90,7 +90,7 @@ $auditLogs = $stmt->fetchAll();
                     
                     <div class="admin-hero-actions">
                         <?php if ($_SESSION['role'] === 'admin'): ?>
-                            <a href="../import/import-athletes.php" class="admin-btn" style="background:#138808; color:#ffffff; font-weight:700; border-radius:8px; padding:0.6rem 1.25rem; display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none;">
+                            <a href="import-athletes.php" class="admin-btn" style="background:#138808; color:#ffffff; font-weight:700; border-radius:8px; padding:0.6rem 1.25rem; display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none;">
                                 <i class="fa-solid fa-file-import"></i> Bulk Import CSV
                             </a>
                             <a href="users.php" class="admin-btn" style="background:rgba(255,255,255,0.15); color:#ffffff; font-weight:600; border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:0.6rem 1.25rem; display:inline-flex; align-items:center; gap:0.5rem; text-decoration:none;">
@@ -112,7 +112,7 @@ $auditLogs = $stmt->fetchAll();
                 <h4 class="admin-section-eyebrow" style="color:var(--text-secondary); margin-bottom:0.75rem;">Quick Actions</h4>
                 <div class="row row-cols-2 g-2">
                     <div class="col">
-                        <a href="../import/import-athletes.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
+                        <a href="import-athletes.php" class="admin-btn admin-btn-outline w-100" style="padding: 0.75rem 0.5rem; border-radius: 10px; font-size: 0.85rem; justify-content: center; font-weight: 700;">
                             <i class="fa-solid fa-file-import"></i> Import CSV
                         </a>
                     </div>
