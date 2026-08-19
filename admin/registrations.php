@@ -95,6 +95,27 @@ function sendUpdateApprovalEmail($email, $name, $regNo, $type) {
     }
 }
 
+function sendUpdateRejectionEmail($email, $name, $regNo, $type, $notes) {
+    if (empty($email)) return;
+    $roleName = $type === 'athlete' ? 'Athlete / Player' : 'Official / Coach / Referee';
+    $reasonText = !empty($notes) ? htmlspecialchars($notes) : 'Documentation requirements or profile information criteria not met.';
+    $html = "
+      <div style='font-family: sans-serif; padding: 20px; max-width: 600px; border: 1px solid #e2e8f0; border-radius: 10px; background-color: #ffffff;'>
+        <h2 style='color: #8C201C; margin-bottom: 20px; font-weight: 800;'>Boccia Sports Federation of India</h2>
+        <p>Dear {$name},</p>
+        <p>Your profile update request for Registration Number <strong>{$regNo}</strong> ({$roleName}) has been reviewed by the BSFI federation administration.</p>
+        <p>After reviewing your request, the administration has <strong>not approved</strong> the requested profile updates at this time.</p>
+        <div style='background-color: #fef2f2; border-left: 4px solid #dc2626; padding: 15px; margin: 20px 0; border-radius: 6px;'>
+          <strong style='color: #991b1b; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;'>Admin Decision Notes / Corrective Actions Needed:</strong>
+          <p style='color: #7f1d1d; margin: 8px 0 0 0; font-size: 15px; font-weight: 600;'>{$reasonText}</p>
+        </div>
+        <p>You can re-submit your profile update request with the required corrections anytime via our <a href='https://www.bocciaindia.com/get-involved/update-profile.php' style='color: #081B4B; font-weight: bold;'>Profile Update Portal</a>.</p>
+        <p style='margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 13px; color: #64748b;'>Best Regards,<br/><strong>Boccia Sports Federation of India (BSFI)</strong></p>
+      </div>
+    ";
+    sendEmail($email, 'BSFI Profile Update Request Status', $html);
+}
+
 $page_title = "Review Registrations - BSFI Admin";
 $message = '';
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'athletes';
@@ -144,8 +165,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $up = $pdo->prepare("UPDATE profile_update_requests SET status = 'rejected', reviewed_by = ?, reviewed_at = NOW(), review_notes = ? WHERE id = ?");
                     $up->execute([$_SESSION['user_id'], $notes, $requestId]);
                     
+                    // Fetch member info to send rejection email
+                    $regNo = '';
+                    $name = '';
+                    $notifyEmail = $req['requested_email'];
+                    if ($memberType === 'athlete') {
+                        $stmt = $pdo->prepare("SELECT regn_no, full_name, email FROM athletes WHERE id = ?");
+                        $stmt->execute([$memberId]);
+                        $mRow = $stmt->fetch();
+                        if ($mRow) {
+                            $regNo = $mRow['regn_no'];
+                            $name = $mRow['full_name'];
+                            if (empty($notifyEmail)) $notifyEmail = $mRow['email'];
+                        }
+                    } else {
+                        $stmt = $pdo->prepare("SELECT official_reg_no, name, email FROM officials WHERE id = ?");
+                        $stmt->execute([$memberId]);
+                        $mRow = $stmt->fetch();
+                        if ($mRow) {
+                            $regNo = $mRow['official_reg_no'];
+                            $name = $mRow['name'];
+                            if (empty($notifyEmail)) $notifyEmail = $mRow['email'];
+                        }
+                    }
+
+                    sendUpdateRejectionEmail($notifyEmail, $name, $regNo, $memberType, $notes);
+
                     logAction($pdo, "Rejected Profile Update Request", "profile_update_requests", $requestId, "Type: $memberType | ID: $memberId");
-                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Profile update request rejected successfully.</div>";
+                    $message = "<div class='alert alert-success border-0 p-3 mb-4 rounded-3' style='background-color:#ECFDF5; color:#065F46;'>Profile update request rejected and rejection email sent to applicant.</div>";
                 } elseif ($action === 'approve_update') {
                     $pdo->beginTransaction();
 
