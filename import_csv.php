@@ -120,20 +120,25 @@ if ($handle === false) {
 }
 
 $headers = fgetcsv($handle);
-$reg_idx = array_search('REGN_NO', $headers);
-$cname_idx = array_search('CNAME', $headers);
-$gender_idx = array_search('GENDER', $headers);
-$dob_idx = array_search('DOB', $headers);
-$state_idx = array_search('REPRESENTING_FOR', $headers);
-$disc1_idx = array_search('DISCIPLINE1_NAME', $headers);
+// Trim header names to handle any trailing spaces in header names like 'FNAME ' or 'MNAME '
+$trimmedHeaders = array_map('trim', $headers);
+
+$reg_idx = array_search('REGN_NO', $trimmedHeaders);
+$cname_idx = array_search('CNAME', $trimmedHeaders);
+$gender_idx = array_search('GENDER', $trimmedHeaders);
+$dob_idx = array_search('DOB', $trimmedHeaders);
+$fname_idx = array_search('FNAME', $trimmedHeaders);
+$mname_idx = array_search('MNAME', $trimmedHeaders);
+$state_idx = array_search('REPRESENTING_FOR', $trimmedHeaders);
+$disc1_idx = array_search('DISCIPLINE1_NAME', $trimmedHeaders);
 
 // Extra indexing for history
-$championship_name_idx = array_search('CHAMPIONSHIP_NAME', $headers);
-$year_idx = array_search('YEAR', $headers);
-$disc2_idx = array_search('DISCIPLINE2_NAME', $headers);
-$disc1_result_idx = array_search('DISCIPLINE1_EVENT1_RESULT', $headers);
-$disc2_result_idx = array_search('DISCIPLINE2_EVENT1_RESULT', $headers);
-$cert_name_idx = array_search('CERT_NAME', $headers);
+$championship_name_idx = array_search('CHAMPIONSHIP_NAME', $trimmedHeaders);
+$year_idx = array_search('YEAR', $trimmedHeaders);
+$disc2_idx = array_search('DISCIPLINE2_NAME', $trimmedHeaders);
+$disc1_result_idx = array_search('DISCIPLINE1_EVENT1_RESULT', $trimmedHeaders);
+$disc2_result_idx = array_search('DISCIPLINE2_EVENT1_RESULT', $trimmedHeaders);
+$cert_name_idx = array_search('CERT_NAME', $trimmedHeaders);
 
 if ($reg_idx === false || $cname_idx === false || $gender_idx === false || $dob_idx === false || $state_idx === false || $disc1_idx === false) {
     die("Error: Missing required column headers in database.csv\n");
@@ -189,6 +194,12 @@ while (($row = fgetcsv($handle)) !== false) {
             throw new Exception("Invalid Date of Birth format: '$dob_raw'.");
         }
         
+        $father_name = ($fname_idx !== false && isset($row[$fname_idx])) ? trim($row[$fname_idx]) : null;
+        if ($father_name === '') { $father_name = null; }
+        
+        $mother_name = ($mname_idx !== false && isset($row[$mname_idx])) ? trim($row[$mname_idx]) : null;
+        if ($mother_name === '') { $mother_name = null; }
+        
         $state_raw = trim($row[$state_idx]);
         $cleanState = cleanStateName($state_raw);
         
@@ -230,14 +241,14 @@ while (($row = fgetcsv($handle)) !== false) {
             $athlete_id = $athRow['id'];
             // Update details (marking as legacy registry if they are in the range 1-99)
             $isLegacy = (is_numeric($regn_no) && (int)$regn_no >= 1 && (int)$regn_no <= 99) ? 1 : 0;
-            $updateStmt = $pdo->prepare("UPDATE athletes SET full_name = ?, gender = ?, dob = ?, state = ?, classification = ?, representing_for = ?, state_association_id = ?, status = 'approved', digilocker_imported = 1, photo_status = 'missing', is_legacy_registry = ? WHERE id = ?");
-            $updateStmt->execute([$full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId, $isLegacy, $athlete_id]);
+            $updateStmt = $pdo->prepare("UPDATE athletes SET full_name = ?, gender = ?, dob = ?, father_name = ?, mother_name = ?, state = ?, classification = ?, representing_for = ?, state_association_id = ?, status = 'approved', digilocker_imported = 1, photo_status = 'missing', is_legacy_registry = ? WHERE id = ?");
+            $updateStmt->execute([$full_name, $gender, $dob, $father_name, $mother_name, $cleanState, $classification, $cleanState, $assocId, $isLegacy, $athlete_id]);
             $updated++;
         } else {
             // Insert new athlete
             $isLegacy = (is_numeric($regn_no) && (int)$regn_no >= 1 && (int)$regn_no <= 99) ? 1 : 0;
-            $insertStmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, state, classification, representing_for, state_association_id, status, digilocker_imported, photo_status, is_legacy_registry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'approved', 1, 'missing', ?)");
-            $insertStmt->execute([$regn_no, $full_name, $gender, $dob, $cleanState, $classification, $cleanState, $assocId, $isLegacy]);
+            $insertStmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, father_name, mother_name, state, classification, representing_for, state_association_id, status, digilocker_imported, photo_status, is_legacy_registry) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', 1, 'missing', ?)");
+            $insertStmt->execute([$regn_no, $full_name, $gender, $dob, $father_name, $mother_name, $cleanState, $classification, $cleanState, $assocId, $isLegacy]);
             $athlete_id = $pdo->lastInsertId();
             $inserted++;
         }
