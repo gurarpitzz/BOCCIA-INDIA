@@ -364,6 +364,14 @@ if (isset($_POST['submit_update'])) {
     $address_req = trim($_POST['address'] ?? '');
     $pincode_req = trim($_POST['pincode'] ?? '');
     
+    // Additional fields for players
+    $kit_tshirt_req = trim($_POST['kit_tshirt'] ?? '');
+    $kit_tracksuit_req = trim($_POST['kit_tracksuit'] ?? '');
+    $kit_shoe_req = trim($_POST['kit_shoe'] ?? '');
+    $aadhaar_req = trim($_POST['aadhaar'] ?? '');
+    $impairment_type_req = trim($_POST['impairment_type'] ?? '');
+    $wheelchair_status_req = trim($_POST['wheelchair_status'] ?? '');
+    
     $photo_path = null;
     $passport_path = null;
     $medical_path = null;
@@ -434,8 +442,14 @@ if (isset($_POST['submit_update'])) {
 
     if ($isValid) {
         try {
-            $ins = $pdo->prepare("INSERT INTO profile_update_requests (member_type, member_id, requested_email, requested_phone, requested_address, requested_pincode, requested_photo_path, requested_passport_file, requested_medical_certificate, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
-            $ins->execute([$member_type, $matched_id, $email_req, $phone_req, $address_req, $pincode_req, $photo_path, $passport_path, $medical_path]);
+            $ins = $pdo->prepare("INSERT INTO profile_update_requests 
+                (member_type, member_id, requested_email, requested_phone, requested_address, requested_pincode, requested_kit_tshirt, requested_kit_tracksuit, requested_kit_shoe, requested_aadhaar, requested_impairment_type, requested_wheelchair_status, requested_photo_path, requested_passport_file, requested_medical_certificate, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+            $ins->execute([
+                $member_type, $matched_id, $email_req, $phone_req, $address_req, $pincode_req,
+                $kit_tshirt_req, $kit_tracksuit_req, $kit_shoe_req, $aadhaar_req, $impairment_type_req, $wheelchair_status_req,
+                $photo_path, $passport_path, $medical_path
+            ]);
             
             $step = 4;
             $message = "Your profile update request has been successfully submitted! An administrator will review and apply the changes shortly.";
@@ -552,19 +566,17 @@ include __DIR__ . '/../includes/header.php';
 </style>
 
 <div class="update-portal-bg">
-    <div class="container d-flex justify-content-center">
-        <div class="glass-card-update">
+    <div class="container" style="max-width: 650px;">
+        <div class="card border-0 shadow-lg text-white" style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-radius: 20px; padding: 2.5rem 2rem;">
             
             <div class="text-center mb-4">
-                <img src="../boccia-india-logo.webp" alt="BSFI Logo" style="max-height: 80px;" class="mb-3">
-                <h1 style="font-family: var(--font-heading-sub); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; margin:0;">Profile Update Portal</h1>
-                <p style="font-family: var(--font-body-custom); color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-top:5px;">
-                    Keep your BSFI registration details and profile photograph updated.
-                </p>
+                <img src="<?php echo $baseUrl; ?>/get-involved/BSFI-Logo.png" alt="BSFI Logo" style="height: 60px; object-fit: contain;" class="mb-3">
+                <h2 style="font-family: var(--font-heading-sub); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FAF7F0;">Profile Update Portal</h2>
+                <p style="font-size: 0.9rem; opacity: 0.8; font-weight: 400;">Keep your BSFI registration details, kit sizes, and profile documents updated.</p>
             </div>
 
             <?php if (!empty($error)): ?>
-                <div class="alert alert-danger border-0 p-3 mb-4 rounded-3 text-start" style="background-color: rgba(239, 68, 68, 0.15); color: #FCA5A5; border: 1px solid rgba(239, 68, 68, 0.3) !important;">
+                <div class="alert alert-danger border-0 p-3 mb-4 rounded-3 text-start" style="background-color: rgba(220, 38, 38, 0.15); color: #FCA5A5; border: 1px solid rgba(220, 38, 38, 0.3) !important;">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i> <?php echo $error; ?>
                 </div>
             <?php endif; ?>
@@ -636,14 +648,50 @@ include __DIR__ . '/../includes/header.php';
                     <input type="hidden" name="matched_id" value="<?php echo $matched_id; ?>">
                     
                     <div class="mb-4">
-                        <label class="form-label-custom">New Contact Email Address</label>
+                        <label class="form-label-custom">Contact Email Address</label>
                         <input type="email" name="email" class="form-control-custom" placeholder="E.g. athlete@example.com" required>
                     </div>
                     
                     <div class="mb-4">
-                        <label class="form-label-custom">New Mobile Phone Number</label>
+                        <label class="form-label-custom">Mobile Phone Number</label>
                         <input type="tel" name="phone" class="form-control-custom" placeholder="E.g. +91 9876543210" required>
                     </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Aadhaar Number (Optional)</label>
+                        <input type="text" name="aadhaar" class="form-control-custom" placeholder="E.g. 1234 5678 9012">
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label-custom">T-Shirt Size</label>
+                            <input type="text" name="kit_tshirt" class="form-control-custom" placeholder="E.g. M, L, XL">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label-custom">Tracksuit Size</label>
+                            <input type="text" name="kit_tracksuit" class="form-control-custom" placeholder="E.g. M, L, XL">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label-custom">Shoe Size</label>
+                            <input type="text" name="kit_shoe" class="form-control-custom" placeholder="E.g. UK 8">
+                        </div>
+                    </div>
+
+                    <?php if ($member_type === 'athlete'): ?>
+                    <div class="mb-4">
+                        <label class="form-label-custom">Impairment Type (Optional)</label>
+                        <input type="text" name="impairment_type" class="form-control-custom" placeholder="E.g. Cerebral Palsy">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Wheelchair Status</label>
+                        <select name="wheelchair_status" class="form-select-custom">
+                            <option value="None">None</option>
+                            <option value="Manual Wheelchair">Manual Wheelchair</option>
+                            <option value="Power Wheelchair">Power Wheelchair</option>
+                        </select>
+                    </div>
+                    <?php endif; ?>
 
                     <div class="mb-4">
                         <label class="form-label-custom">Permanent Address</label>
