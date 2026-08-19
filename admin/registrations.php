@@ -109,7 +109,7 @@ function sendUpdateRejectionEmail($email, $name, $regNo, $type, $notes) {
           <strong style='color: #991b1b; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;'>Admin Decision Notes / Corrective Actions Needed:</strong>
           <p style='color: #7f1d1d; margin: 8px 0 0 0; font-size: 15px; font-weight: 600;'>{$reasonText}</p>
         </div>
-        <p>You can re-submit your profile update request with the required corrections anytime via our <a href='https://www.bocciaindia.com/get-involved/update-profile.php' style='color: #081B4B; font-weight: bold;'>Profile Update Portal</a>.</p>
+        <p>You can re-submit your profile update request with the required corrections anytime via our <a href='https://www.bocciaindia.com/get-involved/update-profile.php?type={$type}&id={$regNo}' style='color: #081B4B; font-weight: bold;'>Profile Update Portal</a>.</p>
         <p style='margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 13px; color: #64748b;'>Best Regards,<br/><strong>Boccia Sports Federation of India (BSFI)</strong></p>
       </div>
     ";
