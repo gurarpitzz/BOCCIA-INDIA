@@ -916,6 +916,37 @@ include __DIR__ . '/../includes/header.php';
                                         <div><strong>Requested Phone:</strong></div><div style="<?php echo $req['requested_phone'] !== $req['current_phone'] ? 'color:var(--bsfi-green); font-weight:700;' : ''; ?>"><?php echo htmlspecialchars($req['requested_phone'] ?: 'N/A'); ?></div>
                                         <div><strong>Requested Address:</strong></div><div><?php echo htmlspecialchars($req['requested_address'] ?: 'N/A'); ?></div>
                                         <div><strong>Requested Pincode:</strong></div><div><?php echo htmlspecialchars($req['requested_pincode'] ?: 'N/A'); ?></div>
+                                        
+                                        <?php if (!empty($req['requested_aadhaar'])): ?>
+                                            <div><strong>Aadhaar Number:</strong></div><div style="color:var(--bsfi-green); font-weight:700; font-family:monospace;"><?php echo htmlspecialchars($req['requested_aadhaar']); ?></div>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($req['requested_kit_tshirt']) || !empty($req['requested_kit_tracksuit']) || !empty($req['requested_kit_shoe'])): ?>
+                                            <div><strong>Kit Sizes:</strong></div>
+                                            <div style="color:var(--bsfi-green); font-weight:600;">
+                                                T-Shirt: <?php echo htmlspecialchars($req['requested_kit_tshirt'] ?: 'N/A'); ?> | 
+                                                Track: <?php echo htmlspecialchars($req['requested_kit_tracksuit'] ?: 'N/A'); ?> | 
+                                                Shoes: <?php echo htmlspecialchars($req['requested_kit_shoe'] ?: 'N/A'); ?>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($req['requested_impairment_type'])): ?>
+                                            <div><strong>Impairment Type:</strong></div><div style="color:var(--bsfi-green); font-weight:600;"><?php echo htmlspecialchars($req['requested_impairment_type']); ?></div>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($req['requested_wheelchair_status'])): ?>
+                                            <div><strong>Wheelchair Status:</strong></div><div style="color:var(--bsfi-green); font-weight:600;"><?php echo htmlspecialchars($req['requested_wheelchair_status']); ?></div>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($req['requested_passport_file'])): ?>
+                                            <div><strong>Passport / Identity File:</strong></div>
+                                            <div><a href="../<?php echo htmlspecialchars($req['requested_passport_file']); ?>" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size:0.8rem;"><i class="fa-solid fa-file-pdf me-1"></i>View Document</a></div>
+                                        <?php endif; ?>
+
+                                        <?php if (!empty($req['requested_medical_certificate'])): ?>
+                                            <div><strong>Medical Certificate:</strong></div>
+                                            <div><a href="../<?php echo htmlspecialchars($req['requested_medical_certificate']); ?>" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size:0.8rem;"><i class="fa-solid fa-file-medical me-1"></i>View Certificate</a></div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
 
