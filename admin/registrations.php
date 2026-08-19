@@ -154,7 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         $upAthlete = $pdo->prepare("UPDATE athletes SET 
                             email = COALESCE(NULLIF(?, ''), email),
                             mobile = COALESCE(NULLIF(?, ''), mobile),
-                            district = COALESCE(NULLIF(?, ''), district),
+                            address = COALESCE(NULLIF(?, ''), address),
+                            pincode = COALESCE(NULLIF(?, ''), pincode),
                             photo_path = COALESCE(NULLIF(?, ''), photo_path),
                             photo_status = IF(? != '', 'verified', photo_status)
                             WHERE id = ?");
@@ -162,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         $upAthlete->execute([
                             $req['requested_email'],
                             $req['requested_phone'],
+                            $req['requested_address'],
                             $req['requested_pincode'],
                             $req['requested_photo_path'],
                             $req['requested_photo_path'],
