@@ -570,7 +570,7 @@ include __DIR__ . '/../includes/header.php';
         <div class="card border-0 shadow-lg text-white" style="background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border-radius: 20px; padding: 2.5rem 2rem;">
             
             <div class="text-center mb-4">
-                <img src="<?php echo $baseUrl; ?>/get-involved/BSFI-Logo.png" alt="BSFI Logo" style="height: 60px; object-fit: contain;" class="mb-3">
+                <img src="../boccia-india-logo.webp" alt="BSFI Logo" style="max-height: 80px; width: auto;" class="mb-3">
                 <h2 style="font-family: var(--font-heading-sub); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #FAF7F0;">Profile Update Portal</h2>
                 <p style="font-size: 0.9rem; opacity: 0.8; font-weight: 400;">Keep your BSFI registration details, kit sizes, and profile documents updated.</p>
             </div>
