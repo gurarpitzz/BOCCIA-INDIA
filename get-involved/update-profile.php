@@ -734,16 +734,16 @@ include __DIR__ . '/../includes/header.php';
                     <p style="font-family: var(--font-body-custom); color: rgba(255,255,255,0.85); line-height: 1.6;">
                         <?php echo $message; ?>
                     </p>
-                    <a href="verify-membership.php" class="btn btn-outline-light rounded-pill px-4 mt-4" style="font-family: var(--font-heading-sub); font-weight:700;">
-                        Go to Verification Page
+                    <a href="status.php" class="btn btn-outline-light rounded-pill px-4 mt-4" style="font-family: var(--font-heading-sub); font-weight:700;">
+                        Track Status / Verification
                     </a>
                 </div>
             <?php endif; ?>
 
             <?php if ($step < 4): ?>
                 <div class="text-center mt-5 border-top pt-3" style="border-top-color: rgba(255,255,255,0.1) !important;">
-                    <a href="verify-membership.php" class="text-white text-decoration-none" style="font-family: var(--font-heading-sub); font-weight: 600; font-size: 0.95rem;">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Verification Search
+                    <a href="status.php" class="text-white text-decoration-none" style="font-family: var(--font-heading-sub); font-weight: 600; font-size: 0.95rem;">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Status Verification
                     </a>
                 </div>
             <?php endif; ?>
