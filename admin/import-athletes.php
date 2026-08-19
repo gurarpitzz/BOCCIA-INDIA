@@ -94,6 +94,11 @@ if (isset($_POST['confirm_import']) && !empty($temp_file)) {
                     $representing_for = isset($row[26]) ? trim($row[26]) : '';
                     $wheelchair_status = isset($row[12]) ? trim($row[12]) : '';
                     
+                    // Pad numerical regn_no to 4 digits (e.g. 1 -> 0001) to match legacy format
+                    if (is_numeric($regn_no)) {
+                        $regn_no = str_pad((int)$regn_no, 4, '0', STR_PAD_LEFT);
+                    }
+                    
                     // Normalize gender
                     if ($gender !== 'MALE' && $gender !== 'FEMALE') {
                         $gender = 'OTHER';
@@ -105,21 +110,23 @@ if (isset($_POST['confirm_import']) && !empty($temp_file)) {
                         $dob = '2000-01-01';
                     }
                     
+                    $isLegacy = (is_numeric($regn_no) && (int)$regn_no >= 1 && (int)$regn_no <= 99) ? 1 : 0;
+                    
                     // Check duplicate registration
                     $dupCheck = $pdo->prepare("SELECT id FROM athletes WHERE regn_no = ?");
                     $dupCheck->execute([$regn_no]);
                     $existingAth = $dupCheck->fetch();
                     if ($existingAth) {
-                        // Update father_name & mother_name if missing on existing record
-                        $updStmt = $pdo->prepare("UPDATE athletes SET father_name = COALESCE(father_name, ?), mother_name = COALESCE(mother_name, ?) WHERE id = ?");
-                        $updStmt->execute([$father_name, $mother_name, $existingAth['id']]);
+                        // Update details on existing record
+                        $updStmt = $pdo->prepare("UPDATE athletes SET full_name = ?, gender = ?, dob = ?, father_name = COALESCE(?, father_name), mother_name = COALESCE(?, mother_name), state = ?, classification = ?, representing_for = ?, wheelchair_status = ?, is_legacy_registry = ? WHERE id = ?");
+                        $updStmt->execute([$full_name, $gender, $dob, $father_name, $mother_name, $state, $classification, $representing_for, $wheelchair_status, $isLegacy, $existingAth['id']]);
                         $duplicates++;
                         continue;
                     }
                     
                     // Insert
-                    $stmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, father_name, mother_name, state, classification, representing_for, wheelchair_status, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?)");
-                    $stmt->execute([$regn_no, $full_name, $gender, $dob, $father_name, $mother_name, $state, $classification, $representing_for, $wheelchair_status, $_SESSION['user_id']]);
+                    $stmt = $pdo->prepare("INSERT INTO athletes (regn_no, full_name, gender, dob, father_name, mother_name, state, classification, representing_for, wheelchair_status, status, is_legacy_registry, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'approved', ?, ?)");
+                    $stmt->execute([$regn_no, $full_name, $gender, $dob, $father_name, $mother_name, $state, $classification, $representing_for, $wheelchair_status, $isLegacy, $_SESSION['user_id']]);
                     $inserted++;
                 }
                 
