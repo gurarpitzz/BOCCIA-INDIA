@@ -186,7 +186,12 @@ include __DIR__ . '/../includes/header.php';
                                         </td>
                                         <td style="color: var(--text-muted); font-size: 0.8rem;"><?php echo htmlspecialchars(date('d M Y', strtotime($user['created_at']))); ?></td>
                                         <td style="text-align: right;">
-                                            <?php $isSelf = ((int)$user['id'] === (int)($_SESSION['user_id'] ?? 0)); ?>
+                                            <?php 
+                                                $currentActiveUsername = strtolower(trim($_SESSION['username'] ?? ''));
+                                                $thisRowUsername = strtolower(trim($user['username'] ?? ''));
+                                                $isSelf = ($currentActiveUsername !== '' && $currentActiveUsername === $thisRowUsername) || 
+                                                          ((int)($user['id'] ?? 0) === (int)($_SESSION['user_id'] ?? 0));
+                                            ?>
                                             <?php if (!$isSelf): ?>
                                                 <form action="users.php" method="POST" style="display: inline; margin: 0;" onsubmit="return confirm('Confirm deletion of this staff account?');">
                                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
