@@ -50,10 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userLock = !empty($username) ? $checkLockout($userHash, 'username') : ['count' => 0];
 
     if ($ipLock['count'] >= $maxAttempts || $userLock['count'] >= $maxAttempts) {
-        $lastAttemptTime = max(strtotime($ipLock['last'] ?? '1970-01-01'), strtotime($userLock['last'] ?? '1970-01-01'));
-        $timeRemaining = ($lastAttemptTime + $lockoutSeconds) - time();
-        $hoursLeft = ceil(max(1, $timeRemaining) / 3600);
-        $error = "Account locked due to 5 failed login attempts. Please try again after 24 hours (approx. {$hoursLeft} hours remaining) or contact the system administrator.";
+        $error = "Account locked due to 5 failed login attempts. Please try again after 24 hrs.";
     } elseif (!validateCSRF($token)) {
         $error = "Invalid security token. Please try again.";
     } elseif (empty($username) || empty($password)) {
@@ -90,9 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $attemptsLeft = $maxAttempts - $attemptsUsed;
 
                 if ($attemptsLeft > 0) {
-                    $error = "Invalid username or password. ({$attemptsLeft} attempt(s) remaining before a 24-hour lockout)";
+                    $error = "Invalid username or password. ({$attemptsLeft} attempt(s) left)";
                 } else {
-                    $error = "Account locked due to 5 failed login attempts. Please try again after 24 hours.";
+                    $error = "Account locked due to 5 failed login attempts. Please try again after 24 hrs.";
                 }
 
                 // Artificial delay to prevent timing/brute-force attacks
