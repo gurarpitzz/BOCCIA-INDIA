@@ -785,6 +785,29 @@ function submitApplication() {
     });
     if (!valid) return;
 
+    // Client-side file size validations (max 5MB for photo, max 10MB for documents)
+    const photoFile = document.getElementById("file_photo")?.files[0];
+    const docFile = document.getElementById("file_doc")?.files[0];
+    const medFile = document.getElementById("file_med")?.files[0];
+
+    if (photoFile && photoFile.size > 5 * 1024 * 1024) {
+        errBox.innerText = "Passport photo file size is too large (" + (photoFile.size / (1024 * 1024)).toFixed(1) + "MB). Maximum allowed is 5MB.";
+        errBox.classList.remove("d-none");
+        return;
+    }
+
+    if (docFile && docFile.size > 10 * 1024 * 1024) {
+        errBox.innerText = "Government ID document size is too large (" + (docFile.size / (1024 * 1024)).toFixed(1) + "MB). Maximum allowed is 10MB.";
+        errBox.classList.remove("d-none");
+        return;
+    }
+
+    if (medFile && medFile.size > 10 * 1024 * 1024) {
+        errBox.innerText = "Medical certificate document size is too large (" + (medFile.size / (1024 * 1024)).toFixed(1) + "MB). Maximum allowed is 10MB.";
+        errBox.classList.remove("d-none");
+        return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.innerText = "Submitting...";
 
@@ -795,7 +818,14 @@ function submitApplication() {
         body: fd
     })
     .then(async res => {
-        const data = await res.json();
+        const text = await res.text();
+        let data = {};
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            throw new Error("Server response error (" + res.status + "). Please check your network connection or upload file sizes.");
+        }
+
         if (!res.ok) {
             throw new Error(data.error || "Submission failed.");
         }
@@ -807,7 +837,11 @@ function submitApplication() {
         goToStep(4);
     })
     .catch(err => {
-        errBox.innerText = err.message;
+        let msg = err.message || "An unexpected error occurred.";
+        if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || msg.includes("Failed to execute 'fetch'")) {
+            msg = "Network connection failed or upload limit exceeded. Please ensure your attached files (Photo/ID/Medical) are under 3MB–5MB and your internet connection is active, then click Submit again.";
+        }
+        errBox.innerText = msg;
         errBox.classList.remove("d-none");
         submitBtn.disabled = false;
         submitBtn.innerText = "Submit Application";

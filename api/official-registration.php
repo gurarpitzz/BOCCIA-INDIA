@@ -310,17 +310,24 @@ try {
     $docUuidName = generateUUID() . '.' . $docExt;
 
     // Convert and save photo
-    if (in_array($photoExt, ['jpg', 'jpeg'])) {
+    $imgRes = false;
+    if (in_array($photoExt, ['jpg', 'jpeg']) && function_exists('imagecreatefromjpeg')) {
         $imgRes = imagecreatefromjpeg($photo['tmp_name']);
-    } elseif ($photoExt === 'png') {
+    } elseif ($photoExt === 'png' && function_exists('imagecreatefrompng')) {
         $imgRes = imagecreatefrompng($photo['tmp_name']);
-    } else {
+    } elseif (function_exists('imagecreatefromwebp')) {
         $imgRes = imagecreatefromwebp($photo['tmp_name']);
     }
-    if (!$imgRes || !imagewebp($imgRes, $photoDir . $photoUuidName, 85)) {
-        throw new Exception("Failed to process and save passport photograph.");
+
+    if ($imgRes && function_exists('imagewebp') && imagewebp($imgRes, $photoDir . $photoUuidName, 85)) {
+        imagedestroy($imgRes);
+    } else {
+        // Fallback if GD is missing or conversion failed: move raw file directly
+        $photoUuidName = generateUUID() . '.' . $photoExt;
+        if (!move_uploaded_file($photo['tmp_name'], $photoDir . $photoUuidName)) {
+            throw new Exception("Failed to process and save passport photograph.");
+        }
     }
-    imagedestroy($imgRes);
 
     // Save Identity Doc
     if (!move_uploaded_file($doc['tmp_name'], $docDir . $docUuidName)) {
