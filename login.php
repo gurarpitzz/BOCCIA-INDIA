@@ -12,13 +12,49 @@ if (isLoggedIn()) {
     exit();
 }
 
+// Ensure login_attempts table exists
+try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `login_attempts` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `identifier_hash` VARCHAR(64) NOT NULL,
+        `attempt_type` ENUM('ip', 'username') NOT NULL,
+        `attempted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        INDEX `idx_lookup` (`identifier_hash`, `attempt_type`, `attempted_at`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;");
+} catch (\Throwable $t) {}
+
+// Client IP & Lockout details
+$clientIp = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+$ipHash = hash('sha256', $clientIp . '_bsfi_login');
+$maxAttempts = 5;
+$lockoutSeconds = 86400; // 24 Hours
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = trim($_POST['password'] ?? '');
     $token = $_POST['csrf_token'] ?? '';
     
-    // Validate CSRF
-    if (!validateCSRF($token)) {
+    $userHash = hash('sha256', strtolower($username) . '_bsfi_user');
+
+    // Check recent failed attempts in past 24 hours
+    $checkLockout = function($hash, $type) use ($pdo, $lockoutSeconds) {
+        $stmt = $pdo->prepare("SELECT COUNT(*), MAX(attempted_at) FROM login_attempts WHERE identifier_hash = ? AND attempt_type = ? AND attempted_at >= NOW() - INTERVAL ? SECOND");
+        $stmt->execute([$hash, $type, $lockoutSeconds]);
+        $row = $stmt->fetch(PDO::FETCH_NUM);
+        $count = (int)($row[0] ?? 0);
+        $lastAttempt = $row[1] ?? null;
+        return ['count' => $count, 'last' => $lastAttempt];
+    };
+
+    $ipLock = $checkLockout($ipHash, 'ip');
+    $userLock = !empty($username) ? $checkLockout($userHash, 'username') : ['count' => 0];
+
+    if ($ipLock['count'] >= $maxAttempts || $userLock['count'] >= $maxAttempts) {
+        $lastAttemptTime = max(strtotime($ipLock['last'] ?? '1970-01-01'), strtotime($userLock['last'] ?? '1970-01-01'));
+        $timeRemaining = ($lastAttemptTime + $lockoutSeconds) - time();
+        $hoursLeft = ceil(max(1, $timeRemaining) / 3600);
+        $error = "Account locked due to 5 failed login attempts. Please try again after 24 hours (approx. {$hoursLeft} hours remaining) or contact the system administrator.";
+    } elseif (!validateCSRF($token)) {
         $error = "Invalid security token. Please try again.";
     } elseif (empty($username) || empty($password)) {
         $error = "Please fill in all credentials.";
@@ -30,7 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch();
             
             if ($user && password_verify($password, $user['password_hash'])) {
-                // Login Success!
+                // Login Success! Reset failed attempts for this user & IP
+                $clearAttempts = $pdo->prepare("DELETE FROM login_attempts WHERE identifier_hash = ? OR identifier_hash = ?");
+                $clearAttempts->execute([$ipHash, $userHash]);
+
                 regenerateUserSession();
                 
                 $_SESSION['user_id'] = $user['id'];
@@ -43,9 +82,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: admin/dashboard.php");
                 exit();
             } else {
-                // Invalid login
-                $error = "Invalid username or password.";
-                // Simple artificial delay to mitigate brute force
+                // Log failed attempt against IP & Username
+                $logFailed = $pdo->prepare("INSERT INTO login_attempts (identifier_hash, attempt_type) VALUES (?, 'ip'), (?, 'username')");
+                $logFailed->execute([$ipHash, $userHash]);
+
+                $attemptsUsed = max($ipLock['count'], $userLock['count']) + 1;
+                $attemptsLeft = $maxAttempts - $attemptsUsed;
+
+                if ($attemptsLeft > 0) {
+                    $error = "Invalid username or password. ({$attemptsLeft} attempt(s) remaining before a 24-hour lockout)";
+                } else {
+                    $error = "Account locked due to 5 failed login attempts. Please try again after 24 hours.";
+                }
+
+                // Artificial delay to prevent timing/brute-force attacks
                 usleep(500000); // 0.5s
             }
         } catch (PDOException $e) {
