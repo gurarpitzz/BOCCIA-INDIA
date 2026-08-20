@@ -187,10 +187,13 @@ include __DIR__ . '/../includes/header.php';
                                         <td style="color: var(--text-muted); font-size: 0.8rem;"><?php echo htmlspecialchars(date('d M Y', strtotime($user['created_at']))); ?></td>
                                         <td style="text-align: right;">
                                             <?php 
-                                                $currentActiveUsername = strtolower(trim($_SESSION['username'] ?? ''));
-                                                $thisRowUsername = strtolower(trim($user['username'] ?? ''));
-                                                $isSelf = ($currentActiveUsername !== '' && $currentActiveUsername === $thisRowUsername) || 
-                                                          ((int)($user['id'] ?? 0) === (int)($_SESSION['user_id'] ?? 0));
+                                                $sessionUserId = (int)($_SESSION['user_id'] ?? 0);
+                                                $rowUserId = (int)($user['id'] ?? 0);
+                                                $sessionUser = strtolower(trim((string)($_SESSION['username'] ?? '')));
+                                                $rowUser = strtolower(trim((string)($user['username'] ?? '')));
+
+                                                $isSelf = ($sessionUserId > 0 && $sessionUserId === $rowUserId) ||
+                                                          ($sessionUser !== '' && $sessionUser === $rowUser);
                                             ?>
                                             <?php if (!$isSelf): ?>
                                                 <form action="users.php" method="POST" style="display: inline; margin: 0;" onsubmit="return confirm('Confirm deletion of this staff account?');">
