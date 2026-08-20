@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ipLock = $checkLockout($ipHash, 'ip');
     $userLock = !empty($username) ? $checkLockout($userHash, 'username') : ['count' => 0];
 
-    if ($ipLock['count'] >= $maxAttempts || $userLock['count'] >= $maxAttempts) {
+    if ($userLock['count'] >= $maxAttempts) {
         $error = "Account locked due to 5 failed login attempts. Please try again after 24 hrs.";
     } elseif (!validateCSRF($token)) {
         $error = "Invalid security token. Please try again.";
@@ -63,9 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch();
             
             if ($user && password_verify($password, $user['password_hash'])) {
-                // Login Success! Reset failed attempts for this user & IP
-                $clearAttempts = $pdo->prepare("DELETE FROM login_attempts WHERE identifier_hash = ? OR identifier_hash = ?");
-                $clearAttempts->execute([$ipHash, $userHash]);
+                // Login Success! Reset failed attempts for this username
+                $clearAttempts = $pdo->prepare("DELETE FROM login_attempts WHERE identifier_hash = ?");
+                $clearAttempts->execute([$userHash]);
 
                 regenerateUserSession();
                 
@@ -79,11 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: admin/dashboard.php");
                 exit();
             } else {
-                // Log failed attempt against IP & Username
-                $logFailed = $pdo->prepare("INSERT INTO login_attempts (identifier_hash, attempt_type) VALUES (?, 'ip'), (?, 'username')");
-                $logFailed->execute([$ipHash, $userHash]);
+                // Log failed attempt against specific Username
+                $logFailed = $pdo->prepare("INSERT INTO login_attempts (identifier_hash, attempt_type) VALUES (?, 'username')");
+                $logFailed->execute([$userHash]);
 
-                $attemptsUsed = max($ipLock['count'], $userLock['count']) + 1;
+                $attemptsUsed = $userLock['count'] + 1;
                 $attemptsLeft = $maxAttempts - $attemptsUsed;
 
                 if ($attemptsLeft > 0) {
