@@ -3,15 +3,18 @@
 require_once __DIR__ . '/../includes/db.php';
 
 try {
-    // Target = 0068 (ID 68), Source = 0100 (ID 199)
-    $target = $pdo->query("SELECT * FROM athletes WHERE (id = 68 OR CAST(regn_no AS UNSIGNED) = 68 OR regn_no = '0068') LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-    $source = $pdo->query("SELECT * FROM athletes WHERE (id = 199 OR CAST(regn_no AS UNSIGNED) = 100 OR regn_no = '0100') LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    // Find all active records matching Usha Kiran
+    $ushaRecords = $pdo->query("SELECT * FROM athletes WHERE (full_name LIKE '%usha%kiran%' OR regn_no IN ('68','0068','100','0100')) AND deleted_at IS NULL ORDER BY CAST(regn_no AS UNSIGNED) ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($target && $source && (int)$target['id'] !== (int)$source['id']) {
+    if (count($ushaRecords) >= 2) {
+        $target = $ushaRecords[0]; // 0068 (lowest regn_no)
+        $source = $ushaRecords[count($ushaRecords) - 1]; // 0100 (duplicate)
+
         $targetId = (int)$target['id'];
         $sourceId = (int)$source['id'];
 
-        $pdo->beginTransaction();
+        if ($targetId !== $sourceId) {
+            $pdo->beginTransaction();
 
         // 1. Unconditionally copy all submitted fields from 0100 (source) into 0068 (target)
         $up = $pdo->prepare("
@@ -67,6 +70,7 @@ try {
         $pdo->prepare("UPDATE athletes SET deleted_at = NOW() WHERE id = ?")->execute([$sourceId]);
 
         $pdo->commit();
+        }
     }
 } catch (Exception $e) {
     if ($pdo->inTransaction()) {
