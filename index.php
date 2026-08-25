@@ -52,8 +52,8 @@ try {
     $galleryAlbums = $pdo->query("
         SELECT ga.*, gc.slug AS category_slug, gc.name AS category_name,
                (SELECT COUNT(*) FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0) AS image_count,
-               gi.image_path AS cover_image_path,
-               gi.thumbnail_path AS cover_thumb_path
+               COALESCE(gi.image_path, (SELECT image_path FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS cover_image_path,
+               COALESCE(gi.thumbnail_path, gi.image_path, (SELECT thumbnail_path FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS cover_thumb_path
         FROM gallery_albums ga
         LEFT JOIN gallery_categories gc ON ga.category_id = gc.id
         LEFT JOIN gallery_images gi ON ga.cover_image_id = gi.id
