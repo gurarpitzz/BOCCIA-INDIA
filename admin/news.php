@@ -227,9 +227,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
                 }
             }
         }
-    } catch (Throwable $e) {
-        $message = "<div class='alert alert-danger'>Error saving article: " . htmlspecialchars($e->getMessage()) . "</div>";
     }
+} catch (Throwable $e) {
+    $message = "<div class='alert alert-danger'>Error saving article: " . htmlspecialchars($e->getMessage()) . "</div>";
+}
 }
 
 // Fetch Search and Filter query parameters
