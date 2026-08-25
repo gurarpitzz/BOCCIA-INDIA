@@ -27,17 +27,37 @@ function createSlug($string) {
 // Helper: convert uploaded image to WebP and save to $destPath
 // Returns true on success, false on failure.
 function saveAsWebp($tmpFile, $ext, $destPath, $quality = 82) {
-    if ($ext === 'png') {
-        $img = imagecreatefrompng($tmpFile);
-    } elseif ($ext === 'webp') {
-        $img = imagecreatefromwebp($tmpFile);
-    } else {
-        $img = imagecreatefromjpeg($tmpFile);
+    if (!function_exists('imagecreatefromjpeg') && !function_exists('imagecreatefrompng') && !function_exists('imagecreatefromwebp')) {
+        return @copy($tmpFile, $destPath);
     }
-    if (!$img) return false;
-    $ok = imagewebp($img, $destPath, $quality);
-    imagedestroy($img);
-    return $ok;
+    try {
+        $img = false;
+        if ($ext === 'png' && function_exists('imagecreatefrompng')) {
+            $img = @imagecreatefrompng($tmpFile);
+        } elseif ($ext === 'webp' && function_exists('imagecreatefromwebp')) {
+            $img = @imagecreatefromwebp($tmpFile);
+        } elseif (function_exists('imagecreatefromjpeg')) {
+            $img = @imagecreatefromjpeg($tmpFile);
+        }
+
+        if (!$img) {
+            return @copy($tmpFile, $destPath);
+        }
+
+        if (function_exists('imagewebp')) {
+            $ok = @imagewebp($img, $destPath, $quality);
+            @imagedestroy($img);
+            if ($ok && file_exists($destPath) && filesize($destPath) > 0) {
+                return true;
+            }
+        }
+        if (isset($img) && (is_resource($img) || (is_object($img) && $img instanceof GdImage))) {
+            @imagedestroy($img);
+        }
+        return @copy($tmpFile, $destPath);
+    } catch (Throwable $e) {
+        return @copy($tmpFile, $destPath);
+    }
 }
 
 // Handle Delete (Soft Delete)
@@ -55,9 +75,10 @@ if (isset($_POST['delete_news']) && isset($_POST['news_id'])) {
 
 // Handle Save (Create/Update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
-    if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
-         $message = "<div class='alert alert-danger'>Invalid CSRF Token.</div>";
-    } else {
+    try {
+        if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
+             $message = "<div class='alert alert-danger'>Your session expired. Please refresh the page and try saving again.</div>";
+        } else {
         $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
         $title = trim($_POST['title']);
         $slug = trim($_POST['slug']);
@@ -207,6 +228,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_news'])) {
                 }
             }
         }
+    } catch (Throwable $e) {
+        $message = "<div class='alert alert-danger'>Error saving article: " . htmlspecialchars($e->getMessage()) . "</div>";
     }
 }
 
