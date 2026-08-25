@@ -144,8 +144,8 @@ function processImageVersions(string $srcPath, string $destDir, string $baseName
     }
     imagedestroy($img);
 
-    // Clean up original non-webp uploads to save storage space
-    if ($useWebp && $ext !== 'webp' && file_exists($srcPath)) {
+    // Clean up original non-webp uploads ONLY if webp versions were successfully generated
+    if ($useWebp && $ext !== 'webp' && file_exists($srcPath) && (!empty($paths['full']) || !empty($paths['thumb']))) {
         @unlink($srcPath);
     }
 

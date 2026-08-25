@@ -52,8 +52,8 @@ try {
     $galleryAlbums = $pdo->query("
         SELECT ga.*, gc.slug AS category_slug, gc.name AS category_name,
                (SELECT COUNT(*) FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0) AS image_count,
-               COALESCE(gi.image_path, (SELECT image_path FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS cover_image_path,
-               COALESCE(gi.thumbnail_path, gi.image_path, (SELECT thumbnail_path FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS cover_thumb_path
+               COALESCE(gi.image_path, gi.full_path, gi.medium_path, (SELECT COALESCE(image_path, full_path, medium_path) FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS cover_image_path,
+               COALESCE(gi.thumbnail_path, gi.medium_path, gi.image_path, gi.full_path, (SELECT COALESCE(thumbnail_path, medium_path, image_path, full_path) FROM gallery_images WHERE album_id = ga.id AND status = 'published' AND is_deleted = 0 ORDER BY sort_order ASC, id ASC LIMIT 1)) AS cover_thumb_path
         FROM gallery_albums ga
         LEFT JOIN gallery_categories gc ON ga.category_id = gc.id
         LEFT JOIN gallery_images gi ON ga.cover_image_id = gi.id
@@ -1739,7 +1739,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ?>
             <div class="gal-album-card" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
                 <div class="gal-album-img-wrap">
-                    <img src="<?php echo $coverSrc; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy">
+                    <img src="<?php echo $coverSrc; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy" onerror="this.onerror=null; this.src='assets/images/bsfi-placeholder.webp';">
                     <span class="gal-album-count-badge"><?php echo (int)$alb['image_count']; ?> Photos</span>
                 </div>
                 <div class="gal-album-info">
@@ -1775,7 +1775,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ?>
             <div class="gal-album-card gal-album-card-item" data-category-slug="<?php echo htmlspecialchars($alb['category_slug']); ?>">
                 <div class="gal-album-img-wrap" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
-                    <img src="<?php echo $coverSrc; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy">
+                    <img src="<?php echo $coverSrc; ?>" alt="<?php echo htmlspecialchars($alb['title']); ?>" class="gal-album-img" loading="lazy" onerror="this.onerror=null; this.src='assets/images/bsfi-placeholder.webp';">
                     <span class="gal-album-count-badge"><?php echo (int)$alb['image_count']; ?> Photos</span>
                 </div>
                 <div class="gal-album-info">
