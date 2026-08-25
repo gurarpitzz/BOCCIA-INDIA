@@ -40,7 +40,6 @@ try {
                 kit_shoe = COALESCE(NULLIF(?, ''), kit_shoe),
                 photo_path = COALESCE(NULLIF(?, ''), photo_path),
                 passport_file = COALESCE(NULLIF(?, ''), passport_file),
-                medical_cert_file = COALESCE(NULLIF(?, ''), medical_cert_file),
                 receipt_path = COALESCE(NULLIF(?, ''), receipt_path),
                 photo_status = COALESCE(NULLIF(?, ''), photo_status),
                 status = 'approved',
@@ -55,8 +54,8 @@ try {
             $source['wheelchair_status'], $source['nsrs_id'], $source['aadhaar'],
             $source['mobile'], $source['email'], $source['address'], $source['pincode'],
             $source['kit_tshirt'], $source['kit_tracksuit'], $source['kit_shoe'],
-            $source['photo_path'], $source['passport_file'], $source['medical_cert_file'],
-            $source['receipt_path'], $source['photo_status'],
+            $source['photo_path'], $source['passport_file'], $source['receipt_path'],
+            $source['photo_status'],
             $targetId
         ]);
 
