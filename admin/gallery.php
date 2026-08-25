@@ -153,7 +153,12 @@ function processImageVersions(string $srcPath, string $destDir, string $baseName
 }
 
 function toWebPath(string $absPath, string $docRoot): string {
-    $rel = str_replace('\\', '/', str_replace(str_replace('\\','/',$docRoot), '', str_replace('\\','/',$absPath)));
+    $normalizedAbs = str_replace('\\', '/', $absPath);
+    $pos = strpos($normalizedAbs, 'uploads/');
+    if ($pos !== false) {
+        return substr($normalizedAbs, $pos);
+    }
+    $rel = str_replace('\\', '/', str_replace(str_replace('\\','/',$docRoot), '', $normalizedAbs));
     return ltrim($rel, '/');
 }
 
