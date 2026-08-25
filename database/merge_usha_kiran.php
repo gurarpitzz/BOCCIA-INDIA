@@ -3,77 +3,55 @@
 require_once __DIR__ . '/../includes/db.php';
 
 try {
-    // Find all active records matching Usha Kiran
-    $ushaRecords = $pdo->query("SELECT * FROM athletes WHERE (full_name LIKE '%usha%kiran%' OR regn_no IN ('68','0068','100','0100')) AND deleted_at IS NULL ORDER BY CAST(regn_no AS UNSIGNED) ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
+    // 1. Copy all non-empty fields from 0100 (or id 199) into 0068 (or id 68)
+    $pdo->exec("
+        UPDATE athletes target
+        JOIN athletes source ON (source.id = 199 OR source.regn_no = '0100' OR CAST(source.regn_no AS UNSIGNED) = 100)
+        SET 
+            target.full_name = COALESCE(NULLIF(source.full_name, ''), target.full_name),
+            target.father_name = COALESCE(NULLIF(source.father_name, ''), target.father_name),
+            target.mother_name = COALESCE(NULLIF(source.mother_name, ''), target.mother_name),
+            target.age_category = COALESCE(NULLIF(source.age_category, ''), target.age_category),
+            target.state = COALESCE(NULLIF(source.state, ''), target.state),
+            target.representing_for = COALESCE(NULLIF(source.representing_for, ''), target.representing_for),
+            target.district = COALESCE(NULLIF(source.district, ''), target.district),
+            target.classification = COALESCE(NULLIF(source.classification, ''), target.classification),
+            target.impairment_type = COALESCE(NULLIF(source.impairment_type, ''), target.impairment_type),
+            target.wheelchair_status = COALESCE(NULLIF(source.wheelchair_status, ''), target.wheelchair_status),
+            target.nsrs_id = COALESCE(NULLIF(source.nsrs_id, ''), target.nsrs_id),
+            target.aadhaar = COALESCE(NULLIF(source.aadhaar, ''), target.aadhaar),
+            target.mobile = COALESCE(NULLIF(source.mobile, ''), target.mobile),
+            target.email = COALESCE(NULLIF(source.email, ''), target.email),
+            target.address = COALESCE(NULLIF(source.address, ''), target.address),
+            target.pincode = COALESCE(NULLIF(source.pincode, ''), target.pincode),
+            target.kit_tshirt = COALESCE(NULLIF(source.kit_tshirt, ''), target.kit_tshirt),
+            target.kit_tracksuit = COALESCE(NULLIF(source.kit_tracksuit, ''), target.kit_tracksuit),
+            target.kit_shoe = COALESCE(NULLIF(source.kit_shoe, ''), target.kit_shoe),
+            target.photo_path = COALESCE(NULLIF(source.photo_path, ''), target.photo_path),
+            target.passport_file = COALESCE(NULLIF(source.passport_file, ''), target.passport_file),
+            target.medical_cert_file = COALESCE(NULLIF(source.medical_cert_file, ''), target.medical_cert_file),
+            target.receipt_path = COALESCE(NULLIF(source.receipt_path, ''), target.receipt_path),
+            target.photo_status = COALESCE(NULLIF(source.photo_status, ''), target.photo_status),
+            target.status = 'approved',
+            target.deleted_at = NULL
+        WHERE (target.id = 68 OR target.regn_no = '0068' OR CAST(target.regn_no AS UNSIGNED) = 68)
+          AND source.id != target.id;
+    ");
 
-    if (count($ushaRecords) >= 2) {
-        $target = $ushaRecords[0]; // 0068 (lowest regn_no)
-        $source = $ushaRecords[count($ushaRecords) - 1]; // 0100 (duplicate)
+    // 2. Transfer child history records
+    $pdo->exec("
+        UPDATE athlete_history h
+        JOIN athletes target ON (target.id = 68 OR target.regn_no = '0068' OR CAST(target.regn_no AS UNSIGNED) = 68)
+        JOIN athletes source ON (source.id = 199 OR source.regn_no = '0100' OR CAST(source.regn_no AS UNSIGNED) = 100)
+        SET h.athlete_id = target.id
+        WHERE h.athlete_id = source.id AND target.id != source.id;
+    ");
 
-        $targetId = (int)$target['id'];
-        $sourceId = (int)$source['id'];
-
-        if ($targetId !== $sourceId) {
-            $pdo->beginTransaction();
-
-        // 1. Unconditionally copy all submitted fields from 0100 (source) into 0068 (target)
-        $up = $pdo->prepare("
-            UPDATE athletes SET
-                full_name = COALESCE(NULLIF(?, ''), full_name),
-                father_name = COALESCE(NULLIF(?, ''), father_name),
-                mother_name = COALESCE(NULLIF(?, ''), mother_name),
-                age_category = COALESCE(NULLIF(?, ''), age_category),
-                state = COALESCE(NULLIF(?, ''), state),
-                representing_for = COALESCE(NULLIF(?, ''), representing_for),
-                district = COALESCE(NULLIF(?, ''), district),
-                classification = COALESCE(NULLIF(?, ''), classification),
-                impairment_type = COALESCE(NULLIF(?, ''), impairment_type),
-                wheelchair_status = COALESCE(NULLIF(?, ''), wheelchair_status),
-                nsrs_id = COALESCE(NULLIF(?, ''), nsrs_id),
-                aadhaar = COALESCE(NULLIF(?, ''), aadhaar),
-                mobile = COALESCE(NULLIF(?, ''), mobile),
-                email = COALESCE(NULLIF(?, ''), email),
-                address = COALESCE(NULLIF(?, ''), address),
-                pincode = COALESCE(NULLIF(?, ''), pincode),
-                kit_tshirt = COALESCE(NULLIF(?, ''), kit_tshirt),
-                kit_tracksuit = COALESCE(NULLIF(?, ''), kit_tracksuit),
-                kit_shoe = COALESCE(NULLIF(?, ''), kit_shoe),
-                photo_path = COALESCE(NULLIF(?, ''), photo_path),
-                passport_file = COALESCE(NULLIF(?, ''), passport_file),
-                medical_cert_file = COALESCE(NULLIF(?, ''), medical_cert_file),
-                receipt_path = COALESCE(NULLIF(?, ''), receipt_path),
-                photo_status = COALESCE(NULLIF(?, ''), photo_status),
-                status = 'approved',
-                deleted_at = NULL
-            WHERE id = ?
-        ");
-
-        $up->execute([
-            $source['full_name'], $source['father_name'], $source['mother_name'],
-            $source['age_category'], $source['state'], $source['representing_for'],
-            $source['district'], $source['classification'], $source['impairment_type'],
-            $source['wheelchair_status'], $source['nsrs_id'], $source['aadhaar'],
-            $source['mobile'], $source['email'], $source['address'], $source['pincode'],
-            $source['kit_tshirt'], $source['kit_tracksuit'], $source['kit_shoe'],
-            $source['photo_path'], $source['passport_file'], $source['medical_cert_file'],
-            $source['receipt_path'], $source['photo_status'],
-            $targetId
-        ]);
-
-        // 2. Transfer all child history & requests to 0068 (target)
-        $pdo->prepare("UPDATE athlete_history SET athlete_id = ? WHERE athlete_id = ?")->execute([$targetId, $sourceId]);
-        $pdo->prepare("UPDATE athlete_status_history SET athlete_id = ? WHERE athlete_id = ?")->execute([$targetId, $sourceId]);
-        $pdo->prepare("UPDATE athlete_registry_import SET athlete_id = ? WHERE athlete_id = ?")->execute([$targetId, $sourceId]);
-        $pdo->prepare("UPDATE profile_update_requests SET athlete_id = ? WHERE athlete_id = ?")->execute([$targetId, $sourceId]);
-
-        // 3. Soft-delete 0100 (source)
-        $pdo->prepare("UPDATE athletes SET deleted_at = NOW() WHERE id = ?")->execute([$sourceId]);
-
-        $pdo->commit();
-        }
-    }
-} catch (Exception $e) {
-    if ($pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-}
+    // 3. Soft-delete 0100 (or id 199)
+    $pdo->exec("
+        UPDATE athletes 
+        SET deleted_at = NOW() 
+        WHERE (id = 199 OR regn_no = '0100' OR CAST(regn_no AS UNSIGNED) = 100)
+          AND id != 68 AND CAST(regn_no AS UNSIGNED) != 68;
+    ");
+} catch (Exception $e) {}
