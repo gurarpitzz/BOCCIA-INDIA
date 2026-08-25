@@ -402,22 +402,35 @@ if (isset($_POST['submit_update'])) {
         return false;
     };
 
-    // Handle photo upload
-    if (!empty($_FILES['photo_path']['name'])) {
+    // Handle photo upload (Mandatory)
+    if (empty($_FILES['photo_path']['name'])) {
+        $error = "Passport size photograph is mandatory for profile update.";
+        $isValid = false;
+    } else {
         $res = $uploadFile('photo_path', ['jpg', 'jpeg', 'png'], 'uploads/profiles/', $error);
         if ($res === false) { $isValid = false; } else { $photo_path = $res; }
     }
 
-    // Handle passport/identity file upload
-    if ($isValid && !empty($_FILES['passport_file']['name'])) {
-        $res = $uploadFile('passport_file', ['jpg', 'jpeg', 'png', 'pdf'], 'uploads/documents/', $error);
-        if ($res === false) { $isValid = false; } else { $passport_path = $res; }
+    // Handle passport/identity file upload (Mandatory)
+    if ($isValid) {
+        if (empty($_FILES['passport_file']['name'])) {
+            $error = "Passport / Identity Proof File is mandatory for profile update.";
+            $isValid = false;
+        } else {
+            $res = $uploadFile('passport_file', ['jpg', 'jpeg', 'png', 'pdf'], 'uploads/documents/', $error);
+            if ($res === false) { $isValid = false; } else { $passport_path = $res; }
+        }
     }
 
-    // Handle medical certificate upload
-    if ($isValid && !empty($_FILES['medical_certificate']['name'])) {
-        $res = $uploadFile('medical_certificate', ['jpg', 'jpeg', 'png', 'pdf'], 'uploads/documents/', $error);
-        if ($res === false) { $isValid = false; } else { $medical_path = $res; }
+    // Handle medical certificate upload (Mandatory)
+    if ($isValid) {
+        if (empty($_FILES['medical_certificate']['name'])) {
+            $error = "Medical Certificate File is mandatory for profile update.";
+            $isValid = false;
+        } else {
+            $res = $uploadFile('medical_certificate', ['jpg', 'jpeg', 'png', 'pdf'], 'uploads/documents/', $error);
+            if ($res === false) { $isValid = false; } else { $medical_path = $res; }
+        }
     }
 
     // Verify email is unique if they are requesting a change
@@ -704,20 +717,20 @@ include __DIR__ . '/../includes/header.php';
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label-custom">Upload Passport Size Photograph</label>
-                        <input type="file" name="photo_path" class="form-control-custom" accept=".jpg,.jpeg,.png">
-                        <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Passport photo must show face clearly in JPG/PNG format. Max 5MB.</span>
+                        <label class="form-label-custom">Upload Passport Size Photograph <span class="text-danger">*</span></label>
+                        <input type="file" name="photo_path" class="form-control-custom" accept=".jpg,.jpeg,.png" required>
+                        <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Passport photo must show face clearly in JPG/PNG format (Max 5MB).</span>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label-custom">Upload Passport / Identity File (Optional)</label>
-                        <input type="file" name="passport_file" class="form-control-custom" accept=".jpg,.jpeg,.png,.pdf">
+                        <label class="form-label-custom">Upload Passport / Identity File <span class="text-danger">*</span></label>
+                        <input type="file" name="passport_file" class="form-control-custom" accept=".jpg,.jpeg,.png,.pdf" required>
                         <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Identity proof document in PDF or image format (Max 10MB).</span>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label-custom">Upload Medical Certificate (Optional)</label>
-                        <input type="file" name="medical_certificate" class="form-control-custom" accept=".jpg,.jpeg,.png,.pdf">
+                        <label class="form-label-custom">Upload Medical Certificate <span class="text-danger">*</span></label>
+                        <input type="file" name="medical_certificate" class="form-control-custom" accept=".jpg,.jpeg,.png,.pdf" required>
                         <span style="font-size:0.8rem; color:rgba(255,255,255,0.7); display:block; margin-top:5px;">*Valid medical/disability certificate in PDF or image format (Max 10MB).</span>
                     </div>
 
