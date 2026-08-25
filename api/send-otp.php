@@ -2,7 +2,16 @@
 // api/send-otp.php - AJAX endpoint to send verification OTP via Resend
 
 header('Content-Type: application/json');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.gc_maxlifetime', 5400);
+    session_set_cookie_params([
+        'lifetime' => 5400,
+        'path' => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+    session_start();
+}
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../config/app.php';

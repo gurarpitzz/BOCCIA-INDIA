@@ -2,6 +2,14 @@
 // auth.php - Authentication and Session Management
 
 if (session_status() == PHP_SESSION_NONE) {
+    // 1.5 hours session lifetime (5400 seconds)
+    ini_set('session.gc_maxlifetime', 5400);
+    session_set_cookie_params([
+        'lifetime' => 5400,
+        'path' => '/',
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
     session_start();
 }
 
