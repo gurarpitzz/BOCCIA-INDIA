@@ -172,18 +172,6 @@ function toAdminWebPath(?string $path): string {
         $clean = ltrim($path, '/');
     }
     if (empty($clean)) return 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%23081b4b%22/></svg>';
-
-    $docRoot = dirname(__DIR__);
-    if (!file_exists($docRoot . '/' . $clean)) {
-        $ext = pathinfo($clean, PATHINFO_EXTENSION);
-        if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png'])) {
-            $webpPath = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $clean);
-            if (file_exists($docRoot . '/' . $webpPath)) {
-                $clean = $webpPath;
-            }
-        }
-    }
-
     return '../' . $clean;
 }
 

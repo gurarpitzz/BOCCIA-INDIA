@@ -49,22 +49,7 @@ function resolveWebPath(?string $path): string {
     } else {
         $clean = ltrim($path, '/');
     }
-    if (empty($clean)) return 'assets/images/bsfi-placeholder.webp';
-
-    $docRoot = __DIR__;
-    if (file_exists($docRoot . '/' . $clean)) {
-        return $clean;
-    }
-
-    $ext = pathinfo($clean, PATHINFO_EXTENSION);
-    if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png'])) {
-        $webpPath = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $clean);
-        if (file_exists($docRoot . '/' . $webpPath)) {
-            return $webpPath;
-        }
-    }
-
-    return $clean;
+    return !empty($clean) ? $clean : 'assets/images/bsfi-placeholder.webp';
 }
 
 // Fetch Gallery Data
