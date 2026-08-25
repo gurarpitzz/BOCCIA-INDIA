@@ -3,8 +3,9 @@
 require_once __DIR__ . '/../includes/db.php';
 
 try {
-    $target = $pdo->query("SELECT * FROM athletes WHERE regn_no = '0068' AND deleted_at IS NULL LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-    $source = $pdo->query("SELECT * FROM athletes WHERE regn_no = '0100' AND deleted_at IS NULL LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    // Match by Primary Key ID (Target ID = 68, Source ID = 199)
+    $target = $pdo->query("SELECT * FROM athletes WHERE (id = 68 OR CAST(regn_no AS UNSIGNED) = 68 OR regn_no = '0068') AND deleted_at IS NULL LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+    $source = $pdo->query("SELECT * FROM athletes WHERE (id = 199 OR CAST(regn_no AS UNSIGNED) = 100 OR regn_no = '0100') AND deleted_at IS NULL LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
     if ($target && $source) {
         $targetId = (int)$target['id'];
