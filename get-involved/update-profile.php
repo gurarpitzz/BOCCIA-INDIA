@@ -18,7 +18,7 @@ if (empty($_SESSION['csrf_token'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
         http_response_code(403);
-        die("Security token validation failed (CSRF).");
+        die("Your session has expired due to inactivity. Please refresh the page and try submitting again.");
     }
 }
 

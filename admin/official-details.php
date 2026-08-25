@@ -37,7 +37,7 @@ $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_nsrs_id') {
     if (!isset($_POST['csrf_token']) || !validateCSRF($_POST['csrf_token'])) {
-        $error = "Security token validation failed (CSRF).";
+        $error = "Your session has expired due to inactivity. Please refresh the page and try again.";
     } elseif (!$isAdmin) {
         $error = "Only Administrators can modify NSRS IDs.";
     } else {

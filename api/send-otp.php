@@ -26,7 +26,7 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // 2. CSRF validation
 if (empty($csrf_token) || $csrf_token !== ($_SESSION['csrf_token'] ?? '')) {
     http_response_code(403);
-    echo json_encode(['error' => 'Security token validation failed (CSRF).']);
+    echo json_encode(['error' => 'Your session has expired due to inactivity. Please refresh the page and try again.']);
     exit();
 }
 
