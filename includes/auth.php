@@ -1,22 +1,34 @@
 <?php
 // auth.php - Authentication and Session Management
 
-if (session_status() == PHP_SESSION_NONE) {
-    // 1.5 hours session lifetime (5400 seconds)
-    ini_set('session.gc_maxlifetime', 5400);
-    session_set_cookie_params([
-        'lifetime' => 5400,
-        'path' => '/',
-        'httponly' => true,
-        'samesite' => 'Lax'
-    ]);
-    session_start();
+function init_secure_session() {
+    if (session_status() === PHP_SESSION_NONE) {
+        $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+            || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+
+        ini_set('session.gc_maxlifetime', 5400); // 1.5 hours
+        ini_set('session.use_only_cookies', 1);
+        ini_set('session.use_strict_mode', 1);
+
+        session_set_cookie_params([
+            'lifetime' => 5400,
+            'path' => '/',
+            'domain' => '',
+            'secure' => $isSecure,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+
+        session_start();
+
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+    }
 }
 
-// Generate CSRF token if not set
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+init_secure_session();
 
 // Security: Regenerate session ID periodically or on login
 function regenerateUserSession() {

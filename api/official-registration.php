@@ -1,16 +1,7 @@
 <?php
 // api/official-registration.php - Secure AJAX endpoint for Official Registration intake with category validation
 header('Content-Type: application/json');
-if (session_status() === PHP_SESSION_NONE) {
-    ini_set('session.gc_maxlifetime', 5400);
-    session_set_cookie_params([
-        'lifetime' => 5400,
-        'path' => '/',
-        'httponly' => true,
-        'samesite' => 'Lax'
-    ]);
-    session_start();
-}
+require_once __DIR__ . '/../includes/auth.php';
 
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../config/app.php';
