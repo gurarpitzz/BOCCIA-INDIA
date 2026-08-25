@@ -419,7 +419,7 @@ $categories = $pdo->query("SELECT * FROM news_categories ORDER BY name ASC")->fe
                 <div class="admin-form-group" style="margin-bottom: 0;">
                     <label for="news-extra-images">Upload Multiple Gallery Photos (Max 1MB each)</label>
                     <input type="file" id="news-extra-images" name="gallery_images[]" class="admin-input" multiple accept="image/jpeg,image/png,image/webp">
-                    <p style="font-size:0.75rem; color: var(--text-muted); margin-top:0.25rem; margin-bottom: 0;">Select one or more photos to display on the article page gallery.</p>
+                    <p style="font-size:0.75rem; color: var(--text-muted); margin-top:0.25rem; margin-bottom: 0;">Select one or more photos to display on the article page gallery. 💡 <b>Tip:</b> Hold down the <b>Ctrl</b> key (or <b>Shift</b>) on your keyboard to select multiple photos at once.</p>
                 </div>
             </div>
 
