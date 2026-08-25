@@ -530,11 +530,11 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             </div>
 
-                            <!-- Passport Booklet Upload (Required for Coach, Referee, Ramp Operator, Escort; Optional for Volunteer, Classifier) -->
+                            <!-- Passport Booklet Upload (Mandatory for All Official Categories) -->
                             <div class="col-md-12" id="field-wrapper-passport-upload">
                                 <label class="form-label-custom" id="label-passport-upload">Passport Document Booklet / Copy <span class="text-danger">*</span></label>
                                 <div class="file-drop-zone">
-                                    <input type="file" id="file_passport" name="passport_file" accept="application/pdf,image/jpeg,image/png" onchange="updateFileLabel('file_passport', 'passport_label')">
+                                    <input type="file" id="file_passport" name="passport_file" accept="application/pdf,image/jpeg,image/png" onchange="updateFileLabel('file_passport', 'passport_label')" required>
                                     <div class="text-slate-400 text-3xl mb-1"><i class="bi bi-cloud-arrow-up-fill"></i></div>
                                     <span class="text-sm font-semibold" id="passport_label">Choose Passport Copy File</span>
                                 </div>

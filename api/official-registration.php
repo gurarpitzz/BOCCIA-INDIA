@@ -174,11 +174,10 @@ try {
         $classifier_type_other = null;
     }
 
-    // Passport Documents requirements
-    $passportRequired = in_array($category, ['Coach', 'Referee', 'Ramp Operator / Sports Assistant', 'Escort']);
-    if ($passportRequired && (empty($passport['name']) || $passport['error'] !== UPLOAD_ERR_OK)) {
+    // Passport / Identity Proof Document requirement (Mandatory for all categories)
+    if (empty($passport['name']) || $passport['error'] !== UPLOAD_ERR_OK) {
         http_response_code(400);
-        echo json_encode(['error' => "Passport Document booklet copy is required for {$category} registrations."]);
+        echo json_encode(['error' => "Passport / Identity Proof document is required for {$category} registrations."]);
         exit();
     }
 
