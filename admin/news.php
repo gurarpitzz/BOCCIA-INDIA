@@ -50,8 +50,7 @@ function saveAsWebp($tmpFile, $ext, $destPath, $quality = 82) {
             if ($ok && file_exists($destPath) && filesize($destPath) > 0) {
                 return true;
             }
-        }
-        if (isset($img) && (is_resource($img) || (is_object($img) && $img instanceof GdImage))) {
+        } else {
             @imagedestroy($img);
         }
         return @copy($tmpFile, $destPath);
