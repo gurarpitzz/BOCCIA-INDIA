@@ -3,8 +3,8 @@
 require_once __DIR__ . '/../includes/db.php';
 
 try {
-    // 1. Find source athlete (regn 0100 or regn 100 or email ushakiran)
-    $stmtS = $pdo->query("SELECT * FROM athletes WHERE (regn_no = '0100' OR regn_no = '100' OR email LIKE '%ushakiran%') AND deleted_at IS NULL LIMIT 1");
+    // 1. Find source athlete (regn 0100 or id 199)
+    $stmtS = $pdo->query("SELECT * FROM athletes WHERE (id = 199 OR regn_no = '0100' OR regn_no = '100' OR email LIKE '%ushakiran%') ORDER BY id DESC LIMIT 1");
     $source = $stmtS->fetch(PDO::FETCH_ASSOC);
 
     // 2. Find target athlete (regn 0068 or regn 68)
