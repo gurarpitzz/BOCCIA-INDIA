@@ -4,6 +4,19 @@ require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/role-check.php';
 
+// Auto-repair news database schema AUTO_INCREMENT if missing
+try {
+    $zeroCheck = (int)$pdo->query("SELECT COUNT(*) FROM news WHERE id = 0")->fetchColumn();
+    if ($zeroCheck > 0) {
+        $maxId = (int)$pdo->query("SELECT MAX(id) FROM news WHERE id > 0")->fetchColumn();
+        $newId = max(1, $maxId + 1);
+        $pdo->exec("UPDATE news SET id = $newId WHERE id = 0");
+        $pdo->exec("UPDATE news_images SET news_id = $newId WHERE news_id = 0");
+    }
+    $pdo->exec("ALTER TABLE news MODIFY id INT AUTO_INCREMENT");
+    $pdo->exec("ALTER TABLE news_images MODIFY id INT AUTO_INCREMENT");
+} catch (Exception $e) {}
+
 // Restricted to admin & editor
 requireLogin();
 if (!in_array($_SESSION['role'], ['admin', 'editor'])) {
