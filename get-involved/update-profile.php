@@ -678,15 +678,45 @@ include __DIR__ . '/../includes/header.php';
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
                             <label class="form-label-custom">T-Shirt Size</label>
-                            <input type="text" name="kit_tshirt" class="form-control-custom" placeholder="E.g. M, L, XL">
+                            <select name="kit_tshirt" class="form-select-custom">
+                                <option value="">Select Size</option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                                <option value="3XL">3XL</option>
+                                <option value="4XL">4XL</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label-custom">Tracksuit Size</label>
-                            <input type="text" name="kit_tracksuit" class="form-control-custom" placeholder="E.g. M, L, XL">
+                            <select name="kit_tracksuit" class="form-select-custom">
+                                <option value="">Select Size</option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                                <option value="3XL">3XL</option>
+                                <option value="4XL">4XL</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label-custom">Shoe Size</label>
-                            <input type="text" name="kit_shoe" class="form-control-custom" placeholder="E.g. UK 8">
+                            <label class="form-label-custom">Shoe Size (UK)</label>
+                            <select name="kit_shoe" class="form-select-custom">
+                                <option value="">Select Size</option>
+                                <option value="UK 5">UK 5</option>
+                                <option value="UK 6">UK 6</option>
+                                <option value="UK 7">UK 7</option>
+                                <option value="UK 8">UK 8</option>
+                                <option value="UK 9">UK 9</option>
+                                <option value="UK 10">UK 10</option>
+                                <option value="UK 11">UK 11</option>
+                                <option value="UK 12">UK 12</option>
+                            </select>
                         </div>
                     </div>
 
