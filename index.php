@@ -40,15 +40,31 @@ try {
     }
 } catch (PDOException $e) {}
 
-function sanitizeWebPath($path) {
+function resolveWebPath(?string $path): string {
     if (empty($path)) return 'assets/images/bsfi-placeholder.webp';
     $path = str_replace('\\', '/', $path);
     $pos = strpos($path, 'uploads/');
     if ($pos !== false) {
-        return substr($path, $pos);
+        $clean = substr($path, $pos);
+    } else {
+        $clean = ltrim($path, '/');
     }
-    $clean = ltrim($path, '/');
-    return !empty($clean) ? $clean : 'assets/images/bsfi-placeholder.webp';
+    if (empty($clean)) return 'assets/images/bsfi-placeholder.webp';
+
+    $docRoot = __DIR__;
+    if (file_exists($docRoot . '/' . $clean)) {
+        return $clean;
+    }
+
+    $ext = pathinfo($clean, PATHINFO_EXTENSION);
+    if (in_array(strtolower($ext), ['jpg', 'jpeg', 'png'])) {
+        $webpPath = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $clean);
+        if (file_exists($docRoot . '/' . $webpPath)) {
+            return $webpPath;
+        }
+    }
+
+    return $clean;
 }
 
 // Fetch Gallery Data
@@ -1747,7 +1763,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="gal-albums-grid" style="margin-bottom: 4rem;">
             <?php foreach ($featuredAlbums as $alb): 
                 $rawCover = !empty($alb['cover_image_override']) ? $alb['cover_image_override'] : (!empty($alb['cover_thumb_path']) ? $alb['cover_thumb_path'] : (!empty($alb['cover_image_path']) ? $alb['cover_image_path'] : 'assets/images/bsfi-placeholder.webp'));
-                $coverSrc = htmlspecialchars(sanitizeWebPath($rawCover));
+                $coverSrc = htmlspecialchars(resolveWebPath($rawCover));
             ?>
             <div class="gal-album-card" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
                 <div class="gal-album-img-wrap">
@@ -1784,7 +1800,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="gal-albums-grid" id="galAlbumsGrid">
             <?php foreach ($galleryAlbums as $alb): 
                 $rawCover = !empty($alb['cover_image_override']) ? $alb['cover_image_override'] : (!empty($alb['cover_thumb_path']) ? $alb['cover_thumb_path'] : (!empty($alb['cover_image_path']) ? $alb['cover_image_path'] : 'assets/images/bsfi-placeholder.webp'));
-                $coverSrc = htmlspecialchars(sanitizeWebPath($rawCover));
+                $coverSrc = htmlspecialchars(resolveWebPath($rawCover));
             ?>
             <div class="gal-album-card gal-album-card-item" data-category-slug="<?php echo htmlspecialchars($alb['category_slug']); ?>">
                 <div class="gal-album-img-wrap" onclick="openAlbum('<?php echo htmlspecialchars($alb['slug']); ?>')">
