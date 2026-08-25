@@ -162,6 +162,16 @@ function toWebPath(string $absPath, string $docRoot): string {
     return ltrim($rel, '/');
 }
 
+function toAdminWebPath(?string $path): string {
+    if (empty($path)) return 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%23081b4b%22/></svg>';
+    $path = str_replace('\\', '/', $path);
+    $pos = strpos($path, 'uploads/');
+    if ($pos !== false) {
+        return '../' . substr($path, $pos);
+    }
+    return '../' . ltrim($path, '/');
+}
+
 $docRoot = str_replace('\\','/', __DIR__ . '/../');
 
 /* ═══════════════════════════════════════════════════════
@@ -659,7 +669,8 @@ include __DIR__ . '/../includes/header.php';
             </thead>
             <tbody>
                 <?php foreach ($albumsList as $alb): 
-                    $cover = !empty($alb['cover_image_override']) ? htmlspecialchars($alb['cover_image_override']) : (!empty($alb['cover_thumb']) ? '../' . htmlspecialchars($alb['cover_thumb']) : 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%23081b4b%22/></svg>');
+                    $rawCover = !empty($alb['cover_image_override']) ? $alb['cover_image_override'] : (!empty($alb['cover_thumb']) ? $alb['cover_thumb'] : (!empty($alb['cover_image_path']) ? $alb['cover_image_path'] : ''));
+                    $cover = htmlspecialchars(toAdminWebPath($rawCover));
                 ?>
                 <tr>
                     <td><img src="<?php echo $cover; ?>" class="gadm-table-thumb" alt=""></td>

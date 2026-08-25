@@ -41,13 +41,14 @@ try {
 } catch (PDOException $e) {}
 
 function sanitizeWebPath($path) {
-    if (empty($path)) return '';
+    if (empty($path)) return 'assets/images/bsfi-placeholder.webp';
     $path = str_replace('\\', '/', $path);
     $pos = strpos($path, 'uploads/');
     if ($pos !== false) {
         return substr($path, $pos);
     }
-    return ltrim($path, '/');
+    $clean = ltrim($path, '/');
+    return !empty($clean) ? $clean : 'assets/images/bsfi-placeholder.webp';
 }
 
 // Fetch Gallery Data
