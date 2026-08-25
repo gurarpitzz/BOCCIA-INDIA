@@ -1,12 +1,12 @@
 <?php
-// database/merge_usha_kiran.php - Copies all data from 0100 into legacy regn 0068, keeps 0068 active, and deletes 0100
+// database/merge_usha_kiran.php - Copies all data from regn 0100 (id 100) into legacy regn 0068 (id 68), keeps 0068 active, and deletes 0100
 require_once __DIR__ . '/../includes/db.php';
 
 try {
-    // 1. Copy all non-empty fields from 0100 (or id 199) into 0068 (or id 68)
+    // 1. Copy all non-empty fields from 0100 (id 100) into 0068 (id 68)
     $pdo->exec("
         UPDATE athletes target
-        JOIN athletes source ON (source.id = 199 OR source.regn_no = '0100' OR CAST(source.regn_no AS UNSIGNED) = 100)
+        JOIN athletes source ON (source.id = 100 OR source.regn_no = '0100' OR CAST(source.regn_no AS UNSIGNED) = 100)
         SET 
             target.full_name = COALESCE(NULLIF(source.full_name, ''), target.full_name),
             target.father_name = COALESCE(NULLIF(source.father_name, ''), target.father_name),
@@ -42,16 +42,16 @@ try {
     $pdo->exec("
         UPDATE athlete_history h
         JOIN athletes target ON (target.id = 68 OR target.regn_no = '0068' OR CAST(target.regn_no AS UNSIGNED) = 68)
-        JOIN athletes source ON (source.id = 199 OR source.regn_no = '0100' OR CAST(source.regn_no AS UNSIGNED) = 100)
+        JOIN athletes source ON (source.id = 100 OR source.regn_no = '0100' OR CAST(source.regn_no AS UNSIGNED) = 100)
         SET h.athlete_id = target.id
         WHERE h.athlete_id = source.id AND target.id != source.id;
     ");
 
-    // 3. Soft-delete 0100 (or id 199)
+    // 3. Soft-delete 0100 (id 100)
     $pdo->exec("
         UPDATE athletes 
         SET deleted_at = NOW() 
-        WHERE (id = 199 OR regn_no = '0100' OR CAST(regn_no AS UNSIGNED) = 100)
+        WHERE (id = 100 OR regn_no = '0100' OR CAST(regn_no AS UNSIGNED) = 100)
           AND id != 68 AND CAST(regn_no AS UNSIGNED) != 68;
     ");
 } catch (Exception $e) {}
