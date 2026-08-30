@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 <div class="admin-card text-center" style="padding: 2.5rem 1.5rem; border-top: 5px solid var(--bsfi-green);">
                     <div style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
                         <?php if (!empty($athlete['photo_path']) && file_exists(__DIR__ . '/../' . $athlete['photo_path'])): ?>
-                            <img src="<?php echo '../' . htmlspecialchars($athlete['photo_path']); ?>" alt="Profile Photo" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; border: 4px solid #E2E8F0; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
+                            <img src="<?php echo '../' . htmlspecialchars($athlete['photo_path']); ?>" alt="Profile Photo" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; object-position: top; border: 4px solid #E2E8F0; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
                         <?php else: ?>
                             <div style="width: 140px; height: 140px; border-radius: 50%; background-color: var(--navy); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: 700; border: 4px solid #E2E8F0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); margin: 0 auto;">
                                 <?php 
@@ -276,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Impairment Type:</span>
-                            <span class="fw-bold text-dark text-end" style="max-width: 60%;"><?php echo htmlspecialchars($athlete['impairment_type'] ?? 'Not Specified'); ?></span>
+                            <span class="fw-bold text-dark text-end" style="max-width: 60%;"><?php echo htmlspecialchars(!empty($athlete['impairment_type']) ? $athlete['impairment_type'] : 'Not Specified'); ?></span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Representing State:</span>
@@ -284,7 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Wheelchair Status:</span>
-                            <span class="fw-bold text-dark"><?php echo htmlspecialchars($athlete['wheelchair_status'] ?? 'None'); ?></span>
+                            <span class="fw-bold text-dark"><?php echo htmlspecialchars((!empty($athlete['wheelchair_status']) && strcasecmp($athlete['wheelchair_status'], 'none') !== 0) ? $athlete['wheelchair_status'] : 'N/A'); ?></span>
                         </div>
                     </div>
                 </div>
