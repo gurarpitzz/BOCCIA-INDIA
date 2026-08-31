@@ -5,6 +5,12 @@ import path from 'path';
 import crypto from 'crypto';
 import { resend } from '@/lib/resend';
 
+function normalizeNameTS(name: string): string {
+  if (!name) return '';
+  const clean = name.replace(/[.\-,_\'\"]/g, ' ');
+  return clean.replace(/\s+/g, ' ').toLowerCase().trim();
+}
+
 // Helper function to check official duplicate with weighted scoring
 async function checkOfficialDuplicate(name: string, dob: string, email: string, phone: string, aadhaar: string) {
   const officials = await query<any[]>(
@@ -13,6 +19,7 @@ async function checkOfficialDuplicate(name: string, dob: string, email: string, 
   
   let bestMatchId: number | null = null;
   let highestScore = 0;
+  const normInput = normalizeNameTS(name);
   
   for (const off of officials) {
     let score = 0;
@@ -32,19 +39,52 @@ async function checkOfficialDuplicate(name: string, dob: string, email: string, 
       score += 30;
     }
     
-    // DOB Match (20 pts)
-    if (dob && off.dob && dob === off.dob) {
-      score += 20;
+    // DOB Match & Proximity Score (10-20 pts)
+    let dobScore = 0;
+    if (dob && off.dob) {
+      if (dob === off.dob) {
+        dobScore = 20;
+      } else {
+        const diffDays = Math.abs(new Date(dob).getTime() - new Date(off.dob).getTime()) / (1000 * 3600 * 24);
+        if (diffDays <= 15) {
+          dobScore = 15;
+        } else if (dob.substring(0, 7) === off.dob.substring(0, 7)) {
+          dobScore = 10;
+        }
+      }
     }
+    score += dobScore;
     
-    // Name similarity using levenshtein (10 pts)
-    if (name && off.name) {
-      const n1 = name.toLowerCase().trim();
-      const n2 = off.name.toLowerCase().trim();
-      if (n1 === n2) {
-        score += 10;
-        if (dob && off.dob && dob === off.dob) {
-          score += 30; // boost
+    // Normalized & Fuzzy Name Scoring
+    if (normInput && off.name) {
+      const normOff = normalizeNameTS(off.name);
+      if (normOff) {
+        if (normInput === normOff) {
+          score += 30;
+          if (dobScore === 20) {
+            score += 20; // Direct combo bonus
+          }
+        } else {
+          // Token / word overlap check
+          const w1 = normInput.split(' ').filter(w => w.length > 1);
+          const w2 = normOff.split(' ').filter(w => w.length > 1);
+          if (w1.length > 0 && w2.length > 0) {
+            let matches = 0;
+            for (const word1 of w1) {
+              for (const word2 of w2) {
+                if (word1 === word2 || word2.includes(word1) || word1.includes(word2)) {
+                  matches++;
+                  break;
+                }
+              }
+            }
+            const ratio = matches / Math.max(w1.length, w2.length);
+            if (ratio >= 0.66) {
+              score += 25;
+            } else if (matches >= 2 || (matches >= 1 && w1.length <= 2)) {
+              score += 15;
+            }
+          }
         }
       }
     }

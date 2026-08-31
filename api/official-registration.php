@@ -36,29 +36,78 @@ function checkOfficialDuplicate($pdo, $name, $dob, $email, $phone, $aadhaar) {
     
     $bestMatchId = null;
     $highestScore = 0;
+    $normNameInput = normalizeName($name);
     
     foreach ($officials as $off) {
         $score = 0;
         
+        // 1. Aadhaar Match (100 pts)
         if (!empty($aadhaar) && !empty($off['aadhaar']) && $aadhaar === $off['aadhaar']) {
             $score += 100;
         }
+        
+        // 2. Phone Match (40 pts)
         if (!empty($phone) && !empty($off['phone']) && preg_replace('/\D/', '', $phone) === preg_replace('/\D/', '', $off['phone'])) {
             $score += 40;
         }
+        
+        // 3. Email Match (30 pts)
         if (!empty($email) && !empty($off['email']) && strtolower(trim($email)) === strtolower(trim($off['email']))) {
             $score += 30;
         }
-        if (!empty($dob) && !empty($off['dob']) && $dob === $off['dob']) {
-            $score += 20;
-        }
-        if (!empty($name) && !empty($off['name'])) {
-            $n1 = strtolower(trim($name));
-            $n2 = strtolower(trim($off['name']));
-            if ($n1 === $n2) {
-                $score += 10;
-                if (!empty($dob) && !empty($off['dob']) && $dob === $off['dob']) {
+        
+        // 4. DOB Match & Proximity Score (10 - 20 pts)
+        $dobScore = function_exists('computeDobSimilarityScore') ? computeDobSimilarityScore($dob, $off['dob']) : ($dob === $off['dob'] ? 20 : 0);
+        $score += $dobScore;
+        
+        // 5. Normalized & Fuzzy Name Scoring
+        if (!empty($normNameInput) && !empty($off['name'])) {
+            $normOffName = function_exists('normalizeName') ? normalizeName($off['name']) : strtolower(trim($off['name']));
+            
+            if (!empty($normOffName)) {
+                if ($normNameInput === $normOffName) {
                     $score += 30;
+                    if ($dobScore === 20) {
+                        $score += 20; // Direct Combo Bonus
+                    }
+                } else {
+                    // Fuzzy matching: Levenshtein distance & Similar Text
+                    $lev = levenshtein($normNameInput, $normOffName);
+                    similar_text($normNameInput, $normOffName, $percent);
+                    
+                    if ($lev <= 2 || $percent >= 85) {
+                        $score += 25;
+                    } elseif ($lev <= 4 || $percent >= 75) {
+                        $score += 15;
+                    }
+                    
+                    // Metaphone Phonetic match
+                    $m1 = metaphone($normNameInput);
+                    $m2 = metaphone($normOffName);
+                    if (!empty($m1) && !empty($m2) && $m1 === $m2) {
+                        $score += 15;
+                    }
+                    
+                    // Word Token & Substring Overlap
+                    $w1 = array_filter(explode(' ', $normNameInput), fn($w) => strlen($w) > 1);
+                    $w2 = array_filter(explode(' ', $normOffName), fn($w) => strlen($w) > 1);
+                    if (!empty($w1) && !empty($w2)) {
+                        $matches = 0;
+                        foreach ($w1 as $word1) {
+                            foreach ($w2 as $word2) {
+                                if ($word1 === $word2 || strpos($word2, $word1) !== false || strpos($word1, $word2) !== false || (strlen($word1) > 3 && strlen($word2) > 3 && levenshtein($word1, $word2) <= 1)) {
+                                    $matches++;
+                                    break;
+                                }
+                            }
+                        }
+                        $overlapRatio = $matches / max(count($w1), count($w2));
+                        if ($overlapRatio >= 0.66) {
+                            $score += 20;
+                        } elseif ($matches >= 2) {
+                            $score += 10;
+                        }
+                    }
                 }
             }
         }

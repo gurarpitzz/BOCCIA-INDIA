@@ -31,36 +31,113 @@ if (empty($email) || ($_SESSION['verified_email_register_player'] ?? '') !== $em
     exit();
 }
 
-// Helper to check duplicates
+// Helper to normalize names (strip punctuation, hyphens, extra whitespace, lowercase)
+function normalizeName($name) {
+    if (empty($name)) return '';
+    $clean = preg_replace('/[.\-,_\'\"]+/u', ' ', $name);
+    return strtolower(trim(preg_replace('/\s+/', ' ', $clean)));
+}
+
+// Helper to compute DOB similarity score (exact or close birthdate within 15 days)
+function computeDobSimilarityScore($dob1, $dob2) {
+    if (empty($dob1) || empty($dob2)) return 0;
+    if ($dob1 === $dob2) return 20;
+
+    $time1 = strtotime($dob1);
+    $time2 = strtotime($dob2);
+    if ($time1 && $time2) {
+        $dayDiff = abs($time1 - $time2) / 86400;
+        if ($dayDiff <= 15) {
+            return 15;
+        }
+        if (substr($dob1, 0, 7) === substr($dob2, 0, 7)) {
+            return 10;
+        }
+    }
+    return 0;
+}
+
+// Helper to check duplicates with normalized, fuzzy name & token matching
 function checkPlayerDuplicate($pdo, $name, $dob, $email, $phone, $aadhaar) {
     $stmt = $pdo->query("SELECT id, regn_no, full_name, dob, email, mobile, aadhaar FROM athletes WHERE status = 'approved' AND deleted_at IS NULL");
     $athletes = $stmt->fetchAll();
     
     $bestMatchId = null;
     $highestScore = 0;
+    $normNameInput = normalizeName($name);
     
     foreach ($athletes as $ath) {
         $score = 0;
         
+        // 1. Aadhaar Match (100 pts)
         if (!empty($aadhaar) && !empty($ath['aadhaar']) && $aadhaar === $ath['aadhaar']) {
             $score += 100;
         }
+        
+        // 2. Phone Match (40 pts)
         if (!empty($phone) && !empty($ath['mobile']) && preg_replace('/\D/', '', $phone) === preg_replace('/\D/', '', $ath['mobile'])) {
             $score += 40;
         }
+        
+        // 3. Email Match (30 pts)
         if (!empty($email) && !empty($ath['email']) && strtolower(trim($email)) === strtolower(trim($ath['email']))) {
             $score += 30;
         }
-        if (!empty($dob) && !empty($ath['dob']) && $dob === $ath['dob']) {
-            $score += 20;
-        }
-        if (!empty($name) && !empty($ath['full_name'])) {
-            $n1 = strtolower(trim($name));
-            $n2 = strtolower(trim($ath['full_name']));
-            if ($n1 === $n2) {
-                $score += 10;
-                if (!empty($dob) && !empty($ath['dob']) && $dob === $ath['dob']) {
+        
+        // 4. DOB Match & Proximity Score (10 - 20 pts)
+        $dobScore = computeDobSimilarityScore($dob, $ath['dob']);
+        $score += $dobScore;
+        
+        // 5. Normalized & Fuzzy Name Scoring
+        if (!empty($normNameInput) && !empty($ath['full_name'])) {
+            $normAthName = normalizeName($ath['full_name']);
+            
+            if (!empty($normAthName)) {
+                if ($normNameInput === $normAthName) {
+                    // Exact normalized name match
                     $score += 30;
+                    if ($dobScore === 20) {
+                        $score += 20; // Direct Combo Bonus
+                    }
+                } else {
+                    // Fuzzy matching: Levenshtein distance & Similar Text
+                    $maxLen = max(strlen($normNameInput), strlen($normAthName));
+                    $lev = levenshtein($normNameInput, $normAthName);
+                    similar_text($normNameInput, $normAthName, $percent);
+                    
+                    if ($lev <= 2 || $percent >= 85) {
+                        $score += 25;
+                    } elseif ($lev <= 4 || $percent >= 75) {
+                        $score += 15;
+                    }
+                    
+                    // Metaphone Phonetic match
+                    $m1 = metaphone($normNameInput);
+                    $m2 = metaphone($normAthName);
+                    if (!empty($m1) && !empty($m2) && $m1 === $m2) {
+                        $score += 15;
+                    }
+                    
+                    // Word Token & Substring Overlap (handles full name vs short name)
+                    $w1 = array_filter(explode(' ', $normNameInput), fn($w) => strlen($w) > 1);
+                    $w2 = array_filter(explode(' ', $normAthName), fn($w) => strlen($w) > 1);
+                    if (!empty($w1) && !empty($w2)) {
+                        $matches = 0;
+                        foreach ($w1 as $word1) {
+                            foreach ($w2 as $word2) {
+                                if ($word1 === $word2 || strpos($word2, $word1) !== false || strpos($word1, $word2) !== false || (strlen($word1) > 3 && strlen($word2) > 3 && levenshtein($word1, $word2) <= 1)) {
+                                    $matches++;
+                                    break;
+                                }
+                            }
+                        }
+                        $overlapRatio = $matches / max(count($w1), count($w2));
+                        if ($overlapRatio >= 0.66) {
+                            $score += 20;
+                        } elseif ($matches >= 2) {
+                            $score += 10;
+                        }
+                    }
                 }
             }
         }
