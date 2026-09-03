@@ -202,7 +202,6 @@ INSERT IGNORE INTO `states` (`name`, `type`) VALUES
 INSERT IGNORE INTO `state_associations` (`state_id`, `association_name`, `contact_email`, `contact_phone`) VALUES
 ((SELECT `id` FROM `states` WHERE `name`='Delhi'), 'Delhi Boccia Association', 'delhiboccia@gmail.com', '9812345678'),
 ((SELECT `id` FROM `states` WHERE `name`='Maharashtra'), 'Maharashtra Paralympic Boccia Association', 'mahboccia@gmail.com', '9823456781'),
-((SELECT `id` FROM `states` WHERE `name`='Tamil Nadu'), 'Tamil Nadu Boccia Association', 'tnboccia@gmail.com', '9834567812'),
 ((SELECT `id` FROM `states` WHERE `name`='Gujarat'), 'Gujarat Paralympic Boccia Committee', 'gujboccia@gmail.com', '9845678123'),
 ((SELECT `id` FROM `states` WHERE `name`='Assam'), 'Assam Boccia Association', 'assamboccia@gmail.com', '9856781234'),
 ((SELECT `id` FROM `states` WHERE `name`='Karnataka'), 'Karnataka Paralympic Boccia Association', 'karboccia@gmail.com', '9867812345'),
