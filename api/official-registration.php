@@ -29,6 +29,33 @@ if (empty($email) || ($_SESSION['verified_email_register_official'] ?? '') !== $
     exit();
 }
 
+// Helper to normalize names (strip punctuation, hyphens, extra whitespace, lowercase)
+if (!function_exists('normalizeName')) {
+    function normalizeName($name) {
+        if (empty($name)) return '';
+        $clean = preg_replace('/[.\-,_\'\"]+/u', ' ', $name);
+        return strtolower(trim(preg_replace('/\s+/', ' ', $clean)));
+    }
+}
+
+// Helper to compute DOB similarity score (exact or close birthdate within 15 days)
+if (!function_exists('computeDobSimilarityScore')) {
+    function computeDobSimilarityScore($dob1, $dob2) {
+        if (empty($dob1) || empty($dob2)) return 0;
+        if ($dob1 === $dob2) return 20;
+
+        $time1 = strtotime($dob1);
+        $time2 = strtotime($dob2);
+        if ($time1 && $time2) {
+            $dayDiff = abs($time1 - $time2) / 86400;
+            if ($dayDiff <= 15) {
+                return 10;
+            }
+        }
+        return 0;
+    }
+}
+
 // Helper to check duplicates
 function checkOfficialDuplicate($pdo, $name, $dob, $email, $phone, $aadhaar) {
     $stmt = $pdo->query("SELECT id, name, dob, email, phone, aadhaar FROM officials WHERE status = 'approved' AND deleted_at IS NULL");
