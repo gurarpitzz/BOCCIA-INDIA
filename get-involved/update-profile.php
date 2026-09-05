@@ -23,85 +23,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Helper to verify hCaptcha server-side
-function verifyHCaptchaLocal($token, $ip) {
-    $postData = http_build_query([
-        'secret' => HCAPTCHA_SECRET_KEY,
-        'response' => $token,
-        'remoteip' => $ip,
-        'sitekey' => HCAPTCHA_SITE_KEY
-    ]);
-    
-    $ch = curl_init('https://api.hcaptcha.com/siteverify');
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $postData,
-        CURLOPT_HTTPHEADER     => [
-            'Content-Type: application/x-www-form-urlencoded'
-        ],
-        CURLOPT_TIMEOUT        => 10
-    ]);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    
-    if ($response === false || $httpCode !== 200) {
-        return false;
+if (!function_exists('verifyHCaptchaLocal')) {
+    function verifyHCaptchaLocal($token, $ip) {
+        $postData = http_build_query([
+            'secret' => HCAPTCHA_SECRET_KEY,
+            'response' => $token,
+            'remoteip' => $ip,
+            'sitekey' => HCAPTCHA_SITE_KEY
+        ]);
+        
+        $ch = curl_init('https://api.hcaptcha.com/siteverify');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $postData,
+            CURLOPT_HTTPHEADER     => [
+                'Content-Type: application/x-www-form-urlencoded'
+            ],
+            CURLOPT_TIMEOUT        => 10
+        ]);
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($response === false || $httpCode !== 200) {
+            return false;
+        }
+        
+        $data = json_decode($response, true);
+        return isset($data['success']) && $data['success'] === true;
     }
-    
-    $data = json_decode($response, true);
-    return isset($data['success']) && $data['success'] === true;
 }
 
 // Helper to check rate limits atomically
-function checkLimitLocal($pdo, $hash, $type, $limit15m, $limit24h) {
-    $now = date('Y-m-d H:i:s');
-    
-    // Check 15m limit
-    $stmt = $pdo->prepare("SELECT id, request_count, window_started_at FROM otp_rate_limits WHERE identifier_hash = ? AND identifier_type = ? AND window_type = '15min' FOR UPDATE");
-    $stmt->execute([$hash, $type]);
-    $limitInfo = $stmt->fetch();
-    
-    if ($limitInfo) {
-        $windowStart = strtotime($limitInfo['window_started_at']);
-        if (time() - $windowStart < 900) {
-            if ($limitInfo['request_count'] >= $limit15m) {
-                return false;
+if (!function_exists('checkLimitLocal')) {
+    function checkLimitLocal($pdo, $hash, $type, $limit15m, $limit24h) {
+        $now = date('Y-m-d H:i:s');
+        
+        // Check 15m limit
+        $stmt = $pdo->prepare("SELECT id, request_count, window_started_at FROM otp_rate_limits WHERE identifier_hash = ? AND identifier_type = ? AND window_type = '15min' FOR UPDATE");
+        $stmt->execute([$hash, $type]);
+        $limitInfo = $stmt->fetch();
+        
+        if ($limitInfo) {
+            $windowStart = strtotime($limitInfo['window_started_at']);
+            if (time() - $windowStart < 900) {
+                if ($limitInfo['request_count'] >= $limit15m) {
+                    return false;
+                }
+                $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = request_count + 1, last_request_at = ? WHERE id = ?");
+                $upd->execute([$now, $limitInfo['id']]);
+            } else {
+                $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = 1, window_started_at = ?, last_request_at = ? WHERE id = ?");
+                $upd->execute([$now, $now, $limitInfo['id']]);
             }
-            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = request_count + 1, last_request_at = ? WHERE id = ?");
-            $upd->execute([$now, $limitInfo['id']]);
         } else {
-            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = 1, window_started_at = ?, last_request_at = ? WHERE id = ?");
-            $upd->execute([$now, $now, $limitInfo['id']]);
+            $ins = $pdo->prepare("INSERT INTO otp_rate_limits (identifier_hash, identifier_type, window_type, request_count, window_started_at, last_request_at) VALUES (?, ?, '15min', 1, ?, ?)");
+            $ins->execute([$hash, $type, $now, $now]);
         }
-    } else {
-        $ins = $pdo->prepare("INSERT INTO otp_rate_limits (identifier_hash, identifier_type, window_type, request_count, window_started_at, last_request_at) VALUES (?, ?, '15min', 1, ?, ?)");
-        $ins->execute([$hash, $type, $now, $now]);
-    }
-    
-    // Check 24h limit
-    $stmt = $pdo->prepare("SELECT id, request_count, window_started_at FROM otp_rate_limits WHERE identifier_hash = ? AND identifier_type = ? AND window_type = '24hr' FOR UPDATE");
-    $stmt->execute([$hash, $type]);
-    $limitInfo = $stmt->fetch();
-    
-    if ($limitInfo) {
-        $windowStart = strtotime($limitInfo['window_started_at']);
-        if (time() - $windowStart < 86400) {
-            if ($limitInfo['request_count'] >= $limit24h) {
-                return false;
+        
+        // Check 24h limit
+        $stmt = $pdo->prepare("SELECT id, request_count, window_started_at FROM otp_rate_limits WHERE identifier_hash = ? AND identifier_type = ? AND window_type = '24hr' FOR UPDATE");
+        $stmt->execute([$hash, $type]);
+        $limitInfo = $stmt->fetch();
+        
+        if ($limitInfo) {
+            $windowStart = strtotime($limitInfo['window_started_at']);
+            if (time() - $windowStart < 86400) {
+                if ($limitInfo['request_count'] >= $limit24h) {
+                    return false;
+                }
+                $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = request_count + 1, last_request_at = ? WHERE id = ?");
+                $upd->execute([$now, $limitInfo['id']]);
+            } else {
+                $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = 1, window_started_at = ?, last_request_at = ? WHERE id = ?");
+                $upd->execute([$now, $now, $limitInfo['id']]);
             }
-            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = request_count + 1, last_request_at = ? WHERE id = ?");
-            $upd->execute([$now, $limitInfo['id']]);
         } else {
-            $upd = $pdo->prepare("UPDATE otp_rate_limits SET request_count = 1, window_started_at = ?, last_request_at = ? WHERE id = ?");
-            $upd->execute([$now, $now, $limitInfo['id']]);
+            $ins = $pdo->prepare("INSERT INTO otp_rate_limits (identifier_hash, identifier_type, window_type, request_count, window_started_at, last_request_at) VALUES (?, ?, '24hr', 1, ?, ?)");
+            $ins->execute([$hash, $type, $now, $now]);
         }
-    } else {
-        $ins = $pdo->prepare("INSERT INTO otp_rate_limits (identifier_hash, identifier_type, window_type, request_count, window_started_at, last_request_at) VALUES (?, ?, '24hr', 1, ?, ?)");
-        $ins->execute([$hash, $type, $now, $now]);
+        
+        return true;
     }
-    
-    return true;
 }
 
 $message = '';
