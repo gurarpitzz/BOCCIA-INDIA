@@ -382,14 +382,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $pdo->query("SELECT athlete_last_no FROM registration_sequences WHERE id = 1 FOR UPDATE");
 
                     // Determine highest existing sequential registration number (approved live records only)
-                    $maxAthStmt = $pdo->query("SELECT MAX(CAST(regn_no AS UNSIGNED)) FROM athletes");
+                    $maxAthStmt = $pdo->query("SELECT MAX(CAST(regn_no AS UNSIGNED)) FROM athletes WHERE status = 'approved' AND deleted_at IS NULL AND regn_no REGEXP '^[0-9]+$'");
                     $maxAthNo = (int)$maxAthStmt->fetchColumn();
                     if ($maxAthNo < 99) {
                         $maxAthNo = 99; // Preserve legacy numbering strategy
                     }
                     $nextNo = $maxAthNo + 1;
 
-                    $upSeq = $pdo->prepare("UPDATE registration_sequences SET athlete_last_no = ?");
+                    $upSeq = $pdo->prepare("UPDATE registration_sequences SET athlete_last_no = ? WHERE id = 1");
                     $upSeq->execute([$nextNo]);
 
                     $regnNo = str_pad($nextNo, 4, '0', STR_PAD_LEFT);
