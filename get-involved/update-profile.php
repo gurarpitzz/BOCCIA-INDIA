@@ -298,8 +298,7 @@ if (isset($_POST['lookup'])) {
                         }
                     }
                 }
-            }
-        } else {
+            } else {
                 $error = "No active approved registration found matching the entered details.";
             }
         } catch (PDOException $e) {
