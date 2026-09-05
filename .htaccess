@@ -12,7 +12,7 @@ RewriteRule ^equipment/?$ /page.php?section=sport&slug=equipment [R=301,L]
 RewriteRule ^rules/?$ /page.php?section=sport&slug=rules [R=301,L]
 RewriteRule ^anti-doping/?$ /page.php?section=sport&slug=anti-doping [R=301,L]
 # Redirect any variation of update profile (with spaces/underscores/etc) to canonical path
-RewriteCond %{REQUEST_URI} !^/get-involved/update-profile\.php$ [NC]
+RewriteCond %{REQUEST_URI} !^/get-involved/update-profile\.php [NC]
 RewriteCond %{REQUEST_URI} update.*profile\.php [NC]
 RewriteRule ^ /get-involved/update-profile.php [R=301,L,QSA]
 

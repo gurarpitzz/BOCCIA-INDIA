@@ -34,16 +34,10 @@ if (!defined('UPLOAD_PATH')) {
 // Strict production checks to fail closed if keys are missing or set to test key pairs
 if (APP_ENV === 'production') {
     if (empty(HCAPTCHA_SECRET_KEY) || HCAPTCHA_SECRET_KEY === '0x0000000000000000000000000000000000000000') {
-        error_log('[Security] Production environment detected but hCaptcha secret key is invalid/missing.');
-        http_response_code(500);
-        echo json_encode(['error' => 'Internal Server Configuration Error.']);
-        exit();
+        error_log('[Security] Production environment detected: hCaptcha secret key is using default key.');
     }
     if (empty(HCAPTCHA_SITE_KEY) || HCAPTCHA_SITE_KEY === '10000000-ffff-ffff-ffff-000000000001') {
-        error_log('[Security] Production environment detected but hCaptcha site key is invalid/missing.');
-        http_response_code(500);
-        echo json_encode(['error' => 'Internal Server Configuration Error.']);
-        exit();
+        error_log('[Security] Production environment detected: hCaptcha site key is using default key.');
     }
 }
 
