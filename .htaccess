@@ -11,11 +11,13 @@ RewriteRule ^classification/?$ /page.php?section=sport&slug=classification [R=30
 RewriteRule ^equipment/?$ /page.php?section=sport&slug=equipment [R=301,L]
 RewriteRule ^rules/?$ /page.php?section=sport&slug=rules [R=301,L]
 RewriteRule ^anti-doping/?$ /page.php?section=sport&slug=anti-doping [R=301,L]
-# Map legacy URLs, spaces, and underscores to standard hyphens
-RewriteRule ^get[_\ %20]involved/(.*)$ /get-involved/$1 [R=301,L,NC]
+# Redirect any variation of update profile (with spaces/underscores/etc) to canonical path
+RewriteCond %{REQUEST_URI} !^/get-involved/update-profile\.php$ [NC]
+RewriteCond %{REQUEST_URI} update.*profile\.php [NC]
+RewriteRule ^ /get-involved/update-profile.php [R=301,L,QSA]
+
 RewriteRule ^register-player\.php$ /get-involved/register-player.php [R=301,L]
 RewriteRule ^register-official\.php$ /get-involved/register-official.php [R=301,L]
-RewriteRule ^(.*)update[_\ %20]profile\.php$ /get-involved/update-profile.php [R=301,L,NC]
 RewriteRule ^home-old/?$ /index.php [R=301,L]
 
 # Author profiles redirection to homepage
