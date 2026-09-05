@@ -4,12 +4,18 @@
 
 START TRANSACTION;
 
--- Reassign athlete 0101 (Gurarpit Singh) to 0100
+-- 1. Safely free up regn_no = '0100' if held by a soft-deleted or duplicate legacy record
+UPDATE athletes 
+SET regn_no = CONCAT('TEMP_', id, '_0100') 
+WHERE (regn_no = '0100' OR regn_no = '100') 
+  AND regn_no != '0101';
+
+-- 2. Reassign athlete 0101 (Gurarpit Singh) to 0100
 UPDATE athletes 
 SET regn_no = '0100' 
 WHERE regn_no = '0101';
 
--- Update sequence counter
+-- 3. Update sequence counter
 UPDATE registration_sequences 
 SET athlete_last_no = 100 
 WHERE id = 1;
