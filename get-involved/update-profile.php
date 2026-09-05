@@ -795,4 +795,61 @@ include __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
+<script src="../assets/js/image-compressor.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const updateForm = document.querySelector("form[enctype='multipart/form-data']");
+    if (updateForm) {
+        updateForm.addEventListener("submit", async function(e) {
+            if (updateForm.dataset.compressed === "true") return;
+            e.preventDefault();
+
+            const btn = updateForm.querySelector("button[type='submit']");
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = "Compressing files & submitting...";
+            }
+
+            try {
+                const photoInput = updateForm.querySelector("input[name='photo_path']");
+                const passportInput = updateForm.querySelector("input[name='passport_file']");
+                const medInput = updateForm.querySelector("input[name='medical_certificate']");
+
+                if (photoInput && photoInput.files[0]) {
+                    const compressed = await prepareFile(photoInput.files[0]);
+                    if (compressed !== photoInput.files[0]) {
+                        const container = new DataTransfer();
+                        container.items.add(compressed);
+                        photoInput.files = container.files;
+                    }
+                }
+                if (passportInput && passportInput.files[0]) {
+                    const compressed = await prepareFile(passportInput.files[0]);
+                    if (compressed !== passportInput.files[0]) {
+                        const container = new DataTransfer();
+                        container.items.add(compressed);
+                        passportInput.files = container.files;
+                    }
+                }
+                if (medInput && medInput.files[0]) {
+                    const compressed = await prepareFile(medInput.files[0]);
+                    if (compressed !== medInput.files[0]) {
+                        const container = new DataTransfer();
+                        container.items.add(compressed);
+                        medInput.files = container.files;
+                    }
+                }
+
+                updateForm.dataset.compressed = "true";
+                updateForm.submit();
+            } catch (err) {
+                console.error("Profile update compression error:", err);
+                updateForm.dataset.compressed = "true";
+                updateForm.submit();
+            }
+        });
+    }
+});
+</script>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>

@@ -20,3 +20,23 @@ RewriteRule ^author/.*$ /index.php [R=301,L]
 
 # Define custom 404 error page for clean SEO and user experience
 ErrorDocument 404 /404.php
+
+# Increase PHP upload limits safely if mod_php is active (prevents 500 errors on FastCGI/PHP-FPM)
+<IfModule mod_php.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 35M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 35M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
+<IfModule mod_php8.c>
+    php_value upload_max_filesize 32M
+    php_value post_max_size 35M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+</IfModule>
