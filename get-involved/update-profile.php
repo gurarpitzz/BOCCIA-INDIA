@@ -366,6 +366,7 @@ if (isset($_POST['submit_update'])) {
     $phone_req = trim($_POST['phone'] ?? '');
     $address_req = trim($_POST['address'] ?? '');
     $pincode_req = trim($_POST['pincode'] ?? '');
+    $state_req = trim($_POST['state'] ?? '');
     
     // Additional fields for players
     $kit_tshirt_req = trim($_POST['kit_tshirt'] ?? '');
@@ -458,14 +459,17 @@ if (isset($_POST['submit_update'])) {
 
     if ($isValid) {
         try {
+            try { $pdo->exec("ALTER TABLE `profile_update_requests` ADD COLUMN `requested_state` VARCHAR(100) NULL DEFAULT NULL AFTER `requested_pincode`"); } catch (\Throwable $t) {}
+            
             $ins = $pdo->prepare("INSERT INTO profile_update_requests 
-                (member_type, member_id, requested_email, requested_phone, requested_address, requested_pincode, requested_kit_tshirt, requested_kit_tracksuit, requested_kit_shoe, requested_aadhaar, requested_impairment_type, requested_wheelchair_status, requested_photo_path, requested_passport_file, requested_medical_certificate, status) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+                (member_type, member_id, requested_email, requested_phone, requested_address, requested_pincode, requested_state, requested_kit_tshirt, requested_kit_tracksuit, requested_kit_shoe, requested_aadhaar, requested_impairment_type, requested_wheelchair_status, requested_photo_path, requested_passport_file, requested_medical_certificate, status) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
             $ins->execute([
-                $member_type, $matched_id, $email_req, $phone_req, $address_req, $pincode_req,
+                $member_type, $matched_id, $email_req, $phone_req, $address_req, $pincode_req, $state_req,
                 $kit_tshirt_req, $kit_tracksuit_req, $kit_shoe_req, $aadhaar_req, $impairment_type_req, $wheelchair_status_req,
                 $photo_path, $passport_path, $medical_path
             ]);
+
             
             $step = 4;
             $message = "Your profile update request has been successfully submitted! An administrator will review and apply the changes shortly.";
@@ -738,6 +742,19 @@ include __DIR__ . '/../includes/header.php';
                         </select>
                     </div>
                     <?php endif; ?>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Representing State / Territory</label>
+                        <select name="state" class="form-select-custom">
+                            <option value="">Select State / Territory</option>
+                            <?php 
+                            $statesList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"];
+                            foreach ($statesList as $sOption):
+                            ?>
+                                <option value="<?php echo $sOption; ?>"><?php echo $sOption; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
                     <div class="mb-4">
                         <label class="form-label-custom">Permanent Address</label>

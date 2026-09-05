@@ -97,8 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $age_category = trim($_POST['age_category'] ?? '');
             $classification = trim($_POST['classification'] ?? '');
             $impairment_type = trim($_POST['impairment_type'] ?? '');
-            $state = trim($_POST['state'] ?? '');
-            $representing_for = trim($_POST['representing_for'] ?? '');
+            $state = trim($_POST['state'] ?? ($_POST['representing_for'] ?? ''));
+            $representing_for = $state;
             $wheelchair_status = trim($_POST['wheelchair_status'] ?? '');
             $kit_tshirt = trim($_POST['kit_tshirt'] ?? '');
             $kit_tracksuit = trim($_POST['kit_tracksuit'] ?? '');
@@ -281,7 +281,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Representing State:</span>
-                            <span class="fw-bold text-dark"><?php echo htmlspecialchars($athlete['representing_for']); ?></span>
+                            <span class="fw-bold text-dark">
+                                <?php echo htmlspecialchars(!empty($athlete['state']) ? $athlete['state'] : (!empty($athlete['representing_for']) ? $athlete['representing_for'] : 'Not Specified')); ?>
+                                <?php if ($isAdmin): ?>
+                                    <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none ms-1" data-bs-toggle="modal" data-bs-target="#editAthleteProfileModal" style="font-size:0.75rem; vertical-align:middle;">
+                                        <i class="fa-solid fa-pencil text-primary"></i> Edit
+                                    </button>
+                                <?php endif; ?>
+                            </span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Wheelchair Status:</span>
@@ -1368,8 +1375,17 @@ function purgeHistory(id) {
                             <input type="text" name="impairment_type" class="form-control" value="<?php echo htmlspecialchars($athlete['impairment_type'] ?? ''); ?>" placeholder="E.g. Cerebral Palsy">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Representing State</label>
-                            <input type="text" name="representing_for" class="form-control" value="<?php echo htmlspecialchars($athlete['representing_for'] ?? ''); ?>" placeholder="State Name">
+                            <label class="form-label fw-semibold">Representing State / Territory</label>
+                            <select name="state" class="form-select">
+                                <option value="">Select State / Territory</option>
+                                <?php 
+                                $currentState = !empty($athlete['state']) ? $athlete['state'] : ($athlete['representing_for'] ?? '');
+                                $adminStatesList = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"];
+                                foreach ($adminStatesList as $stOpt):
+                                ?>
+                                    <option value="<?php echo $stOpt; ?>" <?php echo (strcasecmp($currentState, $stOpt) === 0) ? 'selected' : ''; ?>><?php echo $stOpt; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Wheelchair Status</label>

@@ -203,6 +203,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             mobile = COALESCE(NULLIF(?, ''), mobile),
                             address = COALESCE(NULLIF(?, ''), address),
                             pincode = COALESCE(NULLIF(?, ''), pincode),
+                            state = COALESCE(NULLIF(?, ''), state),
+                            representing_for = COALESCE(NULLIF(?, ''), representing_for),
                             kit_tshirt = COALESCE(NULLIF(?, ''), kit_tshirt),
                             kit_tracksuit = COALESCE(NULLIF(?, ''), kit_tracksuit),
                             kit_shoe = COALESCE(NULLIF(?, ''), kit_shoe),
@@ -220,6 +222,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             $req['requested_phone'],
                             $req['requested_address'],
                             $req['requested_pincode'],
+                            $req['requested_state'] ?? null,
+                            $req['requested_state'] ?? null,
                             $req['requested_kit_tshirt'] ?? null,
                             $req['requested_kit_tracksuit'] ?? null,
                             $req['requested_kit_shoe'] ?? null,
@@ -239,6 +243,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             phone = COALESCE(NULLIF(?, ''), phone),
                             address = COALESCE(NULLIF(?, ''), address),
                             pincode = COALESCE(NULLIF(?, ''), pincode),
+                            state = COALESCE(NULLIF(?, ''), state),
                             photo_path = COALESCE(NULLIF(?, ''), photo_path),
                             photo_status = IF(? != '', 'verified', photo_status),
                             passport_file = COALESCE(NULLIF(?, ''), passport_file)
@@ -249,12 +254,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                             $req['requested_phone'],
                             $req['requested_address'],
                             $req['requested_pincode'],
+                            $req['requested_state'] ?? null,
                             $req['requested_photo_path'],
                             $req['requested_photo_path'],
                             $req['requested_passport_file'] ?? null,
                             $memberId
                         ]);
                     }
+
 
                     // Update request status
                     $upReq = $pdo->prepare("UPDATE profile_update_requests SET status = 'approved', reviewed_by = ?, reviewed_at = NOW(), review_notes = ? WHERE id = ?");
