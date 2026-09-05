@@ -143,9 +143,13 @@ if (isset($_POST['lookup'])) {
             }
 
             if ($matched) {
+                // 1. Extract email stored in DB & normalize placeholders ('N/A', 'null', etc.) to empty string
                 $email = trim($matched['email'] ?? '');
+                if (in_array(strtolower($email), ['', 'n/a', 'na', 'null', 'none', '-'])) {
+                    $email = '';
+                }
                 
-                // If no email exists on the legacy profile, we must verify the Father's Name is correct to prevent unauthorized claims
+                // 2. If no valid email exists on profile, require Father's Name to claim it
                 if (empty($email)) {
                     if (empty($father_name_input)) {
                         $error = "Father's Name is required to claim a profile that does not have a registered email address.";
@@ -159,30 +163,31 @@ if (isset($_POST['lookup'])) {
                 }
 
                 if (empty($error)) {
-                    // Email claim logic: if no email exists on the legacy profile, treat the entered email as the claimed email
+                    // 3. Email claim logic: if no email exists on the legacy profile, treat entered email as claimed email
                     if (empty($email)) {
-                    // Check if lookup email is already registered to another athlete
-                    $dupCheck = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND id != ? AND deleted_at IS NULL");
-                    $dupCheck->execute([$lookup_email, $matched['id']]);
-                    if ($dupCheck->fetchColumn() > 0) {
-                        $error = "This email is already associated with another active player.";
-                    }
-                    
-                    // Check if lookup email is registered to any official
-                    if (empty($error)) {
-                        $dupCheckOff = $pdo->prepare("SELECT COUNT(*) FROM officials WHERE email = ? AND deleted_at IS NULL");
-                        $dupCheckOff->execute([$lookup_email]);
-                        if ($dupCheckOff->fetchColumn() > 0) {
-                            $error = "This email is registered to a federation official. Players cannot use official emails.";
+                        // Check if lookup email is already registered to another athlete
+                        $dupCheck = $pdo->prepare("SELECT COUNT(*) FROM athletes WHERE email = ? AND id != ? AND deleted_at IS NULL");
+                        $dupCheck->execute([$lookup_email, $matched['id']]);
+                        if ($dupCheck->fetchColumn() > 0) {
+                            $error = "This email is already associated with another active player.";
                         }
-                    }
-                    
-                    if (empty($error)) {
-                        $email = $lookup_email;
+                        
+                        // Check if lookup email is registered to any official
+                        if (empty($error)) {
+                            $dupCheckOff = $pdo->prepare("SELECT COUNT(*) FROM officials WHERE email = ? AND deleted_at IS NULL");
+                            $dupCheckOff->execute([$lookup_email]);
+                            if ($dupCheckOff->fetchColumn() > 0) {
+                                $error = "This email is registered to a federation official. Players cannot use official emails.";
+                            }
+                        }
+                        
+                        if (empty($error)) {
+                            $email = $lookup_email;
+                        }
                     }
                 }
 
-                // Honeypot check
+                // 4. Honeypot & Email Match Verification
                 $website_url = trim($_POST['website_url'] ?? '');
                 if (!empty($website_url)) {
                     $needs_otp = true;
@@ -191,11 +196,6 @@ if (isset($_POST['lookup'])) {
                     $matched_email = $lookup_email;
                     // Do not actually run verification or send email
                 } else {
-                    $email = trim($matched['email'] ?? '');
-                    if (empty($email)) {
-                        $email = $lookup_email;
-                    }
-                    
                     if (strtolower($email) !== $lookup_email) {
                         $error = "The entered email address does not match our records for this profile.";
                     } else {

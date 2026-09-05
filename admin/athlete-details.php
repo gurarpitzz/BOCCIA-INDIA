@@ -97,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $age_category = trim($_POST['age_category'] ?? '');
             $classification = trim($_POST['classification'] ?? '');
             $impairment_type = trim($_POST['impairment_type'] ?? '');
+            $state = trim($_POST['state'] ?? '');
             $representing_for = trim($_POST['representing_for'] ?? '');
             $wheelchair_status = trim($_POST['wheelchair_status'] ?? '');
             $kit_tshirt = trim($_POST['kit_tshirt'] ?? '');
@@ -129,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             
             $upStmt->execute([
                 $father_name, $mother_name, $age_category, $classification, $impairment_type,
-                $representing_for, $representing_for, $wheelchair_status,
+                $state, $representing_for, $wheelchair_status,
                 $kit_tshirt, $kit_tracksuit, $kit_shoe, $aadhaar, $mobile, $email,
                 $address, $pincode, $athleteId
             ]);
